@@ -1,4 +1,4 @@
-import { ClassValue, Expression, StyleValue, extract, get, isPending, waitFor } from "@mxjp/gluon";
+import { ClassValue, Expression, StyleValue, extract, get, isPending, optionalString, waitFor } from "@mxjp/gluon";
 
 import { keyFor } from "../common/events.js";
 import { THEME, Theme } from "../theme.js";
@@ -68,7 +68,7 @@ export function Button(props: {
 		]}
 		style={props.style}
 		id={props.id}
-		aria-expanded={props["aria-expanded"]}
+		aria-expanded={optionalString(props["aria-expanded"])}
 		aria-label={props["aria-label"]}
 		aria-labelledby={props["aria-labelledby"]}
 
