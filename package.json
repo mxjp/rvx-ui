@@ -1,0 +1,26 @@
+{
+	"name": "@mxjp/gluon-ux",
+	"description": "Gluon based UI library",
+	"homepage": "https://github.com/mxjp/gluon-ux",
+	"keywords": [
+		"ui",
+		"ux",
+		"gluon"
+	],
+	"license": "MIT",
+	"version": "0.1.0",
+	"type": "module",
+	"main": "./dist/index.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"scripts": {},
+	"devDependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.5.1",
+		"@fortawesome/free-solid-svg-icons": "^6.5.1",
+		"@mxjp/gluon": "^2.0.0"
+	}
+}
