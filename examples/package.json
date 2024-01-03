@@ -1,0 +1,14 @@
+{
+	"name": "@mxjp/gluon-ux-examples",
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"preview": "vite preview",
+		"build": "vite build"
+	},
+	"devDependencies": {
+		"@mxjp/gluon-ux": "file:..",
+		"typescript": "^5.3.3",
+		"vite": "^5.0.10"
+	}
+}
