@@ -17,10 +17,14 @@
 			"default": "./dist/index.js"
 		}
 	},
-	"scripts": {},
+	"scripts": {
+		"start": "tsc -p tsconfig-es.json -w --preserveWatchOutput",
+		"build": "tsc -p tsconfig-es.json"
+	},
 	"devDependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
-		"@mxjp/gluon": "^2.0.0"
+		"@mxjp/gluon": "^2.1.0",
+		"typescript": "^5.3.3"
 	}
 }
