@@ -24,6 +24,7 @@
 	"devDependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
+		"@mpt/eslint-rules": "^5.0.1",
 		"@mxjp/gluon": "^2.1.0",
 		"typescript": "^5.3.3"
 	}

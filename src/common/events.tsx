@@ -21,9 +21,17 @@ export function keyFor(event: KeyboardEvent): string {
 	if (key === " ") {
 		key = "space";
 	}
-	if (event.metaKey) key = "meta+" + key;
-	if (event.altKey) key = "alt+" + key;
-	if (event.shiftKey) key = "shift+" + key;
-	if (event.ctrlKey) key = "ctrl+" + key;
+	if (event.metaKey) {
+		key = "meta+" + key;
+	}
+	if (event.altKey) {
+		key = "alt+" + key;
+	}
+	if (event.shiftKey) {
+		key = "shift+" + key;
+	}
+	if (event.ctrlKey) {
+		key = "ctrl+" + key;
+	}
 	return key;
 }
