@@ -18,14 +18,26 @@
 		}
 	},
 	"scripts": {
-		"start": "tsc -p tsconfig-es.json -w --preserveWatchOutput",
-		"build": "tsc -p tsconfig-es.json"
+		"build": "concurrently npm:build:*",
+		"build:es": "tsc -p tsconfig-es.json",
+		"build:types": "tsc -p tsconfig-types.json",
+		"build:tests": "tsc -p tsconfig-tests.json",
+		"start": "concurrently npm:start:*",
+		"start:es": "tsc -p tsconfig-es.json -w --preserveWatchOutput",
+		"start:types": "tsc -p tsconfig-types.json -w --preserveWatchOutput",
+		"start:tests": "tsc -p tsconfig-tests.json -w --preserveWatchOutput",
+		"test": "node --enable-source-maps --test ./tests_out/tests",
+		"lint": "eslint --config .eslintrc.cjs ./{src,test}/**/*.{ts,tsx}"
 	},
 	"devDependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"@mpt/eslint-rules": "^5.0.1",
-		"@mxjp/gluon": "^2.1.0",
+		"@mxjp/gluon": "^2.2.0",
+		"@types/jsdom": "^21.1.6",
+		"@types/node": "^20.10.6",
+		"concurrently": "^8.2.2",
+		"jsdom": "^23.0.1",
 		"typescript": "^5.3.3"
 	}
 }

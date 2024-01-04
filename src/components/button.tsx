@@ -1,7 +1,7 @@
 import { ClassValue, Expression, extract, get, isPending, optionalString, StyleValue, waitFor } from "@mxjp/gluon";
 
 import { keyFor } from "../common/events.js";
-import { THEME, Theme } from "../theme.js";
+import { THEME, Theme } from "../common/theme.js";
 
 export type ButtonType = "button" | "submit" | "reset" | "menu";
 export type ButtonVariant = "default" | "primary" | "success" | "danger" | "warning";
@@ -15,7 +15,7 @@ export function Button(props: {
 	/**
 	 * The theme variant.
 	 */
-	variant?: Expression<ButtonVariant>;
+	variant?: Expression<ButtonVariant | undefined>;
 
 	/**
 	 * Set when the button is disabled.
@@ -31,7 +31,7 @@ export function Button(props: {
 
 	class?: ClassValue;
 	style?: StyleValue;
-	id?: Expression<string>;
+	id?: Expression<string | undefined>;
 	"aria-expanded"?: Expression<boolean | undefined>;
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
@@ -39,9 +39,7 @@ export function Button(props: {
 	children?: unknown;
 }): unknown {
 	const theme = extract(THEME) as Theme | undefined;
-
 	const disabled = () => isPending() || get(props.disabled);
-	const variant = () => get(props.variant) ?? "default";
 
 	function action(event: Event) {
 		if (disabled()) {
@@ -60,10 +58,10 @@ export function Button(props: {
 
 	return <button
 		type={() => get(props.type) ?? "button"}
-		disabled={isPending}
+		disabled={disabled}
 		class={[
 			theme?.button,
-			() => theme?.[`button_${variant()}`],
+			() => theme?.[`button_${get(props.variant) ?? "default"}`],
 			props.class,
 		]}
 		style={props.style}
