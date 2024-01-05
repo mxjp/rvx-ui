@@ -1,0 +1,26 @@
+@use "sass:map";
+
+@mixin set-theme-vars($defs, $target) {
+	@each $name, $targets in $defs {
+		@if map.has-key($targets, $target) {
+			--#{$name}: #{map.get($targets, $target)};
+		}
+	}
+}
+
+@mixin theme($defs) {
+	:root {
+		@include set-theme-vars($defs, light);
+		@media (prefers-color-scheme: dark) {
+			@include set-theme-vars($defs, dark);
+			color-scheme: dark;
+		}
+
+		@media (prefers-contrast: more) {
+			@include set-theme-vars($defs, light-hc);
+			@media (prefers-color-scheme: dark) {
+				@include set-theme-vars($defs, dark-hc);
+			}
+		}
+	}
+}

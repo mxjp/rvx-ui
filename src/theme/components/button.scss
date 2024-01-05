@@ -1,0 +1,98 @@
+@use "../common";
+
+@include common.theme((
+	button-default-bg: (
+		dark: var(--bg),
+	),
+	button-default-bg-lit: (
+		dark: rgba(255, 255, 255, .15),
+	),
+	button-default-fg: (
+		dark: var(--fg),
+	),
+	button-default-border: (
+		dark: rgb(80, 80, 80),
+	),
+
+	button-primary-bg: (
+		dark: rgb(0, 100, 200),
+	),
+	button-primary-bg-lit: (
+		dark: rgb(0, 128, 255),
+	),
+	button-primary-fg: (
+		dark: white,
+	),
+	button-primary-border: (
+		dark: transparent,
+	),
+
+	button-success-bg: (
+		dark: rgb(0, 200, 100),
+	),
+	button-success-bg-lit: (
+		dark: rgb(0, 242, 121),
+	),
+	button-success-fg: (
+		dark: black,
+	),
+	button-success-border: (
+		dark: transparent,
+	),
+
+	button-warning-bg: (
+		dark: rgb(255, 200, 0),
+	),
+	button-warning-bg-lit: (
+		dark: rgb(255, 224, 122),
+	),
+	button-warning-fg: (
+		dark: black,
+	),
+	button-warning-border: (
+		dark: transparent,
+	),
+
+	button-danger-bg: (
+		dark: rgb(255, 0, 64),
+	),
+	button-danger-bg-lit: (
+		dark: rgb(255, 64, 96),
+	),
+	button-danger-fg: (
+		dark: black,
+	),
+	button-danger-border: (
+		dark: transparent,
+	),
+));
+
+.button {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 600;
+	line-height: 1;
+
+	cursor: pointer;
+
+	outline: none;
+	padding: var(--control-padding);
+	border-radius: var(--control-radius);
+
+	&[disabled] {
+		cursor: default;
+		filter: var(--control-disabled);
+	}
+}
+
+@each $variant in (default, primary, success, warning, danger) {
+	.button_#{$variant} {
+		background-color: var(--button-#{$variant}-bg);
+		color: var(--button-#{$variant}-fg);
+		border: var(--control-border) var(--button-#{$variant}-border);
+		&:hover:not(:active):not([disabled]),
+		&:focus-visible:not([disabled]) {
+			background-color: var(--button-#{$variant}-bg-lit);
+		}
+	}
+}

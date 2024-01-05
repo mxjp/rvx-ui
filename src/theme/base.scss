@@ -1,0 +1,29 @@
+@use "sass:math";
+@use "common";
+
+$base-font-size: 13px;
+
+:root {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-size: 1rem * math.div(13px, 16px);
+	line-height: 1;
+
+	--control-radius: .3rem;
+	--control-padding: .6rem .8rem .65rem;
+	--control-border: .1rem solid;
+	--control-disabled: opacity(.5);
+}
+
+@include common.theme((
+	bg: (
+		dark: rgb(24, 24, 24),
+	),
+	fg: (
+		dark: white,
+	),
+));
+
+body {
+	background-color: var(--bg);
+	color: var(--fg);
+}
