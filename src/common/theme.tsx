@@ -35,4 +35,7 @@ export interface Theme {
 	button_danger?: string;
 	/** Additional class for buttons with the "warning" variant */
 	button_warning?: string;
+
+	/** Class for all flex rows */
+	row?: string;
 }

@@ -8,6 +8,9 @@ $base-font-size: 13px;
 	font-size: 1rem * math.div(13px, 16px);
 	line-height: 1;
 
+	--column-gap: .5rem;
+	--row-gap: .5rem;
+
 	--control-radius: .3rem;
 	--control-padding: .6rem .8rem .65rem;
 	--control-border: .1rem solid;
