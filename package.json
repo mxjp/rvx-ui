@@ -15,17 +15,20 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
-		}
+		},
+		"./dist/": "./dist/"
 	},
 	"scripts": {
 		"build": "concurrently npm:build:*",
 		"build:es": "tsc -p tsconfig-es.json",
 		"build:types": "tsc -p tsconfig-types.json",
 		"build:tests": "tsc -p tsconfig-tests.json",
+		"build:theme": "sass ./src/theme/theme.scss ./dist/theme.module.css",
 		"start": "concurrently npm:start:*",
 		"start:es": "tsc -p tsconfig-es.json -w --preserveWatchOutput",
 		"start:types": "tsc -p tsconfig-types.json -w --preserveWatchOutput",
 		"start:tests": "tsc -p tsconfig-tests.json -w --preserveWatchOutput",
+		"start:theme": "sass ./src/theme/theme.scss ./dist/theme.module.css -w",
 		"test": "node --enable-source-maps --test ./tests_out/tests",
 		"lint": "eslint --config .eslintrc.cjs ./{src,test}/**/*.{ts,tsx}"
 	},
@@ -38,6 +41,7 @@
 		"@types/node": "^20.10.6",
 		"concurrently": "^8.2.2",
 		"jsdom": "^23.0.1",
+		"sass": "^1.69.7",
 		"typescript": "^5.3.3"
 	}
 }
