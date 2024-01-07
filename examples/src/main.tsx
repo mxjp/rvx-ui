@@ -10,7 +10,7 @@ mount(
 			ctx.set(THEME, theme);
 			ctx.set(Tasks, new Tasks());
 
-			return <Row>
+			return <Row size="control">
 				<Button
 					action={async () => {
 						console.log("Hello World!");

@@ -36,6 +36,17 @@ export interface Theme {
 	/** Additional class for buttons with the "warning" variant */
 	button_warning?: string;
 
-	/** Class for all flex rows */
+	/** Class for all columns */
+	column?: string;
+	/** Additional class for columns of content */
+	column_content?: string;
+	/** Additional class for columns of controls */
+	column_control?: string;
+
+	/** Class for all rows */
 	row?: string;
+	/** Additional class for rows of content */
+	row_content?: string;
+	/** Additional class for rows of controls */
+	row_control?: string;
 }

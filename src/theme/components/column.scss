@@ -1,0 +1,13 @@
+
+.column {
+	display: flex;
+	flex-direction: column;
+}
+
+.column_content {
+	row-gap: var(--content-row-gap);
+}
+
+.column_control {
+	row-gap: var(--control-row-gap);
+}
