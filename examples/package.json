@@ -2,7 +2,7 @@
 	"name": "@mxjp/gluon-ux-examples",
 	"type": "module",
 	"scripts": {
-		"start": "vite",
+		"start": "vite --force",
 		"preview": "vite preview",
 		"build": "vite build"
 	},
