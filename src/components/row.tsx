@@ -6,8 +6,8 @@ import { THEME, Theme } from "../common/theme.js";
 export type RowAlignment = "top" | "center" | "bottom";
 
 export function Row(props: {
-	size?: Expression<SizeContext>;
-	align?: Expression<RowAlignment>;
+	size?: Expression<SizeContext | undefined>;
+	align?: Expression<RowAlignment | undefined>;
 	class?: ClassValue;
 	style?: StyleValue;
 	children?: unknown;

@@ -2,7 +2,7 @@
 
 @include common.theme((
 	button-default-bg: (
-		dark: var(--bg),
+		dark: rgb(54, 54, 54),
 	),
 	button-default-bg-lit: (
 		dark: rgba(255, 255, 255, .15),
@@ -24,7 +24,7 @@
 		dark: white,
 	),
 	button-primary-border: (
-		dark: transparent,
+		dark: rgb(0, 100, 200),
 	),
 
 	button-success-bg: (
@@ -37,7 +37,7 @@
 		dark: black,
 	),
 	button-success-border: (
-		dark: transparent,
+		dark: rgb(0, 200, 100),
 	),
 
 	button-warning-bg: (
@@ -50,7 +50,7 @@
 		dark: black,
 	),
 	button-warning-border: (
-		dark: transparent,
+		dark: rgb(255, 200, 0),
 	),
 
 	button-danger-bg: (
@@ -63,7 +63,7 @@
 		dark: black,
 	),
 	button-danger-border: (
-		dark: transparent,
+		dark: rgb(255, 0, 64),
 	),
 ));
 
@@ -76,7 +76,7 @@
 	cursor: pointer;
 
 	outline: none;
-	padding: var(--control-padding);
+	padding: common.quad-sub(control-pad, var(--control-border));
 	border-radius: var(--control-radius);
 
 	&[disabled] {
@@ -89,7 +89,7 @@
 	.button_#{$variant} {
 		background-color: var(--button-#{$variant}-bg);
 		color: var(--button-#{$variant}-fg);
-		border: var(--control-border) var(--button-#{$variant}-border);
+		border: var(--control-border) solid var(--button-#{$variant}-border, transparent);
 		&:hover:not(:active):not([disabled]),
 		&:focus-visible:not([disabled]) {
 			background-color: var(--button-#{$variant}-bg-lit);

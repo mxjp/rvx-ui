@@ -49,4 +49,7 @@ export interface Theme {
 	row_content?: string;
 	/** Additional class for rows of controls */
 	row_control?: string;
+
+	/** Class for all text inputs */
+	text_input?: string;
 }

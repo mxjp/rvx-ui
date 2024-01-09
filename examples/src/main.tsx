@@ -1,5 +1,5 @@
-import { DeriveContext, Tasks, mount } from "@mxjp/gluon";
-import { Button, Row, THEME } from "@mxjp/gluon-ux";
+import { DeriveContext, Tasks, mount, sig } from "@mxjp/gluon";
+import { Button, Row, THEME, TextInput, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -10,17 +10,18 @@ mount(
 			ctx.set(THEME, theme);
 			ctx.set(Tasks, new Tasks());
 
-			return <Row size="control">
-				<Button
-					action={async () => {
-						console.log("Hello World!");
-						await new Promise(r => setTimeout(r, 1000));
-					}
-				}>Click me!</Button>
-				<Button variant="primary">Primary</Button>
-				<Button variant="success">Success</Button>
-				<Button variant="warning">Warning</Button>
-				<Button variant="danger">Danger</Button>
+			const text = sig("Hello World!");
+
+			return <Row>
+				<Row size="control">
+					<TextInput value={trim(text)} />
+					<Button
+						action={async () => {
+							console.log("Hello World!");
+							await new Promise(r => setTimeout(r, 1000));
+						}
+					}>Click me!</Button>
+				</Row>
 			</Row>;
 		}}
 	</DeriveContext>

@@ -1,0 +1,42 @@
+@use "../common";
+
+@include common.theme((
+	text-input-bg: (
+		dark: rgb(16, 16, 16),
+	),
+	text-input-fg: (
+		dark: white,
+	),
+	text-input-border: (
+		dark: rgb(80, 80, 80),
+	),
+	text-input-border-lit: (
+		dark: rgb(0, 128, 255),
+	),
+));
+
+.text_input {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+
+	cursor: text;
+
+	outline: none;
+	padding: common.quad(control-pad);
+	height: calc(var(--control-pad-top) + 1em + var(--control-pad-bottom));
+	border: var(--control-border) solid var(--text-input-border);
+	border-radius: var(--control-radius);
+
+	background-color: var(--text-input-bg);
+	color: var(--text-input-fg);
+
+	&:focus {
+		border-color: var(--text-input-border-lit);
+	}
+
+	&[disabled] {
+		filter: var(--control-disabled);
+		cursor: default;
+	}
+}

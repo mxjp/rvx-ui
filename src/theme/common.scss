@@ -24,3 +24,26 @@
 		}
 	}
 }
+
+@mixin define-quad($name, $top, $right: $top, $bottom: $top, $left: $right) {
+	--#{$name}-top: #{$top};
+	--#{$name}-right: #{$right};
+	--#{$name}-bottom: #{$bottom};
+	--#{$name}-left: #{$left};
+}
+
+@function quad($name) {
+	@return
+		var(--#{$name}-top)
+		var(--#{$name}-right)
+		var(--#{$name}-bottom)
+		var(--#{$name}-left);
+}
+
+@function quad-sub($name, $sub) {
+	@return
+		calc(var(--#{$name}-top) - #{$sub})
+		calc(var(--#{$name}-right) - #{$sub})
+		calc(var(--#{$name}-bottom) - #{$sub})
+		calc(var(--#{$name}-left) - #{$sub});
+}
