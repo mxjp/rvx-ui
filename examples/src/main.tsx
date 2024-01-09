@@ -1,5 +1,5 @@
 import { DeriveContext, Tasks, mount, sig } from "@mxjp/gluon";
-import { Button, Row, THEME, TextInput, trim } from "@mxjp/gluon-ux";
+import { Button, Column, Row, THEME, TextInput, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -12,7 +12,7 @@ mount(
 
 			const text = sig("Hello World!");
 
-			return <Row>
+			return <Column>
 				<Row size="control">
 					<TextInput value={trim(text)} />
 					<Button
@@ -22,7 +22,7 @@ mount(
 						}
 					}>Click me!</Button>
 				</Row>
-			</Row>;
+			</Column>;
 		}}
 	</DeriveContext>
 );

@@ -12,8 +12,8 @@ $root-size: 14px;
 	font-size: #{1rem / 16px * $root-size};
 	line-height: 1;
 
-	--content-column-gap: #{px(24)};
-	--content-row-gap: #{px(24)};
+	--content-column-gap: #{px(16)};
+	--content-row-gap: #{px(16)};
 
 	--control-column-gap: #{px(8)};
 	--control-row-gap: #{px(8)};
