@@ -1,0 +1,12 @@
+
+.text {
+	line-height: calc(1em + var(--line-gap));
+
+	&::before,
+	&::after {
+		content: "";
+		display: block;
+		pointer-events: none;
+		margin-top: calc(var(--line-gap) / -2);
+	}
+}

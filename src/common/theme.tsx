@@ -52,4 +52,7 @@ export interface Theme {
 
 	/** Class for all text inputs */
 	text_input?: string;
+
+	/** Class for all text blocks */
+	text?: string;
 }
