@@ -1,6 +1,6 @@
 import { ClassValue, Expression, extract, StyleValue } from "@mxjp/gluon";
 
-import { THEME, Theme } from "../common/theme.js";
+import { THEME } from "../common/theme.js";
 
 export function Text(props: {
 	class?: ClassValue;
@@ -8,7 +8,7 @@ export function Text(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME) as Theme | undefined;
+	const theme = extract(THEME);
 	return <div
 		class={[
 			theme?.text,

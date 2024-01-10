@@ -1,7 +1,7 @@
 import { ClassValue, Expression, extract, get, isPending, optionalString, StyleValue, waitFor } from "@mxjp/gluon";
 
 import { keyFor } from "../common/events.js";
-import { THEME, Theme } from "../common/theme.js";
+import { THEME } from "../common/theme.js";
 
 export type ButtonType = "button" | "submit" | "reset" | "menu";
 export type ButtonVariant = "default" | "primary" | "success" | "danger" | "warning";
@@ -38,7 +38,7 @@ export function Button(props: {
 
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME) as Theme | undefined;
+	const theme = extract(THEME);
 	const disabled = () => isPending() || get(props.disabled);
 
 	function action(event: Event) {

@@ -1,7 +1,7 @@
 import { ClassValue, extract, StyleValue } from "@mxjp/gluon";
 
 import { SizeContext } from "../common/size-context.js";
-import { THEME, Theme } from "../common/theme.js";
+import { THEME } from "../common/theme.js";
 
 export function Column(props: {
 	size?: SizeContext;
@@ -9,7 +9,7 @@ export function Column(props: {
 	style?: StyleValue;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME) as Theme | undefined;
+	const theme = extract(THEME);
 	return <div
 		class={[
 			theme?.column,

@@ -1,7 +1,7 @@
 import { ClassValue, Expression, extract, get, StyleValue } from "@mxjp/gluon";
 
 import { SizeContext } from "../common/size-context.js";
-import { THEME, Theme } from "../common/theme.js";
+import { THEME } from "../common/theme.js";
 
 export type RowAlignment = "top" | "center" | "bottom";
 
@@ -12,7 +12,7 @@ export function Row(props: {
 	style?: StyleValue;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME) as Theme | undefined;
+	const theme = extract(THEME);
 	return <div
 		class={[
 			theme?.row,

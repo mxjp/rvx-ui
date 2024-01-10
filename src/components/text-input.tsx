@@ -1,6 +1,6 @@
 import { ClassValue, Expression, extract, get, isPending, Signal, StyleValue, waitFor } from "@mxjp/gluon";
 
-import { THEME, Theme } from "../common/theme.js";
+import { THEME } from "../common/theme.js";
 import { keyFor } from "../index.js";
 
 export type TextInputType = "text" | "password";
@@ -29,7 +29,7 @@ export function TextInput(props: {
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
 }): unknown {
-	const theme = extract(THEME) as Theme | undefined;
+	const theme = extract(THEME);
 	const disabled = () => isPending() || get(props.disabled);
 
 	const input = <input
