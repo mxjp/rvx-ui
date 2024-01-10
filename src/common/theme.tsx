@@ -55,4 +55,7 @@ export interface Theme {
 
 	/** Class for all text blocks */
 	text?: string;
+
+	/** Class for all text values */
+	value?: string;
 }

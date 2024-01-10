@@ -6,3 +6,4 @@ export * from "./components/column.js";
 export * from "./components/row.js";
 export * from "./components/text.js";
 export * from "./components/text-input.js";
+export * from "./components/value.js";
