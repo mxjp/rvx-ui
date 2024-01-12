@@ -20,6 +20,8 @@ export function TextInput(props: {
 
 	/**
 	 * The current text value.
+	 *
+	 * If this isn't a signal, the text input is readonly.
 	 */
 	value: Expression<string>;
 
@@ -28,6 +30,7 @@ export function TextInput(props: {
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
+	autofocus?: Expression<boolean | undefined>;
 }): unknown {
 	const theme = extract(THEME);
 	const disabled = () => isPending() || get(props.disabled);
@@ -41,6 +44,7 @@ export function TextInput(props: {
 		]}
 		style={props.style}
 		id={props.id}
+		autofocus={props.autofocus}
 		readonly={!(props.value instanceof Signal)}
 
 		prop:value={props.value}

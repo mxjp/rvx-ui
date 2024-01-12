@@ -32,6 +32,7 @@ export function Button(props: {
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
+	autofocus?: Expression<boolean | undefined>;
 	"aria-expanded"?: Expression<boolean | undefined>;
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
@@ -69,6 +70,7 @@ export function Button(props: {
 		aria-expanded={optionalString(props["aria-expanded"])}
 		aria-label={props["aria-label"]}
 		aria-labelledby={props["aria-labelledby"]}
+		autofocus={props.autofocus}
 
 		$click={action}
 		$keydown={event => {
