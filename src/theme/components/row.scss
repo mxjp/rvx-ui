@@ -7,10 +7,14 @@
 
 .row_content {
 	column-gap: var(--content-column-gap);
+	--column-gap: var(--content-column-gap);
 	row-gap: var(--content-row-gap);
+	--row-gap: var(--content-row-gap);
 }
 
 .row_control {
 	column-gap: var(--control-column-gap);
+	--column-gap: var(--control-column-gap);
 	row-gap: var(--control-row-gap);
+	--row-gap: var(--control-row-gap);
 }

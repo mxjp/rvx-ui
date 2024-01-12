@@ -1,0 +1,35 @@
+@use "../common";
+
+@include common.theme((
+	dialog-container-bg: (
+		dark: rgba(32, 32, 32, .8),
+	),
+	dialog-bg: (
+		dark: var(--bg),
+	),
+	dialog-border: (
+		dark: rgb(72, 72, 72),
+	),
+));
+
+.dialog_container {
+	position: fixed;
+	inset: 0;
+
+	background-color: var(--dialog-container-bg);
+
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	grid-template-rows: 3fr auto 4fr;
+}
+
+.dialog_body {
+	grid-row: 2 / 3;
+	grid-column: 2 / 3;
+
+	background-color: var(--dialog-bg);
+	box-shadow: var(--content-shadow);
+	border-radius: var(--content-radius);
+	border: var(--content-border) solid var(--dialog-border);
+	padding: #{common.quad-sub(content-pad, var(--content-border))};
+}

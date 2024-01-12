@@ -3,6 +3,8 @@ export * from "./common/events.js";
 export * from "./common/theme.js";
 export * from "./components/button.js";
 export * from "./components/column.js";
+export * from "./components/dialog.js";
+export * from "./components/flex-space.js";
 export * from "./components/heading.js";
 export * from "./components/layer.js";
 export * from "./components/row.js";

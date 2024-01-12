@@ -14,14 +14,15 @@ $root-size: 14px;
 
 	--content-column-gap: #{px(16)};
 	--content-row-gap: #{px(16)};
+	--content-radius: #{px(8)};
+	--content-border: #{px(2)};
+	@include common.define-quad(content-pad, px(20), px(20));
 
 	--control-column-gap: #{px(8)};
 	--control-row-gap: #{px(8)};
-
 	--control-radius: #{px(4)};
 	--control-border: #{px(1)};
 	--control-disabled: opacity(.5);
-
 	@include common.define-quad(control-pad, px(8), px(10));
 
 	--line-gap: .4em;
@@ -33,6 +34,9 @@ $root-size: 14px;
 	),
 	fg: (
 		dark: white,
+	),
+	content-shadow: (
+		dark: 0 0 2rem rgba(0, 0, 0, .5),
 	),
 ));
 

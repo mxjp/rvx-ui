@@ -43,6 +43,14 @@ export interface Theme {
 	/** Additional class for columns of controls */
 	column_control?: string;
 
+	/** Class for all dialog containers */
+	dialog_container?: string;
+	/** Class for all dialog bodies */
+	dialog_body?: string;
+
+	/** Class for growing flex space */
+	flex_space?: string;
+
 	/** Class for all headings which are also semantic elements like h1, h2 etc. */
 	heading?: string;
 

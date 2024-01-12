@@ -73,8 +73,8 @@ export function Layer(props: {
  * @param listener The event listener.
  * @param options Event listener options. See {@link window.addEventListener}.
  */
-export function useLayerEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
 export function useLayerEvent<K extends keyof WindowEventMap>(type: K, listener: (event: WindowEventMap[K]) => void, options?: boolean | AddEventListenerOptions): void;
+export function useLayerEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
 export function useLayerEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void {
 	const wrapper = wrapContext((event: Event): void => {
 		if (!isInert()) {
