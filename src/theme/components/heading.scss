@@ -1,0 +1,39 @@
+
+.heading {
+	line-height: calc(1em + var(--line-gap));
+	margin-block: 0;
+
+	&::before,
+	&::after {
+		content: "";
+		display: block;
+		pointer-events: none;
+		margin-top: calc(var(--line-gap) / -2);
+	}
+}
+
+h1.heading {
+	font-size: 2.4rem;
+	font-weight: 600;
+	--space-above: 5rem;
+}
+
+h2.heading {
+	font-size: 1.8rem;
+	font-weight: 600;
+	--space-above: 3.2rem;
+}
+
+h3.heading {
+	font-size: 1.5rem;
+	font-weight: 600;
+	--space-above: 2.4rem;
+}
+
+h4.heading,
+h5.heading,
+h6.heading {
+	font-size: 1.2rem;
+	font-weight: 600;
+	--space-above: 2rem;
+}

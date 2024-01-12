@@ -2,12 +2,21 @@
 .column {
 	display: flex;
 	flex-direction: column;
+
+	& > :not(:first-child) {
+		margin-top: calc(var(--space-above, var(--row-gap)) - var(--row-gap));
+	}
+	& > :not(:last-child) {
+		margin-bottom: calc(var(--space-below, var(--row-gap)) - var(--row-gap));
+	}
 }
 
 .column_content {
 	row-gap: var(--content-row-gap);
+	--row-gap: var(--content-row-gap);
 }
 
 .column_control {
 	row-gap: var(--control-row-gap);
+	--row-gap: var(--control-row-gap);
 }

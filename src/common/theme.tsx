@@ -43,6 +43,9 @@ export interface Theme {
 	/** Additional class for columns of controls */
 	column_control?: string;
 
+	/** Class for all headings which are also semantic elements like h1, h2 etc. */
+	heading?: string;
+
 	/** Class for all rows */
 	row?: string;
 	/** Additional class for rows of content */
