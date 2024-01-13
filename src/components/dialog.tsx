@@ -1,6 +1,6 @@
-import { capture, ClassValue, extract, mount, StyleValue } from "@mxjp/gluon";
+import { capture, ClassValue, Expression, extract, get, mount, StyleValue, uniqueId } from "@mxjp/gluon";
 
-import { Column, FlexSpace, Row, THEME } from "../index.js";
+import { Column, FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { Layer, layerHotkey } from "./layer.js";
 
 export class DialogAbortError extends Error {}
@@ -49,20 +49,46 @@ export function showDialog<T>(init: DialogInit<T>, options?: DialogOptions): Pro
 	});
 }
 
+export type DialogRole = "dialog" | "alertdialog";
+
 export function DialogBody(props: {
 	class?: ClassValue;
 	style?: StyleValue;
 	children?: unknown;
+	role?: Expression<DialogRole | undefined>;
+	title?: unknown;
+	description?: unknown;
+
+	"aria-labelledby"?: Expression<string | undefined>;
+	"aria-describedby"?: Expression<string | undefined>;
 }): unknown {
 	const theme = extract(THEME);
+
+	let titleId: string | undefined;
+	let descriptionId: string | undefined;
+	const head: unknown[] = [];
+
+	if (props.title !== undefined) {
+		titleId = uniqueId();
+		head.push(<Heading level="2" id={titleId}>{props.title}</Heading>);
+	}
+	if (props.description !== undefined) {
+		descriptionId = uniqueId();
+		head.push(<Text id={descriptionId}>{props.description}</Text>);
+	}
+
 	return <div
 		class={[
 			theme?.dialog_container,
 			props.class,
 		]}
 		style={props.style}
+		role={() => get(props.role) ?? "dialog"}
+		aria-labelledby={() => get(props["aria-labelledby"]) ?? titleId}
+		aria-describedby={() => get(props["aria-describedby"]) ?? descriptionId}
 	>
 		<Column class={theme?.dialog_body}>
+			{head}
 			{props.children}
 		</Column>
 	</div>;
@@ -74,9 +100,22 @@ export function DialogFooter(props: {
 	links?: unknown;
 	children?: unknown;
 }): unknown {
-	return <Row class={props.class} style={props.style}>
-		{props.links}
+	const theme = extract(THEME);
+	return <Row
+		size="control"
+		class={[
+			theme?.dialog_footer,
+			props.class,
+		]}
+		style={props.style}
+		align="center"
+	>
+		<Row size="control">
+			{props.links}
+		</Row>
 		<FlexSpace />
-		{props.children}
+		<Row size="control">
+			{props.children}
+		</Row>
 	</Row>;
 }

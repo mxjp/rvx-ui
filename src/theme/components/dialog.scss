@@ -33,3 +33,7 @@
 	border: var(--content-border) solid var(--dialog-border);
 	padding: #{common.quad-sub(content-pad, var(--content-border))};
 }
+
+.dialog_footer {
+	--space-above: 1.5rem;
+}

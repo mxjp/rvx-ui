@@ -1,5 +1,5 @@
 import { DeriveContext, Tasks, mount, sig } from "@mxjp/gluon";
-import { Button, Column, DialogBody, FlexSpace, Heading, Layer, Row, THEME, Text, TextInput, Value, layerHotkey, showDialog, trim } from "@mxjp/gluon-ux";
+import { Button, Column, DialogBody, DialogFooter, FlexSpace, Heading, Layer, Row, THEME, Text, TextInput, Value, layerHotkey, showDialog, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -50,14 +50,12 @@ function showExampleDialog() {
 		layerHotkey("enter", () => {
 			dialog.resolve(77);
 		});
-		return <DialogBody>
-			<Heading level="1">Example Dialog</Heading>
-			<Text>Hello World!</Text>
-			<Row size="control">
-				<FlexSpace />
+		return <DialogBody title="Example Dialog" description="This is an accessible example dialog.">
+			<TextInput value="Additional content..." />
+			<DialogFooter>
 				<Button action={() => dialog.reject()}>Cancel</Button>
 				<Button action={() => dialog.resolve(42)} variant="primary">Ok</Button>
-			</Row>
+			</DialogFooter>
 		</DialogBody>;
 	}).then(value => {
 		console.log("Dialog result:", value);

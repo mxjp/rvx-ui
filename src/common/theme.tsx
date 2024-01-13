@@ -47,6 +47,8 @@ export interface Theme {
 	dialog_container?: string;
 	/** Class for all dialog bodies */
 	dialog_body?: string;
+	/** Class for all dialog footers */
+	dialog_footer?: string;
 
 	/** Class for growing flex space */
 	flex_space?: string;
