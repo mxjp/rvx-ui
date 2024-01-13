@@ -52,7 +52,7 @@ function showExampleDialog() {
 		});
 		return <DialogBody title="Example Dialog" description="This is an accessible example dialog.">
 			<Row>
-				<Button action={() => {
+				<Button autofocus action={() => {
 					showDialog(dialog => {
 						return <DialogBody title="Nested dialog" description="This is a dialog in a dialog.">
 							<DialogFooter>

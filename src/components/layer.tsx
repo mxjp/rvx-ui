@@ -1,75 +1,121 @@
-import { ContextKeyFor, extract, Inject, sig, Signal, teardown, wrapContext } from "@mxjp/gluon";
+import { ContextKeyFor, extract, Inject, sig, Signal, teardown, watch, wrapContext } from "@mxjp/gluon";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
-/**
- * A function to check if a context is inert.
- */
-export type InertFn = () => boolean;
+interface LayerInstance {
+	modal: boolean;
+	inert: Signal<boolean>;
+}
 
-const INERT = Symbol.for("gluon-ux:inert") as ContextKeyFor<InertFn>;
-const INERT_STACK: Signal<boolean>[] = [sig(false)];
+const LAYER = Symbol.for("gluon-ux:layer") as ContextKeyFor<LayerInstance>;
+
+const LAYERS = sig<LayerInstance[]>([
+	{
+		modal: false,
+		inert: sig(false),
+	},
+]);
+
+watch(LAYERS, layers => {
+	const modal = layers.findLastIndex(l => l.modal);
+	for (let i = 0; i < layers.length; i++) {
+		layers[i].inert.value = i < modal;
+	}
+});
 
 /**
- * Check if the current context is inert.
+ * Reactively check if the layer of the current context is inert.
  */
-export function isInert(): boolean {
-	return extract(INERT)?.() ?? INERT_STACK[0].value;
+export function isInertLayer(): boolean {
+	return extract(LAYER)?.inert.value ?? LAYERS.value[0].inert.value;
 }
 
 /**
- * Check if the root context is inert.
+ * Reactively check if the layer of the current context is the active layer.
  */
-export function isRootInert(): boolean {
-	return INERT_STACK[0].value;
+export function isActiveLayer(): boolean {
+	const layers = LAYERS.value;
+	return (extract(LAYER) ?? layers[0]) === layers[layers.length - 1];
 }
 
 /**
- * Create a new inert layer.
+ * An input layer that is inert while there are other modal layers on top of it.
  *
- * All previous layers are marked as inert until the current context is disposed.
- */
-export function useInertLayer(): InertFn {
-	const inert = sig(false);
-	INERT_STACK[INERT_STACK.length - 1].value = true;
-	INERT_STACK.push(inert);
-	teardown(() => {
-		const index = INERT_STACK.lastIndexOf(inert);
-		if (index >= 0) {
-			INERT_STACK.splice(index, 1);
-			INERT_STACK[INERT_STACK.length - 1].value = false;
-		}
-	});
-	return () => inert.value;
-}
-
-/**
- * Component to render content in a new inert layer.
+ * After creation, the first element with the "autofocus" attribute inside this layer is focused.
  *
- * All previous layers are marked as inert until the current context is disposed.
+ * When disposed, focus is moved back to the previously focused element.
  */
 export function Layer(props: {
 	/**
-	 * If true, the root layer is used instead of a new inert layer.
+	 * If true, this will act as the root layer.
+	 *
+	 * There can be multiple root layers at the same time.
 	 */
 	root?: boolean;
+
+	/**
+	 * If true, all layers below this one are marked as inert until the current context is disposed.
+	 */
+	modal?: boolean;
+
 	children: () => unknown;
 }): unknown {
-	const inert = props.root ? isRootInert : useInertLayer();
-	return <div
+	let layer: LayerInstance;
+	if (props.root) {
+		layer = LAYERS.value[0];
+	} else {
+		layer = {
+			modal: props.modal ?? false,
+			inert: sig(false),
+		};
+
+		LAYERS.update(layers => {
+			layers.push(layer);
+		});
+
+		const previous = document.activeElement;
+		if (previous && previous !== document.body) {
+			(previous as HTMLElement).blur?.();
+		}
+
+		queueMicrotask(() => {
+			const layers = LAYERS.value;
+			if (layer === layers[layers.length - 1] && container.isConnected) {
+				(container.querySelector("[autofocus]")! as HTMLElement)?.focus?.();
+			}
+		});
+
+		teardown(() => {
+			let next: LayerInstance | undefined = undefined;
+			LAYERS.update(layers => {
+				const index = layers.lastIndexOf(layer);
+				if (index >= 0) {
+					layers.splice(index, 1);
+					next = layers[index - 1];
+				}
+			});
+
+			queueMicrotask(() => {
+				const layers = LAYERS.value;
+				if (next === layers[layers.length - 1] && previous?.isConnected && previous !== document.body) {
+					(previous as HTMLElement).focus?.();
+				}
+			});
+		});
+	}
+	const container = <div
 		style={{ display: "contents" }}
-		inert={inert}
+		inert={layer.inert}
 	>
-		<Inject key={INERT} value={inert}>
+		<Inject key={LAYER} value={layer}>
 			{props.children}
 		</Inject>
-	</div>;
+	</div> as HTMLElement;
+	return container;
 }
 
 /**
- * Add a global event listener until the current context is disposed.
- *
- * If the current context is inert, the event listener is ignored.
+ * Add a global event listener that is only called while the layer of the current context is the active layer.
  *
  * @param type The event type.
  * @param listener The event listener.
@@ -79,7 +125,7 @@ export function useLayerEvent<K extends keyof WindowEventMap>(type: K, listener:
 export function useLayerEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
 export function useLayerEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void {
 	const wrapper = wrapContext((event: Event): void => {
-		if (!isInert()) {
+		if (isActiveLayer()) {
 			listener(event);
 		}
 	});

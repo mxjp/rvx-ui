@@ -20,7 +20,7 @@ export function showDialog<T>(init: DialogInit<T>, options?: DialogOptions): Pro
 	return new Promise<T>((resolve, reject) => {
 		const dispose = capture(() => mount(
 			document.body,
-			<Layer>
+			<Layer modal>
 				{() => {
 					const dialog: Dialog<T> = {
 						resolve(value) {
