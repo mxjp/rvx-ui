@@ -53,10 +53,10 @@ function showExampleDialog() {
 		return <DialogBody title="Example Dialog" description="This is an accessible example dialog.">
 			<Row>
 				<Button autofocus action={() => {
-					showDialog(dialog => {
+					showDialog<void>(dialog => {
 						return <DialogBody title="Nested dialog" description="This is a dialog in a dialog.">
 							<DialogFooter>
-								<Button action={dialog.reject}>Close</Button>
+								<Button action={() => dialog.resolve()}>Close</Button>
 							</DialogFooter>
 						</DialogBody>;
 					});
@@ -65,7 +65,7 @@ function showExampleDialog() {
 				</Button>
 			</Row>
 			<DialogFooter>
-				<Button action={dialog.reject}>Cancel</Button>
+				<Button action={() => dialog.reject()}>Cancel</Button>
 				<Button action={() => dialog.resolve(42)} variant="primary">Ok</Button>
 			</DialogFooter>
 		</DialogBody>;
