@@ -1,3 +1,4 @@
+import { waitFor } from "@mxjp/gluon";
 
 /**
  * Get an identifier for the pressed key including any modifiers.
@@ -34,4 +35,26 @@ export function keyFor(event: KeyboardEvent): string {
 		key = "ctrl+" + key;
 	}
 	return key;
+}
+
+/**
+ * A function to run an optionally async user action.
+ *
+ * This should return false to indicate, that no action was performed.
+ */
+export type Action = () => void | boolean | Promise<void>;
+
+/**
+ * Call an action that was triggered by the specified event.
+ */
+export function handleActionEvent(event: Event, action: Action): void {
+	const result = action();
+	if (result === false) {
+		return;
+	}
+	event.preventDefault();
+	event.stopImmediatePropagation();
+	if (result instanceof Promise) {
+		waitFor(result);
+	}
 }

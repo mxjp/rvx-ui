@@ -1,6 +1,6 @@
-import { ClassValue, Expression, extract, get, isPending, optionalString, StyleValue, waitFor } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, get, isPending, optionalString, StyleValue } from "@mxjp/gluon";
 
-import { keyFor } from "../common/events.js";
+import { Action, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 
 export type ButtonType = "button" | "submit" | "reset" | "menu";
@@ -27,7 +27,7 @@ export function Button(props: {
 	/**
 	 * The action to run when the button is clicked.
 	 */
-	action?: (event: Event) => void | boolean | Promise<void>;
+	action?: Action;
 
 	class?: ClassValue;
 	style?: StyleValue;
@@ -43,18 +43,10 @@ export function Button(props: {
 	const disabled = () => isPending() || get(props.disabled);
 
 	function action(event: Event) {
-		if (disabled()) {
+		if (disabled() || !props.action) {
 			return;
 		}
-		const result = props.action?.(event);
-		if (result === false) {
-			return;
-		}
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		if (result instanceof Promise) {
-			waitFor(result);
-		}
+		handleActionEvent(event, props.action);
 	}
 
 	return <button

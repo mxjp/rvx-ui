@@ -1,5 +1,5 @@
 import { DeriveContext, Tasks, mount, sig } from "@mxjp/gluon";
-import { Button, Column, DialogBody, FlexSpace, Heading, Layer, Row, THEME, Text, TextInput, Value, showDialog, trim } from "@mxjp/gluon-ux";
+import { Button, Column, DialogBody, FlexSpace, Heading, Layer, Row, THEME, Text, TextInput, Value, layerHotkey, showDialog, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -32,19 +32,7 @@ mount(
 
 					<Heading level="2">Dialogs</Heading>
 					<Row>
-						<Button action={() => {
-							showDialog(dialog => {
-								return <DialogBody>
-									<Heading level="1">Example Dialog</Heading>
-									<Text>Hello World!</Text>
-									<Row size="control">
-										<FlexSpace />
-										<Button action={() => dialog.reject()}>Cancel</Button>
-										<Button action={() => dialog.resolve(42)} variant="primary">Ok</Button>
-									</Row>
-								</DialogBody>;
-							});
-						}}>Show Dialog</Button>
+						<Button action={showExampleDialog}>Show Dialog</Button>
 					</Row>
 
 					<Heading level="2">Text Blocks</Heading>
@@ -56,3 +44,24 @@ mount(
 		</DeriveContext>}
 	</Layer>
 );
+
+function showExampleDialog() {
+	showDialog<number>(dialog => {
+		layerHotkey("enter", () => {
+			dialog.resolve(77);
+		});
+		return <DialogBody>
+			<Heading level="1">Example Dialog</Heading>
+			<Text>Hello World!</Text>
+			<Row size="control">
+				<FlexSpace />
+				<Button action={() => dialog.reject()}>Cancel</Button>
+				<Button action={() => dialog.resolve(42)} variant="primary">Ok</Button>
+			</Row>
+		</DialogBody>;
+	}).then(value => {
+		console.log("Dialog result:", value);
+	}, () => {
+		console.log("Dialog was cancelled.");
+	});
+}

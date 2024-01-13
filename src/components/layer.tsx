@@ -1,5 +1,7 @@
 import { ContextKeyFor, extract, Inject, sig, Signal, teardown, wrapContext } from "@mxjp/gluon";
 
+import { Action, handleActionEvent, keyFor } from "../common/events.js";
+
 /**
  * A function to check if a context is inert.
  */
@@ -84,5 +86,16 @@ export function useLayerEvent(type: string, listener: (event: Event) => void, op
 	window.addEventListener(type, wrapper, options);
 	teardown(() => {
 		window.removeEventListener(type, wrapper, options);
+	});
+}
+
+/**
+ * Shorthand for adding a global keydown event listener using {@link useLayerEvent} and {@link keyFor}.
+ */
+export function layerHotkey(key: string, action: Action): void {
+	useLayerEvent("keydown", event => {
+		if (keyFor(event) === key) {
+			handleActionEvent(event, action);
+		}
 	});
 }

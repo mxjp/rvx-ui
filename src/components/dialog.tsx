@@ -1,7 +1,7 @@
 import { capture, ClassValue, extract, mount, StyleValue } from "@mxjp/gluon";
 
-import { Column, keyFor, THEME } from "../index.js";
-import { Layer, useLayerEvent } from "./layer.js";
+import { Column, FlexSpace, Row, THEME } from "../index.js";
+import { Layer, layerHotkey } from "./layer.js";
 
 export class DialogAbortError extends Error {}
 
@@ -35,10 +35,8 @@ export function showDialog<T>(init: DialogInit<T>, options?: DialogOptions): Pro
 					};
 
 					if (options?.cancellable ?? true) {
-						useLayerEvent("keydown", event => {
-							if (keyFor(event) === "escape") {
-								dialog.reject(new DialogAbortError());
-							}
+						layerHotkey("escape", () => {
+							dialog.reject(new DialogAbortError());
 						});
 					}
 
@@ -68,4 +66,17 @@ export function DialogBody(props: {
 			{props.children}
 		</Column>
 	</div>;
+}
+
+export function DialogFooter(props: {
+	class?: ClassValue;
+	style?: StyleValue;
+	links?: unknown;
+	children?: unknown;
+}): unknown {
+	return <Row class={props.class} style={props.style}>
+		{props.links}
+		<FlexSpace />
+		{props.children}
+	</Row>;
 }
