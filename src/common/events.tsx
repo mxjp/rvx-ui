@@ -42,13 +42,13 @@ export function keyFor(event: KeyboardEvent): string {
  *
  * This should return false to indicate, that no action was performed.
  */
-export type Action = () => void | boolean | Promise<void>;
+export type Action = (event: Event) => void | boolean | Promise<void>;
 
 /**
  * Call an action that was triggered by the specified event.
  */
 export function handleActionEvent(event: Event, action: Action): void {
-	const result = action();
+	const result = action(event);
 	if (result === false) {
 		return;
 	}
