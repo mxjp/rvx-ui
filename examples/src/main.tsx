@@ -1,11 +1,11 @@
 import { DeriveContext, Tasks, mount, sig } from "@mxjp/gluon";
-import { Button, Column, DialogBody, DialogFooter, Heading, Layer, Row, THEME, Text, TextInput, Value, layerHotkey, showDialog, trim } from "@mxjp/gluon-ux";
+import { Button, Column, DialogBody, DialogFooter, Heading, RootLayer, Row, THEME, Text, TextInput, Value, layerHotkey, showDialog, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
 mount(
 	document.body,
-	<Layer root>
+	<RootLayer>
 		{() => <DeriveContext>
 			{ctx => {
 				ctx.set(THEME, theme);
@@ -42,7 +42,7 @@ mount(
 				</Column>;
 			}}
 		</DeriveContext>}
-	</Layer>
+	</RootLayer>
 );
 
 function showExampleDialog() {

@@ -1,9 +1,11 @@
-import { ContextKeyFor, extract, Inject, sig, Signal, teardown, watch, wrapContext } from "@mxjp/gluon";
+import { ContextKeyFor, Expression, extract, get, Inject, memo, sig, Signal, teardown, watch, wrapContext } from "@mxjp/gluon";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
 interface LayerInstance {
+	/** True if this is a modal layer. */
 	modal: boolean;
+	/** A signal representing if this layer is inert due to a modal layer on top. */
 	inert: Signal<boolean>;
 }
 
@@ -39,6 +41,23 @@ export function isActiveLayer(): boolean {
 }
 
 /**
+ * Render content inside the root layer.
+ */
+export function RootLayer(props: {
+	children: () => unknown;
+}): unknown {
+	const layer = LAYERS.value[0];
+	return <div
+		style={{ display: "contents" }}
+		inert={layer.inert}
+	>
+		<Inject key={LAYER} value={layer}>
+			{props.children}
+		</Inject>
+	</div>;
+}
+
+/**
  * An input layer that is inert while there are other modal layers on top of it.
  *
  * After creation, the first element with the "autofocus" attribute inside this layer is focused.
@@ -46,28 +65,28 @@ export function isActiveLayer(): boolean {
  * When disposed, focus is moved back to the previously focused element.
  */
 export function Layer(props: {
-	/**
-	 * If true, this will act as the root layer.
-	 *
-	 * There can be multiple root layers at the same time.
-	 */
-	root?: boolean;
+	children: () => unknown;
 
 	/**
 	 * If true, all layers below this one are marked as inert until the current context is disposed.
 	 */
 	modal?: boolean;
 
-	children: () => unknown;
+	/**
+	 * If false, the layer doesn't affect other layers but is marked as inert. Default is true.
+	 */
+	enabled?: Expression<boolean | undefined>;
 }): unknown {
-	let layer: LayerInstance;
-	if (props.root) {
-		layer = LAYERS.value[0];
-	} else {
-		layer = {
-			modal: props.modal ?? false,
-			inert: sig(false),
-		};
+	const layer: LayerInstance = {
+		modal: props.modal ?? false,
+		inert: sig(false),
+	};
+
+	const enabled = memo(() => Boolean(get(props.enabled) ?? true));
+	watch(enabled, enable => {
+		if (!enable) {
+			return;
+		}
 
 		LAYERS.update(layers => {
 			layers.push(layer);
@@ -102,10 +121,11 @@ export function Layer(props: {
 				}
 			});
 		});
-	}
+	}, true);
+
 	const container = <div
 		style={{ display: "contents" }}
-		inert={layer.inert}
+		inert={() => layer.inert.value || !enabled()}
 	>
 		<Inject key={LAYER} value={layer}>
 			{props.children}
