@@ -40,8 +40,6 @@ export function showDialog<T>(init: DialogInit<T>, options?: DialogOptions): Pro
 						});
 					}
 
-					// TODO: Support auto focus.
-
 					return init(dialog);
 				}}
 			</Layer>
