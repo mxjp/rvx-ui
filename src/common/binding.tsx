@@ -9,6 +9,6 @@ export function trim(source: Signal<string>): Signal<string> {
 		if (value !== input.value.trim()) {
 			input.value = value;
 		}
-	});
+	}, true);
 	return input;
 }
