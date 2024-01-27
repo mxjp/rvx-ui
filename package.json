@@ -36,7 +36,7 @@
 		"@fortawesome/fontawesome-svg-core": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"@mpt/eslint-rules": "^5.0.1",
-		"@mxjp/gluon": "^2.3.2",
+		"@mxjp/gluon": "^3.0.1",
 		"@types/jsdom": "^21.1.6",
 		"@types/node": "^20.10.6",
 		"concurrently": "^8.2.2",
