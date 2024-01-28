@@ -8,7 +8,7 @@
 		content: "";
 		display: block;
 		pointer-events: none;
-		margin-top: calc(var(--line-gap) / -2);
+		margin-block-start: calc(var(--line-gap) / -2);
 	}
 }
 

@@ -76,7 +76,8 @@
 	cursor: pointer;
 
 	outline: none;
-	padding: common.quad-sub(control-pad, var(--control-border));
+	@include common.padding(control-pad, var(--control-border));
+
 	border-radius: var(--control-radius);
 
 	&[disabled] {

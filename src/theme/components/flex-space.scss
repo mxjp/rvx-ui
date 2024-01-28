@@ -3,6 +3,6 @@
 	flex-grow: 1;
 	flex-basis: 0;
 	pointer-events: none;
-	margin-top: calc(var(--row-gap) * -1);
-	margin-left: calc(var(--column-gap) * -1);
+	margin-block-start: calc(var(--row-gap) * -1);
+	margin-inline-start: calc(var(--column-gap) * -1);
 }

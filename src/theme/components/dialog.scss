@@ -31,7 +31,7 @@
 	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
 	border: var(--content-border) solid var(--dialog-border);
-	padding: #{common.quad-sub(content-pad, var(--content-border))};
+	@include common.padding(content-pad, var(--content-border));
 }
 
 .dialog_footer {

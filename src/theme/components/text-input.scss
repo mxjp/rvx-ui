@@ -23,8 +23,8 @@
 	cursor: text;
 
 	outline: none;
-	padding: common.quad(control-pad);
-	height: calc(var(--control-pad-top) + 1em + var(--control-pad-bottom));
+	@include common.padding(control-pad);
+	block-size: calc(var(--control-pad-block-start) + 1em + var(--control-pad-block-end));
 	border: var(--control-border) solid var(--text-input-border);
 	border-radius: var(--control-radius);
 

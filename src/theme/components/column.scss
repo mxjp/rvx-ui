@@ -4,10 +4,10 @@
 	flex-direction: column;
 
 	& > :not(:first-child) {
-		margin-top: calc(var(--space-above, var(--row-gap)) - var(--row-gap));
+		margin-block-start: calc(var(--space-above, var(--row-gap)) - var(--row-gap));
 	}
 	& > :not(:last-child) {
-		margin-bottom: calc(var(--space-below, var(--row-gap)) - var(--row-gap));
+		margin-block-end: calc(var(--space-below, var(--row-gap)) - var(--row-gap));
 	}
 }
 

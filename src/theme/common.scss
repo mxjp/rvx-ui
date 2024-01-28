@@ -25,25 +25,27 @@
 	}
 }
 
-@mixin define-quad($name, $top, $right: $top, $bottom: $top, $left: $right) {
-	--#{$name}-top: #{$top};
-	--#{$name}-right: #{$right};
-	--#{$name}-bottom: #{$bottom};
-	--#{$name}-left: #{$left};
+@mixin define-quad($name, $block-start, $inline-start: $block-start, $block-end: $block-start, $inline-end: $inline-start) {
+	--#{$name}-block-start: #{$block-start};
+	--#{$name}-inline-start: #{$inline-start};
+	--#{$name}-block-end: #{$block-end};
+	--#{$name}-inline-end: #{$inline-end};
 }
 
-@function quad($name) {
-	@return
-		var(--#{$name}-top)
-		var(--#{$name}-right)
-		var(--#{$name}-bottom)
-		var(--#{$name}-left);
-}
-
-@function quad-sub($name, $sub) {
-	@return
-		calc(var(--#{$name}-top) - #{$sub})
-		calc(var(--#{$name}-right) - #{$sub})
-		calc(var(--#{$name}-bottom) - #{$sub})
-		calc(var(--#{$name}-left) - #{$sub});
+@mixin padding($name, $subtract: null) {
+	@if $subtract {
+		padding-block:
+			calc(var(--#{$name}-block-start) - $subtract)
+			calc(var(--#{$name}-block-end) - $subtract);
+		padding-inline:
+			calc(var(--#{$name}-inline-start) - $subtract)
+			calc(var(--#{$name}-inline-end) - $subtract);
+	} @else {
+		padding-block:
+			var(--#{$name}-block-start)
+			var(--#{$name}-block-end);
+		padding-inline:
+			var(--#{$name}-inline-start)
+			var(--#{$name}-inline-end);
+	}
 }
