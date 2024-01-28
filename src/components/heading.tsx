@@ -19,5 +19,5 @@ export function Heading(props: {
 		],
 		style: props.style,
 		id: props.id,
-	}, [props.children], false);
+	}, props.children);
 }
