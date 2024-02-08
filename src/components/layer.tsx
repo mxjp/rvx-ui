@@ -1,4 +1,4 @@
-import { ContextKeyFor, Expression, get, Inject, memo, sig, Signal, teardown, untrack, watch, wrapContext } from "@mxjp/gluon";
+import { ContextKeyFor, Expression, extract, get, Inject, memo, sig, Signal, teardown, untrack, watch, wrapContext } from "@mxjp/gluon";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -176,6 +176,20 @@ export interface LayerHandle {
 	 * @param includeModals If false (default), any modal layers on top or layers above that are ignored.
 	 */
 	stackContains(node: Node, includeModals?: boolean): boolean;
+}
+
+/**
+ * Reactively check if the layer in the current context (or the root layer if there is none) is inert.
+ */
+export function isInertLayer(): boolean {
+	return extract(LAYER)?.inert ?? untrack(() => LAYERS.value[0]).inert.value;
+}
+
+/**
+ * Reactively check if the layer in the current context (or the root layer if there is none) is the top layer.
+ */
+export function isTopLayer(): boolean {
+	return extract(LAYER)?.top ?? LAYERS.value.length === 1;
 }
 
 function instanceContains(instance: LayerInstance, node: Node): boolean {
