@@ -1,4 +1,4 @@
-import { ContextKeyFor, Expression, extract, get, Inject, memo, sig, Signal, teardown, untrack, watch, wrapContext } from "@mxjp/gluon";
+import { ContextKey, Expression, extract, get, Inject, memo, sig, Signal, teardown, untrack, watch, wrapContext } from "@mxjp/gluon";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -11,7 +11,7 @@ interface LayerInstance {
 	inert: Signal<boolean>;
 }
 
-export const LAYER = Symbol.for("gluon-ux:layer-handle") as ContextKeyFor<LayerHandle>;
+export const LAYER = Symbol.for("gluon-ux:layer-handle") as ContextKey<LayerHandle>;
 
 const LAYERS = sig<LayerInstance[]>([
 	{

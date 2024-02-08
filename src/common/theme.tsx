@@ -1,6 +1,6 @@
-import { ContextKeyFor } from "@mxjp/gluon";
+import { ContextKey } from "@mxjp/gluon";
 
-export const THEME = Symbol.for("gluon_ux:theme") as ContextKeyFor<Theme>;
+export const THEME = Symbol.for("gluon_ux:theme") as ContextKey<Theme>;
 
 /**
  * A collection of class names that is used as the theme.
