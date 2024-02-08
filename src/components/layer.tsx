@@ -1,18 +1,21 @@
-import { ContextKeyFor, Expression, extract, get, Inject, memo, sig, Signal, teardown, watch, wrapContext } from "@mxjp/gluon";
+import { ContextKeyFor, Expression, get, Inject, memo, sig, Signal, teardown, untrack, watch, wrapContext } from "@mxjp/gluon";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
 interface LayerInstance {
+	/** The root nodes of this layer. */
+	roots: Node[];
 	/** True if this is a modal layer. */
 	modal: boolean;
 	/** A signal representing if this layer is inert due to a modal layer on top. */
 	inert: Signal<boolean>;
 }
 
-const LAYER = Symbol.for("gluon-ux:layer") as ContextKeyFor<LayerInstance>;
+export const LAYER = Symbol.for("gluon-ux:layer-handle") as ContextKeyFor<LayerHandle>;
 
 const LAYERS = sig<LayerInstance[]>([
 	{
+		roots: [],
 		modal: false,
 		inert: sig(false),
 	},
@@ -26,35 +29,28 @@ watch(LAYERS, layers => {
 });
 
 /**
- * Reactively check if the layer of the current context is inert.
- */
-export function isInertLayer(): boolean {
-	return extract(LAYER)?.inert.value ?? LAYERS.value[0].inert.value;
-}
-
-/**
- * Reactively check if the layer of the current context is the active layer.
- */
-export function isActiveLayer(): boolean {
-	const layers = LAYERS.value;
-	return (extract(LAYER) ?? layers[0]) === layers[layers.length - 1];
-}
-
-/**
  * Render content inside the root layer.
  */
 export function RootLayer(props: {
 	children: () => unknown;
 }): unknown {
 	const layer = LAYERS.value[0];
-	return <div
+	const root = <div
 		style={{ display: "contents" }}
 		inert={layer.inert}
 	>
-		<Inject key={LAYER} value={layer}>
+		<Inject key={LAYER} value={new Handle(layer)}>
 			{props.children}
 		</Inject>
-	</div>;
+	</div> as HTMLDivElement;
+	layer.roots.push(root);
+	teardown(() => {
+		const index = layer.roots.indexOf(root);
+		if (index >= 0) {
+			layer.roots.splice(index, 1);
+		}
+	});
+	return root;
 }
 
 /**
@@ -78,6 +74,7 @@ export function Layer(props: {
 	enabled?: Expression<boolean | undefined>;
 }): unknown {
 	const layer: LayerInstance = {
+		roots: [],
 		modal: props.modal ?? false,
 		inert: sig(false),
 	};
@@ -99,8 +96,8 @@ export function Layer(props: {
 
 		queueMicrotask(() => {
 			const layers = LAYERS.value;
-			if (layer === layers[layers.length - 1] && container.isConnected) {
-				(container.querySelector("[autofocus]")! as HTMLElement)?.focus?.();
+			if (layer === layers[layers.length - 1] && root.isConnected) {
+				(root.querySelector("[autofocus]")! as HTMLElement)?.focus?.();
 			}
 		});
 
@@ -123,45 +120,131 @@ export function Layer(props: {
 		});
 	}, true);
 
-	const container = <div
+	const root = <div
 		style={{ display: "contents" }}
 		inert={() => layer.inert.value || !enabled()}
 	>
-		<Inject key={LAYER} value={layer}>
+		<Inject key={LAYER} value={new Handle(layer)}>
 			{props.children}
 		</Inject>
 	</div> as HTMLElement;
-	return container;
+	layer.roots.push(root);
+	return root;
 }
 
-/**
- * Add a global event listener that is only called while the layer of the current context is the active layer.
- *
- * @param type The event type.
- * @param listener The event listener.
- * @param options Event listener options. See {@link window.addEventListener}.
- */
-export function useLayerEvent<K extends keyof WindowEventMap>(type: K, listener: (event: WindowEventMap[K]) => void, options?: boolean | AddEventListenerOptions): void;
-export function useLayerEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
-export function useLayerEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void {
-	const wrapper = wrapContext((event: Event): void => {
-		if (isActiveLayer()) {
-			listener(event);
-		}
-	});
-	window.addEventListener(type, wrapper, options);
-	teardown(() => {
-		window.removeEventListener(type, wrapper, options);
-	});
+export interface LayerHandle {
+	/**
+	 * Reactively check if this layer is inert.
+	 */
+	get inert(): boolean;
+
+	/**
+	 * Reactively check if this is the top layer.
+	 */
+	get top(): boolean;
+
+	/**
+	 * Add a global event listener that is only called when this is the top layer.
+	 *
+	 * The current context is available in the event listener.
+	 *
+	 * The event listener is removed when the current context is disposed.
+	 *
+	 * @param type The event type.
+	 * @param listener The event listener.
+	 * @param options Event listener options. See {@link window.addEventListener}.
+	 */
+	useEvent<K extends keyof WindowEventMap>(type: K, listener: (event: WindowEventMap[K]) => void, options?: boolean | AddEventListenerOptions): void;
+	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
+
+	/**
+	 * Shorthand for adding a global "keydown" event listener using {@link useEvent} and {@link keyFor}.
+	 */
+	useHotkey(key: string, action: Action): void;
+
+	/**
+	 * Check if this layer contains the specified node.
+	 *
+	 * @param node The node to check.
+	 */
+	contains(node: Node): boolean;
+
+	/**
+	 * Check if this layer or any layers in top contain the specified node.
+	 *
+	 * @param node The node to check.
+	 * @param includeModals If false (default), any modal layers on top or layers above that are ignored.
+	 */
+	stackContains(node: Node, includeModals?: boolean): boolean;
 }
 
-/**
- * Shorthand for adding a global keydown event listener using {@link useLayerEvent} and {@link keyFor}.
- */
-export function layerHotkey(key: string, action: Action): void {
-	useLayerEvent("keydown", event => {
-		if (keyFor(event) === key) {
-			handleActionEvent(event, action);
+function instanceContains(instance: LayerInstance, node: Node): boolean {
+	const roots = instance.roots;
+	for (let i = 0; i < roots.length; i++) {
+		const root = roots[i];
+		if (root === node || root.contains(node)) {
+			return true;
 		}
-	});
+	}
+	return false;
+}
+
+class Handle implements LayerHandle {
+	#instance: LayerInstance;
+
+	constructor(instance: LayerInstance) {
+		this.#instance = instance;
+	}
+
+	get inert(): boolean {
+		return this.#instance.inert.value;
+	}
+
+	get top(): boolean {
+		const layers = LAYERS.value;
+		return layers[layers.length - 1] === this.#instance;
+	}
+
+	useEvent<K extends keyof WindowEventMap>(type: K, listener: (event: WindowEventMap[K]) => void, options?: boolean | AddEventListenerOptions): void;
+	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
+	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void {
+		const wrapper = wrapContext((event: Event): void => {
+			if (this.top) {
+				listener(event);
+			}
+		});
+		window.addEventListener(type, wrapper, options);
+		teardown(() => {
+			window.removeEventListener(type, wrapper, options);
+		});
+	}
+
+	useHotkey(key: string, action: Action): void {
+		this.useEvent("keydown", event => {
+			if (keyFor(event) === key) {
+				handleActionEvent(event, action);
+			}
+		});
+	}
+
+	contains(node: Node): boolean {
+		return instanceContains(this.#instance, node);
+	}
+
+	stackContains(node: Node, includeModals = false): boolean {
+		const layers = untrack(() => LAYERS.value);
+		let i = layers.indexOf(this.#instance);
+		if (i < 0) {
+			return this.contains(node);
+		}
+		for (;;) {
+			if (instanceContains(layers[i], node)) {
+				return true;
+			}
+			i++;
+			if (i >= layers.length || (!includeModals && layers[i].modal)) {
+				return false;
+			}
+		}
+	}
 }

@@ -1,7 +1,7 @@
 import { capture, ClassValue, Expression, extract, get, mount, StyleValue, uniqueId } from "@mxjp/gluon";
 
 import { Column, FlexSpace, Heading, Row, Text, THEME } from "../index.js";
-import { Layer, layerHotkey } from "./layer.js";
+import { LAYER, Layer } from "./layer.js";
 
 export class DialogAbortError extends Error {}
 
@@ -35,7 +35,7 @@ export function showDialog<T>(init: DialogInit<T>, options?: DialogOptions): Pro
 					};
 
 					if (options?.cancellable ?? true) {
-						layerHotkey("escape", () => {
+						extract(LAYER)?.useHotkey("escape", () => {
 							dialog.reject(new DialogAbortError());
 						});
 					}

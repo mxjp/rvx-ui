@@ -1,5 +1,5 @@
-import { DeriveContext, Tasks, mount, sig } from "@mxjp/gluon";
-import { Button, Column, DialogBody, DialogFooter, Heading, RootLayer, Row, THEME, Text, TextInput, Value, layerHotkey, showDialog, trim } from "@mxjp/gluon-ux";
+import { DeriveContext, Tasks, extract, mount, sig } from "@mxjp/gluon";
+import { Button, Column, DialogBody, DialogFooter, Heading, LAYER, RootLayer, Row, THEME, Text, TextInput, Value, showDialog, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -47,7 +47,7 @@ mount(
 
 function showExampleDialog() {
 	showDialog<number>(dialog => {
-		layerHotkey("enter", () => {
+		extract(LAYER)?.useHotkey("enter", () => {
 			dialog.resolve(77);
 		});
 		return <DialogBody title="Example Dialog" description="This is an accessible example dialog.">
