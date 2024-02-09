@@ -1,4 +1,4 @@
-import { DeriveContext, Tasks, extract, mount, sig } from "@mxjp/gluon";
+import { DeriveContext, TASKS, Tasks, extract, mount, sig } from "@mxjp/gluon";
 import { Button, Column, DialogBody, DialogFooter, Heading, LAYER, RootLayer, Row, THEME, Text, TextInput, Value, showDialog, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
@@ -9,7 +9,7 @@ mount(
 		{() => <DeriveContext>
 			{ctx => {
 				ctx.set(THEME, theme);
-				ctx.set(Tasks, new Tasks());
+				ctx.set(TASKS, new Tasks());
 
 				const text = sig("Hello World!");
 
