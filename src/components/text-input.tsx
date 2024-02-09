@@ -1,7 +1,8 @@
-import { ClassValue, Expression, extract, get, isPending, Signal, StyleValue, waitFor } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, get, isPending, optionalString, Signal, StyleValue, waitFor } from "@mxjp/gluon";
 
 import { THEME } from "../common/theme.js";
 import { keyFor } from "../index.js";
+import { Validity } from "./validation.js";
 
 export type TextInputType = "text" | "password";
 
@@ -17,6 +18,13 @@ export function TextInput(props: {
 	 * The input is automatically disabled when there are any {@link isPending pending tasks}.
 	 */
 	disabled?: Expression<boolean | undefined>;
+
+	/**
+	 * The current validity state.
+	 *
+	 * This should be provided if this input is validated in any way.
+	 */
+	validity?: Validity;
 
 	/**
 	 * The current text value.
@@ -67,6 +75,9 @@ export function TextInput(props: {
 				}
 			}
 		}}
+
+		aria-invalid={props.validity ? optionalString(() => props.validity!.invalid) : undefined}
+		aria-errormessage={props.validity ? () => props.validity!.errorMessageIds : undefined}
 	/> as HTMLInputElement;
 
 	return input;
