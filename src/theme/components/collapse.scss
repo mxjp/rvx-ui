@@ -33,6 +33,12 @@
 	top: 0;
 	left: 0;
 
-	top: var(--overflow-safe-area);
-	left: var(--overflow-safe-area);
+	transition:
+		top var(--layout-transition),
+		left var(--layout-transition);
+
+	.collapse_visible & {
+		top: var(--overflow-safe-area);
+		left: var(--overflow-safe-area);
+	}
 }
