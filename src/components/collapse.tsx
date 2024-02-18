@@ -53,6 +53,10 @@ export function Collapse(props: {
 		aria-relevant={props["aria-relevant"]}
 		aria-atomic={optionalString(props["aria-atomic"])}
 	>
-		{content}
+		{theme?.collapse_view
+			? <div class={theme.collapse_view}>
+				{content}
+			</div>
+			: content}
 	</div>;
 }

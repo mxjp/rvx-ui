@@ -1,24 +1,38 @@
 
 .collapse {
 	display: block;
-	position: relative;
-	block-size: 0px;
-	overflow: hidden;
 	--space-scale: 0;
 
 	transition:
 		margin-block-start var(--layout-transition),
-		margin-block-end var(--layout-transition),
-		block-size var(--layout-transition);
+		margin-block-end var(--layout-transition);
 }
 
 .collapse_visible.collapse_visible {
-	block-size: var(--collapse-size);
 	--space-scale: 1;
+}
+
+.collapse_view {
+	transition:
+		block-size var(--layout-transition),
+		margin var(--layout-transition);
+
+	block-size: 0px;
+	position: relative;
+	overflow: hidden;
+
+	.collapse_visible & {
+		block-size: calc(var(--collapse-size) + var(--overflow-safe-area) * 2);
+		margin: calc(var(--overflow-safe-area) * -1);
+	}
 }
 
 .collapse_content {
 	position: absolute;
+	width: calc(100% - var(--overflow-safe-area) * 2);
 	top: 0;
 	left: 0;
+
+	top: var(--overflow-safe-area);
+	left: var(--overflow-safe-area);
 }
