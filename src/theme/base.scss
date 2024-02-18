@@ -28,6 +28,8 @@ $root-size: 14px;
 	--overflow-safe-area: #{px(8)};
 
 	--line-gap: .4em;
+
+	--layout-transition: .2s ease;
 }
 
 @include common.theme((

@@ -1,5 +1,5 @@
 import { DeriveContext, TASKS, Tasks, extract, mount, sig } from "@mxjp/gluon";
-import { Button, Column, DialogBody, DialogFooter, Heading, LAYER, RootLayer, Row, THEME, Text, TextInput, Value, showDialog, trim } from "@mxjp/gluon-ux";
+import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, RootLayer, Row, THEME, Text, TextInput, Value, showDialog, trim } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -12,6 +12,7 @@ mount(
 				ctx.set(TASKS, new Tasks());
 
 				const text = sig("Hello World!");
+				const collapse = sig(false);
 
 				return <Column>
 					<Heading level="1">Gluon UX</Heading>
@@ -34,6 +35,14 @@ mount(
 					<Row>
 						<Button action={showExampleDialog}>Show Dialog</Button>
 					</Row>
+
+					<Heading level="2">Collapses</Heading>
+					<Row size="control">
+						<Button action={() => { collapse.value = !collapse.value }}>Toggle</Button>
+					</Row>
+					<Collapse visible={collapse}>
+						<Text>Hello World!</Text>
+					</Collapse>
 
 					<Heading level="2">Text Blocks</Heading>
 					<Text>

@@ -1,7 +1,7 @@
 import { ClassValue, Expression, extract, get, StyleValue } from "@mxjp/gluon";
 
-import { SizeContext } from "../common/size-context.js";
 import { THEME } from "../common/theme.js";
+import { SizeContext } from "../common/types.js";
 
 export type RowAlignment = "top" | "center" | "bottom";
 

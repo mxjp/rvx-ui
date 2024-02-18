@@ -36,6 +36,13 @@ export interface Theme {
 	/** Additional class for buttons with the "warning" variant */
 	button_warning?: string;
 
+	/** Class for collapses */
+	collapse?: string;
+	/** Additional class for visible collapses */
+	collapse_visible?: string;
+	/** Class for collapse content */
+	collapse_content?: string;
+
 	/** Class for all columns */
 	column?: string;
 	/** Additional class for columns of content */

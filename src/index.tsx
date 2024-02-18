@@ -2,6 +2,7 @@ export * from "./common/binding.js";
 export * from "./common/events.js";
 export * from "./common/theme.js";
 export * from "./components/button.js";
+export * from "./components/collapse.js";
 export * from "./components/column.js";
 export * from "./components/dialog.js";
 export * from "./components/flex-space.js";
