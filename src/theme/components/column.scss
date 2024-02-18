@@ -4,19 +4,25 @@
 	flex-direction: column;
 
 	& > :not(:first-child) {
-		margin-block-start: calc(var(--space-above, var(--row-gap)) - var(--row-gap));
+		margin-block-start: calc(
+			(var(--space-above, var(--parent-row-gap)) - var(--parent-row-gap)) * var(--space-scale)
+			+ var(--parent-row-gap) * (var(--space-scale) - 1) / 2
+		);
 	}
+
 	& > :not(:last-child) {
-		margin-block-end: calc(var(--space-below, var(--row-gap)) - var(--row-gap));
+		margin-block-end: calc(
+			(var(--space-below, var(--parent-row-gap)) - var(--parent-row-gap)) * var(--space-scale)
+			+ var(--parent-row-gap) * (var(--space-scale) - 1) / 2
+		);
 	}
 }
 
-.column_content {
-	row-gap: var(--content-row-gap);
-	--row-gap: var(--content-row-gap);
-}
-
-.column_control {
-	row-gap: var(--control-row-gap);
-	--row-gap: var(--control-row-gap);
+@each $size in "content", "control" {
+	.column_#{$size} {
+		row-gap: var(--#{$size}-row-gap);
+		& > * {
+			--parent-row-gap: var(--#{$size}-row-gap);
+		}
+	}
 }

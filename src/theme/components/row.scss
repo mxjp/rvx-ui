@@ -5,16 +5,13 @@
 	flex-wrap: wrap;
 }
 
-.row_content {
-	column-gap: var(--content-column-gap);
-	--column-gap: var(--content-column-gap);
-	row-gap: var(--content-row-gap);
-	--row-gap: var(--content-row-gap);
-}
-
-.row_control {
-	column-gap: var(--control-column-gap);
-	--column-gap: var(--control-column-gap);
-	row-gap: var(--control-row-gap);
-	--row-gap: var(--control-row-gap);
+@each $size in "content", "control" {
+	.row_#{$size} {
+		column-gap: var(--#{$size}-column-gap);
+		row-gap: var(--#{$size}-row-gap);
+		& > * {
+			--parent-column-gap: var(--#{$size}-column-gap);
+			--parent-row-gap: var(--#{$size}-row-gap);
+		}
+	}
 }

@@ -1,8 +1,6 @@
 
 .flex_space {
-	flex-grow: 1;
 	flex-basis: 0;
 	pointer-events: none;
-	margin-block-start: calc(var(--row-gap) * -1);
-	margin-inline-start: calc(var(--column-gap) * -1);
+	--space-scale: 0;
 }
