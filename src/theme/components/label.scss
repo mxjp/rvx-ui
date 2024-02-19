@@ -1,0 +1,24 @@
+@use "../common";
+
+@include common.theme((
+	label-fg: (
+		dark: rgb(200, 200, 200),
+	),
+));
+
+.label {
+	--space-below: var(--control-row-gap);
+	line-height: calc(1em + var(--line-gap));
+
+	color: var(--label-fg);
+	font-size: .87rem;
+	font-weight: 600;
+
+	&::before,
+	&::after {
+		content: "";
+		display: block;
+		pointer-events: none;
+		margin-block-start: calc(var(--line-gap) / -2);
+	}
+}

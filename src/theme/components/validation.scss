@@ -1,0 +1,11 @@
+@use "../common";
+
+@include common.theme((
+	validation-message-fg: (
+		dark: rgb(255, 84, 127),
+	),
+));
+
+.validation_message {
+	color: var(--validation-message-fg);
+}

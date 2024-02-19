@@ -65,6 +65,9 @@ export interface Theme {
 	/** Class for all headings which are also semantic elements like h1, h2 etc. */
 	heading?: string;
 
+	/** Class for all labels */
+	label?: string;
+
 	/** Class for all rows */
 	row?: string;
 	/** Additional class for rows of content */
@@ -77,6 +80,9 @@ export interface Theme {
 
 	/** Class for all text blocks */
 	text?: string;
+
+	/** Class for all validation messages */
+	validation_message?: string;
 
 	/** Class for all text values */
 	value?: string;
