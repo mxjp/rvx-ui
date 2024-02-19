@@ -16,7 +16,7 @@ export interface DialogOptions {
 	cancellable?: boolean;
 }
 
-export function showDialog<T>(init: DialogInit<T>, options?: DialogOptions): Promise<T> {
+export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOptions): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
 		const dispose = capture(() => mount(
 			document.body,
