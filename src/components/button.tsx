@@ -20,7 +20,7 @@ export function Button(props: {
 	/**
 	 * Set when the button is disabled.
 	 *
-	 * The button is automatically disabled when there are any {@link isPending pending tasks}.
+	 * The button is automatically disabled when there are any pending tasks.
 	 */
 	disabled?: Expression<boolean | undefined>;
 
