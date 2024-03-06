@@ -1,6 +1,7 @@
 import { ClassValue, Expression, extract, StyleValue } from "@mxjp/gluon";
 
 import { THEME } from "../common/theme.js";
+import { Text } from "./text.js";
 
 /**
  * Represents the validity state of a specific user input.
@@ -27,7 +28,7 @@ export function ValidationMessage(props: {
 	children?: unknown;
 }): unknown {
 	const theme = extract(THEME);
-	return <div
+	return <Text
 		class={[
 			theme?.validation_message,
 			props.class,
@@ -36,5 +37,5 @@ export function ValidationMessage(props: {
 		id={props.id}
 	>
 		{props.children}
-	</div>;
+	</Text>;
 }
