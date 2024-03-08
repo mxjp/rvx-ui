@@ -3,6 +3,7 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "Node",
+		"sourceMap": true,
 		"strict": true,
 		"isolatedModules": true,
 		"jsx": "react-jsx",
