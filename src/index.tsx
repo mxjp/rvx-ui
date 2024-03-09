@@ -1,6 +1,6 @@
-export * from "./common/binding.js";
 export * from "./common/events.js";
 export * from "./common/theme.js";
+export * from "./common/trim.js";
 export * from "./common/types.js";
 export * from "./components/button.js";
 export * from "./components/collapse.js";
