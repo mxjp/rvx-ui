@@ -1,4 +1,4 @@
-import { capture, ClassValue, Expression, extract, get, mount, StyleValue, uniqueId } from "@mxjp/gluon";
+import { captureSelf, ClassValue, Expression, extract, get, Inject, mount, StyleValue, TASKS, Tasks, uniqueId } from "@mxjp/gluon";
 
 import { Column, FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
@@ -18,32 +18,33 @@ export interface DialogOptions {
 
 export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOptions): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
-		const dispose = capture(() => mount(
-			document.body,
-			<Layer modal>
-				{() => {
-					const dialog: Dialog<T> = {
-						resolve(value) {
-							dispose();
-							resolve(value);
-						},
-
-						reject(reason) {
-							dispose();
-							reject(reason);
-						},
-					};
-
-					if (options?.cancellable ?? true) {
-						extract(LAYER)?.useHotkey("escape", () => {
-							dialog.reject(new DialogAbortError());
-						});
-					}
-
-					return init(dialog);
-				}}
-			</Layer>
-		));
+		captureSelf(dispose => {
+			mount(
+				document.body,
+				<Layer modal>
+					{() => {
+						const dialog: Dialog<T> = {
+							resolve(value) {
+								dispose();
+								resolve(value);
+							},
+							reject(reason) {
+								dispose();
+								reject(reason);
+							},
+						};
+						if (options?.cancellable ?? true) {
+							extract(LAYER)?.useHotkey("escape", () => {
+								dialog.reject(new DialogAbortError());
+							});
+						}
+						return <Inject key={TASKS} value={new Tasks()}>
+							{() => init(dialog)}
+						</Inject>;
+					}}
+				</Layer>
+			);
+		});
 	});
 }
 
