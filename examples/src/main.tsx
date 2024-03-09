@@ -1,5 +1,5 @@
-import { DeriveContext, TASKS, Tasks, extract, mount, sig } from "@mxjp/gluon";
-import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, RootLayer, Row, THEME, Text, TextInput, Value, showDialog, trim } from "@mxjp/gluon-ux";
+import { DeriveContext, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor } from "@mxjp/gluon";
+import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationRule, Validator, Value, showDialog, trim, validate } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -34,6 +34,7 @@ mount(
 					<Heading level="2">Dialogs</Heading>
 					<Row>
 						<Button action={showExampleDialog}>Show Dialog</Button>
+						<Button action={showValidationExample}>Validation Example</Button>
 					</Row>
 
 					<Heading level="2">Collapses</Heading>
@@ -82,5 +83,40 @@ function showExampleDialog() {
 		console.log("Dialog result:", value);
 	}, () => {
 		console.log("Dialog was cancelled.");
+	});
+}
+
+function showValidationExample() {
+	showDialog(dialog => {
+		const name = sig("");
+		const nameRules = new Validator();
+
+		function ok() {
+			waitFor(async () => {
+				if (await validate(nameRules)) {
+					dialog.resolve();
+				}
+			});
+		}
+
+		return <DialogBody title="Validation" description="This dialog demonstrates the validation API.">
+			<UseUniqueId>
+				{id => <>
+					<Label for={id}>Username</Label>
+					<TextInput id={id} value={trim(name)} validity={nameRules} />
+				</>}
+			</UseUniqueId>
+			<ValidationRule for={nameRules} validate={() => name.value.length > 0}>
+				Enter a name.
+			</ValidationRule>
+			<ValidationRule for={nameRules} validate={() => /^[a-z0-9]*$/.test(name.value)}>
+				The name must contain only "a-z" or "0-9".
+			</ValidationRule>
+
+			<DialogFooter>
+				<Button action={() => dialog.reject()}>Cancel</Button>
+				<Button action={ok} variant="primary">Ok</Button>
+			</DialogFooter>
+		</DialogBody>;
 	});
 }
