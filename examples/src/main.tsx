@@ -1,4 +1,4 @@
-import { DeriveContext, Signal, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor, watch } from "@mxjp/gluon";
+import { DeriveContext, Emitter, Signal, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor, watch } from "@mxjp/gluon";
 import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Validator, Value, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
@@ -13,6 +13,7 @@ mount(
 
 				const text = sig("Hello World!");
 				const collapse = sig(false);
+				const collapseAlert = new Emitter<[]>();
 
 				return <Column>
 					<Heading level="1">Gluon UX</Heading>
@@ -40,11 +41,12 @@ mount(
 					<Heading level="2">Collapses</Heading>
 					<Row size="control">
 						<Button action={() => { collapse.value = !collapse.value }}>Toggle</Button>
+						<Button action={() => collapseAlert.emit()} variant="warning">Alert</Button>
 					</Row>
 					<Collapse visible={collapse}>
 						<Text>Hello World!</Text>
 					</Collapse>
-					<Collapse visible>
+					<Collapse visible alert={collapseAlert.event}>
 						<Text>This is always visible.</Text>
 					</Collapse>
 
