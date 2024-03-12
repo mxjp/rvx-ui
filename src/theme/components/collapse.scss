@@ -1,6 +1,7 @@
 
 .collapse {
 	display: block;
+	position: relative;
 	--space-scale: 0;
 }
 
@@ -8,6 +9,17 @@
 	transition:
 		margin-block-start var(--layout-transition),
 		margin-block-end var(--layout-transition);
+}
+
+@keyframes alert {
+	from { transform: translateX(0rem); }
+	30% { transform: translateX(.2rem); }
+	70% { transform: translateX(-.2rem); }
+	to { transform: translateX(0rem); }
+}
+
+.collapse_alert {
+	animation: alert .2s ease;
 }
 
 .collapse_visible.collapse_visible {

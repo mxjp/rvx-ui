@@ -1,4 +1,4 @@
-import { ClassValue, ContextKey, Expression, extract, IterUnique, map, sig, Signal, StyleValue, TaskSlot, teardown, trigger, uniqueId, untrack } from "@mxjp/gluon";
+import { ClassValue, ContextKey, Emitter, Event, Expression, extract, IterUnique, map, sig, Signal, StyleValue, TaskSlot, teardown, trigger, uniqueId, untrack } from "@mxjp/gluon";
 
 import { sharedGlobal } from "../common/globals.js";
 import { THEME } from "../common/theme.js";
@@ -89,7 +89,7 @@ export class Validator {
 		VALIDATORS.set(target, this);
 	}
 
-	async #validate(signal?: AbortSignal): Promise<boolean> {
+	async #validate(sideEffect: boolean, signal?: AbortSignal): Promise<boolean> {
 		this.#cycle++;
 		const signalTrigger = this.#signalTrigger;
 		const rules = untrack(() => this.#rules.value);
@@ -97,7 +97,7 @@ export class Validator {
 			if (signal?.aborted) {
 				return false;
 			}
-			const { validate, visible } = rules[i];
+			const { validate, visible, alert } = rules[i];
 			let valid: boolean;
 			if (signalTrigger === "never") {
 				valid = await validate(signal);
@@ -114,11 +114,15 @@ export class Validator {
 			if (valid) {
 				visible.value = false;
 			} else {
+				const wasVisible = visible.value;
 				visible.value = true;
 				for (let r = i + 1; r < rules.length; r++) {
 					rules[r].visible.value = false;
 				}
 				this.#invalid.value = true;
+				if (wasVisible && !sideEffect) {
+					alert.emit();
+				}
 				return false;
 			}
 		}
@@ -130,14 +134,14 @@ export class Validator {
 	 * Validate using the currently attached rules.
 	 */
 	async validate(signal?: AbortSignal): Promise<boolean> {
-		return this.#slot.block(() => this.#validate(signal));
+		return this.#slot.block(() => this.#validate(false, signal));
 	}
 
 	/**
 	 * Trigger validation as a side effect.
 	 */
 	triggerValidation(): void {
-		this.#slot.sideEffect(signal => this.#validate(signal));
+		this.#slot.sideEffect(signal => this.#validate(true, signal));
 	}
 
 	/**
@@ -180,6 +184,7 @@ export interface ValidationRule {
 export class ValidationRuleEntry {
 	readonly id = uniqueId();
 	readonly visible = sig(false);
+	readonly alert = new Emitter<[]>();
 	readonly message: unknown;
 	readonly validate: ValidationRule["validate"];
 
@@ -230,6 +235,7 @@ export async function validate(...targets: object[]): Promise<boolean> {
 
 export function ValidationMessage(props: {
 	visible?: Expression<boolean | undefined>;
+	alert?: Event<[]>;
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
@@ -238,6 +244,7 @@ export function ValidationMessage(props: {
 	const theme = extract(THEME);
 	return <Collapse
 		visible={map(props.visible, v => v ?? true)}
+		alert={props.alert}
 		class={[
 			props.class,
 			theme?.validation_message_container,
@@ -264,7 +271,7 @@ export function ValidationMessages(props: {
 		throw new Error("target has no attached validator");
 	}
 	return <IterUnique each={validator.rules}>
-		{rule => <ValidationMessage visible={rule.visible} id={rule.id}>
+		{rule => <ValidationMessage visible={rule.visible} alert={rule.alert.event} id={rule.id}>
 			{rule.message}
 		</ValidationMessage>}
 	</IterUnique>;

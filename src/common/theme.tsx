@@ -42,6 +42,8 @@ export interface Theme {
 	collapse_sized?: string;
 	/** Class for an additional element between the collapse container and the content. If this is undefined, the element is omitted. */
 	collapse_view?: string;
+	/** Class that is added to collapses to play an alert animation. */
+	collapse_alert?: string;
 	/** Additional class for visible collapses */
 	collapse_visible?: string;
 	/** Class for collapse content */

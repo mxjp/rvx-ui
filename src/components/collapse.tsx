@@ -1,10 +1,11 @@
-import { ClassValue, Expression, extract, map, optionalString, sig, StyleValue, teardown } from "@mxjp/gluon";
+import { ClassValue, Event, Expression, extract, map, optionalString, sig, StyleValue, teardown } from "@mxjp/gluon";
 
 import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
 
 export function Collapse(props: {
 	visible?: Expression<boolean | undefined>;
+	alert?: Event<[]>;
 	children?: unknown;
 	class?: ClassValue;
 	style?: StyleValue;
@@ -15,7 +16,7 @@ export function Collapse(props: {
 }): unknown {
 	const theme = extract(THEME);
 	const visible = map(props.visible, v => v ?? false);
-
+	const alert = sig(false);
 	const size = sig<number | undefined>(undefined);
 
 	const content = <div class={theme?.collapse_content}>
@@ -35,11 +36,19 @@ export function Collapse(props: {
 		observer.disconnect();
 	});
 
-	return <div
+	props.alert?.(() => {
+		alert.value = false;
+		// Force a reflow:
+		void root.offsetWidth;
+		alert.value = true;
+	});
+
+	const root = <div
 		inert={map(visible, v => !v)}
 		class={[
 			theme?.collapse,
 			() => size.value === undefined ? undefined : theme?.collapse_sized,
+			() => alert.value ? theme?.collapse_alert : undefined,
 			map(visible, v => v ? theme?.collapse_visible : undefined),
 			props.class,
 		]}
@@ -59,5 +68,6 @@ export function Collapse(props: {
 				{content}
 			</div>
 			: content}
-	</div>;
+	</div> as HTMLDivElement;
+	return root;
 }
