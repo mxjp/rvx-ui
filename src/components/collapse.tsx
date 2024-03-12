@@ -16,7 +16,7 @@ export function Collapse(props: {
 	const theme = extract(THEME);
 	const visible = map(props.visible, v => v ?? false);
 
-	const size = sig(0);
+	const size = sig<number | undefined>(undefined);
 
 	const content = <div class={theme?.collapse_content}>
 		{props.children}
@@ -39,12 +39,13 @@ export function Collapse(props: {
 		inert={map(visible, v => !v)}
 		class={[
 			theme?.collapse,
+			() => size.value === undefined ? undefined : theme?.collapse_sized,
 			map(visible, v => v ? theme?.collapse_visible : undefined),
 			props.class,
 		]}
 		style={[
 			{
-				"--collapse-size": () => `${size.value}px`,
+				"--collapse-size": () => size.value === undefined ? undefined : `${size.value}px`,
 			},
 			props.style,
 		]}

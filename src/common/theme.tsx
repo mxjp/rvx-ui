@@ -38,6 +38,8 @@ export interface Theme {
 
 	/** Class for collapses */
 	collapse?: string;
+	/** Class for collapses that is when it's size has been measured. */
+	collapse_sized?: string;
 	/** Class for an additional element between the collapse container and the content. If this is undefined, the element is omitted. */
 	collapse_view?: string;
 	/** Additional class for visible collapses */
@@ -83,6 +85,8 @@ export interface Theme {
 
 	/** Class for all validation messages */
 	validation_message?: string;
+	/** Class for all validation message containers. */
+	validation_message_container?: string;
 
 	/** Class for all text values */
 	value?: string;
