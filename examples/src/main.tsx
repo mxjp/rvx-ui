@@ -1,5 +1,5 @@
-import { DeriveContext, Emitter, Signal, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor, watch } from "@mxjp/gluon";
-import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Validator, Value, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { DeriveContext, Emitter, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor } from "@mxjp/gluon";
+import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, asInt, parse, rule, showDialog, trim, validate, withPair } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -130,7 +130,7 @@ function showValidationExample() {
 						id={id}
 						value={port
 							.pipe(rule, port => port !== null && port >= 1 && port <= 0xFFFF, <>The port must be between 1 and {0xFFFF}.</>)
-							.pipe(parseInt, <>Enter a valid port.</>)
+							.pipe(parse, withPair(asInt(), null, ""), <>Enter a valid port.</>)
 							.pipe(trim)
 						}
 					/>
@@ -144,31 +144,4 @@ function showValidationExample() {
 			</DialogFooter>
 		</DialogBody>;
 	});
-}
-
-function parseInt(source: Signal<number | null>, message: unknown) {
-	const input = sig(String(source.value));
-	const valid = sig(true);
-
-	watch(source, value => {
-		input.value = value === null ? "" : String(value);
-	});
-
-	watch(input, value => {
-		if (/^\d+$/.test(value)) {
-			source.value = Number(value);
-			valid.value = true;
-		} else {
-			valid.value = false;
-		}
-	});
-
-	const validator = Validator.attach(source);
-	validator.attach(input);
-	validator.prependRule({
-		validate: () => valid.value,
-		message: message,
-	});
-
-	return input;
 }
