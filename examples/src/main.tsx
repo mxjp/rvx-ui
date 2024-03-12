@@ -1,5 +1,5 @@
-import { DeriveContext, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor } from "@mxjp/gluon";
-import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationRule, Validator, Value, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { DeriveContext, Signal, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor, watch } from "@mxjp/gluon";
+import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Validator, Value, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -43,6 +43,9 @@ mount(
 					</Row>
 					<Collapse visible={collapse}>
 						<Text>Hello World!</Text>
+					</Collapse>
+					<Collapse visible>
+						<Text>This is always visible.</Text>
 					</Collapse>
 
 					<Heading level="2">Text Blocks</Heading>
@@ -89,29 +92,49 @@ function showExampleDialog() {
 function showValidationExample() {
 	showDialog(dialog => {
 		const name = sig("");
-		const nameRules = new Validator();
+		const port = sig<number | null>(null);
 
 		function ok() {
 			waitFor(async () => {
-				if (await validate(nameRules)) {
+				if (await validate(name, port)) {
+					console.log("Ok:", name.value, port.value);
 					dialog.resolve();
 				}
 			});
 		}
 
+		extract(LAYER)?.useHotkey("enter", ok);
+
 		return <DialogBody title="Validation" description="This dialog demonstrates the validation API.">
 			<UseUniqueId>
 				{id => <>
-					<Label for={id}>Username</Label>
-					<TextInput id={id} value={trim(name)} validity={nameRules} />
+					<Label for={id}>Name</Label>
+					<TextInput
+						id={id}
+						value={name
+							.pipe(rule, name => /^[a-z0-9]*$/.test(name), <>The name must contain only characters and digits.</>)
+							.pipe(rule, async name => name.length >= 3, <>Enter a name of at least 3 characters.</>)
+							.pipe(trim)
+						}
+					/>
 				</>}
 			</UseUniqueId>
-			<ValidationRule for={nameRules} validate={() => name.value.length > 0}>
-				Enter a name.
-			</ValidationRule>
-			<ValidationRule for={nameRules} validate={() => /^[a-z0-9]*$/.test(name.value)}>
-				The name must contain only "a-z" or "0-9".
-			</ValidationRule>
+			<ValidationMessages for={name} />
+
+			<UseUniqueId>
+				{id => <>
+					<Label for={id}>Network Port</Label>
+					<TextInput
+						id={id}
+						value={port
+							.pipe(rule, port => port !== null && port >= 1 && port <= 0xFFFF, <>The port must be between 1 and {0xFFFF}.</>)
+							.pipe(parseInt, <>Enter a valid port.</>)
+							.pipe(trim)
+						}
+					/>
+				</>}
+			</UseUniqueId>
+			<ValidationMessages for={port} />
 
 			<DialogFooter>
 				<Button action={() => dialog.reject()}>Cancel</Button>
@@ -119,4 +142,31 @@ function showValidationExample() {
 			</DialogFooter>
 		</DialogBody>;
 	});
+}
+
+function parseInt(source: Signal<number | null>, message: unknown) {
+	const input = sig(String(source.value));
+	const valid = sig(true);
+
+	watch(source, value => {
+		input.value = value === null ? "" : String(value);
+	});
+
+	watch(input, value => {
+		if (/^\d+$/.test(value)) {
+			source.value = Number(value);
+			valid.value = true;
+		} else {
+			valid.value = false;
+		}
+	});
+
+	const validator = Validator.attach(source);
+	validator.attach(input);
+	validator.prependRule({
+		validate: () => valid.value,
+		message: message,
+	});
+
+	return input;
 }

@@ -9,3 +9,7 @@
 .validation_message {
 	color: var(--validation-message-fg);
 }
+
+.validation_message_container {
+	--space-above: 0.8rem;
+}

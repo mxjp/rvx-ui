@@ -2,7 +2,7 @@ import { ClassValue, Expression, extract, get, isPending, optionalString, Signal
 
 import { THEME } from "../common/theme.js";
 import { keyFor } from "../index.js";
-import { Validity } from "./validation.js";
+import { Validator } from "./validation.js";
 
 export type TextInputType = "text" | "password";
 
@@ -20,13 +20,6 @@ export function TextInput(props: {
 	disabled?: Expression<boolean | undefined>;
 
 	/**
-	 * The current validity state.
-	 *
-	 * This should be provided if this input is validated in any way.
-	 */
-	validity?: Validity;
-
-	/**
 	 * The current text value.
 	 *
 	 * If this isn't a signal, the text input is readonly.
@@ -42,6 +35,8 @@ export function TextInput(props: {
 }): unknown {
 	const theme = extract(THEME);
 	const disabled = () => isPending() || get(props.disabled);
+
+	const validator = props.value instanceof Signal ? Validator.get(props.value) : undefined;
 
 	const input = <input
 		type={() => get(props.type) ?? "text"}
@@ -76,8 +71,8 @@ export function TextInput(props: {
 			}
 		}}
 
-		aria-invalid={props.validity ? optionalString(() => props.validity!.invalid) : undefined}
-		aria-errormessage={props.validity ? () => props.validity!.errorMessageIds : undefined}
+		aria-invalid={validator ? optionalString(validator.invalid) : undefined}
+		aria-errormessage={validator ? validator.errorMessageIds : undefined}
 	/> as HTMLInputElement;
 
 	return input;
