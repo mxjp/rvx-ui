@@ -266,10 +266,7 @@ export function ValidationMessage(props: {
 export function ValidationMessages(props: {
 	for: object;
 }): unknown {
-	const validator = Validator.get(props.for);
-	if (validator === undefined) {
-		throw new Error("target has no attached validator");
-	}
+	const validator = Validator.attach(props.for);
 	return <IterUnique each={validator.rules}>
 		{rule => <ValidationMessage visible={rule.visible} alert={rule.alert.event} id={rule.id}>
 			{rule.message}
