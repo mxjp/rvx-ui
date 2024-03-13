@@ -1,4 +1,4 @@
-import { sig, Signal, watch } from "@mxjp/gluon";
+import { sig, Signal, watchUpdates } from "@mxjp/gluon";
 
 import { Validator } from "../components/validation.js";
 
@@ -25,11 +25,11 @@ export function parse<S, I>(
 	const input = sig(parser.format(source.value));
 	const valid = sig(true);
 
-	watch(source, value => {
+	watchUpdates(source, value => {
 		input.value = parser.format(value);
 	});
 
-	watch(input, value => {
+	watchUpdates(input, value => {
 		const result = parser.parse(value);
 		if (result === INVALID) {
 			valid.value = false;

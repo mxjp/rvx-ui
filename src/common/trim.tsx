@@ -1,4 +1,4 @@
-import { sig, Signal, watch } from "@mxjp/gluon";
+import { sig, Signal, watchUpdates } from "@mxjp/gluon";
 
 import { Validator } from "../components/validation.js";
 
@@ -9,14 +9,17 @@ import { Validator } from "../components/validation.js";
  */
 export function trim(source: Signal<string>): Signal<string> {
 	const input = sig(source.value);
-	watch(input, value => {
+
+	watchUpdates(input, value => {
 		source.value = value.trim();
-	}, true);
-	watch(source, value => {
+	});
+
+	watchUpdates(source, value => {
 		if (value !== input.value.trim()) {
 			input.value = value;
 		}
-	}, true);
+	});
+
 	Validator.get(source)?.attach(input);
 	return input;
 }
