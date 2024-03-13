@@ -96,13 +96,11 @@ function showValidationExample() {
 		const name = sig("");
 		const port = sig<number | null>(null);
 
-		function ok() {
-			waitFor(async () => {
-				if (await validate(name, port)) {
-					console.log("Ok:", name.value, port.value);
-					dialog.resolve();
-				}
-			});
+		async function ok() {
+			if (await validate(name, port)) {
+				console.log("Ok:", name.value, port.value);
+				dialog.resolve();
+			}
 		}
 
 		extract(LAYER)?.useHotkey("enter", ok);
@@ -115,7 +113,7 @@ function showValidationExample() {
 						id={id}
 						value={name
 							.pipe(rule, name => /^[a-z0-9]*$/.test(name), <>The name must contain only characters and digits.</>)
-							.pipe(rule, async name => name.length >= 3, <>Enter a name of at least 3 characters.</>)
+							.pipe(rule, name => name.length >= 3, <>Enter a name of at least 3 characters.</>)
 							.pipe(trim)
 						}
 					/>
