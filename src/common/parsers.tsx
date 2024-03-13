@@ -43,7 +43,7 @@ export function parse<S, I>(
 	validator.attach(input);
 	validator.prependRule({
 		validate: () => valid.value,
-		message: message,
+		message,
 	});
 
 	return input;
