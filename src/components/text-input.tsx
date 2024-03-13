@@ -1,7 +1,7 @@
 import { ClassValue, Expression, extract, get, isPending, optionalString, Signal, StyleValue, waitFor } from "@mxjp/gluon";
 
+import { keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { keyFor } from "../index.js";
 import { Validator } from "./validation.js";
 
 export type TextInputType = "text" | "password";
