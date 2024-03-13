@@ -1,5 +1,5 @@
-import { DeriveContext, Emitter, TASKS, Tasks, UseUniqueId, extract, mount, sig, waitFor } from "@mxjp/gluon";
-import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, asInt, parse, rule, showDialog, trim, validate, withPair } from "@mxjp/gluon-ux";
+import { DeriveContext, Emitter, TASKS, Tasks, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
+import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -94,7 +94,7 @@ function showExampleDialog() {
 function showValidationExample() {
 	showDialog(dialog => {
 		const name = sig("");
-		const port = sig<number | null>(null);
+		const port = sig(443);
 
 		async function ok() {
 			if (await validate(name, port)) {
@@ -127,8 +127,8 @@ function showValidationExample() {
 					<TextInput
 						id={id}
 						value={port
-							.pipe(rule, port => port !== null && port >= 1 && port <= 0xFFFF, <>The port must be between 1 and {0xFFFF}.</>)
-							.pipe(parse, withPair(asInt(), null, ""), <>Enter a valid port.</>)
+							.pipe(rule, port => port >= 1 && port <= 0xFFFF, <>The port must be between 1 and {0xFFFF}.</>)
+							.pipe(parse, intParser, <>Enter a valid port.</>)
 							.pipe(trim)
 						}
 					/>

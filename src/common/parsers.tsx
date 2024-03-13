@@ -49,42 +49,17 @@ export function parse<S, I>(
 	return input;
 }
 
-/**
- * Wrap a parser to allow a specific source/input pair.
- */
-export function withPair<S, I, SOpt, IOpt>(parser: Parser<S, I>, emptySource: SOpt, emptyInput: IOpt): Parser<S | SOpt, I | IOpt> {
-	return {
-		parse(value) {
-			if (value === emptyInput) {
-				return emptySource;
+export const intParser: Parser<number, string> = {
+	parse(input) {
+		if (/^-?\d+$/.test(input)) {
+			const int = Number(input);
+			if (Number.isSafeInteger(int)) {
+				return int;
 			}
-			return parser.parse(value as I);
-		},
-		format(value) {
-			if (value === emptySource) {
-				return emptyInput;
-			}
-			return parser.format(value as S);
-		},
-	};
-}
-
-/**
- * Create a parser for safe negative or positive integers.
- */
-export function asInt(): Parser<number, string> {
-	return {
-		parse(input) {
-			if (/^-?\d+$/.test(input)) {
-				const int = Number(input);
-				if (Number.isSafeInteger(int)) {
-					return int;
-				}
-			}
-			return INVALID;
-		},
-		format(source) {
-			return String(source);
-		},
-	};
-}
+		}
+		return INVALID;
+	},
+	format(source) {
+		return String(source);
+	},
+};
