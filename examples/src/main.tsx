@@ -127,8 +127,11 @@ function showValidationExample() {
 					<TextInput
 						id={id}
 						value={port
-							.pipe(rule, port => port >= 1 && port <= 0xFFFF, <>The port must be between 1 and {0xFFFF}.</>)
-							.pipe(parse, intParser, <>Enter a valid port.</>)
+							.pipe(parse, intParser({
+								format: <>Enter a valid port.</>,
+								range: <>The port must be between 1 and {0xFFFF}</>,
+								testRange: port => port >= 1 && port <= 0xFFFF,
+							}))
 							.pipe(trim)
 						}
 					/>

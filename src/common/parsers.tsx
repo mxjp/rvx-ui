@@ -2,64 +2,157 @@ import { sig, Signal, watchUpdates } from "@mxjp/gluon";
 
 import { Validator } from "../components/validation.js";
 
-export const INVALID = Symbol.for("gluon_ux:parsers:invalid");
+export interface ValidParseResult<S> {
+	type: "valid";
 
-export interface Parser<S, I> {
-	parse(input: I): S | typeof INVALID;
-	format(source: S): I;
+	/**
+	 * The parsed value.
+	 */
+	value: S;
 }
 
+export interface InvalidParseResult<M> {
+	type: "invalid";
+
+	/**
+	 * The validation message key.
+	 */
+	value: M;
+}
+
+export type ParseResult<S, M> = ValidParseResult<S> | InvalidParseResult<M>;
+
+export class ParserFormatError extends TypeError {}
+
+export interface Parser<S, I, M extends string> {
+	/**
+	 * Parse the specified input.
+	 */
+	parse(input: I): ParseResult<S, M>;
+
+	/**
+	 * Format the specified source.
+	 *
+	 * @throws A {@link ParserFormatError} if the source isn't currently formattable.
+	 */
+	format(source: S): I;
+
+	/**
+	 * An object with validation message keys and content to display.
+	 */
+	messages: Record<M, unknown>;
+}
+
+export type ParserSource<P extends Parser<any, any, any>> = P extends Parser<infer S, any, any> ? S : never;
+export type ParserInput<P extends Parser<any, any, any>> = P extends Parser<any, infer I, any> ? I : never;
+export type ParserMessages<P extends Parser<any, any, any>> = P extends Parser<any, any, infer M> ? M : never;
+
 /**
- * Create a two-way parsing signal with validation.
+ * Create a bi-directional input signal with validation.
  *
- * @param source The source signal to parse into.
+ * @param source The source signal.
  * @param parser The parser to use.
- * @param message The validation message to use when parsing fails.
- * @returns The input signal.
+ * @param input The initial input signal to use. If not specified, the parser is used to format the current source value.
+ *
+ * @example
+ * ```tsx
+ * const source = sig(42);
+ * const input = source.pipe(parse, intParser);
+ * console.log(input.value); // "42"
+ *
+ * input.value = "7";
+ * console.log(source.value); // 7
+ * ```
  */
-export function parse<S, I>(
+export function parse<S, P extends Parser<S, any, any>>(
 	source: Signal<S>,
-	parser: Parser<S, I>,
-	message: unknown,
-): Signal<I> {
-	const input = sig(parser.format(source.value));
-	const valid = sig(true);
+	parser: P,
+	input?: Signal<ParserInput<P>>
+): Signal<ParserInput<P>> {
+	if (input === undefined) {
+		input = sig(parser.format(source.value));
+	}
+
+	const invalid = sig<undefined | ParserMessages<P>>(undefined);
 
 	watchUpdates(source, value => {
-		input.value = parser.format(value);
+		try {
+			input!.value = parser.format(value) as ParserInput<P>;
+		} catch (error) {
+			if (!(error instanceof ParserFormatError)) {
+				throw error;
+			}
+		}
 	});
 
 	watchUpdates(input, value => {
 		const result = parser.parse(value);
-		if (result === INVALID) {
-			valid.value = false;
+		if (result.type === "valid") {
+			source.value = result.value;
+			invalid.value = undefined;
 		} else {
-			source.value = result;
-			valid.value = true;
+			invalid.value = result.value as ParserMessages<P>;
 		}
 	});
 
 	const validator = Validator.attach(source);
 	validator.attach(input);
-	validator.prependRule({
-		validate: () => valid.value,
-		message,
-	});
+
+	for (const key in parser.messages) {
+		validator.prependRule({
+			validate: () => invalid.value !== key,
+			message: parser.messages[key],
+		});
+	}
 
 	return input;
 }
 
-export const intParser: Parser<number, string> = {
-	parse(input) {
-		if (/^-?\d+$/.test(input)) {
-			const int = Number(input);
-			if (Number.isSafeInteger(int)) {
-				return int;
+export interface IntParserOptions {
+	/**
+	 * A function to check if the parsed value is in a valid range.
+	 *
+	 * By default, the value must be a safe integer.
+	 */
+	testRange?: (value: number) => boolean;
+
+	/**
+	 * A validation message if the format is invalid.
+	 */
+	format: unknown;
+
+	/**
+	 * A validation message if the parsed value is out of range.
+	 *
+	 * By default, the format validation message is used.
+	 */
+	range?: unknown;
+}
+
+/**
+ * Create a parser for integers.
+ */
+export function intParser(options: IntParserOptions): Parser<number, string, "format" | "range"> {
+	const range = options.testRange ?? Number.isSafeInteger;
+	return {
+		parse(input) {
+			if (!/^-?\d+$/.test(input)) {
+				return { type: "invalid", value: "format" };
 			}
-		}
-		return INVALID;
-	},
-	format(source) {
-		return String(source);
-	},
-};
+			const value = Number(input);
+			if (!range(value)) {
+				return { type: "invalid", value: "range" };
+			}
+			return { type: "valid", value };
+		},
+
+		format(source) {
+			return String(source);
+		},
+
+		messages: {
+			format: options.format,
+			range: options.range ?? options.format,
+		},
+	};
+}
