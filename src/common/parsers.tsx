@@ -64,11 +64,7 @@ export type ParserMessages<P extends Parser<any, any, any>> = P extends Parser<a
  * console.log(source.value); // 7
  * ```
  */
-export function parse<S, P extends Parser<S, any, any>>(
-	source: Signal<S>,
-	parser: P,
-	input?: Signal<ParserInput<P>>
-): Signal<ParserInput<P>> {
+export function parse<S, P extends Parser<S, any, any>>(source: Signal<S>, parser: P, input?: Signal<ParserInput<P>>): Signal<ParserInput<P>> {
 	if (input === undefined) {
 		input = sig(parser.format(source.value));
 	}
