@@ -1,4 +1,4 @@
-import { waitFor } from "@mxjp/gluon";
+import { waitFor } from "@mxjp/gluon/async";
 
 /**
  * Get an identifier for the pressed key including any modifiers.

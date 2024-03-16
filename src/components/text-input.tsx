@@ -1,4 +1,5 @@
-import { ClassValue, Expression, extract, get, isPending, optionalString, Signal, StyleValue, waitFor } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, get, optionalString, Signal, StyleValue } from "@mxjp/gluon";
+import { isPending, waitFor } from "@mxjp/gluon/async";
 
 import { keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";

@@ -1,4 +1,5 @@
-import { captureSelf, ClassValue, Expression, extract, get, Inject, mount, StyleValue, TASKS, Tasks, uniqueId } from "@mxjp/gluon";
+import { captureSelf, ClassValue, Expression, extract, get, Inject, mount, StyleValue, uniqueId } from "@mxjp/gluon";
+import { TASKS, Tasks } from "@mxjp/gluon/async";
 
 import { Column, FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";

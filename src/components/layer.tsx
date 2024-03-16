@@ -118,7 +118,7 @@ export function Layer(props: {
 				}
 			});
 		});
-	}, true);
+	});
 
 	const root = <div
 		style={{ display: "contents" }}

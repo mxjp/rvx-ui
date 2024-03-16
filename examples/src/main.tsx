@@ -1,4 +1,5 @@
-import { DeriveContext, Emitter, TASKS, Tasks, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
+import { DeriveContext, Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
+import { TASKS, Tasks } from "@mxjp/gluon/async";
 import { Button, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";

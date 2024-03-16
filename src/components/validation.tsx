@@ -1,6 +1,6 @@
-import { ClassValue, ContextKey, Emitter, Event, Expression, extract, IterUnique, map, sig, Signal, StyleValue, TaskSlot, teardown, trigger, uniqueId, untrack } from "@mxjp/gluon";
+import { ClassValue, ContextKey, Emitter, Event, Expression, extract, For, map, sharedGlobal, sig, Signal, StyleValue, teardown, trigger, uniqueId, untrack } from "@mxjp/gluon";
+import { TaskSlot } from "@mxjp/gluon/async";
 
-import { sharedGlobal } from "../common/globals.js";
 import { THEME } from "../common/theme.js";
 import { Collapse } from "./collapse.js";
 import { Text } from "./text.js";
@@ -267,9 +267,9 @@ export function ValidationMessages(props: {
 	for: object;
 }): unknown {
 	const validator = Validator.attach(props.for);
-	return <IterUnique each={validator.rules}>
+	return <For each={validator.rules}>
 		{rule => <ValidationMessage visible={rule.visible} alert={rule.alert.event} id={rule.id}>
 			{rule.message}
 		</ValidationMessage>}
-	</IterUnique>;
+	</For>;
 }

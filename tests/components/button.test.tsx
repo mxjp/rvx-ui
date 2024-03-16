@@ -3,7 +3,8 @@ import "../env.js";
 import { deepStrictEqual, strictEqual } from "node:assert";
 import test from "node:test";
 
-import { capture, inject, setPending, sig, TASKS, Tasks } from "@mxjp/gluon";
+import { capture, inject, sig } from "@mxjp/gluon";
+import { setPending, TASKS, Tasks } from "@mxjp/gluon/async";
 
 import { Button, ButtonType, ButtonVariant, THEME } from "../../src/index.js";
 import { assertClass, future, testTheme } from "../common.js";
