@@ -1,4 +1,4 @@
-import { ClassValue, Event, Expression, extract, map, optionalString, sig, StyleValue, teardown } from "@mxjp/gluon";
+import { ClassValue, Event, Expression, extract, get, map, optionalString, sig, StyleValue, teardown } from "@mxjp/gluon";
 
 import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
@@ -37,10 +37,12 @@ export function Collapse(props: {
 	});
 
 	props.alert?.(() => {
-		alert.value = false;
-		// Force a reflow:
-		void root.offsetWidth;
-		alert.value = true;
+		if (get(visible)) {
+			alert.value = false;
+			// Force a reflow:
+			void root.offsetWidth;
+			alert.value = true;
+		}
 	});
 
 	const root = <div

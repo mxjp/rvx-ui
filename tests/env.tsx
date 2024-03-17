@@ -23,8 +23,10 @@ for (const key of [
 	"Node",
 	"MouseEvent",
 	"KeyboardEvent",
+	"CustomEvent",
 	"Comment",
 	"DocumentFragment",
+	"HTMLDivElement",
 	"HTMLButtonElement",
 	"HTMLInputElement",
 ]) {

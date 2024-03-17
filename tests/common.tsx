@@ -40,10 +40,14 @@ export function future<T = void>(): [Promise<T>, ResolveFn<T>, RejectFn] {
 	return [promise, resolve, reject];
 }
 
+function setupTestContext(ctx: Context): void {
+	ctx.set(THEME, Object.create(testTheme) as Theme);
+}
+
 export function testFn(fn: (ctx: Context) => void): () => void {
 	return () => {
 		return runTest(ctx => {
-			ctx.set(THEME, testTheme);
+			setupTestContext(ctx);
 			fn(ctx);
 		});
 	};
@@ -52,7 +56,7 @@ export function testFn(fn: (ctx: Context) => void): () => void {
 export function asyncTestFn(fn: (ctx: AsyncTestContext) => Promise<void>): () => Promise<void> {
 	return () => {
 		return runAsyncTest(async ctx => {
-			ctx.ctx.set(THEME, testTheme);
+			setupTestContext(ctx.ctx);
 			await fn(ctx);
 		});
 	};
