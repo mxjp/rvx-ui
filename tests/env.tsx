@@ -1,4 +1,9 @@
+import { onTeardownLeak } from "@mxjp/gluon/test";
 import { JSDOM } from "jsdom";
+
+onTeardownLeak(() => {
+	throw new Error("teardown leak");
+});
 
 const dom = new JSDOM(`
 	<!DOCTYPE html>
@@ -20,6 +25,8 @@ for (const key of [
 	"KeyboardEvent",
 	"Comment",
 	"DocumentFragment",
+	"HTMLButtonElement",
+	"HTMLInputElement",
 ]) {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	(globalThis as any)[key] = dom.window[key];

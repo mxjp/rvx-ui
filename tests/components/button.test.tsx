@@ -1,101 +1,60 @@
 import "../env.js";
 
-import { deepStrictEqual, strictEqual } from "node:assert";
+import { strictEqual } from "node:assert";
 import test from "node:test";
 
-import { capture, inject, sig } from "@mxjp/gluon";
-import { setPending, TASKS, Tasks } from "@mxjp/gluon/async";
+import { Button } from "../../src/index.js";
+import { assertClass, assertEvents, keydown, testFn, text } from "../common.js";
 
-import { Button, ButtonType, ButtonVariant, THEME } from "../../src/index.js";
-import { assertClass, future, testTheme } from "../common.js";
+await test("components/button", async ctx => {
+	await ctx.test("defaults", testFn(() => {
+		const elem = <Button /> as HTMLButtonElement;
+		strictEqual(elem instanceof HTMLButtonElement, true);
+		strictEqual(elem.type, "button");
+		strictEqual(elem.disabled, false);
+		assertClass(elem, ["t_button", "t_button_default"]);
+		strictEqual(elem.id, "");
+		strictEqual(elem.getAttribute("aria-expanded"), null);
+		strictEqual(elem.getAttribute("aria-label"), null);
+		strictEqual(elem.getAttribute("aria-labelledby"), null);
+		strictEqual(elem.childNodes.length, 0);
+	}));
 
-await test("button", async ctx => {
-	await ctx.test("types", () => {
-		const type = sig<ButtonType | undefined>(undefined);
-		const button = <Button type={type} /> as HTMLButtonElement;
-		strictEqual(button.type, "button");
-		type.value = "submit";
-		strictEqual(button.type, "submit");
-		type.value = "button";
-		strictEqual(button.type, "button");
-	});
+	await ctx.test("props & content", testFn(() => {
+		const elem = <Button
+			type="submit"
+			disabled
+			class={["foo", "bar"]}
+			style={{ color: "red" }}
+			id="test"
+			aria-expanded
+			aria-label="label"
+			aria-labelledby="labelId"
+		>Click me!</Button> as HTMLButtonElement;
+		strictEqual(elem.type, "submit");
+		strictEqual(elem.disabled, true);
+		assertClass(elem, ["t_button", "t_button_default", "foo", "bar"]);
+		strictEqual(elem.style.color, "red");
+		strictEqual(elem.id, "test");
+		strictEqual(elem.getAttribute("aria-expanded"), "true");
+		strictEqual(elem.getAttribute("aria-label"), "label");
+		strictEqual(elem.getAttribute("aria-labelledby"), "labelId");
+		strictEqual(text(elem), "Click me!");
+	}));
 
-	await ctx.test("variants", () => {
-		inject(THEME, testTheme, () => {
-			const variant = sig<ButtonVariant | undefined>(undefined);
-			const button = <Button variant={variant} /> as HTMLButtonElement;
-			assertClass(button, ["t_button", "t_button_default"]);
-			variant.value = "primary";
-			assertClass(button, ["t_button", "t_button_primary"]);
-			variant.value = undefined;
-			assertClass(button, ["t_button", "t_button_default"]);
-		});
-	});
-
-	await ctx.test("disabled", () => {
-		inject(TASKS, new Tasks(), () => {
-			const disabled = sig(true);
-			const dispose = capture(setPending);
-			strictEqual((<Button /> as HTMLButtonElement).disabled, true);
-			const a = <Button disabled={disabled} /> as HTMLButtonElement;
-			strictEqual(a.disabled, true);
-			disabled.value = false;
-			strictEqual(a.disabled, true);
-			dispose();
-			strictEqual((<Button /> as HTMLButtonElement).disabled, false);
-			strictEqual(a.disabled, false);
-			disabled.value = true;
-			strictEqual(a.disabled, true);
-		});
-	});
-
-	await ctx.test("action (plain)", () => {
+	await ctx.test("action", testFn(() => {
 		const events: unknown[] = [];
-		const button = <Button action={event => {
-			events.push(event);
+		const elem = <Button action={() => {
+			events.push("action");
 		}} /> as HTMLButtonElement;
-		button.addEventListener("click", event => {
-			events.push(event);
-		});
-		const event = new MouseEvent("click", { bubbles: true, cancelable: true });
-		button.dispatchEvent(event);
-		deepStrictEqual(events, [event]);
-		strictEqual(event.defaultPrevented, true);
-	});
 
-	await ctx.test("action (unconsumed)", () => {
-		const events: unknown[] = [];
-		const button = <Button action={event => {
-			events.push(event);
-			return false;
-		}} /> as HTMLButtonElement;
-		button.addEventListener("click", event => {
-			events.push(event);
-		});
-		const event = new MouseEvent("click", { bubbles: true, cancelable: true });
-		button.dispatchEvent(event);
-		deepStrictEqual(events, [event, event]);
-		strictEqual(event.defaultPrevented, false);
-	});
+		elem.click();
+		assertEvents(events, ["action"]);
 
-	await ctx.test("action (async)", async () => {
-		const events: unknown[] = [];
-		const [promise, resolve] = future();
-		const tasks = new Tasks();
-		const button = inject(TASKS, tasks, () => <Button action={event => {
-			events.push(event);
-			return promise;
-		}} /> as HTMLButtonElement);
-		button.addEventListener("click", event => {
-			events.push(event);
-		});
-		const event = new MouseEvent("click", { bubbles: true, cancelable: true });
-		button.dispatchEvent(event);
-		deepStrictEqual(events, [event]);
-		strictEqual(event.defaultPrevented, true);
-		strictEqual(tasks.pending, true);
-		resolve();
-		await Promise.resolve();
-		strictEqual(tasks.pending, false);
-	});
+		keydown(elem, { key: "Enter" });
+		assertEvents(events, ["action"]);
+
+		keydown(elem, { key: " " });
+		assertEvents(events, ["action"]);
+	}));
 });

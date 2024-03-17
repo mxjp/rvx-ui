@@ -1,4 +1,4 @@
-import { ContextKey, Expression, extract, get, Inject, memo, sig, Signal, teardown, untrack, watch, wrapContext } from "@mxjp/gluon";
+import { ContextKey, Expression, extract, get, Inject, memo, sig, Signal, teardown, uncapture, untrack, watch, wrapContext } from "@mxjp/gluon";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -21,12 +21,12 @@ const LAYERS = sig<LayerInstance[]>([
 	},
 ]);
 
-watch(LAYERS, layers => {
+uncapture(() => watch(LAYERS, layers => {
 	const modal = layers.findLastIndex(l => l.modal);
 	for (let i = 0; i < layers.length; i++) {
 		layers[i].inert.value = i < modal;
 	}
-});
+}));
 
 /**
  * Render content inside the root layer.
