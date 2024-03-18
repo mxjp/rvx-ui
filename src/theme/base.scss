@@ -25,9 +25,12 @@ $root-size: 14px;
 	--control-disabled: opacity(.5);
 	@include common.define-quad(control-pad, px(8), px(10));
 
+	--focus-outline-offset: #{px(2)};
+
 	--overflow-safe-area: #{px(4)};
 
-	--line-gap: .4em;
+	--line-gap: #{px(6)};
+	--space-gap: #{px(6)};
 
 	--layout-transition: .15s ease;
 }
@@ -41,6 +44,9 @@ $root-size: 14px;
 	),
 	content-shadow: (
 		dark: 0 0 2rem rgba(0, 0, 0, .5),
+	),
+	focus-outline: (
+		dark: var(--control-border) dashed rgb(0, 127, 255),
 	),
 ));
 

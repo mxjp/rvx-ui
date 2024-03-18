@@ -36,6 +36,13 @@ export interface Theme {
 	/** Additional class for buttons with the "warning" variant */
 	button_warning?: string;
 
+	/** Class for all checkbox containers */
+	checkbox_container?: string;
+	/** Class for all checkboxes */
+	checkbox?: string;
+	/** Class for all checkbox labels */
+	checkbox_label?: string;
+
 	/** Class for collapses */
 	collapse?: string;
 	/** Class for collapses that is when it's size has been measured. */

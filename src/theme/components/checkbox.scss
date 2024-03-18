@@ -1,0 +1,21 @@
+
+.checkbox_container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	column-gap: var(--space-gap);
+	cursor: pointer;
+
+	&:has(.checkbox:focus-visible) {
+		outline: var(--focus-outline);
+		outline-offset: var(--focus-outline-offset);
+	}
+}
+
+.checkbox {
+	outline: none;
+}
+
+.checkbox_label {
+	cursor: inherit;
+}
