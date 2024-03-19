@@ -4,6 +4,7 @@ import { strictEqual } from "node:assert";
 import test from "node:test";
 
 import { Button } from "../../src/index.js";
+import { themeClass } from "../../src/test.js";
 import { assertClass, assertEvents, keydown, testFn, text } from "../common.js";
 
 await test("components/button", async ctx => {
@@ -12,7 +13,7 @@ await test("components/button", async ctx => {
 		strictEqual(elem instanceof HTMLButtonElement, true);
 		strictEqual(elem.type, "button");
 		strictEqual(elem.disabled, false);
-		assertClass(elem, ["t_button", "t_button_default"]);
+		assertClass(elem, [themeClass("button"), themeClass("button_default")]);
 		strictEqual(elem.id, "");
 		strictEqual(elem.getAttribute("aria-expanded"), null);
 		strictEqual(elem.getAttribute("aria-label"), null);
@@ -33,7 +34,7 @@ await test("components/button", async ctx => {
 		>Click me!</Button> as HTMLButtonElement;
 		strictEqual(elem.type, "submit");
 		strictEqual(elem.disabled, true);
-		assertClass(elem, ["t_button", "t_button_default", "foo", "bar"]);
+		assertClass(elem, [themeClass("button"), themeClass("button_default"), "foo", "bar"]);
 		strictEqual(elem.style.color, "red");
 		strictEqual(elem.id, "test");
 		strictEqual(elem.getAttribute("aria-expanded"), "true");

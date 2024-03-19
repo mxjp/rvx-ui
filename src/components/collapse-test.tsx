@@ -1,7 +1,7 @@
-import { getTheme } from "../test.js";
+import { themeClass } from "../test.js";
 
 function assertCollapse(collapse: Element): asserts collapse is HTMLDivElement {
-	if (!collapse.matches(`.${getTheme().collapse}`)) {
+	if (!collapse.matches(`.${themeClass("collapse")}`)) {
 		throw new Error("collapse must be a collapse root element.");
 	}
 }
@@ -11,7 +11,7 @@ function assertCollapse(collapse: Element): asserts collapse is HTMLDivElement {
  */
 export function getCollapseContent(collapse: Element): HTMLDivElement {
 	assertCollapse(collapse);
-	return collapse.querySelector<HTMLDivElement>(`.${getTheme().collapse_content}`)!;
+	return collapse.querySelector<HTMLDivElement>(`.${themeClass("collapse_content")}`)!;
 }
 
 /**

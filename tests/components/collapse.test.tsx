@@ -6,7 +6,7 @@ import test from "node:test";
 import { Emitter, sig } from "@mxjp/gluon";
 
 import { Collapse, THEME } from "../../src/index.js";
-import { getCollapseContent, isCollapseVisible } from "../../src/test.js";
+import { getCollapseContent, isCollapseVisible, themeClass } from "../../src/test.js";
 import { assertClass, assertEvents, testFn, text } from "../common.js";
 import { borderBoxEntry, mockResizeObservers, resize } from "../mocks/resize-observer.js";
 
@@ -51,15 +51,15 @@ await test("components/collapse", async ctx => {
 	await ctx.test("visibility", testFn(() => {
 		const visible = sig(false);
 		const elem = <Collapse visible={visible} /> as HTMLDivElement;
-		assertClass(elem, ["t_collapse"]);
+		assertClass(elem, [themeClass("collapse")]);
 		strictEqual(isCollapseVisible(elem), false);
 
 		visible.value = true;
-		assertClass(elem, ["t_collapse", "t_collapse_visible"]);
+		assertClass(elem, [themeClass("collapse"), themeClass("collapse_visible")]);
 		strictEqual(isCollapseVisible(elem), true);
 
 		visible.value = false;
-		assertClass(elem, ["t_collapse"]);
+		assertClass(elem, [themeClass("collapse")]);
 		strictEqual(isCollapseVisible(elem), false);
 	}));
 
@@ -75,19 +75,19 @@ await test("components/collapse", async ctx => {
 			},
 		});
 
-		assertClass(elem, ["t_collapse"]);
+		assertClass(elem, [themeClass("collapse")]);
 
 		alert.emit();
-		assertClass(elem, ["t_collapse"]);
+		assertClass(elem, [themeClass("collapse")]);
 		assertEvents(events, []);
 
 		visible.value = true;
-		assertClass(elem, ["t_collapse", "t_collapse_visible"]);
+		assertClass(elem, [themeClass("collapse"), themeClass("collapse_visible")]);
 		assertEvents(events, []);
 
 		for (let i = 0; i < 2; i++) {
 			alert.emit();
-			assertClass(elem, ["t_collapse", "t_collapse_visible", "t_collapse_alert"]);
+			assertClass(elem, [themeClass("collapse"), themeClass("collapse_visible"), themeClass("collapse_alert")]);
 			assertEvents(events, ["reflow"]);
 		}
 	}));

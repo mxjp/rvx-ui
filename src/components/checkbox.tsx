@@ -1,10 +1,9 @@
-import { ClassValue, Expression, extract, get, optionalString, Signal, StyleValue, uniqueId } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, get, optionalString, Signal, string, StyleValue, uniqueId } from "@mxjp/gluon";
 import { isPending } from "@mxjp/gluon/async";
 
 import { keyFor } from "../common/events.js";
 import { ICON_COMPONENT } from "../common/icons.js";
 import { THEME } from "../common/theme.js";
-import { Text } from "./text.js";
 import { Validator } from "./validation.js";
 
 export function Checkbox(props: {
@@ -42,12 +41,13 @@ export function Checkbox(props: {
 		id={id}
 		role="checkbox"
 		aria-checked={() => String(get(props.value) ?? "mixed")}
-		aria-readonly={props.value instanceof Signal}
+		aria-disabled={string(disabled)}
+		aria-readonly={string(!(props.value instanceof Signal))}
 		aria-invalid={validator ? optionalString(validator.invalid) : undefined}
 		aria-errormessage={validator ? validator.errorMessageIds : undefined}
 		class={theme?.checkbox}
 		autofocus={props.autofocus}
-		tabindex={0}
+		tabindex={() => disabled() ? -1 : 0}
 	>
 		<Icon icon={() => {
 			switch (get(props.value)) {
@@ -76,7 +76,7 @@ export function Checkbox(props: {
 		}}
 		$keydown={event => {
 			const key = keyFor(event);
-			if ((key === "enter" || key === "space") && !disabled() && props.value instanceof Signal) {
+			if (key === "space" && !disabled() && props.value instanceof Signal) {
 				event.preventDefault();
 				event.stopImmediatePropagation();
 				props.value.value = !props.value.value;

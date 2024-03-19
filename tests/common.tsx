@@ -1,9 +1,11 @@
 import { deepStrictEqual } from "node:assert";
 
 import { Context } from "@mxjp/gluon";
+import { TASKS, Tasks } from "@mxjp/gluon/async";
 import { AsyncTestContext, runAsyncTest, runTest } from "@mxjp/gluon/test";
 
-import { THEME, Theme } from "../src/index.js";
+import { TestIcon } from "../src/common/icons-test.js";
+import { ICON_COMPONENT, THEME, Theme } from "../src/index.js";
 
 export const testTheme: Theme = new Proxy({}, {
 	get(_target, prop, _recv) {
@@ -41,7 +43,9 @@ export function future<T = void>(): [Promise<T>, ResolveFn<T>, RejectFn] {
 }
 
 function setupTestContext(ctx: Context): void {
+	ctx.set(TASKS, new Tasks());
 	ctx.set(THEME, Object.create(testTheme) as Theme);
+	ctx.set(ICON_COMPONENT, TestIcon);
 }
 
 export function testFn(fn: (ctx: Context) => void): () => void {
