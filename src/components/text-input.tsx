@@ -33,6 +33,8 @@ export function TextInput(props: {
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
 	autofocus?: Expression<boolean | undefined>;
+	"aria-label"?: Expression<string | undefined>;
+	"aria-labelledby"?: Expression<string | undefined>;
 }): unknown {
 	const theme = extract(THEME);
 	const disabled = () => isPending() || get(props.disabled);
@@ -71,6 +73,9 @@ export function TextInput(props: {
 				}
 			}
 		}}
+
+		aria-label={props["aria-label"]}
+		aria-labelledby={props["aria-labelledby"]}
 
 		aria-invalid={validator ? optionalString(validator.invalid) : undefined}
 		aria-errormessage={validator ? validator.errorMessageIds : undefined}
