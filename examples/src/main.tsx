@@ -1,6 +1,7 @@
 import { DeriveContext, Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
 import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
+import "./styles.scss";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 
@@ -17,19 +18,31 @@ mount(
 				const collapseAlert = new Emitter<[]>();
 				const checked = sig(undefined);
 
-				return <Column>
+				return <Column class="app">
 					<Heading level="1">Gluon UX</Heading>
 
-					<Heading level="2">Text Inputs</Heading>
+					<Heading level="2">Buttons</Heading>
 					<Row size="control">
-						<TextInput value={trim(text)} />
-						<TextInput value="Readonly input" />
+						<Button disabled>Disabled</Button>
 						<Button
 							action={async () => {
 								console.log("Hello World!");
 								await new Promise(r => setTimeout(r, 1000));
 							}
-						}>Click me!</Button>
+						}>Async Actions</Button>
+					</Row>
+					<Row size="control">
+						<Button>Default</Button>
+						<Button variant="success">Success</Button>
+						<Button variant="primary">Primary</Button>
+						<Button variant="warning">Warning</Button>
+						<Button variant="danger">Danger</Button>
+					</Row>
+
+					<Heading level="2">Text Inputs</Heading>
+					<Row size="control">
+						<TextInput value={trim(text)} />
+						<TextInput value="Readonly input" />
 					</Row>
 					<Text>
 						You typed: <Value>{() => JSON.stringify(text.value)}</Value>
@@ -44,6 +57,9 @@ mount(
 					<Text>
 						Checkbox state: {() => checked.value === undefined ? "Mixed" : (checked.value ? "Checked" : "Unchecked")}
 					</Text>
+					<Collapse visible={() => checked.value !== undefined} aria-live="off">
+						<Button action={() => { checked.value = undefined; }}>Reset to mixed</Button>
+					</Collapse>
 
 					<Heading level="2">Dialogs</Heading>
 					<Row>
