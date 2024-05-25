@@ -1,0 +1,31 @@
+
+.radio_buttons {
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--control-row-gap);
+
+	&:has(.radio_button_input:focus-visible) {
+		outline: var(--focus-outline);
+		outline-offset: var(--focus-outline-offset);
+	}
+}
+
+.radio_button_label {
+	display: flex;
+	column-gap: var(--control-column-gap);
+	align-items: start;
+
+	&:has(.radio_button_input:not(:disabled)) {
+		cursor: pointer;
+	}
+
+	&:has(.radio_button_input:disabled) > .radio_button_content {
+		filter: var(--control-disabled);
+	}
+}
+
+.radio_button_input {
+	margin: 0;
+	outline: none;
+	cursor: inherit;
+}

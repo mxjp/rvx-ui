@@ -1,5 +1,5 @@
 import { DeriveContext, Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
 
@@ -17,6 +17,7 @@ mount(
 				const collapse = sig(false);
 				const collapseAlert = new Emitter<[]>();
 				const checked = sig<boolean | undefined>(undefined);
+				const option = sig<string>("bar");
 
 				return <Column class="app">
 					<Heading level="1">Gluon UX</Heading>
@@ -45,10 +46,10 @@ mount(
 						<TextInput value="Readonly input" />
 					</Row>
 					<Text>
-						You typed: <Value>{() => JSON.stringify(text.value)}</Value>
+						You typed: <Value>{text}</Value>
 					</Text>
 
-					<Heading level="1">Checkboxes</Heading>
+					<Heading level="2">Checkboxes</Heading>
 					<Column size="control">
 						<Checkbox checked={checked}>Editable checkbox</Checkbox>
 						<Checkbox checked={false}>Unchecked readonly</Checkbox>
@@ -60,6 +61,21 @@ mount(
 					<Collapse visible={() => checked.value !== undefined} aria-live="off">
 						<Button action={() => { checked.value = undefined; }}>Reset to mixed</Button>
 					</Collapse>
+
+					<Heading level="2">Radio Buttons</Heading>
+					<RadioButtons<string> value={option} options={[
+						{ value: "foo", label: "Foo" },
+						{ value: "bar", label: "Bar" },
+						{ value: "baz", label: "Baz" },
+					]} />
+					<Text>
+						Selected value: <Value>{option}</Value>
+					</Text>
+
+					<RadioButtons value="foo" options={[
+						{ value: "foo", label: "Readonly radio buttons" },
+						{ value: "bar", label: "..." },
+					]} />
 
 					<Heading level="2">Dialogs</Heading>
 					<Row>

@@ -79,6 +79,15 @@ export interface Theme {
 	/** Class for all labels */
 	label?: string;
 
+	/** Class for all radio button columns */
+	radio_buttons?: string;
+	/** Class for all radio button containing labels */
+	radio_button_label?: string;
+	/** Class for all radio button inputs */
+	radio_button_input?: string;
+	/** Class for radio button text content. This element may also be a text block. */
+	radio_button_content?: string;
+
 	/** Class for all rows */
 	row?: string;
 	/** Additional class for rows of content */
