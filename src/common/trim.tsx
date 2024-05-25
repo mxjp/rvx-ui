@@ -1,6 +1,6 @@
 import { sig, Signal, watchUpdates } from "@mxjp/gluon";
 
-import { Validator } from "../components/validation.js";
+import { validatorFor } from "../components/validation.js";
 
 /**
  * Create a signal that trims input.
@@ -20,6 +20,6 @@ export function trim(source: Signal<string>): Signal<string> {
 		}
 	});
 
-	Validator.get(source)?.attach(input);
+	validatorFor(source)?.attach(input);
 	return input;
 }

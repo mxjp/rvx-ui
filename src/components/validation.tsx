@@ -167,13 +167,13 @@ export class Validator {
 		}
 		return validator;
 	}
+}
 
-	/**
-	 * Get a validator for an object.
-	 */
-	static get(target: object): Validator | undefined {
-		return VALIDATORS.get(target);
-	}
+/**
+ * Get the validator attached to the specified target.
+ */
+export function validatorFor(target: object): Validator | undefined {
+	return VALIDATORS.get(target);
 }
 
 export interface ValidationRule {
@@ -224,7 +224,7 @@ export function rule<T>(target: Signal<T>, validate: ValidateFn<T>, message: unk
 export async function validate(...targets: object[]): Promise<boolean> {
 	const tasks: Promise<boolean>[] = [];
 	for (const target of targets) {
-		const validator = Validator.get(target);
+		const validator = validatorFor(target);
 		if (validator === undefined) {
 			throw new Error("target has no attached validator.");
 		}

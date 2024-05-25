@@ -3,7 +3,7 @@ import { isPending } from "@mxjp/gluon/async";
 
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
-import { Validator } from "./validation.js";
+import { validatorFor } from "./validation.js";
 
 export interface RadioOption<T> {
 	value: T;
@@ -33,7 +33,7 @@ export function RadioButtons<T>(props: {
 		? () => isPending() || get(props.disabled)
 		: () => true;
 
-	const validator = props.value instanceof Signal ? Validator.get(props.value) : undefined;
+	const validator = props.value instanceof Signal ? validatorFor(props.value) : undefined;
 
 	return <div
 		role="radiogroup"

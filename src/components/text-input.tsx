@@ -3,7 +3,7 @@ import { isPending, waitFor } from "@mxjp/gluon/async";
 
 import { keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { Validator } from "./validation.js";
+import { validatorFor } from "./validation.js";
 
 export type TextInputType = "text" | "password";
 
@@ -39,7 +39,7 @@ export function TextInput(props: {
 	const theme = extract(THEME);
 	const disabled = () => isPending() || get(props.disabled);
 
-	const validator = props.value instanceof Signal ? Validator.get(props.value) : undefined;
+	const validator = props.value instanceof Signal ? validatorFor(props.value) : undefined;
 
 	const input = <input
 		type={() => get(props.type) ?? "text"}

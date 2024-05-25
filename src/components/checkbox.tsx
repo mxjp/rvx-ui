@@ -3,7 +3,7 @@ import { isPending } from "@mxjp/gluon/async";
 
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
-import { Validator } from "./validation.js";
+import { validatorFor } from "./validation.js";
 
 export function Checkbox(props: {
 	checked?: Expression<boolean | undefined>;
@@ -22,7 +22,7 @@ export function Checkbox(props: {
 		? () => isPending() || get(props.disabled)
 		: () => true;
 
-	const validator = props.checked instanceof Signal ? Validator.get(props.checked) : undefined;
+	const validator = props.checked instanceof Signal ? validatorFor(props.checked) : undefined;
 
 	const input = <input
 		id={id}
