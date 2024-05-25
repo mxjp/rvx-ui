@@ -53,6 +53,11 @@ $root-size: 14px;
 body {
 	background-color: var(--bg);
 	color: var(--fg);
+
+	text-wrap: balance;
+	@supports (text-wrap: pretty) {
+		text-wrap: pretty;
+	}
 }
 
 * {
