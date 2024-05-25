@@ -1,7 +1,7 @@
 
 .checkbox_label {
 	display: flex;
-	column-gap: .5rem;
+	column-gap: var(--control-column-gap);
 	align-items: start;
 
 	&:has(.checkbox_input:not(:disabled)) {
