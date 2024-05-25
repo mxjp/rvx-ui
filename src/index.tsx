@@ -1,5 +1,4 @@
 export * from "./common/events.js";
-export * from "./common/icons.js";
 export * from "./common/parsers.js";
 export * from "./common/theme.js";
 export * from "./common/trim.js";

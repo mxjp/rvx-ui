@@ -1,9 +1,8 @@
 import { DeriveContext, Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
+import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, ICON_COMPONENT, LAYER, Label, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
-import { Icon } from "./fontawesome.js";
 
 mount(
 	document.body,
@@ -12,7 +11,6 @@ mount(
 			{ctx => {
 				ctx.set(THEME, theme);
 				ctx.set(TASKS, new Tasks());
-				ctx.set(ICON_COMPONENT, Icon);
 
 				const text = sig("Hello World!");
 				const collapse = sig(false);
@@ -22,9 +20,10 @@ mount(
 				return <Column>
 					<Heading level="1">Gluon UX</Heading>
 
-					<Heading level="2">Basic Controls</Heading>
+					<Heading level="2">Text Inputs</Heading>
 					<Row size="control">
 						<TextInput value={trim(text)} />
+						<TextInput value="Readonly input" />
 						<Button
 							action={async () => {
 								console.log("Hello World!");
@@ -35,9 +34,16 @@ mount(
 					<Text>
 						You typed: <Value>{() => JSON.stringify(text.value)}</Value>
 					</Text>
-					<Row>
-						<Checkbox value={checked}>Checkbox</Checkbox>
-					</Row>
+
+					<Heading level="1">Checkboxes</Heading>
+					<Column size="control">
+						<Checkbox checked={checked}>Editable checkbox</Checkbox>
+						<Checkbox checked={false}>Unchecked readonly</Checkbox>
+						<Checkbox checked={true}>Checked readonly</Checkbox>
+					</Column>
+					<Text>
+						Checkbox state: {() => checked.value === undefined ? "Mixed" : (checked.value ? "Checked" : "Unchecked")}
+					</Text>
 
 					<Heading level="2">Dialogs</Heading>
 					<Row>

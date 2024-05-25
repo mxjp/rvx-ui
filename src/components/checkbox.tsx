@@ -1,24 +1,13 @@
-import { ClassValue, Expression, extract, get, optionalString, Signal, string, StyleValue, uniqueId } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, get, optionalString, Signal, string, StyleValue, uniqueId, watch } from "@mxjp/gluon";
 import { isPending } from "@mxjp/gluon/async";
 
-import { keyFor } from "../common/events.js";
-import { ICON_COMPONENT } from "../common/icons.js";
 import { THEME } from "../common/theme.js";
+import { Text } from "./text.js";
 import { Validator } from "./validation.js";
 
 export function Checkbox(props: {
-	/**
-	 * The current value or undefined if the value is mixed.
-	 *
-	 * If this isn't a signal, the checkbox is readonly.
-	 */
-	value?: Expression<boolean | undefined>;
+	checked?: Expression<boolean | undefined>;
 
-	/**
-	 * Set when the checkbox is disabled.
-	 *
-	 * The checkbox is automatically disabled when there are any {@link isPending pending tasks}.
-	 */
 	disabled?: Expression<boolean | undefined>;
 
 	class?: ClassValue;
@@ -26,75 +15,50 @@ export function Checkbox(props: {
 	autofocus?: Expression<boolean | undefined>;
 	children?: unknown;
 }): unknown {
-	const Icon = extract(ICON_COMPONENT);
-	if (Icon === undefined) {
-		throw new Error("icon component must be available in the current context");
-	}
-
 	const id = uniqueId();
 	const theme = extract(THEME);
-	const disabled = () => isPending() || get(props.disabled);
 
-	const validator = props.value instanceof Signal ? Validator.get(props.value) : undefined;
+	const disabled = props.checked instanceof Signal
+		? () => isPending() || get(props.disabled)
+		: () => true;
 
-	const checkbox = <div
+	const validator = props.checked instanceof Signal ? Validator.get(props.checked) : undefined;
+
+	const input = <input
 		id={id}
-		role="checkbox"
-		aria-checked={() => String(get(props.value) ?? "mixed")}
-		aria-disabled={string(disabled)}
-		aria-readonly={string(!(props.value instanceof Signal))}
+		type="checkbox"
+		class={theme?.checkbox_input}
+		$input={() => {
+			if (props.checked instanceof Signal) {
+				props.checked.value = input.checked;
+			}
+		}}
+		aria-readonly={string(!(props.checked instanceof Signal))}
 		aria-invalid={validator ? optionalString(validator.invalid) : undefined}
 		aria-errormessage={validator ? validator.errorMessageIds : undefined}
-		class={theme?.checkbox}
 		autofocus={props.autofocus}
-		tabindex={() => disabled() ? -1 : 0}
-	>
-		<Icon icon={() => {
-			switch (get(props.value)) {
-				case true: return "checkbox_checked";
-				case false: return "checkbox_unchecked";
-				default: return "checkbox_mixed";
-			}
-		}} />
-	</div> as HTMLDivElement;
+		disabled={disabled}
+	/> as HTMLInputElement;
 
-	return <div
+	watch(props.checked, checked => {
+		if (checked === undefined) {
+			input.indeterminate = true;
+		} else {
+			input.checked = checked;
+		}
+	});
+
+	return <label
+		for={id}
 		class={[
-			theme?.checkbox_container,
+			theme?.checkbox_label,
 			props.class,
 		]}
 		style={props.style}
-		$mousedown={event => {
-			event.preventDefault();
-		}}
-		$click={event => {
-			if (!disabled() && props.value instanceof Signal) {
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				props.value.value = !props.value.value;
-			}
-		}}
-		$keydown={event => {
-			const key = keyFor(event);
-			if (key === "space" && !disabled() && props.value instanceof Signal) {
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				props.value.value = !props.value.value;
-			}
-		}}
 	>
-		{checkbox}
-		<label
-			class={[
-				theme?.text,
-				theme?.checkbox_label,
-			]}
-			for={id}
-			$click={() => {
-				checkbox.focus();
-			}}
-		>
+		{input}
+		<Text class={theme?.checkbox_content}>
 			{props.children}
-		</label>
-	</div>;
+		</Text>
+	</label>;
 }

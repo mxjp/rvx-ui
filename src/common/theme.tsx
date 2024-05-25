@@ -36,12 +36,12 @@ export interface Theme {
 	/** Additional class for buttons with the "warning" variant */
 	button_warning?: string;
 
-	/** Class for all checkbox containers */
-	checkbox_container?: string;
-	/** Class for all checkboxes */
-	checkbox?: string;
-	/** Class for all checkbox labels */
+	/** Class for all checkbox containing labels */
 	checkbox_label?: string;
+	/** Class for all checkbox inputs */
+	checkbox_input?: string;
+	/** Class for checkbox text content. This element may also be a text block. */
+	checkbox_content?: string;
 
 	/** Class for collapses */
 	collapse?: string;

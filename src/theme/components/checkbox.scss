@@ -1,21 +1,20 @@
 
-.checkbox_container {
+.checkbox_label {
 	display: flex;
-	flex-direction: row;
-	align-items: center;
-	column-gap: var(--space-gap);
-	cursor: pointer;
+	column-gap: .5rem;
+	align-items: start;
 
-	&:has(.checkbox:focus-visible) {
+	&:has(.checkbox_input:not(:disabled)) {
+		cursor: pointer;
+	}
+
+	&:has(.checkbox_input:focus-visible) {
 		outline: var(--focus-outline);
 		outline-offset: var(--focus-outline-offset);
 	}
 }
 
-.checkbox {
+.checkbox_input {
+	margin: 0;
 	outline: none;
-}
-
-.checkbox_label {
-	cursor: inherit;
 }
