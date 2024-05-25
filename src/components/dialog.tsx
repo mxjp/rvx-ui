@@ -1,7 +1,7 @@
 import { captureSelf, ClassValue, Expression, extract, get, Inject, mount, StyleValue, uniqueId } from "@mxjp/gluon";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 
-import { Column, FlexSpace, Heading, Row, Text, THEME } from "../index.js";
+import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
 
 export class DialogAbortError extends Error {}
@@ -59,6 +59,11 @@ export function DialogBody(props: {
 	title?: unknown;
 	description?: unknown;
 
+	inlineSize?: Expression<string | undefined>;
+	maxInlineSize?: Expression<string | undefined>;
+	blockSize?: Expression<string | undefined>;
+	maxBlockSize?: Expression<string | undefined>;
+
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-describedby"?: Expression<string | undefined>;
 }): unknown {
@@ -87,10 +92,22 @@ export function DialogBody(props: {
 		aria-labelledby={() => get(props["aria-labelledby"]) ?? titleId}
 		aria-describedby={() => get(props["aria-describedby"]) ?? descriptionId}
 	>
-		<Column class={theme?.dialog_body}>
+		<div
+			class={[
+				theme?.column,
+				theme?.column_content,
+				theme?.dialog_body,
+			]}
+			style={{
+				"inline-size": props.inlineSize,
+				"max-inline-size": props.maxInlineSize,
+				"block-size": props.blockSize,
+				"max-block-size": props.maxBlockSize,
+			}}
+		>
 			{head}
 			{props.children}
-		</Column>
+		</div>
 	</div>;
 }
 

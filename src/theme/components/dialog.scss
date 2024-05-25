@@ -21,6 +21,8 @@
 	display: grid;
 	grid-template-columns: 1fr auto 1fr;
 	grid-template-rows: 3fr auto 4fr;
+
+	overflow: auto;
 }
 
 .dialog_body {
