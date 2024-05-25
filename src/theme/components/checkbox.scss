@@ -8,6 +8,10 @@
 		cursor: pointer;
 	}
 
+	&:has(.checkbox_input:disabled) > .checkbox_content {
+		filter: var(--control-disabled);
+	}
+
 	&:has(.checkbox_input:focus-visible) {
 		outline: var(--focus-outline);
 		outline-offset: var(--focus-outline-offset);
