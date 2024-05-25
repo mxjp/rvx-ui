@@ -16,7 +16,7 @@ mount(
 				const text = sig("Hello World!");
 				const collapse = sig(false);
 				const collapseAlert = new Emitter<[]>();
-				const checked = sig(undefined);
+				const checked = sig<boolean | undefined>(undefined);
 
 				return <Column class="app">
 					<Heading level="1">Gluon UX</Heading>
