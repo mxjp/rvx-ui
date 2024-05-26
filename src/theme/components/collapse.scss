@@ -45,18 +45,20 @@
 
 .collapse_content {
 	position: absolute;
-	inline-size: calc(100% - var(--overflow-safe-area) * 2);
-	top: 0;
-	left: 0;
+	inline-size: 100%;
+	top: 0px;
+	left: 0px;
 
 	.collapse_sized > * > & {
 		transition:
 			top var(--layout-transition),
-			left var(--layout-transition);
+			left var(--layout-transition),
+			inline-size var(--layout-transition);
 	}
 
 	.collapse_visible & {
 		top: var(--overflow-safe-area);
 		left: var(--overflow-safe-area);
+		inline-size: calc(100% - var(--overflow-safe-area) * 2);
 	}
 }
