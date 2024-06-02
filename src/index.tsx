@@ -12,6 +12,7 @@ export * from "./components/flex-space.js";
 export * from "./components/heading.js";
 export * from "./components/label.js";
 export * from "./components/layer.js";
+export * from "./components/popout.js";
 export * from "./components/radio-buttons.js";
 export * from "./components/row.js";
 export * from "./components/text.js";
