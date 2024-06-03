@@ -1,7 +1,7 @@
-import { captureSelf, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, View, viewNodes } from "@mxjp/gluon";
+import { captureSelf, extract, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, View, viewNodes } from "@mxjp/gluon";
 
 import { Direction, flip, getBlockStart, getInlineStart, getSize, getWindowRectInset, getWindowSize, getWindowSpaceAround, INSET, ScriptDirection, WritingMode } from "../common/writing-mode.js";
-import { Layer } from "./layer.js";
+import { LAYER, Layer } from "./layer.js";
 
 export type PopoutPlacement = "block" | "block-start" | "block-end" | "inline" | "inline-start" | "inline-end";
 export type PopoutAlignment = "center" | "start" | "end";
@@ -14,6 +14,7 @@ export interface PopoutOptions {
 	placement: PopoutPlacement;
 	alignment: PopoutAlignment;
 	content: PopoutContent;
+	foreignEvents?: string[];
 	writingMode?: WritingMode;
 	scriptDir?: ScriptDirection;
 }
@@ -37,6 +38,7 @@ export class Popout {
 	#placement: PopoutPlacement;
 	#alignment: PopoutAlignment;
 	#content: PopoutContent;
+	#foreignEvents: string[];
 	#writingMode?: WritingMode;
 	#scriptDir?: ScriptDirection;
 	#instance?: Instance;
@@ -48,6 +50,7 @@ export class Popout {
 		this.#placement = options.placement;
 		this.#alignment = options.alignment;
 		this.#content = options.content;
+		this.#foreignEvents = options.foreignEvents ?? ["resize", "scroll", "mousedown", "touchstart", "focusin"];
 		this.#writingMode = options.writingMode;
 		this.#scriptDir = options.scriptDir;
 
@@ -113,12 +116,36 @@ export class Popout {
 				captureSelf(dispose => {
 					let content!: HTMLElement;
 					const view = render(<Layer>
-						{() => content = <div style={{
-							"position": "fixed",
-							"writing-mode": writingMode,
-						}} dir={scriptDir}>
-							{this.#content({})}
-						</div> as HTMLElement}
+						{() => {
+							const layer = extract(LAYER)!;
+							const onForeignEvent = (event: Event): void => {
+								if (!(event.target instanceof Node) || layer.stackContains(event.target)) {
+									return;
+								}
+								const args = this.#instanceArgs;
+								if (args !== undefined) {
+									for (const node of viewNodes(args.anchor)) {
+										if (node === event.target || node.contains(event.target)) {
+											return;
+										}
+									}
+								}
+								this.hide();
+							};
+
+							this.#foreignEvents.forEach(t => window.addEventListener(t, onForeignEvent, { passive: true }));
+							teardown(() => {
+								this.#foreignEvents.forEach(t => window.addEventListener(t, onForeignEvent));
+							});
+
+							content = <div style={{
+								"position": "fixed",
+								"writing-mode": writingMode,
+							}} dir={scriptDir}>
+								{this.#content({})}
+							</div> as HTMLElement;
+							return content;
+						}}
 					</Layer>);
 					document.body.appendChild(view.take());
 
@@ -223,8 +250,6 @@ export class Popout {
 		// Apply the final alignment:
 		content.style[INSET[alignStart]] = alignStartPx === undefined ? "" : `${alignStartPx}px`;
 		content.style[INSET[flip(alignStart)]] = alignEndPx === undefined ? "" : `${alignEndPx}px`;
-
-		// TODO: Hide on foreign events.
 
 		this.#instanceArgs = {
 			anchor,
