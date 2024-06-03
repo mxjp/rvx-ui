@@ -18,10 +18,18 @@ export interface PopoutOptions {
 	scriptDir?: ScriptDirection;
 }
 
+interface InstanceArgs {
+	anchor: View;
+	pointerEvent: Event | undefined;
+	contentBlockSize: number;
+	contentInlineSize: number;
+}
+
 interface Instance {
 	dispose: TeardownHook;
 	view: View;
 	content: HTMLElement;
+	observer: ResizeObserver;
 }
 
 export class Popout {
@@ -32,6 +40,7 @@ export class Popout {
 	#writingMode?: WritingMode;
 	#scriptDir?: ScriptDirection;
 	#instance?: Instance;
+	#instanceArgs?: InstanceArgs;
 	#visible = sig(false);
 
 	constructor(options: PopoutOptions) {
@@ -52,6 +61,9 @@ export class Popout {
 	}
 
 	show(anchor: View, pointerEvent?: Event): void {
+		this.#instanceArgs = undefined;
+
+		// Get an object with the pointer posiiton:
 		let pointer: { clientX: number; clientY: number } | undefined;
 		if (globalThis.MouseEvent && pointerEvent instanceof MouseEvent) {
 			pointer = pointerEvent;
@@ -59,6 +71,7 @@ export class Popout {
 			pointer = pointerEvent.touches.item(0) ?? undefined;
 		}
 
+		// Find the preferred anchor rect & it's writing mode / script direction:
 		let anchorRect: DOMRect | undefined;
 		let writingMode = this.#writingMode!;
 		let scriptDir = this.#scriptDir!;
@@ -93,6 +106,7 @@ export class Popout {
 			}
 		}
 
+		// Ensure that there is a popout content instance:
 		let instance = this.#instance;
 		if (instance === undefined) {
 			runInContext(this.#context, () => {
@@ -107,7 +121,17 @@ export class Popout {
 						</div> as HTMLElement}
 					</Layer>);
 					document.body.appendChild(view.take());
-					instance = this.#instance = { dispose, content, view };
+
+					const observer = new ResizeObserver(entries => {
+						const args = this.#instanceArgs;
+						const size = entries[entries.length - 1]?.borderBoxSize[0];
+						if (args !== undefined && size !== undefined && (size.blockSize !== args.contentBlockSize || size.inlineSize !== args.contentInlineSize)) {
+							this.show(args.anchor, args.pointerEvent);
+						}
+					});
+					observer.observe(content, { box: "border-box" });
+
+					instance = this.#instance = { dispose, content, view, observer };
 				});
 			});
 		}
@@ -116,10 +140,12 @@ export class Popout {
 		const inlineStart = getInlineStart(writingMode, scriptDir);
 		const blockStart = getBlockStart(writingMode);
 
+		// Reset content styles for measuring it's intrinsic size:
 		content.style.setProperty("--popout-anchor-inline-size", `${anchorRect.width}px`);
 		content.style.left = "0px";
 		content.style.top = "0px";
-
+		content.style.right = "";
+		content.style.bottom = "";
 		switch (this.#placement) {
 			case "block":
 			case "block-start":
@@ -143,6 +169,7 @@ export class Popout {
 				break;
 		}
 
+		// Measure intrinsic content size & compute the final placement direction:
 		const contentRect = content.getBoundingClientRect();
 		const place = this.#placement;
 		let placement: Direction;
@@ -168,9 +195,11 @@ export class Popout {
 			}
 		}
 
+		// Apply inset along the placement direction:
 		content.style[INSET[flip(placement)]] = `${getWindowRectInset(anchorRect, placement)}px`;
 		content.style[INSET[placement]] = "";
 
+		// Compute the raw alignment:
 		const align = this.#alignment;
 		const alignContentSize = getSize(contentRect, alignStart);
 		let alignStartPx: number | undefined;
@@ -191,19 +220,34 @@ export class Popout {
 
 		// // TODO: Adjust alignment to fit current window.
 
+		// Apply the final alignment:
 		content.style[INSET[alignStart]] = alignStartPx === undefined ? "" : `${alignStartPx}px`;
 		content.style[INSET[flip(alignStart)]] = alignEndPx === undefined ? "" : `${alignEndPx}px`;
 
-		// TODO: Watch content size & re-compute on change.
 		// TODO: Hide on foreign events.
 
+		this.#instanceArgs = {
+			anchor,
+			pointerEvent,
+			contentBlockSize: getSize(contentRect, blockStart),
+			contentInlineSize: getSize(contentRect, inlineStart),
+		};
 		this.#visible.value = true;
+	}
+
+	update(): void {
+		const args = this.#instanceArgs;
+		if (args !== undefined) {
+			this.show(args.anchor, args.pointerEvent);
+		}
 	}
 
 	hide(): void {
 		const instance = this.#instance;
 		if (instance !== undefined) {
+			this.#instanceArgs = undefined;
 			this.#instance = undefined;
+			instance.observer.disconnect();
 			instance.dispose();
 			instance.view.detach();
 			this.#visible.value = false;
