@@ -228,34 +228,30 @@ export class Popout {
 		// Compute the raw alignment:
 		const align = this.#alignment;
 		const alignContentSize = getSize(contentRect, alignStart);
-		let alignStartPx: number | undefined;
-		let alignEndPx: number | undefined;
+		let alignInset: number;
+		let alignEnd = false;
 		switch (align) {
 			case "center":
-				alignStartPx = getWindowSpaceAround(anchorRect, alignStart) + ((getSize(anchorRect, alignStart) - alignContentSize) / 2);
+				alignInset = getWindowSpaceAround(anchorRect, alignStart) + ((getSize(anchorRect, alignStart) - alignContentSize) / 2);
 				break;
 
 			case "start":
-				alignStartPx = getWindowSpaceAround(anchorRect, alignStart);
+				alignInset = getWindowSpaceAround(anchorRect, alignStart);
 				break;
 
 			case "end":
-				alignEndPx = getWindowSpaceAround(anchorRect, flip(alignStart));
+				alignInset = getWindowSpaceAround(anchorRect, flip(alignStart));
+				alignEnd = true;
 				break;
 		}
 
 		// Adjust alignment to fit the current window size:
 		const alignSpace = getWindowSize(alignStart);
-		const alignPx = Math.max(0, Math.min(alignStartPx ?? alignEndPx!, alignSpace - alignContentSize));
-		if (alignStartPx !== undefined) {
-			alignStartPx = alignPx;
-		} else {
-			alignEndPx = alignPx;
-		}
+		alignInset = Math.max(0, Math.min(alignInset, alignSpace - alignContentSize));
 
 		// Apply the final alignment:
-		content.style[INSET[alignStart]] = alignStartPx === undefined ? "" : `${alignStartPx}px`;
-		content.style[INSET[flip(alignStart)]] = alignEndPx === undefined ? "" : `${alignEndPx}px`;
+		content.style[INSET[alignStart]] = alignEnd ? "" : `${alignInset}px`;
+		content.style[INSET[flip(alignStart)]] = alignEnd ? `${alignInset}px` : "";
 
 		this.#instanceArgs = {
 			anchor,
