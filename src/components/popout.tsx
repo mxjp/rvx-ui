@@ -178,21 +178,20 @@ export class Popout {
 			case "block-start":
 			case "block-end":
 				content.style.maxInlineSize = `${getWindowSize(inlineStart)}px`;
+				content.style.maxBlockSize = `${Math.max(
+					getWindowSpaceAround(anchorRect, blockStart),
+					getWindowSpaceAround(anchorRect, flip(blockStart)),
+				)}px`;
 				break;
 
 			case "inline":
+			case "inline-start":
+			case "inline-end":
+				content.style.maxBlockSize = `${getWindowSize(blockStart)}px`;
 				content.style.maxInlineSize = `${Math.max(
 					getWindowSpaceAround(anchorRect, inlineStart),
 					getWindowSpaceAround(anchorRect, flip(inlineStart)),
 				)}px`;
-				break;
-
-			case "inline-start":
-				content.style.maxInlineSize = `${getWindowSpaceAround(anchorRect, inlineStart)}px`;
-				break;
-
-			case "inline-end":
-				content.style.maxInlineSize = `${getWindowSpaceAround(anchorRect, flip(inlineStart))}px`;
 				break;
 		}
 
@@ -245,7 +244,14 @@ export class Popout {
 				break;
 		}
 
-		// // TODO: Adjust alignment to fit current window.
+		// Adjust alignment to fit the current window size:
+		const alignSpace = getWindowSize(alignStart);
+		const alignPx = Math.max(0, Math.min(alignStartPx ?? alignEndPx!, alignSpace - alignContentSize));
+		if (alignStartPx !== undefined) {
+			alignStartPx = alignPx;
+		} else {
+			alignEndPx = alignPx;
+		}
 
 		// Apply the final alignment:
 		content.style[INSET[alignStart]] = alignStartPx === undefined ? "" : `${alignStartPx}px`;
