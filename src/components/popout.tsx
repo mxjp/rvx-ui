@@ -1,4 +1,4 @@
-import { captureSelf, extract, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, View, viewNodes } from "@mxjp/gluon";
+import { captureSelf, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "@mxjp/gluon";
 
 import { Direction, flip, getBlockStart, getInlineStart, getSize, getWindowRectInset, getWindowSize, getWindowSpaceAround, INSET, ScriptDirection, WritingMode } from "../common/writing-mode.js";
 import { LAYER, Layer } from "./layer.js";
@@ -11,12 +11,12 @@ export interface PopoutContent {
 }
 
 export interface PopoutOptions {
-	placement: PopoutPlacement;
-	alignment: PopoutAlignment;
+	placement: Expression<PopoutPlacement>;
+	alignment: Expression<PopoutAlignment>;
 	content: PopoutContent;
 	foreignEvents?: string[];
-	writingMode?: WritingMode;
-	scriptDir?: ScriptDirection;
+	writingMode?: Expression<WritingMode>;
+	scriptDir?: Expression<ScriptDirection>;
 }
 
 interface InstanceArgs {
@@ -35,12 +35,12 @@ interface Instance {
 
 export class Popout {
 	#context: ReadonlyContext | undefined;
-	#placement: PopoutPlacement;
-	#alignment: PopoutAlignment;
+	#placement: Expression<PopoutPlacement>;
+	#alignment: Expression<PopoutAlignment>;
 	#content: PopoutContent;
 	#foreignEvents: string[];
-	#writingMode?: WritingMode;
-	#scriptDir?: ScriptDirection;
+	#writingMode?: Expression<WritingMode>;
+	#scriptDir?: Expression<ScriptDirection>;
 	#instance?: Instance;
 	#instanceArgs?: InstanceArgs;
 	#visible = sig(false);
@@ -76,8 +76,8 @@ export class Popout {
 
 		// Find the preferred anchor rect & it's writing mode / script direction:
 		let anchorRect: DOMRect | undefined;
-		let writingMode = this.#writingMode!;
-		let scriptDir = this.#scriptDir!;
+		let writingMode = untrack(() => get(this.#writingMode))!;
+		let scriptDir = untrack(() => get(this.#scriptDir))!;
 		if (pointer !== undefined) {
 			const { clientX, clientY } = pointer;
 			nodes: for (const node of viewNodes(anchor)) {
@@ -119,14 +119,16 @@ export class Popout {
 						{() => {
 							const layer = extract(LAYER)!;
 							const onForeignEvent = (event: Event): void => {
-								if (!(event.target instanceof Node) || layer.stackContains(event.target)) {
-									return;
-								}
-								const args = this.#instanceArgs;
-								if (args !== undefined) {
-									for (const node of viewNodes(args.anchor)) {
-										if (node === event.target || node.contains(event.target)) {
-											return;
+								if (event.target instanceof Node) {
+									if (layer.stackContains(event.target)) {
+										return;
+									}
+									const args = this.#instanceArgs;
+									if (args !== undefined) {
+										for (const node of viewNodes(args.anchor)) {
+											if (node === event.target || node.contains(event.target)) {
+												return;
+											}
 										}
 									}
 								}
@@ -226,7 +228,7 @@ export class Popout {
 		content.style[INSET[placement]] = "";
 
 		// Compute the raw alignment:
-		const align = this.#alignment;
+		const align = untrack(() => get(this.#alignment));
 		const alignContentSize = getSize(contentRect, alignStart);
 		let alignInset: number;
 		let alignEnd = false;
@@ -266,6 +268,14 @@ export class Popout {
 		const args = this.#instanceArgs;
 		if (args !== undefined) {
 			this.show(args.anchor, args.pointerEvent);
+		}
+	}
+
+	toggle(anchor: View, pointerEvent?: Event): void {
+		if (this.visible) {
+			this.hide();
+		} else {
+			this.show(anchor, pointerEvent);
 		}
 	}
 
