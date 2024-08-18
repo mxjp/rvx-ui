@@ -15,8 +15,8 @@ export interface PopoutOptions {
 	alignment: Expression<PopoutAlignment>;
 	content: PopoutContent;
 	foreignEvents?: string[];
-	writingMode?: Expression<WritingMode>;
-	scriptDir?: Expression<ScriptDirection>;
+	writingMode?: Expression<WritingMode | undefined>;
+	scriptDir?: Expression<ScriptDirection | undefined>;
 }
 
 interface InstanceArgs {
@@ -39,8 +39,8 @@ export class Popout {
 	#alignment: Expression<PopoutAlignment>;
 	#content: PopoutContent;
 	#foreignEvents: string[];
-	#writingMode?: Expression<WritingMode>;
-	#scriptDir?: Expression<ScriptDirection>;
+	#writingMode?: Expression<WritingMode | undefined>;
+	#scriptDir?: Expression<ScriptDirection | undefined>;
 	#instance?: Instance;
 	#instanceArgs?: InstanceArgs;
 	#visible = sig(false);
