@@ -1,4 +1,4 @@
-import { captureSelf, ClassValue, Expression, extract, get, Inject, mount, StyleValue, uniqueId } from "@mxjp/gluon";
+import { captureSelf, ClassValue, Expression, extract, Inject, map, mount, StyleValue, uniqueId } from "@mxjp/gluon";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 
 import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
@@ -88,9 +88,9 @@ export function DialogBody(props: {
 			props.class,
 		]}
 		style={props.style}
-		role={() => get(props.role) ?? "dialog"}
-		aria-labelledby={() => get(props["aria-labelledby"]) ?? titleId}
-		aria-describedby={() => get(props["aria-describedby"]) ?? descriptionId}
+		role={map(props.role, v => v ?? "dialog")}
+		aria-labelledby={map(props["aria-labelledby"], v => v ?? titleId)}
+		aria-describedby={map(props["aria-describedby"], v => v ?? descriptionId)}
 	>
 		<div
 			class={[
