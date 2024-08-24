@@ -79,6 +79,15 @@ export interface Theme {
 	/** Class for all labels */
 	label?: string;
 
+	/** Class for all popover roots. */
+	popover?: string;
+	/** Class for the spike container area. */
+	popover_spike_area?: string;
+	/** Class for the spike root. */
+	popover_spike?: string;
+	/** Class for the popover content. */
+	popover_content?: string;
+
 	/** Class for all radio button columns */
 	radio_buttons?: string;
 	/** Class for all radio button containing labels */

@@ -1,13 +1,28 @@
-import { captureSelf, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "@mxjp/gluon";
+import { captureSelf, Emitter, Event as GluonEvent, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "@mxjp/gluon";
 
-import { Direction, flip, getBlockStart, getInlineStart, getSize, getWindowRectInset, getWindowSize, getWindowSpaceAround, INSET, ScriptDirection, WritingMode } from "../common/writing-mode.js";
+import { axisEquals, Direction, flip, getBlockStart, getInlineStart, getSize, getWindowRectInset, getWindowSize, getWindowSpaceAround, INSET, ScriptDirection, WritingMode } from "../common/writing-mode.js";
 import { LAYER, Layer } from "./layer.js";
 
 export type PopoutPlacement = "block" | "block-start" | "block-end" | "inline" | "inline-start" | "inline-end";
 export type PopoutAlignment = "center" | "start" | "end";
 
+export interface PopoutPlacementArgs {
+	gap: number;
+}
+
+export interface PopoutPlacementState {
+	anchorRect: DOMRect;
+	content: HTMLElement;
+	dir: Direction;
+	alignStart: Direction;
+}
+
 export interface PopoutContent {
-	(props: {}): unknown;
+	(props: {
+		popout: Popout;
+		onPlacement: GluonEvent<[event: PopoutPlacementArgs]>;
+		placement: () => PopoutPlacementState | undefined;
+	}): unknown;
 }
 
 export interface PopoutOptions {
@@ -44,6 +59,8 @@ export class Popout {
 	#instance?: Instance;
 	#instanceArgs?: InstanceArgs;
 	#visible = sig(false);
+	#onPlacement = new Emitter<[PopoutPlacementArgs]>();
+	#placementState = sig<PopoutPlacementState | undefined>(undefined);
 
 	constructor(options: PopoutOptions) {
 		this.#context = getContext();
@@ -65,6 +82,7 @@ export class Popout {
 
 	show(anchor: View, pointerEvent?: Event): void {
 		this.#instanceArgs = undefined;
+		this.#placementState.value = undefined;
 
 		// Get an object with the pointer posiiton:
 		let pointer: { clientX: number; clientY: number } | undefined;
@@ -144,7 +162,11 @@ export class Popout {
 								"position": "fixed",
 								"writing-mode": writingMode,
 							}} dir={scriptDir}>
-								{this.#content({})}
+								{this.#content({
+									popout: this,
+									onPlacement: this.#onPlacement.event,
+									placement: () => this.#placementState.value,
+								})}
 							</div> as HTMLElement;
 							return content;
 						}}
@@ -165,6 +187,12 @@ export class Popout {
 			});
 		}
 
+		const placementArgs: PopoutPlacementArgs = {
+			gap: 0,
+		};
+		this.#onPlacement.emit(placementArgs);
+		const { gap } = placementArgs;
+
 		const { content } = instance!;
 		const inlineStart = getInlineStart(writingMode, scriptDir);
 		const blockStart = getBlockStart(writingMode);
@@ -183,7 +211,7 @@ export class Popout {
 				content.style.maxBlockSize = `${Math.max(
 					getWindowSpaceAround(anchorRect, blockStart),
 					getWindowSpaceAround(anchorRect, flip(blockStart)),
-				)}px`;
+				) - gap}px`;
 				break;
 
 			case "inline":
@@ -193,39 +221,39 @@ export class Popout {
 				content.style.maxInlineSize = `${Math.max(
 					getWindowSpaceAround(anchorRect, inlineStart),
 					getWindowSpaceAround(anchorRect, flip(inlineStart)),
-				)}px`;
+				) - gap}px`;
 				break;
 		}
 
 		// Measure intrinsic content size & compute the final placement direction:
 		const contentRect = content.getBoundingClientRect();
 		const place = this.#placement;
-		let placement: Direction;
+		let dir: Direction;
 		let alignStart: Direction;
 		if (place === "inline" || place === "block") {
 			const start = place === "inline" ? inlineStart : blockStart;
 			const startSpace = getWindowSpaceAround(anchorRect, start);
 			const endSpace = getWindowSpaceAround(anchorRect, flip(start));
-			placement = startSpace > endSpace ? blockStart : flip(start);
+			dir = startSpace > endSpace ? blockStart : flip(start);
 			alignStart = place === "inline" ? blockStart : inlineStart;
 		} else {
-			placement = place === "block-start" ? blockStart : (
+			dir = place === "block-start" ? blockStart : (
 				place === "block-end" ? flip(blockStart) : (
 					place === "inline-start" ? inlineStart : flip(inlineStart)
 				)
 			);
-			alignStart = inlineStart;
-			const space = getWindowSpaceAround(anchorRect, placement);
-			if (getSize(contentRect, placement) > space) {
-				if (getWindowSpaceAround(anchorRect, flip(placement)) > space) {
-					placement = flip(placement);
+			alignStart = axisEquals(dir, blockStart) ? inlineStart : blockStart;
+			const space = getWindowSpaceAround(anchorRect, dir);
+			if (getSize(contentRect, dir) > space) {
+				if (getWindowSpaceAround(anchorRect, flip(dir)) > space) {
+					dir = flip(dir);
 				}
 			}
 		}
 
 		// Apply inset along the placement direction:
-		content.style[INSET[flip(placement)]] = `${getWindowRectInset(anchorRect, placement)}px`;
-		content.style[INSET[placement]] = "";
+		content.style[INSET[flip(dir)]] = `${getWindowRectInset(anchorRect, dir) + gap}px`;
+		content.style[INSET[dir]] = "";
 
 		// Compute the raw alignment:
 		const align = untrack(() => get(this.#alignment));
@@ -261,6 +289,14 @@ export class Popout {
 			contentBlockSize: getSize(contentRect, blockStart),
 			contentInlineSize: getSize(contentRect, inlineStart),
 		};
+
+		this.#placementState.value = {
+			anchorRect,
+			content,
+			dir,
+			alignStart,
+		};
+
 		this.#visible.value = true;
 	}
 

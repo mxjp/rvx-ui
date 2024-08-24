@@ -10,6 +10,9 @@
 	dialog-border: (
 		dark: rgb(72, 72, 72),
 	),
+	dialog-shadow: (
+		dark: 0 0 2rem rgba(0, 0, 0, .5),
+	),
 ));
 
 .dialog_container {
@@ -30,7 +33,7 @@
 	grid-column: 2 / 3;
 
 	background-color: var(--dialog-bg);
-	box-shadow: var(--content-shadow);
+	box-shadow: var(--dialog-shadow);
 	border-radius: var(--content-radius);
 	border: var(--content-border) solid var(--dialog-border);
 	@include common.padding(content-pad, var(--content-border));

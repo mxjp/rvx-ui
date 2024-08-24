@@ -15,6 +15,10 @@ export function flip(dir: Direction): Direction {
 	return ((dir + 2) & 3) as Direction;
 }
 
+export function axisEquals(a: Direction, b: Direction): boolean {
+	return (a & 1) === (b & 1);
+}
+
 export function getWindowSize(dir: Direction): number {
 	return (dir & 1) ? window.innerWidth : window.innerHeight;
 }

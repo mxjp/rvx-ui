@@ -1,0 +1,49 @@
+@use "../common";
+
+@include common.theme((
+	popover-bg: (
+		dark: var(--bg),
+	),
+	popover-border: (
+		dark: rgb(72, 72, 72),
+	),
+	popover-shadow: (
+		dark: 0 0 1rem rgba(0, 0, 0, .5),
+	),
+));
+
+.popover {
+	position: relative;
+	outline: none;
+}
+
+.popover_spike_area {
+	pointer-events: none;
+	position: absolute;
+	inset: -1rem;
+	z-index: 1;
+}
+
+.popover_spike {
+	position: relative;
+	transform-origin: bottom;
+	width: 2rem;
+	height: 1rem;
+
+	svg {
+		width: 2rem;
+		height: 1rem;
+		fill: var(--popover-border);
+		transform-origin: bottom;
+		transform: scale(0.75);
+		stroke: none;
+	}
+}
+
+.popover_content {
+	background-color: var(--popover-bg);
+	box-shadow: var(--popover-shadow);
+	border-radius: var(--content-radius);
+	border: var(--content-border) solid var(--popover-border);
+	@include common.padding(content-pad, var(--content-border));
+}

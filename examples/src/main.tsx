@@ -1,5 +1,5 @@
-import { DeriveContext, Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { DeriveContext, Emitter, UseUniqueId, extract, mount, movable, render, sig } from "@mxjp/gluon";
+import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, PopoutPlacement, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, createPopover, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
 
@@ -77,6 +77,38 @@ mount(
 						{ value: "bar", label: "..." },
 					]} />
 
+					<Heading level="2">Popovers</Heading>
+					<Row size="control">
+						<ExamplePopover label="Default placement & controls" placement="block">
+							<Heading level="2">Hello World!</Heading>
+							<RadioButtons<string> value={option} options={[
+								{ value: "foo", label: "Foo" },
+								{ value: "bar", label: "Bar" },
+								{ value: "baz", label: "Baz" },
+							]} />
+						</ExamplePopover>
+						<ExamplePopover label="Block start" placement="block-start">
+							<Text>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
+							</Text>
+						</ExamplePopover>
+						<ExamplePopover label="Block end" placement="block-end">
+							<Text>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
+							</Text>
+						</ExamplePopover>
+						<ExamplePopover label="Inline start" placement="inline-start">
+							<Text>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
+							</Text>
+						</ExamplePopover>
+						<ExamplePopover label="Inline end" placement="inline-end">
+							<Text>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
+							</Text>
+						</ExamplePopover>
+					</Row>
+
 					<Heading level="2">Dialogs</Heading>
 					<Row>
 						<Button action={showExampleDialog}>Show Dialog</Button>
@@ -104,6 +136,24 @@ mount(
 		</DeriveContext>}
 	</RootLayer>
 );
+
+function ExamplePopover(props: {
+	label: unknown;
+	children: unknown;
+	placement: PopoutPlacement;
+}) {
+	const children = movable(props.children);
+	const anchor = render(<Button action={(event) => {
+		popover.toggle(anchor, event);
+	}}>
+		{props.label}
+	</Button>);
+	const popover = createPopover({
+		content: () => children.move(),
+		placement: props.placement,
+	});
+	return anchor;
+}
 
 function showExampleDialog() {
 	showDialog<number>(dialog => {
