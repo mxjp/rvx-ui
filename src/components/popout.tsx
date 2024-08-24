@@ -3,34 +3,109 @@ import { captureSelf, Emitter, Event as GluonEvent, Expression, extract, get, ge
 import { axisEquals, Direction, flip, getBlockStart, getInlineStart, getSize, getWindowRectInset, getWindowSize, getWindowSpaceAround, INSET, ScriptDirection, WritingMode } from "../common/writing-mode.js";
 import { LAYER, Layer } from "./layer.js";
 
+/**
+ * Defines the direction in which the popout is placed in relation to it's anchor.
+ *
+ * + `"block"` coresponds to the block flow direction.
+ * + `"inline"` coresponds to the inline flow direction.
+ * + If `"-start"` or `"-end"` is present, that direction is used unless there isn't enough space for the current content and the opposite side has more available space.
+ */
 export type PopoutPlacement = "block" | "block-start" | "block-end" | "inline" | "inline-start" | "inline-end";
+
+/**
+ * Defines which side of the anchor and content are aligned orthogonally to the placement axis.
+ */
 export type PopoutAlignment = "center" | "start" | "end";
 
 export interface PopoutPlacementArgs {
+	/**
+	 * When set during the `onPlacement` event, this defines the gap between the anchor and the content in `px`.
+	 *
+	 * @default 0
+	 */
 	gap: number;
 }
 
-export interface PopoutPlacementState {
+export interface PopoutPlacementInfo {
+	/**
+	 * The rect of the anchor at the time of placement.
+	 */
 	anchorRect: DOMRect;
+
+	/**
+	 * The content root element.
+	 */
 	content: HTMLElement;
+
+	/**
+	 * The effective placement direction.
+	 */
 	dir: Direction;
+
+	/**
+	 * The block start or inline start direction orthogonal to the effective placement axis.
+	 */
 	alignStart: Direction;
 }
 
 export interface PopoutContent {
 	(props: {
+		/**
+		 * The popout itself.
+		 */
 		popout: Popout;
+
+		/**
+		 * Called after the popout content is attached to the document, but before calculating the placement.
+		 */
 		onPlacement: GluonEvent<[event: PopoutPlacementArgs]>;
-		placement: () => PopoutPlacementState | undefined;
+
+		/**
+		 * Reactively get information on the effective placement.
+		 */
+		placement: () => PopoutPlacementInfo | undefined;
 	}): unknown;
 }
 
 export interface PopoutOptions {
+	/**
+	 * Defines the direction in which the popout is placed in relation to it's anchor.
+	 *
+	 * See {@link PopoutPlacement}
+	 */
 	placement: Expression<PopoutPlacement>;
+
+	/**
+	 * Defines which side of the anchor and content are aligned orthogonally to the placement axis.
+	 *
+	 * See {@link PopoutAlignment}
+	 */
 	alignment: Expression<PopoutAlignment>;
+
+	/**
+	 * The content component to render while the popout is visible.
+	 */
 	content: PopoutContent;
+
+	/**
+	 * An array of event names that cause the popout to hide automatically when dispatched outside of the current layer stack or the latest anchor.
+	 *
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin"]
+	 */
 	foreignEvents?: string[];
+
+	/**
+	 * The writing mode to use for calculating the placement and to apply to the content.
+	 *
+	 * By default, the latest anchor's writing mode is inherited.
+	 */
 	writingMode?: Expression<WritingMode | undefined>;
+
+	/**
+	 * The script direction to use for calculating the placement and to apply to the content.
+	 *
+	 * By default, the latest anchor's script direction is inherited.
+	 */
 	scriptDir?: Expression<ScriptDirection | undefined>;
 }
 
@@ -48,6 +123,9 @@ interface Instance {
 	observer: ResizeObserver;
 }
 
+/**
+ * Utility to create automatically placed floating content like popovers or dropdowns.
+ */
 export class Popout {
 	#context: ReadonlyContext | undefined;
 	#placement: Expression<PopoutPlacement>;
@@ -60,8 +138,13 @@ export class Popout {
 	#instanceArgs?: InstanceArgs;
 	#visible = sig(false);
 	#onPlacement = new Emitter<[PopoutPlacementArgs]>();
-	#placementState = sig<PopoutPlacementState | undefined>(undefined);
+	#placementState = sig<PopoutPlacementInfo | undefined>(undefined);
 
+	/**
+	 * Create a new popout.
+	 *
+	 * The popout hides automatically when the current context is disposed.
+	 */
 	constructor(options: PopoutOptions) {
 		this.#context = getContext();
 		this.#placement = options.placement;
@@ -76,10 +159,19 @@ export class Popout {
 		});
 	}
 
+	/**
+	 * Reactively check if the popout is currently visible.
+	 */
 	get visible(): boolean {
 		return this.#visible.value;
 	}
 
+	/**
+	 * Show the popout or recalculate placement if already visible.
+	 *
+	 * @param anchor The anchor view to use. This doesn't affect the view in any way.
+	 * @param pointerEvent An optional event to determine which anchor rect to use if the anchor has multiple client rects like wrapping texts or just multiple distinct root nodes.
+	 */
 	show(anchor: View, pointerEvent?: Event): void {
 		this.#instanceArgs = undefined;
 		this.#placementState.value = undefined;
@@ -300,6 +392,13 @@ export class Popout {
 		this.#visible.value = true;
 	}
 
+	/**
+	 * Recalculate placement using the most recent anchor and pointer event if currently visible.
+	 *
+	 * Placement is recalculated automatically when the content is resized.
+	 *
+	 * Resizing or moving anchors don't trigger recalculation as it is expected, that content behind the popout doesn't change significantly while the popout is open.
+	 */
 	update(): void {
 		const args = this.#instanceArgs;
 		if (args !== undefined) {
@@ -307,6 +406,9 @@ export class Popout {
 		}
 	}
 
+	/**
+	 * The same as {@link show}, but the popout is hidden instead if currently visible.
+	 */
 	toggle(anchor: View, pointerEvent?: Event): void {
 		if (this.visible) {
 			this.hide();
@@ -315,6 +417,9 @@ export class Popout {
 		}
 	}
 
+	/**
+	 * Hide the popout if currently visible.
+	 */
 	hide(): void {
 		const instance = this.#instance;
 		if (instance !== undefined) {

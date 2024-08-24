@@ -10,11 +10,15 @@ export type ButtonVariant = "default" | "primary" | "success" | "danger" | "warn
 export function Button(props: {
 	/**
 	 * The button type.
+	 *
+	 * @default "button"
 	 */
 	type?: Expression<ButtonType | undefined>;
 
 	/**
 	 * The theme variant.
+	 *
+	 * @default "default"
 	 */
 	variant?: Expression<ButtonVariant | undefined>;
 

@@ -15,17 +15,60 @@ export interface PopoverContent {
 }
 
 export function createPopover(props: {
+	/**
+	 * Defines the direction in which the popover is placed in relation to the anchor.
+	 *
+	 * This expression is only evaluated when calculating the popover placement.
+	 *
+	 * See {@link PopoutPlacement}
+	 */
 	placement?: Expression<PopoutPlacement | undefined>;
+
+	/**
+	 * Defines which side of the anchor and popover are aligned orthogonally to the placement axis.
+	 *
+	 * This expression is only evaluated when calculating the popover placement.
+	 *
+	 * See {@link PopoutAlignment}
+	 */
 	alignment?: Expression<PopoutAlignment | undefined>;
+
+	/**
+	 * The content component.
+	 */
 	content: PopoverContent;
+
+	/**
+	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
+	 *
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin"]
+	 */
 	foreignEvents?: string[];
+
+	/**
+	 * The writing mode to use for calculating the placement and to apply to the content.
+	 *
+	 * By default, the latest anchor's writing mode is inherited.
+	 */
 	writingMode?: Expression<WritingMode | undefined>;
+
+	/**
+	 * The script direction to use for calculating the placement and to apply to the content.
+	 *
+	 * By default, the latest anchor's script direction is inherited.
+	 */
 	scriptDir?: Expression<ScriptDirection | undefined>;
 
+	/**
+	 * The content role.
+	 *
+	 * @default "dialog"
+	 */
 	role?: PopoverRole;
+
+	id?: string;
 	class?: ClassValue;
 	style?: StyleValue;
-
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-describedby"?: Expression<string | undefined>;
@@ -98,6 +141,7 @@ export function createPopover(props: {
 			const root = <div
 				tabindex="-1"
 				role={map(props.role, v => v ?? "dialog")}
+				id={props.id}
 				class={[
 					theme?.popover,
 					props.class,
