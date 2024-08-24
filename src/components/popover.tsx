@@ -8,7 +8,13 @@ import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
 
 export type PopoverRole = DialogRole | "menu";
 
-export interface PopoverOptions {
+export interface PopoverContent {
+	(props: {
+		popout: Popout;
+	}): unknown;
+}
+
+export function createPopover(props: {
 	placement?: Expression<PopoutPlacement | undefined>;
 	alignment?: Expression<PopoutAlignment | undefined>;
 	content: PopoverContent;
@@ -20,17 +26,10 @@ export interface PopoverOptions {
 	class?: ClassValue;
 	style?: StyleValue;
 
+	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-describedby"?: Expression<string | undefined>;
-}
-
-export interface PopoverContent {
-	(props: {
-		popout: Popout;
-	}): unknown;
-}
-
-export function createPopover(props: PopoverOptions): Popout {
+}): Popout {
 	return new Popout({
 		placement: map(props.placement, v => v ?? "block"),
 		alignment: map(props.alignment, v => v ?? "center"),
@@ -104,6 +103,7 @@ export function createPopover(props: PopoverOptions): Popout {
 					props.class,
 				]}
 				style={props.style}
+				aria-label={props["aria-label"]}
 				aria-labelledby={props["aria-labelledby"]}
 				aria-describedby={props["aria-describedby"]}
 			>

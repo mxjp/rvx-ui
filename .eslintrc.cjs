@@ -7,5 +7,6 @@ module.exports = {
 		project: resolve(__dirname, "tsconfig.json"),
 	},
 	rules: {
+		"quote-props": "off",
 	},
 };
