@@ -194,6 +194,10 @@ function showExampleDialog() {
 				<Button autofocus action={() => {
 					showDialog<void>(dialog => {
 						return <DialogBody title="Nested dialog" description="This is a dialog in a dialog.">
+							<RadioButtons autofocus value={sig(7)} options={[
+								{ value: 42, label: "Autofocused radio buttons" },
+								{ value: 123, label: "..." },
+							]} />
 							<DialogFooter>
 								<Button action={() => dialog.resolve()}>Close</Button>
 							</DialogFooter>

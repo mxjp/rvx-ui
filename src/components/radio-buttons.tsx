@@ -19,11 +19,9 @@ export function RadioButtons<T>(props: {
 	id?: Expression<string | undefined>;
 	class?: ClassValue;
 	style?: StyleValue;
-
+	autofocus?: Expression<boolean | undefined>;
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
-
-	// TODO: Autofocus.
 
 	children?: never;
 }): unknown {
@@ -51,7 +49,7 @@ export function RadioButtons<T>(props: {
 		aria-labelledby={props["aria-labelledby"]}
 	>
 		<For each={props.options}>
-			{option => {
+			{(option, index) => {
 				const id = uniqueId();
 
 				return <label
@@ -65,6 +63,7 @@ export function RadioButtons<T>(props: {
 						name={group}
 						value={id}
 						disabled={disabled}
+						autofocus={() => get(props.autofocus) && index() === 0}
 						prop:checked={map(props.value, x => x === option.value)}
 						$input={() => {
 							if (props.value instanceof Signal) {
