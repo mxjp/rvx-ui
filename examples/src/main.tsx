@@ -113,9 +113,26 @@ mount(
 							anchor={props => <Button {...props}>Toggle popover</Button>}
 							placement={popoverPlacement}
 							alignment={popoverAlignment}
+							maxInlineSize="32rem"
 						>
 							{() => <>
 								<Heading level="2">Hello World!</Heading>
+								<Text>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit...
+								</Text>
+								<Row>
+									<Popover
+										anchor={props => <Button {...props}>Toggle nested popover</Button>}
+										placement={popoverPlacement}
+										alignment={popoverAlignment}
+									>
+										{() => <>
+											<Text>
+												Hello World!
+											</Text>
+										</>}
+									</Popover>
+								</Row>
 							</>}
 						</Popover>
 						<Text>
@@ -126,6 +143,9 @@ mount(
 							>
 								{() => <>
 									<Heading level="2">Hello World!</Heading>
+									<Text>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit...
+									</Text>
 								</>}
 							</Popover> with line breaks.
 						</Text>

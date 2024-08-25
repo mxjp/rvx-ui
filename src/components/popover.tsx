@@ -39,6 +39,11 @@ export function createPopover(props: {
 	 */
 	content: PopoverContent;
 
+	inlineSize?: Expression<string | undefined>;
+	maxInlineSize?: Expression<string | undefined>;
+	blockSize?: Expression<string | undefined>;
+	maxBlockSize?: Expression<string | undefined>;
+
 	/**
 	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
 	 *
@@ -147,7 +152,15 @@ export function createPopover(props: {
 					theme?.popover,
 					props.class,
 				]}
-				style={props.style}
+				style={[
+					props.style,
+					{
+						"inline-size": props.inlineSize,
+						"max-inline-size": props.maxInlineSize,
+						"block-size": props.blockSize,
+						"max-block-size": props.maxBlockSize,
+					},
+				]}
 				aria-label={props["aria-label"]}
 				aria-labelledby={props["aria-labelledby"]}
 				aria-describedby={props["aria-describedby"]}
@@ -198,6 +211,11 @@ export function Popover(props: {
 
 	/** The popover content component. */
 	children: PopoverContent;
+
+	inlineSize?: Expression<string | undefined>;
+	maxInlineSize?: Expression<string | undefined>;
+	blockSize?: Expression<string | undefined>;
+	maxBlockSize?: Expression<string | undefined>;
 
 	/**
 	 * Defines the direction in which the popover is placed in relation to the anchor.
@@ -266,6 +284,10 @@ export function Popover(props: {
 
 	const popover = createPopover({
 		content: props.children,
+		inlineSize: props.inlineSize,
+		maxInlineSize: props.maxInlineSize,
+		blockSize: props.blockSize,
+		maxBlockSize: props.maxBlockSize,
 		placement: props.placement,
 		alignment: props.alignment,
 		foreignEvents: props.foreignEvents,
