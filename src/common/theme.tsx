@@ -79,6 +79,9 @@ export interface Theme {
 	/** Class for all labels */
 	label?: string;
 
+	/** Class for all links */
+	link?: string;
+
 	/** Class for all popover roots. */
 	popover?: string;
 	/** Class for the spike container area. */

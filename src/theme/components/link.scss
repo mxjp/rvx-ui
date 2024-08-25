@@ -1,0 +1,25 @@
+@use "../common";
+
+@include common.theme((
+	link-fg: (
+		dark: rgb(64, 160, 255),
+	),
+));
+
+.link {
+	--space-below: var(--control-row-gap);
+	line-height: calc(1em + var(--line-gap));
+
+	color: var(--link-fg);
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:focus {
+		outline: none;
+	}
+
+	&:focus-visible {
+		text-decoration: underline;
+	}
+}
