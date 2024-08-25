@@ -326,7 +326,7 @@ export class Popout {
 			const start = place === "inline" ? inlineStart : blockStart;
 			const startSpace = getWindowSpaceAround(anchorRect, start);
 			const endSpace = getWindowSpaceAround(anchorRect, flip(start));
-			dir = startSpace > endSpace ? blockStart : flip(start);
+			dir = startSpace > endSpace ? start : flip(start);
 			alignStart = place === "inline" ? blockStart : inlineStart;
 		} else {
 			dir = place === "block-start" ? blockStart : (
