@@ -1,5 +1,5 @@
-import { DeriveContext, Emitter, UseUniqueId, extract, mount, movable, render, sig } from "@mxjp/gluon";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, PopoutPlacement, PopoverButton, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, createPopover, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { DeriveContext, Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
+import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
 
@@ -18,6 +18,9 @@ mount(
 				const collapseAlert = new Emitter<[]>();
 				const checked = sig<boolean | undefined>(undefined);
 				const option = sig<string>("bar");
+
+				const popoverPlacement = sig<PopoutPlacement | undefined>(undefined);
+				const popoverAlignment = sig<PopoutAlignment | undefined>(undefined);
 
 				return <Column class="app">
 					<Heading level="1">Gluon UX</Heading>
@@ -78,37 +81,54 @@ mount(
 					]} />
 
 					<Heading level="2">Popovers</Heading>
-					<Row size="control">
-						<PopoverButton label="Default placement & controls" placement="block">
+					<Row>
+						<UseUniqueId>
+							{id => <Column>
+								<Label for={id}>Placement</Label>
+								<RadioButtons<PopoutPlacement | undefined> value={popoverPlacement} id={id} options={[
+									{ value: undefined, label: "Default (block)" },
+									{ value: "block", label: "Block" },
+									{ value: "block-start", label: "Block start" },
+									{ value: "block-end", label: "Block end" },
+									{ value: "inline", label: "Inline" },
+									{ value: "inline-start", label: "Inline start" },
+									{ value: "inline-end", label: "Inline end" },
+								]} />
+							</Column>}
+						</UseUniqueId>
+						<UseUniqueId>
+							{id => <Column>
+								<Label>Alignment</Label>
+								<RadioButtons<PopoutAlignment | undefined> value={popoverAlignment} id={id} options={[
+									{ value: undefined, label: "Default (center)" },
+									{ value: "start", label: "Start" },
+									{ value: "center", label: "Center" },
+									{ value: "end", label: "End" },
+								]} />
+							</Column>}
+						</UseUniqueId>
+					</Row>
+					<Row>
+						<Popover
+							anchor={props => <Button {...props}>Toggle popover</Button>}
+							placement={popoverPlacement}
+							alignment={popoverAlignment}
+						>
 							{() => <>
 								<Heading level="2">Hello World!</Heading>
-								<RadioButtons<string> value={option} options={[
-									{ value: "foo", label: "Foo" },
-									{ value: "bar", label: "Bar" },
-									{ value: "baz", label: "Baz" },
-								]} />
 							</>}
-						</PopoverButton>
-						<PopoverButton label="Block start" placement="block-start">
-							{() => <Text>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
-							</Text>}
-						</PopoverButton>
-						<PopoverButton label="Block end" placement="block-end">
-							{() => <Text>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
-							</Text>}
-						</PopoverButton>
-						<PopoverButton label="Inline start" placement="inline-start">
-							{() => <Text>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
-							</Text>}
-						</PopoverButton>
-						<PopoverButton label="Inline end" placement="inline-end">
-							{() => <Text>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
-							</Text>}
-						</PopoverButton>
+						</Popover>
+						<Text>
+							This is a <Popover
+								anchor={props => <Link {...props}>popover<br/>anchor</Link>}
+								placement={popoverPlacement}
+								alignment={popoverAlignment}
+							>
+								{() => <>
+									<Heading level="2">Hello World!</Heading>
+								</>}
+							</Popover> with line breaks.
+						</Text>
 					</Row>
 
 					<Heading level="2">Dialogs</Heading>
