@@ -27,6 +27,10 @@ export function getSize(rect: DOMRect, dir: Direction): number {
 	return (dir & 1) ? rect.width : rect.height;
 }
 
+export function getXY(rect: DOMRect, dir: Direction): number {
+	return (dir & 1) ? rect.x : rect.y;
+}
+
 export function getBlockStart(writingMode: WritingMode): Direction {
 	switch (writingMode) {
 		case "horizontal-tb":

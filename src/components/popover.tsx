@@ -2,7 +2,7 @@ import { ClassValue, Expression, extract, get, Inject, map, render, sig, StyleVa
 
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { DOWN, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
+import { DOWN, getSize, getXY, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
 import { DialogRole } from "./dialog.js";
 import { LAYER } from "./layer.js";
 import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
@@ -91,8 +91,7 @@ export function createPopover(props: {
 			});
 
 			onPlacement(args => {
-				const gap = Math.abs(spikeInset.getBoundingClientRect().x - root.getBoundingClientRect().x);
-				args.gap = gap;
+				args.gap = Math.abs(spikeArea.getBoundingClientRect().x - root.getBoundingClientRect().x);
 			});
 
 			queueMicrotask(() => {
@@ -101,38 +100,28 @@ export function createPopover(props: {
 
 			watch(placement, placement => {
 				if (placement) {
-					const { anchorRect, dir } = placement;
+					const { anchorRect, dir, alignStart } = placement;
 					const contentRect = placement.content.getBoundingClientRect();
+					const rawOffset = getXY(anchorRect, alignStart) + (getSize(anchorRect, alignStart) / 2) - getXY(contentRect, alignStart);
+					const offset = `max(var(--popover-spike-min-offset), min(${rawOffset}px, ${getSize(contentRect, alignStart)}px - var(--popover-spike-min-offset)))`;
 					switch (dir) {
-						case DOWN: {
-							const anchorCenter = anchorRect.x + (anchorRect.width / 2);
-							const anchorCenterOffset = anchorCenter - contentRect.x;
-							spikeTransform.value = `translate(${anchorCenterOffset}px, 0px)`;
+						case DOWN:
+							spikeTransform.value = `translate(${offset}, 0px)`;
 							break;
-						}
-						case UP: {
-							const anchorCenter = anchorRect.x + (anchorRect.width / 2);
-							const anchorCenterOffset = anchorCenter - contentRect.x;
-							spikeTransform.value = `translate(${anchorCenterOffset}px, ${contentRect.height}px) rotate(180deg)`;
+						case UP:
+							spikeTransform.value = `translate(${offset}, ${contentRect.height}px) rotate(180deg)`;
 							break;
-						}
-						case RIGHT: {
-							const anchorCenter = anchorRect.y + (anchorRect.height / 2);
-							const anchorCenterOffset = anchorCenter - contentRect.y;
-							spikeTransform.value = `translate(0px, ${anchorCenterOffset}px) rotate(270deg)`;
+						case RIGHT:
+							spikeTransform.value = `translate(0px, ${offset}) rotate(270deg)`;
 							break;
-						}
-						case LEFT: {
-							const anchorCenter = anchorRect.y + (anchorRect.height / 2);
-							const anchorCenterOffset = anchorCenter - contentRect.y;
-							spikeTransform.value = `translate(${contentRect.width}px, ${anchorCenterOffset}px) rotate(90deg)`;
+						case LEFT:
+							spikeTransform.value = `translate(${contentRect.width}px, ${offset}) rotate(90deg)`;
 							break;
-						}
 					}
 				}
 			});
 
-			const spikeInset = <div class={theme?.popover_spike_area}>
+			const spikeArea = <div class={theme?.popover_spike_area}>
 				<div class={theme?.popover_spike} style={{ transform: spikeTransform }}>
 					<Inject key={XMLNS} value={SVG}>
 						{() => {
@@ -165,7 +154,7 @@ export function createPopover(props: {
 				aria-labelledby={props["aria-labelledby"]}
 				aria-describedby={props["aria-describedby"]}
 			>
-				{spikeInset}
+				{spikeArea}
 				<div class={[
 					theme?.column,
 					theme?.column_content,

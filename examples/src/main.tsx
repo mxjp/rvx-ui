@@ -125,6 +125,7 @@ mount(
 										anchor={props => <Button {...props}>Toggle nested popover</Button>}
 										placement={popoverPlacement}
 										alignment={popoverAlignment}
+										maxInlineSize="32rem"
 									>
 										{() => <>
 											<Text>
@@ -140,6 +141,7 @@ mount(
 								anchor={props => <Link {...props}>popover<br/>anchor</Link>}
 								placement={popoverPlacement}
 								alignment={popoverAlignment}
+								maxInlineSize="32rem"
 							>
 								{() => <>
 									<Heading level="2">Hello World!</Heading>
