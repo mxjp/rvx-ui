@@ -16,6 +16,7 @@ export function RadioButtons<T>(props: {
 
 	disabled?: Expression<boolean | undefined>;
 
+	id?: Expression<string | undefined>;
 	class?: ClassValue;
 	style?: StyleValue;
 
@@ -37,6 +38,7 @@ export function RadioButtons<T>(props: {
 
 	return <div
 		role="radiogroup"
+		id={props.id}
 		class={[
 			theme?.radio_buttons,
 			props.class,
