@@ -122,15 +122,18 @@ mount(
 								</Text>
 								<Row>
 									<Popover
-										anchor={props => <Button {...props}>Toggle nested popover</Button>}
+										anchor={props => <Button {...props} autofocus>Toggle nested popover</Button>}
 										placement={popoverPlacement}
 										alignment={popoverAlignment}
 										maxInlineSize="32rem"
 									>
-										{() => <>
+										{({ popout }) => <>
 											<Text>
 												Hello World!
 											</Text>
+											<Row>
+												<Button variant="success" action={() => popout.hide()}>Close</Button>
+											</Row>
 										</>}
 									</Popover>
 								</Row>

@@ -9,6 +9,8 @@ interface LayerInstance {
 	modal: boolean;
 	/** A signal representing if this layer is inert due to a modal layer on top. */
 	inert: Signal<boolean>;
+	/** An element to use as auto focus fallback. */
+	autoFocusFallback: Element | undefined;
 }
 
 export const LAYER = Symbol.for("gluon-ux:layer-handle") as ContextKey<LayerHandle>;
@@ -18,6 +20,7 @@ const LAYERS = sig<LayerInstance[]>([
 		roots: [],
 		modal: false,
 		inert: sig(false),
+		autoFocusFallback: undefined,
 	},
 ]);
 
@@ -77,6 +80,7 @@ export function Layer(props: {
 		roots: [],
 		modal: props.modal ?? false,
 		inert: sig(false),
+		autoFocusFallback: undefined,
 	};
 
 	const enabled = memo(() => Boolean(get(props.enabled) ?? true));
@@ -97,7 +101,21 @@ export function Layer(props: {
 		queueMicrotask(() => {
 			const layers = LAYERS.value;
 			if (layer === layers[layers.length - 1] && root.isConnected) {
-				(root.querySelector("[autofocus]")! as HTMLElement)?.focus?.();
+				let active = document.activeElement;
+				if (active && (root === active || root.contains(active))) {
+					return;
+				}
+
+				const autoFocus = root.querySelector("[autofocus]");
+				if (autoFocus) {
+					(autoFocus as HTMLElement).focus?.();
+					active = document.activeElement;
+					if (active === autoFocus) {
+						return;
+					}
+				}
+
+				(layer.autoFocusFallback as HTMLElement | undefined)?.focus?.();
 			}
 		});
 
@@ -176,6 +194,13 @@ export interface LayerHandle {
 	 * @param includeModals If false (default), any modal layers on top or layers above that are ignored.
 	 */
 	stackContains(node: Node, includeModals?: boolean): boolean;
+
+	/**
+	 * Try focusing the specified element after the layer is created (in the next microtask), if no element with the `autofocus` attribute has been found or successfully focused.
+	 *
+	 * @param element The element to use as fallback.
+	 */
+	useAutoFocusFallback(element: Element): void;
 }
 
 /**
@@ -260,5 +285,9 @@ class Handle implements LayerHandle {
 				return false;
 			}
 		}
+	}
+
+	useAutoFocusFallback(element: Element | undefined): void {
+		this.#instance.autoFocusFallback = element;
 	}
 }

@@ -86,16 +86,13 @@ export function createPopover(props: {
 			const theme = extract(THEME);
 			const spikeTransform = sig("");
 
-			extract(LAYER)?.useHotkey("escape", () => {
+			const layer = extract(LAYER);
+			layer?.useHotkey("escape", () => {
 				popout.hide();
 			});
 
 			onPlacement(args => {
 				args.gap = Math.abs(spikeArea.getBoundingClientRect().x - root.getBoundingClientRect().x);
-			});
-
-			queueMicrotask(() => {
-				root.focus();
 			});
 
 			watch(placement, placement => {
@@ -163,7 +160,7 @@ export function createPopover(props: {
 					{props.content({ popout })}
 				</div>
 			</div> as HTMLElement;
-
+			layer?.useAutoFocusFallback(root);
 			return root;
 		},
 		foreignEvents: props.foreignEvents,
