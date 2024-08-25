@@ -1,4 +1,4 @@
-import { captureSelf, ClassValue, Expression, extract, Inject, map, mount, StyleValue, uniqueId } from "@mxjp/gluon";
+import { captureSelf, ClassValue, Expression, extract, map, mount, StyleValue, uniqueId } from "@mxjp/gluon";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 
 import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
@@ -23,7 +23,8 @@ export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOption
 			mount(
 				document.body,
 				<Layer modal>
-					{() => {
+					{ctx => {
+						ctx.set(TASKS, new Tasks());
 						const dialog: Dialog<T> = {
 							resolve(value) {
 								dispose();
@@ -39,9 +40,7 @@ export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOption
 								dialog.reject(new DialogAbortError());
 							});
 						}
-						return <Inject key={TASKS} value={new Tasks()}>
-							{() => init(dialog)}
-						</Inject>;
+						return init(dialog);
 					}}
 				</Layer>
 			);

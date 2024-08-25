@@ -1,4 +1,4 @@
-import { ContextKey, Expression, extract, get, Inject, memo, sig, Signal, teardown, uncapture, untrack, watch, wrapContext } from "@mxjp/gluon";
+import { Context, ContextKey, DeriveContext, Expression, extract, get, memo, sig, Signal, teardown, uncapture, untrack, watch, wrapContext } from "@mxjp/gluon";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -35,16 +35,19 @@ uncapture(() => watch(LAYERS, layers => {
  * Render content inside the root layer.
  */
 export function RootLayer(props: {
-	children: () => unknown;
+	children: (ctx: Context) => unknown;
 }): unknown {
 	const layer = LAYERS.value[0];
 	const root = <div
 		style={{ display: "contents" }}
 		inert={layer.inert}
 	>
-		<Inject key={LAYER} value={new Handle(layer)}>
-			{props.children}
-		</Inject>
+		<DeriveContext>
+			{ctx => {
+				ctx.set(LAYER, new Handle(layer));
+				return props.children(ctx);
+			}}
+		</DeriveContext>
 	</div> as HTMLDivElement;
 	layer.roots.push(root);
 	teardown(() => {
@@ -64,7 +67,7 @@ export function RootLayer(props: {
  * When disposed, focus is moved back to the previously focused element.
  */
 export function Layer(props: {
-	children: () => unknown;
+	children: (ctx: Context) => unknown;
 
 	/**
 	 * If true, all layers below this one are marked as inert until the current context is disposed.
@@ -142,9 +145,12 @@ export function Layer(props: {
 		style={{ display: "contents" }}
 		inert={() => layer.inert.value || !enabled()}
 	>
-		<Inject key={LAYER} value={new Handle(layer)}>
-			{props.children}
-		</Inject>
+		<DeriveContext>
+			{ctx => {
+				ctx.set(LAYER, new Handle(layer));
+				return props.children(ctx);
+			}}
+		</DeriveContext>
 	</div> as HTMLElement;
 	layer.roots.push(root);
 	return root;
