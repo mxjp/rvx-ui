@@ -15,7 +15,6 @@ export * from "./components/layer.js";
 export * from "./components/link.js";
 export * from "./components/popout.js";
 export * from "./components/popover.js";
-export * from "./components/popover-button.js";
 export * from "./components/radio-buttons.js";
 export * from "./components/row.js";
 export * from "./components/text.js";

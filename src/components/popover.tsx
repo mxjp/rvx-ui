@@ -1,5 +1,6 @@
-import { ClassValue, Expression, extract, Inject, map, sig, StyleValue, SVG, watch, XMLNS } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, get, Inject, map, render, sig, StyleValue, SVG, uniqueId, watch, XMLNS } from "@mxjp/gluon";
 
+import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { DOWN, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
 import { DialogRole } from "./dialog.js";
@@ -167,4 +168,117 @@ export function createPopover(props: {
 		writingMode: props.writingMode,
 		scriptDir: props.scriptDir,
 	});
+}
+
+export interface PopoverAnchorProps {
+	action: Action;
+	id?: Expression<string | undefined>;
+	"aria-label"?: Expression<string | undefined>;
+	"aria-labelledby"?: Expression<string | undefined>;
+}
+
+export function Popover(props: {
+	/**
+	 * A function to immediately render the anchor.
+	 */
+	anchor: (props: PopoverAnchorProps) => unknown;
+
+	/**
+	 * The anchor id.
+	 *
+	 * By default, a unique id is generated and linked to the attached popover.
+	 */
+	id?: Expression<string | undefined>;
+
+	/** Class for the popover. */
+	class?: ClassValue;
+
+	/** Style for the popover. */
+	style?: StyleValue;
+
+	/** The popover content component. */
+	children: PopoverContent;
+
+	/**
+	 * Defines the direction in which the popover is placed in relation to the anchor.
+	 *
+	 * This expression is only evaluated when calculating the popover placement.
+	 *
+	 * See {@link PopoutPlacement}
+	 */
+	placement?: Expression<PopoutPlacement | undefined>;
+
+	/**
+	 * Defines which side of the anchor and popover are aligned orthogonally to the placement axis.
+	 *
+	 * This expression is only evaluated when calculating the popover placement.
+	 *
+	 * See {@link PopoutAlignment}
+	 */
+	alignment?: Expression<PopoutAlignment | undefined>;
+
+	/**
+	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
+	 *
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin"]
+	 */
+	foreignEvents?: string[];
+
+	/**
+	 * The popover role.
+	 *
+	 * @default "dialog"
+	 */
+	role?: PopoverRole;
+
+	/**
+	 * The anchor and popover label.
+	 *
+	 * By default, the anchor itself is used a label for the popover.
+	 */
+	"aria-label"?: Expression<string | undefined>;
+
+	/**
+	 * The anchor and popover label id.
+	 *
+	 * By default, the anchor itself is used a label for the popover.
+	 */
+	"aria-labelledby"?: Expression<string | undefined>;
+
+	/**
+	 * An optional popover description id.
+	 *
+	 * If the popover contains a description, this should be set to it's id.
+	 */
+	"aria-describedby"?: Expression<string | undefined>;
+}): unknown {
+	const defaultId = uniqueId();
+	const id = map(props.id, v => v ?? defaultId);
+
+	const anchor = render(props.anchor({
+		action: event => {
+			popover.toggle(anchor, event);
+		},
+		id,
+		"aria-label": props["aria-label"],
+		"aria-labelledby": props["aria-labelledby"],
+	}));
+
+	const popover = createPopover({
+		content: props.children,
+		placement: props.placement,
+		alignment: props.alignment,
+		foreignEvents: props.foreignEvents,
+		role: props.role,
+		class: props.class,
+		style: props.style,
+
+		"aria-label": props["aria-label"],
+		"aria-labelledby": () => (get(props["aria-label"]) === undefined
+			? (get(props["aria-labelledby"]) ?? get(id))
+			: undefined),
+		"aria-describedby": props["aria-describedby"],
+	});
+
+	return anchor;
 }
