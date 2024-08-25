@@ -295,7 +295,8 @@ export class Popout {
 		content.style.top = "0px";
 		content.style.right = "";
 		content.style.bottom = "";
-		switch (this.#placement) {
+		const place = untrack(() => get(this.#placement));
+		switch (place) {
 			case "block":
 			case "block-start":
 			case "block-end":
@@ -319,7 +320,6 @@ export class Popout {
 
 		// Measure intrinsic content size & compute the final placement direction:
 		const contentRect = content.getBoundingClientRect();
-		const place = this.#placement;
 		let dir: Direction;
 		let alignStart: Direction;
 		if (place === "inline" || place === "block") {
