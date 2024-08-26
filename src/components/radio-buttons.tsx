@@ -30,7 +30,7 @@ export function RadioButtons<T>(props: {
 
 	const disabled = props.value instanceof Signal
 		? () => isPending() || get(props.disabled)
-		: () => true;
+		: true;
 
 	const validator = props.value instanceof Signal ? validatorFor(props.value) : undefined;
 
