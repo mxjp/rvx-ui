@@ -61,6 +61,13 @@ export interface PopoutContent {
 		onPlacement: GluonEvent<[event: PopoutPlacementArgs]>;
 
 		/**
+		 * Set the size reference element.
+		 *
+		 * If never called or if the last target was undefined, the popout root is used as reference.
+		 */
+		setSizeReference: (target: Element | undefined) => void;
+
+		/**
 		 * Reactively get information on the effective placement.
 		 */
 		placement: () => PopoutPlacementInfo | undefined;
@@ -120,6 +127,7 @@ interface Instance {
 	dispose: TeardownHook;
 	view: View;
 	content: HTMLElement;
+	sizeReference: Element | undefined;
 	observer: ResizeObserver;
 }
 
@@ -224,8 +232,15 @@ export class Popout {
 		if (instance === undefined) {
 			runInContext(this.#context, () => {
 				captureSelf(dispose => {
-					let content!: HTMLElement;
-					const view = render(<Layer>
+					instance = this.#instance = {
+						dispose,
+						content: undefined!,
+						view: undefined!,
+						observer: undefined!,
+						sizeReference: undefined,
+					};
+
+					instance.view = render(<Layer>
 						{() => {
 							const layer = extract(LAYER)!;
 							const onForeignEvent = (event: Event): void => {
@@ -250,7 +265,7 @@ export class Popout {
 								this.#foreignEvents.forEach(t => window.removeEventListener(t, onForeignEvent));
 							});
 
-							content = <div style={{
+							instance!.content = <div style={{
 								"position": "fixed",
 								"writing-mode": writingMode,
 							}} dir={scriptDir}>
@@ -258,34 +273,33 @@ export class Popout {
 									popout: this,
 									onPlacement: this.#onPlacement.event,
 									placement: () => this.#placementState.value,
+									setSizeReference: target => {
+										instance!.sizeReference = target;
+									},
 								})}
 							</div> as HTMLElement;
-							return content;
+							return instance!.content;
 						}}
 					</Layer>);
-					document.body.appendChild(view.take());
+					document.body.appendChild(instance.view.take());
 
-					const observer = new ResizeObserver(entries => {
+					instance.observer = new ResizeObserver(entries => {
 						const args = this.#instanceArgs;
 						const size = entries[entries.length - 1]?.borderBoxSize[0];
 						if (args !== undefined && size !== undefined && (size.blockSize !== args.contentBlockSize || size.inlineSize !== args.contentInlineSize)) {
 							this.show(args.anchor, args.pointerEvent);
 						}
 					});
-					observer.observe(content, { box: "border-box" });
-
-					instance = this.#instance = { dispose, content, view, observer };
+					instance.observer.observe(instance.content, { box: "border-box" });
 				});
 			});
 		}
 
-		const placementArgs: PopoutPlacementArgs = {
-			gap: 0,
-		};
+		const placementArgs: PopoutPlacementArgs = { gap: 0 };
 		this.#onPlacement.emit(placementArgs);
 		const { gap } = placementArgs;
 
-		const { content } = instance!;
+		const { content, sizeReference } = instance!;
 		const inlineStart = getInlineStart(writingMode, scriptDir);
 		const blockStart = getBlockStart(writingMode);
 
@@ -317,9 +331,11 @@ export class Popout {
 				) - gap}px`;
 				break;
 		}
+		content.style.setProperty("--popout-max-block-size", content.style.maxBlockSize);
+		content.style.setProperty("--popout-max-inline-size", content.style.maxInlineSize);
 
 		// Measure intrinsic content size & compute the final placement direction:
-		const contentRect = content.getBoundingClientRect();
+		const contentRect = (sizeReference ?? content).getBoundingClientRect();
 		let dir: Direction;
 		let alignStart: Direction;
 		if (place === "inline" || place === "block") {

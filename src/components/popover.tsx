@@ -82,7 +82,7 @@ export function createPopover(props: {
 	return new Popout({
 		placement: map(props.placement, v => v ?? "block"),
 		alignment: map(props.alignment, v => v ?? "center"),
-		content: ({ popout, onPlacement, placement }) => {
+		content: ({ popout, onPlacement, placement, setSizeReference }) => {
 			const theme = extract(THEME);
 			const spikeTransform = sig("");
 
@@ -130,6 +130,15 @@ export function createPopover(props: {
 				</div>
 			</div> as HTMLElement;
 
+			const content = <div class={[
+				theme?.column,
+				theme?.column_content,
+				theme?.popover_content,
+			]}>
+				{props.content({ popout })}
+			</div> as HTMLElement;
+			setSizeReference(content);
+
 			const root = <div
 				tabindex="-1"
 				role={map(props.role, v => v ?? "dialog")}
@@ -152,12 +161,8 @@ export function createPopover(props: {
 				aria-describedby={props["aria-describedby"]}
 			>
 				{spikeArea}
-				<div class={[
-					theme?.column,
-					theme?.column_content,
-					theme?.popover_content,
-				]}>
-					{props.content({ popout })}
+				<div class={theme?.popover_scroll_area}>
+					{content}
 				</div>
 			</div> as HTMLElement;
 			layer?.useAutoFocusFallback(root);

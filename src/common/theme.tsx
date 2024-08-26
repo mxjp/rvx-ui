@@ -86,6 +86,8 @@ export interface Theme {
 	popover?: string;
 	/** Class for the spike container area. */
 	popover_spike_area?: string;
+	/** Class for the popover scrollable area. */
+	popover_scroll_area?: string;
 	/** Class for the spike root. */
 	popover_spike?: string;
 	/** Class for the popover content. */
