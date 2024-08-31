@@ -1,5 +1,5 @@
-import { DeriveContext, Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { DeriveContext, Emitter, UseUniqueId, extract, mount, render, sig } from "@mxjp/gluon";
+import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, createDropdown, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
 
@@ -78,6 +78,11 @@ mount(
 					{ value: "foo", label: "Readonly radio buttons" },
 					{ value: "bar", label: "..." },
 				]} />
+
+				<Heading level="2">Dropdowns</Heading>
+				<Row>
+					<DropdownExample />
+				</Row>
 
 				<Heading level="2">Popovers</Heading>
 				<Row>
@@ -181,6 +186,28 @@ mount(
 		}}
 	</RootLayer>
 );
+
+function DropdownExample() {
+	const anchor = render(<Button action={event => {
+		dropdown.toggle(anchor, event);
+	}}>
+		Dropdown
+	</Button>);
+
+	const dropdown = createDropdown({
+		items: [
+			{ label: "Foo" },
+			{ label: "Bar", expandAction: (event, itemView) => {
+				console.log("Expand:", itemView.first);
+			} },
+			{ label: "Baz", action: () => {
+				console.log("Baz!");
+			} },
+		],
+	});
+
+	return anchor;
+}
 
 function showExampleDialog() {
 	showDialog<number>(dialog => {

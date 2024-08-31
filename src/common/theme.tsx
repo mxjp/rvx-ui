@@ -70,6 +70,17 @@ export interface Theme {
 	/** Class for all dialog footers */
 	dialog_footer?: string;
 
+	/** Class for all dropdown roots. */
+	dropdown?: string;
+	/** Class for the dropdown scroll area. */
+	dropdown_scroll_area?: string;
+	/** Class for the dropdown content. */
+	dropdown_content?: string;
+	/** Class for all dropdown items. */
+	dropdown_item?: string;
+	/** Class for the currently active dropdown item. */
+	dropdown_item_active?: string;
+
 	/** Class for growing flex space */
 	flex_space?: string;
 
