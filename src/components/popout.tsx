@@ -101,20 +101,6 @@ export interface PopoutOptions {
 	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:delayed-hover"]
 	 */
 	foreignEvents?: string[];
-
-	/**
-	 * The writing mode to use for calculating the placement and to apply to the content.
-	 *
-	 * By default, the latest anchor's writing mode is inherited.
-	 */
-	writingMode?: Expression<WritingMode | undefined>;
-
-	/**
-	 * The script direction to use for calculating the placement and to apply to the content.
-	 *
-	 * By default, the latest anchor's script direction is inherited.
-	 */
-	scriptDir?: Expression<ScriptDirection | undefined>;
 }
 
 interface InstanceArgs {
@@ -141,8 +127,6 @@ export class Popout {
 	#alignment: Expression<PopoutAlignment>;
 	#content: PopoutContent;
 	#foreignEvents: string[];
-	#writingMode?: Expression<WritingMode | undefined>;
-	#scriptDir?: Expression<ScriptDirection | undefined>;
 	#instance?: Instance;
 	#instanceArgs?: InstanceArgs;
 	#visible = sig(false);
@@ -160,8 +144,6 @@ export class Popout {
 		this.#alignment = options.alignment;
 		this.#content = options.content;
 		this.#foreignEvents = options.foreignEvents ?? ["resize", "scroll", "mousedown", "touchstart", "focusin", DELAYED_HOVER_EVENT];
-		this.#writingMode = options.writingMode;
-		this.#scriptDir = options.scriptDir;
 
 		teardown(() => {
 			this.hide();
@@ -195,8 +177,8 @@ export class Popout {
 
 		// Find the preferred anchor rect & it's writing mode / script direction:
 		let anchorRect: DOMRect | undefined;
-		let writingMode = untrack(() => get(this.#writingMode))!;
-		let scriptDir = untrack(() => get(this.#scriptDir))!;
+		let writingMode: WritingMode | undefined;
+		let scriptDir: ScriptDirection | undefined;
 		if (pointer !== undefined) {
 			const { clientX, clientY } = pointer;
 			nodes: for (const node of viewNodes(anchor)) {
@@ -301,8 +283,8 @@ export class Popout {
 		const { gap } = placementArgs;
 
 		const { content, sizeReference } = instance!;
-		const inlineStart = getInlineStart(writingMode, scriptDir);
-		const blockStart = getBlockStart(writingMode);
+		const inlineStart = getInlineStart(writingMode!, scriptDir!);
+		const blockStart = getBlockStart(writingMode!);
 
 		// Reset content styles for measuring it's intrinsic size:
 		content.style.setProperty("--popout-anchor-inline-size", `${anchorRect.width}px`);

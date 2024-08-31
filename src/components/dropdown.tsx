@@ -2,7 +2,6 @@ import { ClassValue, Expression, extract, For, get, map, render, sig, StyleValue
 
 import { Action, DELAYED_HOVER_PROPS, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { ScriptDirection, WritingMode } from "../common/writing-mode.js";
 import { LAYER } from "./layer.js";
 import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
 
@@ -17,8 +16,6 @@ export function createDropdown(props: {
 	placement?: Expression<PopoutPlacement | undefined>;
 	alignment?: Expression<PopoutAlignment | undefined>;
 	foreignEvents?: string[];
-	writingMode?: Expression<WritingMode | undefined>;
-	scriptDir?: Expression<ScriptDirection | undefined>;
 
 	items: Expression<DropdownItem[]>;
 	expansion?: boolean;
@@ -31,8 +28,6 @@ export function createDropdown(props: {
 		placement: map(props.placement, v => v ?? "block-end"),
 		alignment: map(props.alignment, v => v ?? "center"),
 		foreignEvents: props.foreignEvents,
-		writingMode: props.writingMode,
-		scriptDir: props.scriptDir,
 		content: ({ popout }) => {
 			const theme = extract(THEME);
 

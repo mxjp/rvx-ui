@@ -2,7 +2,7 @@ import { ClassValue, Expression, extract, get, Inject, map, render, sig, StyleVa
 
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { DOWN, getSize, getXY, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
+import { DOWN, getSize, getXY, LEFT, RIGHT, UP } from "../common/writing-mode.js";
 import { DialogRole } from "./dialog.js";
 import { LAYER } from "./layer.js";
 import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
@@ -50,20 +50,6 @@ export function createPopover(props: {
 	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:delayed-hover"]
 	 */
 	foreignEvents?: string[];
-
-	/**
-	 * The writing mode to use for calculating the placement and to apply to the content.
-	 *
-	 * By default, the latest anchor's writing mode is inherited.
-	 */
-	writingMode?: Expression<WritingMode | undefined>;
-
-	/**
-	 * The script direction to use for calculating the placement and to apply to the content.
-	 *
-	 * By default, the latest anchor's script direction is inherited.
-	 */
-	scriptDir?: Expression<ScriptDirection | undefined>;
 
 	/**
 	 * The content role.
@@ -169,8 +155,6 @@ export function createPopover(props: {
 			return root;
 		},
 		foreignEvents: props.foreignEvents,
-		writingMode: props.writingMode,
-		scriptDir: props.scriptDir,
 	});
 }
 
