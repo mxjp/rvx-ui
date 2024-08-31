@@ -83,11 +83,11 @@ export function createPopover(props: {
 
 			watch(placement, placement => {
 				if (placement) {
-					const { anchorRect, dir, alignStart } = placement;
+					const { anchorRect, placementDir, alignStart } = placement;
 					const contentRect = placement.content.getBoundingClientRect();
 					const rawOffset = getXY(anchorRect, alignStart) + (getSize(anchorRect, alignStart) / 2) - getXY(contentRect, alignStart);
 					const offset = `max(var(--popover-spike-min-offset), min(${rawOffset}px, ${getSize(contentRect, alignStart)}px - var(--popover-spike-min-offset)))`;
-					switch (dir) {
+					switch (placementDir) {
 						case DOWN:
 							spikeTransform.value = `translate(${offset}, 0px)`;
 							break;

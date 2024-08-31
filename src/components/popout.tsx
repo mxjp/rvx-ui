@@ -11,10 +11,15 @@ import { LAYER, Layer } from "./layer.js";
  * + `"inline"` coresponds to the inline flow direction.
  * + If `"-start"` or `"-end"` is present, that direction is used unless there isn't enough space for the current content and the opposite side has more available space.
  */
-export type PopoutPlacement = "block" | "block-start" | "block-end" | "inline" | "inline-start" | "inline-end";
+export type PopoutPlacement = "block" | "inline" | EffectivePopoutPlacement;
+export type EffectivePopoutPlacement = "block-start" | "block-end" | "inline-start" | "inline-end";
 
 /**
  * Defines which side of the anchor and content are aligned orthogonally to the placement axis.
+ *
+ * + `"center"` aligns the popout center to the anchor center.
+ * + `"start"` aligns the popout start to the anchor start.
+ * + `"end"` aligns the popout end to the anchor end.
  */
 export type PopoutAlignment = "center" | "start" | "end";
 
@@ -39,9 +44,14 @@ export interface PopoutPlacementInfo {
 	content: HTMLElement;
 
 	/**
+	 * The effective placement.
+	 */
+	placement: EffectivePopoutPlacement;
+
+	/**
 	 * The effective placement direction.
 	 */
-	dir: Direction;
+	placementDir: Direction;
 
 	/**
 	 * The block start or inline start direction orthogonal to the effective placement axis.
@@ -319,32 +329,40 @@ export class Popout {
 
 		// Measure intrinsic content size & compute the final placement direction:
 		const contentRect = (sizeReference ?? content).getBoundingClientRect();
-		let dir: Direction;
+		let placement: EffectivePopoutPlacement;
+		let placementDir: Direction;
 		let alignStart: Direction;
 		if (place === "inline" || place === "block") {
 			const start = place === "inline" ? inlineStart : blockStart;
 			const startSpace = getWindowSpaceAround(anchorRect, start);
 			const endSpace = getWindowSpaceAround(anchorRect, flip(start));
-			dir = startSpace > endSpace ? start : flip(start);
+			if (startSpace > endSpace) {
+				placementDir = start;
+				placement = place === "inline" ? "inline-start" : "block-start";
+			} else {
+				placementDir = flip(start);
+				placement = place === "inline" ? "inline-end" : "block-end";
+			}
 			alignStart = place === "inline" ? blockStart : inlineStart;
 		} else {
-			dir = place === "block-start" ? blockStart : (
+			placement = place;
+			placementDir = place === "block-start" ? blockStart : (
 				place === "block-end" ? flip(blockStart) : (
 					place === "inline-start" ? inlineStart : flip(inlineStart)
 				)
 			);
-			alignStart = axisEquals(dir, blockStart) ? inlineStart : blockStart;
-			const space = getWindowSpaceAround(anchorRect, dir);
-			if (getSize(contentRect, dir) > space) {
-				if (getWindowSpaceAround(anchorRect, flip(dir)) > space) {
-					dir = flip(dir);
+			alignStart = axisEquals(placementDir, blockStart) ? inlineStart : blockStart;
+			const space = getWindowSpaceAround(anchorRect, placementDir);
+			if (getSize(contentRect, placementDir) > space) {
+				if (getWindowSpaceAround(anchorRect, flip(placementDir)) > space) {
+					placementDir = flip(placementDir);
 				}
 			}
 		}
 
 		// Apply inset along the placement direction:
-		content.style[INSET[flip(dir)]] = `${getWindowRectInset(anchorRect, dir) + gap}px`;
-		content.style[INSET[dir]] = "";
+		content.style[INSET[flip(placementDir)]] = `${getWindowRectInset(anchorRect, placementDir) + gap}px`;
+		content.style[INSET[placementDir]] = "";
 
 		// Compute the raw alignment:
 		const align = untrack(() => get(this.#alignment));
@@ -384,7 +402,8 @@ export class Popout {
 		this.#placementState.value = {
 			anchorRect,
 			content,
-			dir,
+			placement,
+			placementDir,
 			alignStart,
 		};
 

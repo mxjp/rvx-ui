@@ -197,7 +197,7 @@ function DropdownExample() {
 	const dropdown = createDropdown({
 		items: [
 			{ label: "Foo" },
-			{ label: "Bar", expandAction: (event, itemView) => {
+			{ label: "Bar", expand: (event, itemView) => {
 				console.log("Expand:", itemView.first);
 			} },
 			{ label: "Baz", action: () => {
