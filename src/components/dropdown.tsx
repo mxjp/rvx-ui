@@ -79,7 +79,7 @@ export function createDropdown(props: {
 									handleActionEvent(event, item.expand, view);
 								}
 							}}
-							$$mouseover={() => {
+							$mouseenter={() => {
 								activeItem.value = item;
 							}}
 						>
@@ -90,8 +90,6 @@ export function createDropdown(props: {
 					}}
 				</For>
 			</div>;
-
-			// TODO: Close expansions on long hover.
 
 			const root = <div
 				id={props.id}
