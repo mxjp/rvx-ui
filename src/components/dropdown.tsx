@@ -1,4 +1,4 @@
-import { ClassValue, Expression, extract, For, get, map, render, sig, StyleValue, uniqueId, View, watch } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, For, get, map, memo, render, sig, StyleValue, uniqueId, View, watch } from "@mxjp/gluon";
 
 import { Action, createDelayedHoverEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
 import { THEME } from "../common/theme.js";
@@ -48,7 +48,8 @@ export function createDropdown(props: {
 				view: View;
 			}>();
 
-			watch(props.items, items => {
+			const items = memo(props.items);
+			watch(items, items => {
 				const current = activeItem.value;
 				if (current !== undefined && !items.includes(current)) {
 					activeItem.value = undefined;
@@ -58,7 +59,7 @@ export function createDropdown(props: {
 			const content = <div class={[
 				theme?.dropdown_content,
 			]}>
-				<For each={props.items}>
+				<For each={items}>
 					{item => {
 						const id = uniqueId();
 
@@ -131,26 +132,26 @@ export function createDropdown(props: {
 				}}
 				$focus={() => {
 					if (!activeItem.value) {
-						const items = get(props.items);
-						activeItem.value = items.find(v => get(v.current)) ?? items[0];
+						const currentItems = items();
+						activeItem.value = currentItems.find(v => get(v.current)) ?? currentItems[0];
 					}
 				}}
 				$keydown={event => {
 					// TODO: Use layer keydown event instead.
-					const items = get(props.items);
+					const currentItems = items();
 					const current = activeItem.value;
 					switch (keyFor(event)) {
 						case "arrowdown": {
-							activeItem.value = items[(current === undefined ? 0 : (items.indexOf(current) + 1)) % items.length];
+							activeItem.value = currentItems[(current === undefined ? 0 : (currentItems.indexOf(current) + 1)) % currentItems.length];
 							break;
 						}
 						case "arrowup": {
-							const index = current === undefined ? -1 : (items.indexOf(current) - 1);
-							activeItem.value = items[index < 0 ? items.length - 1 : index];
+							const index = current === undefined ? -1 : (currentItems.indexOf(current) - 1);
+							activeItem.value = currentItems[index < 0 ? currentItems.length - 1 : index];
 							break;
 						}
 						case "arrowright": {
-							if (current?.children) {
+							if (current) {
 								const instance = instances.get(current);
 								if (instance?.children) {
 									instance.children.show(instance.view, event);
@@ -163,7 +164,7 @@ export function createDropdown(props: {
 						case "enter": {
 							if (current?.action && handleActionEvent(event, current.action)) {
 								popout.hide();
-							} else if (current?.children) {
+							} else if (current) {
 								const instance = instances.get(current);
 								if (instance?.children) {
 									instance.children.show(instance.view, event);
