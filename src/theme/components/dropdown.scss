@@ -41,8 +41,7 @@
 	cursor: pointer;
 	@include common.padding(control-pad, var(--control-border));
 
-	&:hover,
-	.dropdown_content:not(:hover) &.dropdown_item_active {
+	&.dropdown_item_active {
 		background-color: var(--dropdown-item-active-bg);
 	}
 }

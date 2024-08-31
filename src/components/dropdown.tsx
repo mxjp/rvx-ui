@@ -9,7 +9,7 @@ import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
 export interface DropdownItem {
 	label: unknown;
 	action?: Action;
-	expandAction?: Action<[anchor: View]>;
+	expand?: Action<[anchor: View]>;
 	current?: Expression<boolean>;
 }
 
@@ -21,6 +21,8 @@ export function createDropdown(props: {
 	scriptDir?: Expression<ScriptDirection | undefined>;
 
 	items: Expression<DropdownItem[]>;
+	expansion?: boolean;
+
 	id?: Expression<string | undefined>;
 	style?: StyleValue;
 	class?: ClassValue;
@@ -38,7 +40,11 @@ export function createDropdown(props: {
 			layer?.useHotkey("escape", () => {
 				popout.hide();
 			});
-			// TODO: Also close on "arrowleft" if this is an expansion.
+			if (props.expansion) {
+				layer?.useHotkey("arrowleft", () => {
+					popout.hide();
+				});
+			}
 
 			const activeItem = sig<DropdownItem | undefined>(undefined);
 			const instances = new WeakMap<DropdownItem, {
@@ -65,15 +71,27 @@ export function createDropdown(props: {
 								theme?.dropdown_item,
 								() => activeItem.value === item && theme?.dropdown_item_active,
 							]}
+							$click={event => {
+								activeItem.value = item;
+								if (item.action && handleActionEvent(event, item.action)) {
+									popout.hide();
+								} else if (item.expand) {
+									handleActionEvent(event, item.expand, view);
+								}
+							}}
+							$$mouseover={() => {
+								activeItem.value = item;
+							}}
 						>
 							{item.label}
 						</div>);
-						// TODO: Handle click & hover events.
 						instances.set(item, { id, view });
 						return view;
 					}}
 				</For>
 			</div>;
+
+			// TODO: Close expansions on long hover.
 
 			const root = <div
 				id={props.id}
@@ -107,10 +125,10 @@ export function createDropdown(props: {
 							break;
 						}
 						case "arrowright": {
-							if (current?.expandAction !== undefined) {
+							if (current?.expand) {
 								const instance = instances.get(current);
 								if (instance !== undefined) {
-									handleActionEvent(event, current.expandAction!, instance.view);
+									handleActionEvent(event, current.expand!, instance.view);
 								}
 							}
 							break;
@@ -118,10 +136,10 @@ export function createDropdown(props: {
 						case "enter": {
 							if (current?.action && handleActionEvent(event, current.action)) {
 								popout.hide();
-							} else if (current?.expandAction !== undefined) {
+							} else if (current?.expand) {
 								const instance = instances.get(current);
-								if (instance !== undefined) {
-									handleActionEvent(event, current.expandAction!, instance.view);
+								if (instance) {
+									handleActionEvent(event, current.expand!, instance.view);
 								}
 							}
 							break;
