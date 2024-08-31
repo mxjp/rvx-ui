@@ -1,6 +1,6 @@
 import { ClassValue, Expression, extract, For, get, map, render, sig, StyleValue, uniqueId, View, watch } from "@mxjp/gluon";
 
-import { Action, handleActionEvent, keyFor } from "../common/events.js";
+import { Action, DELAYED_HOVER_PROPS, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { ScriptDirection, WritingMode } from "../common/writing-mode.js";
 import { LAYER } from "./layer.js";
@@ -149,6 +149,7 @@ export function createDropdown(props: {
 					event.stopImmediatePropagation();
 					event.preventDefault();
 				}}
+				{...DELAYED_HOVER_PROPS}
 			>
 				<div class={theme?.dropdown_scroll_area}>
 					{content}

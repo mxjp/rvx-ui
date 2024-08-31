@@ -1,5 +1,6 @@
 import { captureSelf, Emitter, Event as GluonEvent, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "@mxjp/gluon";
 
+import { DELAYED_HOVER_EVENT } from "../common/events.js";
 import { axisEquals, Direction, flip, getBlockStart, getInlineStart, getSize, getWindowRectInset, getWindowSize, getWindowSpaceAround, INSET, ScriptDirection, WritingMode } from "../common/writing-mode.js";
 import { LAYER, Layer } from "./layer.js";
 
@@ -97,7 +98,7 @@ export interface PopoutOptions {
 	/**
 	 * An array of event names that cause the popout to hide automatically when dispatched outside of the current layer stack or the latest anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:delayed-hover"]
 	 */
 	foreignEvents?: string[];
 
@@ -158,7 +159,7 @@ export class Popout {
 		this.#placement = options.placement;
 		this.#alignment = options.alignment;
 		this.#content = options.content;
-		this.#foreignEvents = options.foreignEvents ?? ["resize", "scroll", "mousedown", "touchstart", "focusin"];
+		this.#foreignEvents = options.foreignEvents ?? ["resize", "scroll", "mousedown", "touchstart", "focusin", DELAYED_HOVER_EVENT];
 		this.#writingMode = options.writingMode;
 		this.#scriptDir = options.scriptDir;
 

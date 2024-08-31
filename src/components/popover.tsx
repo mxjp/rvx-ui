@@ -47,7 +47,7 @@ export function createPopover(props: {
 	/**
 	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:delayed-hover"]
 	 */
 	foreignEvents?: string[];
 
@@ -229,7 +229,7 @@ export function Popover(props: {
 	/**
 	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:delayed-hover"]
 	 */
 	foreignEvents?: string[];
 

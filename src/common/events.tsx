@@ -1,3 +1,4 @@
+import { Attributes } from "@mxjp/gluon";
 import { waitFor } from "@mxjp/gluon/async";
 
 /**
@@ -59,3 +60,21 @@ export function handleActionEvent<T extends unknown[]>(event: Event, action: Act
 	}
 	return true;
 }
+
+export const DELAYED_HOVER_EVENT = "gluon-ux:delayed-hover";
+export const DELAYED_HOVER_PROPS: Attributes = {
+	$mouseenter: (event: Event) => {
+		const timer = setTimeout(() => {
+			event.target?.dispatchEvent(new CustomEvent(DELAYED_HOVER_EVENT));
+		}, 500);
+
+		const cancel = () => {
+			event.target?.removeEventListener("mouseleave", cancel);
+			event.target?.removeEventListener("click", cancel);
+			clearTimeout(timer);
+		};
+
+		event.target?.addEventListener("mouseleave", cancel);
+		event.target?.addEventListener("click", cancel);
+	},
+} as const;
