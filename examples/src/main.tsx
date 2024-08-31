@@ -1,5 +1,5 @@
 import { DeriveContext, Emitter, UseUniqueId, extract, mount, render, sig } from "@mxjp/gluon";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, createDropdown, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, DropdownItem, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, createDropdown, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
 
@@ -196,15 +196,21 @@ function DropdownExample() {
 
 	const dropdown = createDropdown({
 		items: [
-			{ label: "Foo" },
-			{ label: "Bar", expand: (event, itemView) => {
-				console.log("Expand:", itemView.first);
-			} },
-			{ label: "Baz", action: () => {
-				console.log("Baz!");
+			{ label: "Noop" },
+			{ label: "Infinitely deep children", children },
+			{ label: "Dropdown item action", action: () => {
+				console.log("Hello World!");
 			} },
 		],
 	});
+
+	function children(): DropdownItem[] {
+		return [
+			{ label: "Item A", children: children },
+			{ label: "Item B", children: children },
+			{ label: "Item C", children: children },
+		];
+	}
 
 	return anchor;
 }

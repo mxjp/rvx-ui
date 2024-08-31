@@ -253,9 +253,9 @@ export class Popout {
 								this.hide();
 							};
 
-							this.#foreignEvents.forEach(t => window.addEventListener(t, onForeignEvent, { passive: true }));
+							this.#foreignEvents.forEach(t => window.addEventListener(t, onForeignEvent, { passive: true, capture: true }));
 							teardown(() => {
-								this.#foreignEvents.forEach(t => window.removeEventListener(t, onForeignEvent));
+								this.#foreignEvents.forEach(t => window.removeEventListener(t, onForeignEvent, { capture: true }));
 							});
 
 							instance!.content = <div style={{
