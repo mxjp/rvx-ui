@@ -1,4 +1,4 @@
-import { ClassValue, Expression, extract, For, get, map, memo, render, sig, StyleValue, uniqueId, View, watch } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, For, get, map, memo, optionalString, render, sig, StyleValue, uniqueId, View, watch } from "@mxjp/gluon";
 
 import { Action, createDelayedHoverEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
 import { THEME } from "../common/theme.js";
@@ -10,19 +10,19 @@ export interface DropdownItem {
 	action?: Action;
 	children?: Expression<DropdownItem[]>;
 	current?: Expression<boolean>;
+	selected?: Expression<boolean>;
 }
 
 export function createDropdown(props: {
-	placement?: Expression<PopoutPlacement | undefined>;
-	alignment?: Expression<PopoutAlignment | undefined>;
-	foreignEvents?: string[];
-
 	items: Expression<DropdownItem[]>;
 	expansion?: boolean;
 
 	id?: Expression<string | undefined>;
 	style?: StyleValue;
 	class?: ClassValue;
+	placement?: Expression<PopoutPlacement | undefined>;
+	alignment?: Expression<PopoutAlignment | undefined>;
+	foreignEvents?: string[];
 }): Popout {
 	return new Popout({
 		placement: map(props.placement, v => v ?? "block-end"),
@@ -109,9 +109,10 @@ export function createDropdown(props: {
 					{item => {
 						const id = uniqueId();
 
+						let childrenId: string | undefined;
 						let children: Popout | undefined;
-						// TODO: id assignment.
 						if (item.children) {
+							childrenId = uniqueId();
 							children = createDropdown({
 								placement: () => {
 									const parentPlacement = get(placement)?.placement;
@@ -135,6 +136,11 @@ export function createDropdown(props: {
 								theme?.dropdown_item,
 								() => activeItem.value === item && theme?.dropdown_item_active,
 							]}
+							role="option"
+							aria-selected={item.selected}
+							aria-haspopup={children ? "listbox" : undefined}
+							aria-controls={() => children?.visible ? childrenId : undefined}
+							aria-expanded={optionalString(() => children?.visible)}
 							$click={event => {
 								activeItem.value = item;
 								if (item.action && handleActionEvent(event, item.action)) {
@@ -191,4 +197,47 @@ export function createDropdown(props: {
 			return root;
 		},
 	});
+}
+
+export interface DropdownAnchorProps {
+	action: Action;
+	"aria-haspopup": "listbox";
+	"aria-controls": Expression<string | undefined>;
+	"aria-expanded": Expression<boolean>;
+}
+
+export function Dropdown(props: {
+	anchor: (props: DropdownAnchorProps) => unknown;
+	items: Expression<DropdownItem[]>;
+
+	id?: Expression<string | undefined>;
+	style?: StyleValue;
+	class?: ClassValue;
+	placement?: Expression<PopoutPlacement | undefined>;
+	alignment?: Expression<PopoutAlignment | undefined>;
+	foreignEvents?: string[];
+}): unknown {
+	const defaultId = uniqueId();
+	const id = map(props.id, v => v ?? defaultId);
+
+	const dropdown = createDropdown({
+		items: props.items,
+		id,
+		style: props.style,
+		class: props.class,
+		placement: props.placement,
+		alignment: props.alignment,
+		foreignEvents: props.foreignEvents,
+	});
+
+	const anchor = render(props.anchor({
+		action: event => {
+			dropdown.toggle(anchor, event);
+		},
+		"aria-haspopup": "listbox",
+		"aria-controls": () => dropdown.visible ? get(id) : undefined,
+		"aria-expanded": () => dropdown.visible,
+	}));
+
+	return anchor;
 }
