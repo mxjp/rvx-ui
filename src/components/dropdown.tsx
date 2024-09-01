@@ -35,6 +35,7 @@ export function createDropdown(props: {
 			const instances = new WeakMap<DropdownItem, {
 				id: string;
 				children: Popout | undefined;
+				root: HTMLElement;
 				view: View;
 			}>();
 
@@ -45,6 +46,13 @@ export function createDropdown(props: {
 					activeItem.value = undefined;
 				}
 			});
+
+			const scrollToActive = () => {
+				const active = activeItem.value;
+				if (active) {
+					instances.get(active)?.root.scrollIntoView({ block: "nearest", inline: "nearest" });
+				}
+			};
 
 			layer.useEvent("keydown", event => {
 				const currentItems = items();
@@ -63,11 +71,13 @@ export function createDropdown(props: {
 					}
 					case "arrowdown": {
 						activeItem.value = currentItems[(current === undefined ? 0 : (currentItems.indexOf(current) + 1)) % currentItems.length];
+						scrollToActive();
 						break;
 					}
 					case "arrowup": {
 						const index = current === undefined ? -1 : (currentItems.indexOf(current) - 1);
 						activeItem.value = currentItems[index < 0 ? currentItems.length - 1 : index];
+						scrollToActive();
 						break;
 					}
 					case "arrowright": {
@@ -96,7 +106,6 @@ export function createDropdown(props: {
 					}
 					default: return;
 				}
-				// TODO: Scroll new active item into view.
 				event.stopImmediatePropagation();
 				event.preventDefault();
 			});
@@ -129,7 +138,7 @@ export function createDropdown(props: {
 							});
 						}
 
-						const view = render(<div
+						const root = <div
 							id={id}
 							class={[
 								theme?.dropdown_item,
@@ -161,8 +170,9 @@ export function createDropdown(props: {
 							}}
 						>
 							{item.label}
-						</div>);
-						instances.set(item, { id, children, view });
+						</div> as HTMLElement;
+						const view = render(root);
+						instances.set(item, { id, children, root, view });
 						return view;
 					}}
 				</For>
