@@ -74,6 +74,8 @@ export interface Theme {
 
 	/** Class for all dropdown roots. */
 	dropdown?: string;
+	/** Additional class for nested dropdowns. */
+	dropdown_expansion?: string;
 	/** Class for the dropdown scroll area. */
 	dropdown_scroll_area?: string;
 	/** Class for the dropdown content. */

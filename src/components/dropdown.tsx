@@ -174,6 +174,7 @@ export function createDropdown(props: {
 				class={[
 					props.class,
 					theme?.dropdown,
+					map(props.expansion, v => v && theme?.dropdown_expansion),
 				]}
 				role="listbox"
 				tabindex="0"

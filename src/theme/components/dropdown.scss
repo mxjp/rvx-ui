@@ -16,9 +16,12 @@
 ));
 
 .dropdown {
-	min-inline-size: var(--popout-anchor-inline-size);
 	position: relative;
 	outline: none;
+
+	&:not(.dropdown_expansion) {
+		min-inline-size: var(--popout-anchor-inline-size);
+	}
 }
 
 .dropdown_scroll_area {
