@@ -3,6 +3,7 @@ import { ClassValue, Expression, get, map, Signal, StyleValue } from "@mxjp/gluo
 import { Button, ButtonVariant } from "./button.js";
 import { Dropdown, DropdownItem } from "./dropdown.js";
 import { PopoutAlignment, PopoutPlacement } from "./popout.js";
+import { validatorFor } from "./validation.js";
 
 export interface DropdownValue<T> {
 	value: T;
@@ -16,10 +17,18 @@ export function DropdownInput<T>(props: {
 
 	variant?: ButtonVariant;
 	disabled?: Expression<boolean | undefined>;
-	id?: Expression<string | undefined>;
-	style?: StyleValue;
-	class?: ClassValue;
 
+	class?: ClassValue;
+	style?: StyleValue;
+	id?: Expression<string | undefined>;
+	autofocus?: Expression<boolean | undefined>;
+	title?: Expression<string | undefined>;
+	"aria-label"?: Expression<string | undefined>;
+	"aria-labelledby"?: Expression<string | undefined>;
+
+	dropdownId?: string;
+	dropdownClass?: ClassValue;
+	dropdownStyle?: StyleValue;
 	placement?: Expression<PopoutPlacement | undefined>;
 	alignment?: Expression<PopoutAlignment | undefined>;
 	foreignEvents?: string[];
@@ -30,10 +39,15 @@ export function DropdownInput<T>(props: {
 			{...a}
 			variant={map(props.variant, v => v ?? "input")}
 			disabled={props.value instanceof Signal ? props.disabled : true}
-			id={props.id}
-			style={props.style}
 			class={props.class}
+			style={props.style}
+			id={props.id}
+			autofocus={props.autofocus}
+			title={props.title}
 			role="combobox"
+			aria-label={props["aria-label"]}
+			aria-labelledby={props["aria-labelledby"]}
+			validator={props.value instanceof Signal ? validatorFor(props.value) : undefined}
 		>
 			{props.children ?? (() => {
 				const value = get(props.value);
@@ -58,6 +72,9 @@ export function DropdownInput<T>(props: {
 			}
 			return item;
 		})}
+		id={props.dropdownId}
+		style={props.dropdownStyle}
+		class={props.dropdownClass}
 		placement={props.placement}
 		alignment={props.alignment}
 		foreignEvents={props.foreignEvents}

@@ -3,6 +3,7 @@ import { isPending } from "@mxjp/gluon/async";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
+import { Validator } from "./validation.js";
 
 export type ButtonType = "button" | "submit" | "reset" | "menu";
 export type ButtonVariant = "default" | "primary" | "success" | "danger" | "warning" | "input";
@@ -45,6 +46,7 @@ export function Button(props: {
 	"aria-expanded"?: Expression<boolean | undefined>;
 	"aria-haspopup"?: Expression<string | undefined>;
 	"aria-controls"?: Expression<string | undefined>;
+	validator?: Validator;
 
 	children?: unknown;
 }): unknown {
@@ -75,6 +77,8 @@ export function Button(props: {
 		aria-expanded={optionalString(props["aria-expanded"])}
 		aria-haspopup={props["aria-haspopup"]}
 		aria-controls={props["aria-controls"]}
+		aria-invalid={props.validator ? optionalString(props.validator.invalid) : undefined}
+		aria-errormessage={props.validator ? props.validator.errorMessageIds : undefined}
 		autofocus={props.autofocus}
 
 		$click={action}
