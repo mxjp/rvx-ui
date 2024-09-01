@@ -7,6 +7,7 @@ export * from "./components/button.js";
 export * from "./components/checkbox.js";
 export * from "./components/collapse.js";
 export * from "./components/column.js";
+export * from "./components/control-group.js";
 export * from "./components/dialog.js";
 export * from "./components/dropdown.js";
 export * from "./components/dropdown-input.js";

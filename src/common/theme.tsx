@@ -65,6 +65,9 @@ export interface Theme {
 	/** Additional class for columns of controls */
 	column_control?: string;
 
+	/** Class for all inline control groups */
+	control_group?: string;
+
 	/** Class for all dialog containers */
 	dialog_container?: string;
 	/** Class for all dialog bodies */

@@ -1,5 +1,5 @@
 import { Emitter, Signal, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Dropdown, DropdownInput, DropdownItem, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { Button, Checkbox, Collapse, Column, ControlGroup, DialogBody, DialogFooter, Dropdown, DropdownInput, DropdownItem, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
 
@@ -53,6 +53,14 @@ mount(
 				<Text>
 					You typed: <Value>{text}</Value>
 				</Text>
+
+				<Heading level="2">Control groups</Heading>
+				<Row>
+					<ControlGroup>
+						<TextInput value={trim(text)} />
+						<Button>Ok</Button>
+					</ControlGroup>
+				</Row>
 
 				<Heading level="2">Checkboxes</Heading>
 				<Column size="control">
