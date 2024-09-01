@@ -94,9 +94,9 @@ export function createDropdown(props: {
 						}
 						break;
 					}
-
 					default: return;
 				}
+				// TODO: Scroll new active item into view.
 				event.stopImmediatePropagation();
 				event.preventDefault();
 			});
