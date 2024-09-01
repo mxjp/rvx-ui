@@ -1,5 +1,5 @@
 import { Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
-import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Dropdown, DropdownItem, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
+import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Dropdown, DropdownInput, DropdownItem, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
 
@@ -81,19 +81,36 @@ mount(
 
 				<Heading level="2">Dropdowns</Heading>
 				<Row>
-					<Dropdown anchor={props => <Button {...props}>Dropdown</Button>} items={[
-						{ label: "Noop" },
-						{ label: "Infinite nesting", children: function children(): DropdownItem[] {
-							return [
-								{ label: "Item A", children: children },
-								{ label: "Item B", children: children },
-								{ label: "Item C", children: children },
-							];
-						} },
-						{ label: "Dropdown item action", action: () => {
-							console.log("Hello World!");
-						} },
-					]} />
+					<UseUniqueId>
+						{id => <Column>
+							<Label for={id}>Custom dropdown</Label>
+							<Dropdown anchor={props => <Button id={id} {...props}>Toggle dropdown</Button>} items={[
+								{ label: "Noop" },
+								{ label: "Infinite nesting", children: function children(): DropdownItem[] {
+									return [
+										{ label: "Item A", children: children },
+										{ label: "Item B", children: children },
+										{ label: "Item C", children: children },
+									];
+								} },
+								{ label: "Dropdown item action", action: () => {
+									console.log("Hello World!");
+								} },
+							]} />
+						</Column>}
+					</UseUniqueId>
+
+					<UseUniqueId>
+						{id => <Column>
+							<Label for={id}>Dropdown inputs</Label>
+							<DropdownInput<string> id={id} value={option} values={[
+								{ value: "foo", label: "Foo" },
+								{ value: "bar", label: "Bar" },
+								{ value: "baz", label: "Baz" },
+							]} />
+							<Text>Selected value: <Value>{option}</Value></Text>
+						</Column>}
+					</UseUniqueId>
 				</Row>
 
 				<Heading level="2">Popovers</Heading>

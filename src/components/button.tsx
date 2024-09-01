@@ -39,6 +39,7 @@ export function Button(props: {
 	id?: Expression<string | undefined>;
 	autofocus?: Expression<boolean | undefined>;
 	title?: Expression<string | undefined>;
+	role?: Expression<string | undefined>;
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-expanded"?: Expression<boolean | undefined>;
@@ -67,12 +68,13 @@ export function Button(props: {
 		]}
 		style={props.style}
 		id={props.id}
+		title={props.title}
+		role={props.role}
 		aria-label={props["aria-label"]}
 		aria-labelledby={props["aria-labelledby"]}
 		aria-expanded={optionalString(props["aria-expanded"])}
 		aria-haspopup={props["aria-haspopup"]}
 		aria-controls={props["aria-controls"]}
-		title={props.title}
 		autofocus={props.autofocus}
 
 		$click={action}

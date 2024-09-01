@@ -9,7 +9,6 @@ export interface DropdownItem {
 	label: unknown;
 	action?: Action;
 	children?: Expression<DropdownItem[]>;
-	current?: Expression<boolean>;
 	selected?: Expression<boolean>;
 }
 
@@ -185,7 +184,7 @@ export function createDropdown(props: {
 				$focus={() => {
 					if (!activeItem.value) {
 						const currentItems = items();
-						activeItem.value = currentItems.find(v => get(v.current)) ?? currentItems[0];
+						activeItem.value = currentItems.find(v => get(v.selected)) ?? currentItems[0];
 					}
 				}}
 			>

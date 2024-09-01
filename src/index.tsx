@@ -9,6 +9,7 @@ export * from "./components/collapse.js";
 export * from "./components/column.js";
 export * from "./components/dialog.js";
 export * from "./components/dropdown.js";
+export * from "./components/dropdown-input.js";
 export * from "./components/flex-space.js";
 export * from "./components/heading.js";
 export * from "./components/label.js";
