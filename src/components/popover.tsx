@@ -70,10 +70,10 @@ export function createPopover(props: {
 		alignment: map(props.alignment, v => v ?? "center"),
 		content: ({ popout, onPlacement, placement, setSizeReference }) => {
 			const theme = extract(THEME);
+			const layer = extract(LAYER)!;
 			const spikeTransform = sig("");
 
-			const layer = extract(LAYER);
-			layer?.useHotkey("escape", () => {
+			layer.useHotkey("escape", () => {
 				popout.hide();
 			});
 
@@ -151,7 +151,7 @@ export function createPopover(props: {
 					{content}
 				</div>
 			</div> as HTMLElement;
-			layer?.useAutoFocusFallback(root);
+			layer.useAutoFocusFallback(root);
 			return root;
 		},
 		foreignEvents: props.foreignEvents,
