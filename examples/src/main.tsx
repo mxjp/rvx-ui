@@ -1,4 +1,4 @@
-import { Emitter, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
+import { Emitter, Signal, UseUniqueId, extract, mount, sig } from "@mxjp/gluon";
 import { Button, Checkbox, Collapse, Column, DialogBody, DialogFooter, Dropdown, DropdownInput, DropdownItem, Heading, LAYER, Label, Link, PopoutAlignment, PopoutPlacement, Popover, RadioButtons, RootLayer, Row, THEME, Text, TextInput, ValidationMessages, Value, intParser, parse, rule, showDialog, trim, validate } from "@mxjp/gluon-ux";
 import { TASKS, Tasks } from "@mxjp/gluon/async";
 import "./styles.scss";
@@ -20,6 +20,9 @@ mount(
 
 			const popoverPlacement = sig<PopoutPlacement | undefined>(undefined);
 			const popoverAlignment = sig<PopoutAlignment | undefined>(undefined);
+
+			const dropdownPlacement = sig<PopoutPlacement | undefined>(undefined);
+			const dropdownAlignment = sig<PopoutAlignment | undefined>(undefined);
 
 			return <Column class="app">
 				<Heading level="1">Gluon UX</Heading>
@@ -80,67 +83,56 @@ mount(
 				]} />
 
 				<Heading level="2">Dropdowns</Heading>
+				<PopoutControls placement={dropdownPlacement} defaultPlacement="block end" alignment={dropdownAlignment} defaultAlignment="start" />
 				<Row>
 					<UseUniqueId>
 						{id => <Column>
 							<Label for={id}>Custom dropdown</Label>
-							<Dropdown anchor={props => <Button id={id} {...props}>Toggle dropdown</Button>} items={[
-								{ label: "Noop" },
-								{ label: "Infinite nesting", children: function children(): DropdownItem[] {
-									return [
-										{ label: "Item A", children: children },
-										{ label: "Item B", children: children },
-										{ label: "Item C", children: children },
-									];
-								} },
-								{ label: "Dropdown item action", action: () => {
-									console.log("Hello World!");
-								} },
-							]} />
+							<Dropdown
+								anchor={props => <Button id={id} {...props}>Toggle dropdown</Button>}
+								items={[
+									{ label: "Noop" },
+									{ label: "Infinite nesting", children: function children(): DropdownItem[] {
+										return [
+											{ label: "Item A", children: children },
+											{ label: "Item B", children: children },
+											{ label: "Item C", children: children },
+										];
+									} },
+									{ label: "Dropdown item action", action: () => {
+										console.log("Hello World!");
+									} },
+									{ label: "Many nested items", children: Array(200).fill(0).map((_, index) => {
+										return { label: `Nested item ${index}` };
+									}) },
+								]}
+								placement={dropdownPlacement}
+								alignment={dropdownAlignment}
+							/>
 						</Column>}
 					</UseUniqueId>
 
 					<UseUniqueId>
 						{id => <Column>
 							<Label for={id}>Dropdown inputs</Label>
-							<DropdownInput<string> id={id} value={option} values={[
-								{ value: "foo", label: "Foo" },
-								{ value: "bar", label: "Bar" },
-								{ value: "baz", label: "Baz" },
-							]} />
+							<DropdownInput<string>
+								id={id}
+								value={option}
+								values={[
+									{ value: "foo", label: "Foo" },
+									{ value: "bar", label: "Bar" },
+									{ value: "baz", label: "Baz" },
+								]}
+								placement={dropdownPlacement}
+								alignment={dropdownAlignment}
+							/>
 							<Text>Selected value: <Value>{option}</Value></Text>
 						</Column>}
 					</UseUniqueId>
 				</Row>
 
 				<Heading level="2">Popovers</Heading>
-				<Row>
-					<UseUniqueId>
-						{id => <Column>
-							<Label for={id}>Placement</Label>
-							<RadioButtons<PopoutPlacement | undefined> value={popoverPlacement} id={id} options={[
-								{ value: undefined, label: "Default (block)" },
-								{ value: "block", label: "Block" },
-								{ value: "block-start", label: "Block start" },
-								{ value: "block-end", label: "Block end" },
-								{ value: "inline", label: "Inline" },
-								{ value: "inline-start", label: "Inline start" },
-								{ value: "inline-end", label: "Inline end" },
-							]} />
-						</Column>}
-					</UseUniqueId>
-					<UseUniqueId>
-						{id => <Column>
-							<Label>Alignment</Label>
-							<RadioButtons<PopoutAlignment | undefined> value={popoverAlignment} id={id} options={[
-								{ value: undefined, label: "Default (center)" },
-								{ value: "start", label: "Start" },
-								{ value: "center", label: "Center" },
-								{ value: "end", label: "End" },
-							]} />
-						</Column>}
-					</UseUniqueId>
-				</Row>
+				<PopoutControls placement={popoverPlacement} defaultPlacement="block" alignment={popoverAlignment} defaultAlignment="center" />
 				<Row>
 					<Popover
 						anchor={props => <Button {...props}>Toggle popover</Button>}
@@ -215,6 +207,41 @@ mount(
 		}}
 	</RootLayer>
 );
+
+function PopoutControls(props: {
+	placement: Signal<PopoutPlacement | undefined>;
+	defaultPlacement: unknown;
+	alignment: Signal<PopoutAlignment | undefined>;
+	defaultAlignment: unknown;
+}) {
+	return <Row>
+		<UseUniqueId>
+			{id => <Column>
+				<Label for={id}>Placement</Label>
+				<RadioButtons<PopoutPlacement | undefined> value={props.placement} id={id} options={[
+					{ value: undefined, label: <>Default ({props.defaultPlacement})</> },
+					{ value: "block", label: "Block" },
+					{ value: "block-start", label: "Block start" },
+					{ value: "block-end", label: "Block end" },
+					{ value: "inline", label: "Inline" },
+					{ value: "inline-start", label: "Inline start" },
+					{ value: "inline-end", label: "Inline end" },
+				]} />
+			</Column>}
+		</UseUniqueId>
+		<UseUniqueId>
+			{id => <Column>
+				<Label>Alignment</Label>
+				<RadioButtons<PopoutAlignment | undefined> value={props.alignment} id={id} options={[
+					{ value: undefined, label: <>Default ({props.defaultAlignment})</> },
+					{ value: "start", label: "Start" },
+					{ value: "center", label: "Center" },
+					{ value: "end", label: "End" },
+				]} />
+			</Column>}
+		</UseUniqueId>
+	</Row>;
+}
 
 function showExampleDialog() {
 	showDialog<number>(dialog => {
