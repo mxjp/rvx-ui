@@ -30,16 +30,7 @@ export function createDropdown(props: {
 		foreignEvents: props.foreignEvents,
 		content: ({ popout, placement }) => {
 			const theme = extract(THEME);
-
-			const layer = extract(LAYER);
-			layer?.useHotkey("escape", () => {
-				popout.hide();
-			});
-			if (props.expansion) {
-				layer?.useHotkey("arrowleft", () => {
-					popout.hide();
-				});
-			}
+			const layer = extract(LAYER)!;
 
 			const activeItem = sig<DropdownItem | undefined>(undefined);
 			const instances = new WeakMap<DropdownItem, {
@@ -54,6 +45,61 @@ export function createDropdown(props: {
 				if (current !== undefined && !items.includes(current)) {
 					activeItem.value = undefined;
 				}
+			});
+
+			layer.useEvent("keydown", event => {
+				const currentItems = items();
+				const current = activeItem.value;
+				switch (keyFor(event)) {
+					case "escape": {
+						popout.hide();
+						break;
+					}
+					case "arrowleft": {
+						if (props.expansion) {
+							popout.hide();
+							break;
+						}
+						return;
+					}
+					case "arrowdown": {
+						activeItem.value = currentItems[(current === undefined ? 0 : (currentItems.indexOf(current) + 1)) % currentItems.length];
+						break;
+					}
+					case "arrowup": {
+						const index = current === undefined ? -1 : (currentItems.indexOf(current) - 1);
+						activeItem.value = currentItems[index < 0 ? currentItems.length - 1 : index];
+						break;
+					}
+					case "arrowright": {
+						if (current) {
+							const instance = instances.get(current);
+							if (instance?.children) {
+								instance.children.show(instance.view, event);
+								event.stopImmediatePropagation();
+								event.preventDefault();
+							}
+						}
+						break;
+					}
+					case "enter": {
+						if (current?.action && handleActionEvent(event, current.action)) {
+							popout.hide();
+						} else if (current) {
+							const instance = instances.get(current);
+							if (instance?.children) {
+								instance.children.show(instance.view, event);
+								event.stopImmediatePropagation();
+								event.preventDefault();
+							}
+						}
+						break;
+					}
+
+					default: return;
+				}
+				event.stopImmediatePropagation();
+				event.preventDefault();
 			});
 
 			const content = <div class={[
@@ -136,55 +182,12 @@ export function createDropdown(props: {
 						activeItem.value = currentItems.find(v => get(v.current)) ?? currentItems[0];
 					}
 				}}
-				$keydown={event => {
-					// TODO: Use layer keydown event instead.
-					const currentItems = items();
-					const current = activeItem.value;
-					switch (keyFor(event)) {
-						case "arrowdown": {
-							activeItem.value = currentItems[(current === undefined ? 0 : (currentItems.indexOf(current) + 1)) % currentItems.length];
-							break;
-						}
-						case "arrowup": {
-							const index = current === undefined ? -1 : (currentItems.indexOf(current) - 1);
-							activeItem.value = currentItems[index < 0 ? currentItems.length - 1 : index];
-							break;
-						}
-						case "arrowright": {
-							if (current) {
-								const instance = instances.get(current);
-								if (instance?.children) {
-									instance.children.show(instance.view, event);
-									event.stopImmediatePropagation();
-									event.preventDefault();
-								}
-							}
-							break;
-						}
-						case "enter": {
-							if (current?.action && handleActionEvent(event, current.action)) {
-								popout.hide();
-							} else if (current) {
-								const instance = instances.get(current);
-								if (instance?.children) {
-									instance.children.show(instance.view, event);
-									event.stopImmediatePropagation();
-									event.preventDefault();
-								}
-							}
-							break;
-						}
-						default: return;
-					}
-					event.stopImmediatePropagation();
-					event.preventDefault();
-				}}
 			>
 				<div class={theme?.dropdown_scroll_area}>
 					{content}
 				</div>
 			</div> as HTMLElement;
-			layer?.useAutoFocusFallback(root);
+			layer.useAutoFocusFallback(root);
 			return root;
 		},
 	});
