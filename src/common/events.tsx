@@ -73,8 +73,8 @@ export function startDelayedHoverOnMouseenter(event: MouseEvent, action: () => v
 	event.target?.addEventListener("touchstart", cancel, { capture: true });
 }
 
-export const DELAYED_HOVER_EVENT = "gluon-ux:delayed-hover";
+export const PASSIVE_ACTION_EVENT = "gluon-ux:passive-action";
 
-export function createDelayedHoverEvent(): Event {
-	return new CustomEvent(DELAYED_HOVER_EVENT);
+export function createPassiveActionEvent(): Event {
+	return new CustomEvent(PASSIVE_ACTION_EVENT);
 }

@@ -1,6 +1,6 @@
 import { ClassValue, Expression, extract, For, get, map, memo, optionalString, render, sig, StyleValue, uniqueId, View, watch } from "@mxjp/gluon";
 
-import { Action, createDelayedHoverEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
+import { Action, createPassiveActionEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { LAYER } from "./layer.js";
 import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
@@ -153,7 +153,7 @@ export function createDropdown(props: {
 							$mouseenter={event => {
 								activeItem.value = item;
 								startDelayedHoverOnMouseenter(event, () => {
-									event.target?.dispatchEvent(createDelayedHoverEvent());
+									event.target?.dispatchEvent(createPassiveActionEvent());
 									if (activeItem.value === item) {
 										children?.show(view, event);
 									}
