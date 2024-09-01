@@ -248,15 +248,6 @@ export function Popover(props: {
 	const defaultId = uniqueId();
 	const id = map(props.id, v => v ?? defaultId);
 
-	const anchor = render(props.anchor({
-		action: event => {
-			popover.toggle(anchor, event);
-		},
-		id,
-		"aria-label": props["aria-label"],
-		"aria-labelledby": props["aria-labelledby"],
-	}));
-
 	const popover = createPopover({
 		content: props.children,
 		inlineSize: props.inlineSize,
@@ -276,6 +267,15 @@ export function Popover(props: {
 			: undefined),
 		"aria-describedby": props["aria-describedby"],
 	});
+
+	const anchor = render(props.anchor({
+		action: event => {
+			popover.toggle(anchor, event);
+		},
+		id,
+		"aria-label": props["aria-label"],
+		"aria-labelledby": props["aria-labelledby"],
+	}));
 
 	return anchor;
 }
