@@ -35,6 +35,8 @@ export interface Theme {
 	button_danger?: string;
 	/** Additional class for buttons with the "warning" variant */
 	button_warning?: string;
+	/** Additional class for buttons with the "input" variant */
+	button_input?: string;
 
 	/** Class for all checkbox containing labels */
 	checkbox_label?: string;

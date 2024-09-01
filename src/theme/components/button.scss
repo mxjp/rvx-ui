@@ -65,6 +65,19 @@
 	button-danger-border: (
 		dark: rgb(255, 0, 64),
 	),
+
+	button-input-bg: (
+		dark: rgb(16, 16, 16),
+	),
+	button-input-bg-lit: (
+		dark: rgb(36, 36, 36),
+	),
+	button-input-fg: (
+		dark: white,
+	),
+	button-input-border: (
+		dark: rgb(80, 80, 80),
+	),
 ));
 
 .button {
@@ -86,7 +99,7 @@
 	}
 }
 
-@each $variant in (default, primary, success, warning, danger) {
+@each $variant in (default, primary, success, warning, danger, input) {
 	.button_#{$variant} {
 		background-color: var(--button-#{$variant}-bg);
 		color: var(--button-#{$variant}-fg);
