@@ -6,21 +6,82 @@ import { LAYER } from "./layer.js";
 import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
 
 export interface DropdownItem {
+	/**
+	 * The item label.
+	 */
 	label: unknown;
+
+	/**
+	 * The action to run when this item is selected.
+	 */
 	action?: Action;
+
+	/**
+	 * Optional child items.
+	 *
+	 * + If an action is also specified and runs when the item is selected, this is only accessible by hovering or pressing `ArrowRight`.
+	 * + This expression is memoized and only evaluated while the dropdown is open.
+	 */
 	children?: Expression<DropdownItem[]>;
+
+	/**
+	 * True if this item is currently selected.
+	 */
 	selected?: Expression<boolean>;
 }
 
+/**
+ * Create a dropdown that is initially hidden.
+ */
 export function createDropdown(props: {
+	/**
+	 * The items contained in this dropdown.
+	 *
+	 * This expression is memoized and only evaluated while the dropdown is open.
+	 */
 	items: Expression<DropdownItem[]>;
+
+	/**
+	 * True to indicate, that this is a nested dropdown.
+	 *
+	 * Currently, this allows the dropdown to be closed by pressing "ArrowRight".
+	 */
 	expansion?: boolean;
 
+	/** An id for the dropdown root. */
 	id?: Expression<string | undefined>;
+	/** Styles for the dropdown root. */
 	style?: StyleValue;
+	/** Classes for the dropdown root. */
 	class?: ClassValue;
+
+	/**
+	 * Defines the direction in which the dropdown is placed in relation to the anchor.
+	 *
+	 * This expression is only evaluated when calculating the dropdown placement.
+	 *
+	 * See {@link PopoutPlacement}
+	 *
+	 * @default "block-end"
+	 */
 	placement?: Expression<PopoutPlacement | undefined>;
+
+	/**
+	 * Defines which side of the anchor and popover are aligned orthogonally to the placement axis.
+	 *
+	 * This expression is only evaluated when calculating the popover placement.
+	 *
+	 * See {@link PopoutAlignment}
+	 *
+	 * @default "start"
+	 */
 	alignment?: Expression<PopoutAlignment | undefined>;
+
+	/**
+	 * An array of event names that cause the dropdown to hide automatically when dispatched outside of the current layer stack or the anchor.
+	 *
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:passive-action"]
+	 */
 	foreignEvents?: string[];
 }): Popout {
 	return new Popout({
@@ -211,20 +272,58 @@ export function createDropdown(props: {
 
 export interface DropdownAnchorProps {
 	action: Action;
-	"aria-haspopup": "listbox";
+	"aria-haspopup": Expression<string | undefined>;
 	"aria-controls": Expression<string | undefined>;
 	"aria-expanded": Expression<boolean>;
 }
 
 export function Dropdown(props: {
+	/**
+	 * A function to immediately render the anchor.
+	 */
 	anchor: (props: DropdownAnchorProps) => unknown;
+
+	/**
+	 * The items contained in this dropdown.
+	 *
+	 * This expression is memoized and only evaluated while the dropdown is open.
+	 */
 	items: Expression<DropdownItem[]>;
 
+	/** An id for the dropdown root. */
 	id?: Expression<string | undefined>;
+	/** Styles for the dropdown root. */
 	style?: StyleValue;
+	/** Classes for the dropdown root. */
 	class?: ClassValue;
+
+	/**
+	 * Defines the direction in which the dropdown is placed in relation to the anchor.
+	 *
+	 * This expression is only evaluated when calculating the dropdown placement.
+	 *
+	 * See {@link PopoutPlacement}
+	 *
+	 * @default "block-end"
+	 */
 	placement?: Expression<PopoutPlacement | undefined>;
+
+	/**
+	 * Defines which side of the anchor and popover are aligned orthogonally to the placement axis.
+	 *
+	 * This expression is only evaluated when calculating the popover placement.
+	 *
+	 * See {@link PopoutAlignment}
+	 *
+	 * @default "start"
+	 */
 	alignment?: Expression<PopoutAlignment | undefined>;
+
+	/**
+	 * An array of event names that cause the dropdown to hide automatically when dispatched outside of the current layer stack or the anchor.
+	 *
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:passive-action"]
+	 */
 	foreignEvents?: string[];
 }): unknown {
 	const defaultId = uniqueId();

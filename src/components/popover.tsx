@@ -15,6 +15,9 @@ export interface PopoverContent {
 	}): unknown;
 }
 
+/**
+ * Create a popover that is initially hidden.
+ */
 export function createPopover(props: {
 	/**
 	 * Defines the direction in which the popover is placed in relation to the anchor.
@@ -22,6 +25,8 @@ export function createPopover(props: {
 	 * This expression is only evaluated when calculating the popover placement.
 	 *
 	 * See {@link PopoutPlacement}
+	 *
+	 * @default "block"
 	 */
 	placement?: Expression<PopoutPlacement | undefined>;
 
@@ -31,6 +36,8 @@ export function createPopover(props: {
 	 * This expression is only evaluated when calculating the popover placement.
 	 *
 	 * See {@link PopoutAlignment}
+	 *
+	 * @default "center"
 	 */
 	alignment?: Expression<PopoutAlignment | undefined>;
 
@@ -197,7 +204,9 @@ export function Popover(props: {
 	 *
 	 * This expression is only evaluated when calculating the popover placement.
 	 *
-	 * See {@link PopoutPlacement}
+	 * See {@link PopoutPlacement}^
+	 *
+	 * @default "block"
 	 */
 	placement?: Expression<PopoutPlacement | undefined>;
 
@@ -207,6 +216,8 @@ export function Popover(props: {
 	 * This expression is only evaluated when calculating the popover placement.
 	 *
 	 * See {@link PopoutAlignment}
+	 *
+	 * @default "center"
 	 */
 	alignment?: Expression<PopoutAlignment | undefined>;
 
