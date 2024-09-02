@@ -2,6 +2,10 @@
 	"name": "@mxjp/gluon-ux",
 	"description": "Gluon based UI library",
 	"homepage": "https://github.com/mxjp/gluon-ux",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mxjp/gluon-ux"
+	},
 	"keywords": [
 		"ui",
 		"ux",
@@ -11,6 +15,7 @@
 	"version": "0.1.0",
 	"type": "module",
 	"main": "./dist/index.js",
+	"sideEffects": false,
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -30,7 +35,8 @@
 		"start:tests": "tsc -p tsconfig-tests.json -w --preserveWatchOutput",
 		"start:theme": "sass ./src/theme/theme.scss ./dist/theme.module.css -w",
 		"test": "node --enable-source-maps --test ./tests_out/tests",
-		"lint": "eslint --config .eslintrc.cjs ./{src,test}/**/*.{ts,tsx}"
+		"lint": "eslint --config .eslintrc.cjs ./{src,test}/**/*.{ts,tsx}",
+		"prepack": "npm run build && npm run lint && npm test && node scripts/prepack.js"
 	},
 	"devDependencies": {
 		"@mpt/eslint-rules": "^5.0.1",
