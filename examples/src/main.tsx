@@ -13,6 +13,7 @@ mount(
 			ctx.set(TASKS, new Tasks());
 
 			const text = sig("Hello World!");
+			const textMulti = sig("Hello World!");
 			const collapse = sig(false);
 			const collapseAlert = new Emitter<[]>();
 			const checked = sig<boolean | undefined>(undefined);
@@ -53,6 +54,12 @@ mount(
 				<Text>
 					You typed: <Value>{text}</Value>
 				</Text>
+
+				<Heading level="3">Multiline Inputs</Heading>
+				<Row size="control">
+					<TextInput multiline rows={3} value={textMulti} />
+				</Row>
+				<Text>Input (as json): <Value>{() => JSON.stringify(textMulti.value)}</Value></Text>
 
 				<Heading level="2">Control groups</Heading>
 				<Row>

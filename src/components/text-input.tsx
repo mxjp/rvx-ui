@@ -6,13 +6,40 @@ import { THEME } from "../common/theme.js";
 import { validatorFor } from "./validation.js";
 
 export type TextInputType = "text" | "password";
+export type TextAreaWrap = "hard" | "soft";
 
-export function TextInput(props: {
+export function TextInput(props: ({
+	/**
+	 * If true, this component is rendered as a `<textarea>` element.
+	 */
+	multiline?: false;
+
 	/**
 	 * The input type.
+	 *
+	 * @default "text"
 	 */
 	type?: Expression<TextInputType | undefined>;
+} | {
+	/**
+	 * If true, this component is rendered as a `<textarea>` element.
+	 */
+	multiline: true;
 
+	/**
+	 * The number of visible rows if not overwritten via css.
+	 *
+	 * If not specified, the browser default is used.
+	 */
+	rows?: Expression<number | undefined>;
+
+	/**
+	 * Controls how the value is wrapped for form submission.
+	 *
+	 * This sets the standard `wrap` attribute.
+	 */
+	wrap?: Expression<TextAreaWrap | undefined>;
+}) & {
 	/**
 	 * Set when the input is disabled.
 	 *
@@ -33,6 +60,7 @@ export function TextInput(props: {
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
 	autofocus?: Expression<boolean | undefined>;
+	spellcheck?: Expression<boolean | undefined>;
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
 }): unknown {
@@ -41,8 +69,11 @@ export function TextInput(props: {
 
 	const validator = props.value instanceof Signal ? validatorFor(props.value) : undefined;
 
-	const input = <input
-		type={() => get(props.type) ?? "text"}
+	const InputTag = props.multiline ? "textarea" : "input";
+	const input = <InputTag
+		type={props.multiline ? undefined : (() => get(props.type) ?? "text")}
+		rows={props.multiline ? props.rows : undefined}
+		wrap={props.multiline ? props.wrap : undefined}
 		disabled={disabled}
 		class={[
 			theme?.text_input,
@@ -51,6 +82,7 @@ export function TextInput(props: {
 		style={props.style}
 		id={props.id}
 		autofocus={props.autofocus}
+		spellcheck={optionalString(props.spellcheck)}
 		readonly={!(props.value instanceof Signal)}
 
 		prop:value={props.value}

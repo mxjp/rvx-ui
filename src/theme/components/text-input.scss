@@ -24,7 +24,6 @@
 
 	outline: none;
 	@include common.padding(control-pad);
-	block-size: calc(var(--control-pad-block-start) + 1em + var(--control-pad-block-end));
 	border: var(--control-border) solid var(--text-input-border);
 	border-radius: var(--control-radius);
 
@@ -39,4 +38,8 @@
 		filter: var(--control-disabled);
 		cursor: default;
 	}
+}
+
+input.text_input {
+	block-size: calc(var(--control-pad-block-start) + 1em + var(--control-pad-block-end));
 }
