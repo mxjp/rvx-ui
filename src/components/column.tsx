@@ -3,6 +3,9 @@ import { ClassValue, Expression, extract, map, StyleValue } from "@mxjp/gluon";
 import { THEME } from "../common/theme.js";
 import { SizeContext } from "../common/types.js";
 
+/**
+ * A flex column with automatic spacing between it's children.
+ */
 export function Column(props: {
 	size?: Expression<SizeContext | undefined>;
 	class?: ClassValue;
