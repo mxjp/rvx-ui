@@ -6,6 +6,11 @@ import { validatorFor } from "../components/validation.js";
  * Create a signal that trims input.
  *
  * This supports validation.
+ *
+ * @example
+ * ```tsx
+ * <TextInput value={someSignal.pipe(trim)} />;
+ * ```
  */
 export function trim(source: Signal<string>): Signal<string> {
 	const input = sig(source.value);

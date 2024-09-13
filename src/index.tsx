@@ -3,6 +3,7 @@ export * from "./common/parsers.js";
 export * from "./common/theme.js";
 export * from "./common/trim.js";
 export * from "./common/types.js";
+export * from "./common/writing-mode.js";
 export * from "./components/button.js";
 export * from "./components/checkbox.js";
 export * from "./components/collapse.js";

@@ -1,36 +1,99 @@
 
+/**
+ * A CSS writing mode property value.
+ */
 export type WritingMode = "horizontal-tb" | "vertical-rl" | "vertical-lr" | "sideways-rl" | "sideways-lr";
+
+/**
+ * A CSS script direction property value.
+ */
 export type ScriptDirection = "ltr" | "rtl";
 
+/** The up {@link Direction}. */
 export const UP = 0;
+/** The right {@link Direction}. */
 export const RIGHT = 1;
+/** The down {@link Direction}. */
 export const DOWN = 2;
+/** The left {@link Direction}. */
 export const LEFT = 3;
 
+/**
+ * Represents a direction ({@link UP}, {@link RIGHT}, {@link DOWN}, {@link LEFT}).
+ */
 export type Direction = typeof UP | typeof RIGHT | typeof DOWN | typeof LEFT;
 
-export const INSET = ["top", "right", "bottom", "left"] as const;
+/**
+ * Can be indexed by a {@link Direction} to get the respective css inset property.
+ */
+export const INSET: Record<Direction, "top" | "right" | "bottom" | "left"> = ["top", "right", "bottom", "left"];
 
+/**
+ * Flip a direction.
+ */
 export function flip(dir: Direction): Direction {
 	return ((dir + 2) & 3) as Direction;
 }
 
+/**
+ * Check if the specified directions are along the same axis.
+ *
+ * @example
+ * ```tsx
+ * axisEquals(UP, UP) // true
+ * axisEquals(UP, DOWN) // true
+ * axisEquals(UP, RIGHT) // false
+ * ```
+ */
 export function axisEquals(a: Direction, b: Direction): boolean {
 	return (a & 1) === (b & 1);
 }
 
+/**
+ * Get the window size in CSS pixels along the axis of the specified direction.
+ *
+ * @example
+ * ```tsx
+ * getWindowSize(UP) === window.innerHeight // true
+ * getWindowSize(DOWN) === window.innerHeight // true
+ * ```
+ */
 export function getWindowSize(dir: Direction): number {
 	return (dir & 1) ? window.innerWidth : window.innerHeight;
 }
 
-export function getSize(rect: DOMRect, dir: Direction): number {
+export interface DOMRectSize {
+	width: number;
+	height: number;
+}
+
+/**
+ * Get the size in CSS pixels of a DOM rect along the axis of the specified direction.
+ *
+ * @example
+ * ```tsx
+ * getSize(button.getBoundingClientRect(), RIGHT) // 234.5
+ * ```
+ */
+export function getSize(rect: DOMRectSize, dir: Direction): number {
 	return (dir & 1) ? rect.width : rect.height;
 }
 
-export function getXY(rect: DOMRect, dir: Direction): number {
+export interface DOMRectXY {
+	x: number;
+	y: number;
+}
+
+/**
+ * Get the X/Y coordinate start in CSS pixels of the specified DOM rect along the axis of the specified direction.
+ */
+export function getXY(rect: DOMRectXY, dir: Direction): number {
 	return (dir & 1) ? rect.x : rect.y;
 }
 
+/**
+ * Get the block start direction with respect to the specified writing mode.
+ */
 export function getBlockStart(writingMode: WritingMode): Direction {
 	switch (writingMode) {
 		case "horizontal-tb":
@@ -46,6 +109,9 @@ export function getBlockStart(writingMode: WritingMode): Direction {
 	}
 }
 
+/**
+ * Get the inline start direction with respect to the specified writing mode and script direction.
+ */
 export function getInlineStart(writingMode: WritingMode, scriptDir: ScriptDirection): Direction {
 	let dir: Direction;
 	switch (writingMode) {
@@ -71,20 +137,14 @@ export function getInlineStart(writingMode: WritingMode, scriptDir: ScriptDirect
 	return dir;
 }
 
+/**
+ * Get the space in CSS pixels between a DOM rect and the window in the specified direction.
+ */
 export function getWindowSpaceAround(rect: DOMRect, dir: Direction): number {
 	switch (dir) {
 		case UP: return rect.y;
 		case RIGHT: return window.innerWidth - rect.right;
 		case DOWN: return window.innerHeight - rect.bottom;
 		case LEFT: return rect.x;
-	}
-}
-
-export function getWindowRectInset(rect: DOMRect, dir: Direction): number {
-	switch (dir) {
-		case UP: return window.innerHeight - rect.top;
-		case RIGHT: return rect.right;
-		case DOWN: return rect.bottom;
-		case LEFT: return window.innerWidth - rect.left;
 	}
 }

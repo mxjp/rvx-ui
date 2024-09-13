@@ -43,8 +43,19 @@ export interface Parser<S, I, M extends string> {
 	messages: Record<M, unknown>;
 }
 
+/**
+ * Utility to get the source type from a parser.
+ */
 export type ParserSource<P extends Parser<any, any, any>> = P extends Parser<infer S, any, any> ? S : never;
+
+/**
+ * Utility to get the input type from a parser.
+ */
 export type ParserInput<P extends Parser<any, any, any>> = P extends Parser<any, infer I, any> ? I : never;
+
+/**
+ * Utility to get the message keys type from a parser.
+ */
 export type ParserMessages<P extends Parser<any, any, any>> = P extends Parser<any, any, infer M> ? M : never;
 
 /**
@@ -56,12 +67,14 @@ export type ParserMessages<P extends Parser<any, any, any>> = P extends Parser<a
  *
  * @example
  * ```tsx
- * const source = sig(42);
- * const input = source.pipe(parse, intParser);
- * console.log(input.value); // "42"
+ * const value = sig(0);
  *
- * input.value = "7";
- * console.log(source.value); // 7
+ * // Format the current value as initial value:
+ * <TextInput value={
+ *   value
+ *     .pipe(parse, intParser({ format: "Enter a valid number." }))
+ *     .pipe(trim)
+ * } />
  * ```
  */
 export function parse<S, P extends Parser<S, any, any>>(source: Signal<S>, parser: P, input?: Signal<ParserInput<P>>): Signal<ParserInput<P>> {
@@ -126,7 +139,7 @@ export interface IntParserOptions {
 }
 
 /**
- * Create a parser for integers.
+ * Create a parser for integers for use with {@link parse}.
  */
 export function intParser(options: IntParserOptions): Parser<number, string, "format" | "range"> {
 	const range = options.testRange ?? Number.isSafeInteger;

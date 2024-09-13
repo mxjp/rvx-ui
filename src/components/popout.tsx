@@ -1,7 +1,7 @@
 import { captureSelf, Emitter, Event as GluonEvent, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "@mxjp/gluon";
 
 import { PASSIVE_ACTION_EVENT } from "../common/events.js";
-import { axisEquals, Direction, flip, getBlockStart, getInlineStart, getSize, getWindowRectInset, getWindowSize, getWindowSpaceAround, INSET, ScriptDirection, WritingMode } from "../common/writing-mode.js";
+import { axisEquals, Direction, DOWN, flip, getBlockStart, getInlineStart, getSize, getWindowSize, getWindowSpaceAround, INSET, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
 import { LAYER, Layer } from "./layer.js";
 
 /**
@@ -361,7 +361,7 @@ export class Popout {
 		}
 
 		// Apply inset along the placement direction:
-		content.style[INSET[flip(placementDir)]] = `${getWindowRectInset(anchorRect, placementDir) + gap}px`;
+		content.style[INSET[flip(placementDir)]] = `${getAnchorRectInset(anchorRect, placementDir) + gap}px`;
 		content.style[INSET[placementDir]] = "";
 
 		// Compute the raw alignment:
@@ -448,5 +448,14 @@ export class Popout {
 			instance.view.detach();
 			this.#visible.value = false;
 		}
+	}
+}
+
+function getAnchorRectInset(rect: DOMRect, dir: Direction): number {
+	switch (dir) {
+		case UP: return window.innerHeight - rect.top;
+		case RIGHT: return rect.right;
+		case DOWN: return rect.bottom;
+		case LEFT: return window.innerWidth - rect.left;
 	}
 }
