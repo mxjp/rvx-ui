@@ -65,7 +65,7 @@ export function RadioButtons<T>(props: {
 						disabled={disabled}
 						autofocus={() => get(props.autofocus) && index() === 0}
 						prop:checked={map(props.value, x => x === option.value)}
-						$input={() => {
+						on:input={() => {
 							if (props.value instanceof Signal) {
 								props.value.value = option.value;
 							}

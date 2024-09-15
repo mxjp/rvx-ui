@@ -28,7 +28,7 @@ export function Checkbox(props: {
 		id={id}
 		type="checkbox"
 		class={theme?.checkbox_input}
-		$input={() => {
+		on:input={() => {
 			if (props.checked instanceof Signal) {
 				props.checked.value = input.checked;
 			}

@@ -48,6 +48,6 @@
 		"typescript": "^5.5.4"
 	},
 	"dependencies": {
-		"@mxjp/gluon": "^13.0.2"
+		"@mxjp/gluon": "^14.0.0"
 	}
 }

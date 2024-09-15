@@ -86,12 +86,12 @@ export function TextInput(props: ({
 		readonly={!(props.value instanceof Signal)}
 
 		prop:value={props.value}
-		$input={() => {
+		on:input={() => {
 			if (props.value instanceof Signal) {
 				props.value.value = input.value;
 			}
 		}}
-		$keydown={event => {
+		on:keydown={event => {
 			const key = keyFor(event);
 			if (key === "enter" && props.enterAction && !disabled()) {
 				const result = props.enterAction(event);

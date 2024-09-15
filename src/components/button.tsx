@@ -81,8 +81,8 @@ export function Button(props: {
 		aria-errormessage={props.validator ? props.validator.errorMessageIds : undefined}
 		autofocus={props.autofocus}
 
-		$click={action}
-		$keydown={event => {
+		on:click={action}
+		on:keydown={event => {
 			const key = keyFor(event);
 			if (key === "enter" || key === "space") {
 				action(event);

@@ -105,8 +105,8 @@ export function Link(props: {
 		referrerpolicy={map(props.referrerpolicy, v => v ?? "no-referrer")}
 		rel={separated(map(props.rel, v => v ?? "noreferrer"), " ")}
 
-		$click={action}
-		$keydown={event => {
+		on:click={action}
+		on:keydown={event => {
 			const key = keyFor(event);
 			if (key === "enter" || key === "space") {
 				action(event);

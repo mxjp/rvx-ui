@@ -77,7 +77,7 @@ export function handleActionEvent<T extends unknown[]>(event: Event, action: Act
  *
  * @example
  * ```tsx
- * <button $mouseenter={event => {
+ * <button on:mouseenter={event => {
  *   startDelayedHoverOnMouseenter(event, () => {
  *     // Close things like popovers or dropdowns in the same context
  *     // when this button was hovered for some time:

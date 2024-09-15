@@ -210,7 +210,7 @@ export function createDropdown(props: {
 							aria-haspopup={children ? "listbox" : undefined}
 							aria-controls={() => children?.visible ? childrenId : undefined}
 							aria-expanded={optionalString(() => children?.visible)}
-							$click={event => {
+							on:click={event => {
 								activeItem.value = item;
 								if (item.action && handleActionEvent(event, item.action)) {
 									popout.hide();
@@ -220,7 +220,7 @@ export function createDropdown(props: {
 									event.preventDefault();
 								}
 							}}
-							$mouseenter={event => {
+							on:mouseenter={event => {
 								activeItem.value = item;
 								startDelayedHoverOnMouseenter(event, () => {
 									event.target?.dispatchEvent(createPassiveActionEvent());
@@ -253,7 +253,7 @@ export function createDropdown(props: {
 					const item = activeItem.value;
 					return item === undefined ? undefined : instances.get(item)?.id;
 				}}
-				$focus={() => {
+				on:focus={() => {
 					if (!activeItem.value) {
 						const currentItems = items();
 						activeItem.value = currentItems.find(v => get(v.selected)) ?? currentItems[0];
