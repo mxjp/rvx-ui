@@ -196,8 +196,8 @@ export class Popout {
 					for (const rect of node.getClientRects()) {
 						if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) {
 							const styles = getComputedStyle(node);
-							writingMode ??= styles.writingMode as WritingMode;
-							scriptDir ??= styles.direction as ScriptDirection;
+							writingMode ??= styles.writingMode as WritingMode || "horizontal-tb";
+							scriptDir ??= styles.direction as ScriptDirection || "ltr";
 							anchorRect = rect;
 							break nodes;
 						}
@@ -210,8 +210,8 @@ export class Popout {
 				if (node instanceof Element) {
 					anchorRect = node.getBoundingClientRect();
 					const styles = getComputedStyle(node);
-					writingMode ??= styles.writingMode as WritingMode;
-					scriptDir ??= styles.direction as ScriptDirection;
+					writingMode ??= styles.writingMode as WritingMode || "horizontal-tb";
+					scriptDir ??= styles.direction as ScriptDirection || "ltr";
 					break;
 				}
 			}
