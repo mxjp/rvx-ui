@@ -1,0 +1,22 @@
+
+.page {
+	margin: 2rem;
+	display: flex;
+	justify-content: center;
+}
+
+.page_scrollbar_comp {
+	flex-grow: 1;
+	flex-basis: 0;
+	max-inline-size: var(--scrollbar-comp, 0);
+}
+
+.page_content_col {
+	flex-grow: 1;
+	max-inline-size: var(--page-inline-size);
+	flex-basis: calc(var(--page-inline-size) - var(--scrollbar-comp, 0));
+}
+
+.page_content {
+	--scrollbar-size: 0rem;
+}

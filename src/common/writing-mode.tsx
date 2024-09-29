@@ -151,19 +151,11 @@ export function getWindowSpaceAround(rect: DOMRect, dir: Direction): number {
 }
 
 /**
- * Heuristically observe the writing mode axis of the target element until the current lifecycle is disposed.
- *
- *	This currently uses a resize observer under the assumption, that block and inline sizes of the target are swapped or at least changed when the writing mode axis is changed.
+ * Check if the block axis of the specified element is vertical.
  */
-export function observeWritingModeAxis(target: Element, callback: (vertical: boolean) => void): void {
-	const update = () => {
-		const writingMode = (getComputedStyle(target).writingMode as WritingMode | "") || undefined;
-		if (writingMode !== undefined) {
-			callback(axisEquals(getBlockStart(writingMode), UP));
-		}
-	};
-	const observer = new ResizeObserver(update);
-	observer.observe(target);
-	teardown(() => observer.disconnect());
-	update();
+export function isVerticalBlockAxis(target: Element): boolean | undefined {
+	const writingMode = getComputedStyle(target).writingMode as WritingMode || undefined;
+	if (writingMode !== undefined) {
+		return axisEquals(getBlockStart(writingMode), UP);
+	}
 }

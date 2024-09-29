@@ -100,6 +100,15 @@ export interface Theme {
 	/** Class for all links */
 	link?: string;
 
+	/** Class for all page roots. */
+	page?: string;
+	/** Class for page scrollbar size compensation elements. */
+	page_scrollbar_comp?: string;
+	/** Class for the page content column besides the scrollbar size compensation element. */
+	page_content_col?: string;
+	/** Class for page content roots. */
+	page_content?: string;
+
 	/** Class for all popover roots. */
 	popover?: string;
 	/** Class for the spike container area. */
