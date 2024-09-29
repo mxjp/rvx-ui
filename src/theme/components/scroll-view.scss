@@ -1,0 +1,15 @@
+
+.scroll_view {
+	flex-grow: 1;
+	position: relative;
+}
+
+.scroll_view_area {
+	position: absolute;
+	inset: 0;
+}
+
+.scroll_view_content {
+	inline-size: 100%;
+	min-block-size: 100%;
+}

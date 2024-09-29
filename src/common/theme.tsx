@@ -127,6 +127,13 @@ export interface Theme {
 	/** Additional class for rows of controls */
 	row_control?: string;
 
+	/** Class for all scroll view roots */
+	scroll_view?: string;
+	/** Class for the scrolling area. */
+	scroll_view_area?: string;
+	/** Class for scroll view content root. */
+	scroll_view_content?: string;
+
 	/** Class for all text inputs */
 	text_input?: string;
 

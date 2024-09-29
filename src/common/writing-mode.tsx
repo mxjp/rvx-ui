@@ -1,3 +1,4 @@
+import { teardown } from "@mxjp/gluon";
 
 /**
  * A CSS writing mode property value.
@@ -147,4 +148,22 @@ export function getWindowSpaceAround(rect: DOMRect, dir: Direction): number {
 		case DOWN: return window.innerHeight - rect.bottom;
 		case LEFT: return rect.x;
 	}
+}
+
+/**
+ * Heuristically observe the writing mode axis of the target element until the current lifecycle is disposed.
+ *
+ *	This currently uses a resize observer under the assumption, that block and inline sizes of the target are swapped or at least changed when the writing mode axis is changed.
+ */
+export function observeWritingModeAxis(target: Element, callback: (vertical: boolean) => void): void {
+	const update = () => {
+		const writingMode = (getComputedStyle(target).writingMode as WritingMode | "") || undefined;
+		if (writingMode !== undefined) {
+			callback(axisEquals(getBlockStart(writingMode), UP));
+		}
+	};
+	const observer = new ResizeObserver(update);
+	observer.observe(target);
+	teardown(() => observer.disconnect());
+	update();
 }
