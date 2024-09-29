@@ -9,11 +9,7 @@ export function ScrollView(props: {
 	children?: unknown;
 }): unknown {
 	const theme = extract(THEME);
-
 	const vertical = sig<boolean | undefined>(undefined);
-	const overflow = () => {
-		return vertical.value ? "hidden auto" : "auto hidden";
-	};
 
 	const root = <div
 		class={[
@@ -24,7 +20,9 @@ export function ScrollView(props: {
 	>
 		<div
 			class={theme?.scroll_view_area}
-			style={{ overflow }}
+			style={{
+				overflow: () => vertical.value ? "hidden auto" : "auto hidden",
+			}}
 		>
 			<div class={theme?.scroll_view_content}>
 				{props.children}
