@@ -115,3 +115,16 @@ export const PASSIVE_ACTION_EVENT = "gluon-ux:passive-action";
 export function createPassiveActionEvent(): Event {
 	return new CustomEvent(PASSIVE_ACTION_EVENT);
 }
+
+/**
+ * Debounce an event handler.
+ */
+export function debounceEvent<T>(delayMs: number, handler: (event: T) => void): (event: T) => void {
+	let timer: number;
+	return event => {
+		if (timer) {
+			clearTimeout(timer);
+		}
+		timer = (setTimeout as typeof window.setTimeout)(() => handler(event), delayMs);
+	};
+}

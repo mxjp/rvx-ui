@@ -1,7 +1,8 @@
 import { ClassValue, extract, sig, StyleValue, teardown } from "@mxjp/gluon";
 
+import { debounceEvent } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { getSize, isVerticalBlockAxis, RIGHT, UP } from "../common/writing-mode.js";
+import { axisEquals, DOWN, getBlockStart, getSize, RIGHT, UP, WritingMode } from "../common/writing-mode.js";
 
 export function ScrollView(props: {
 	class?: ClassValue;
@@ -11,9 +12,41 @@ export function ScrollView(props: {
 	const theme = extract(THEME);
 	const vertical = sig<boolean | undefined>(undefined);
 	const scrollbarComp = sig(0);
+	const startIndicator = sig(false);
+	const endIndicator = sig(false);
 
 	const content = <div class={theme?.scroll_view_content}>
 		{props.children}
+	</div> as HTMLElement;
+
+	const updateIndicators = (blockStart = getBlockStart(getComputedStyle(area).writingMode as WritingMode || "horizontal-tb")) => {
+		const areaSize = getSize(area.getBoundingClientRect(), blockStart);
+		let start: number;
+		let end: number;
+		if (blockStart === UP || blockStart === DOWN) {
+			start = area.scrollTop;
+			end = area.scrollHeight - start - areaSize;
+		} else {
+			start = area.scrollLeft;
+			end = area.scrollWidth - start - areaSize;
+		}
+		if (blockStart === DOWN || blockStart === RIGHT) {
+			const x = start;
+			start = end;
+			end = x;
+		}
+		startIndicator.value = start > .5;
+		endIndicator.value = end > .5;
+	};
+
+	const area = <div
+		class={theme?.scroll_view_area}
+		style={{
+			overflow: () => vertical.value ? "hidden auto" : "auto hidden",
+		}}
+		on:scroll={[debounceEvent(100, () => updateIndicators()), { passive: true }]}
+	>
+		{content}
 	</div> as HTMLElement;
 
 	const root = <div
@@ -28,18 +61,21 @@ export function ScrollView(props: {
 			},
 		]}
 	>
-		<div
-			class={theme?.scroll_view_area}
-			style={{
-				overflow: () => vertical.value ? "hidden auto" : "auto hidden",
-			}}
-		>
-			{content}
-		</div>
+		{area}
+		<div class={[
+			theme?.scroll_view_indicator_start,
+			() => startIndicator.value && theme?.scroll_view_indicator_visible,
+		]} />
+		<div class={[
+			theme?.scroll_view_indicator_end,
+			() => endIndicator.value && theme?.scroll_view_indicator_visible,
+		]} />
 	</div> as HTMLElement;
 
 	const rootObserver = new ResizeObserver(() => {
-		vertical.value ??= isVerticalBlockAxis(root);
+		const blockStart = getBlockStart(getComputedStyle(root).writingMode as WritingMode || "horizontal-tb");
+		vertical.value ??= axisEquals(blockStart, UP);
+		updateIndicators(blockStart);
 	});
 	rootObserver.observe(root);
 	teardown(() => rootObserver.disconnect());
@@ -47,12 +83,12 @@ export function ScrollView(props: {
 	const contentObserver = new IntersectionObserver(() => {
 		const rootRect = root.getBoundingClientRect();
 		const contentRect = content.getBoundingClientRect();
-
-		const isVertical = isVerticalBlockAxis(root);
+		const blockStart = getBlockStart(getComputedStyle(root).writingMode as WritingMode || "horizontal-tb");
+		const isVertical = axisEquals(blockStart, UP);
 		const dir = isVertical ? RIGHT : UP;
-
 		scrollbarComp.value = Math.max(0, getSize(rootRect, dir) - getSize(contentRect, dir));
 		vertical.value ??= isVertical;
+		updateIndicators(blockStart);
 	}, { root, rootMargin: "0px 0px 0px 0px", threshold: 1 });
 	contentObserver.observe(content);
 	teardown(() => contentObserver.disconnect());

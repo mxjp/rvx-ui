@@ -1,4 +1,3 @@
-import { teardown } from "@mxjp/gluon";
 
 /**
  * A CSS writing mode property value.
@@ -147,15 +146,5 @@ export function getWindowSpaceAround(rect: DOMRect, dir: Direction): number {
 		case RIGHT: return window.innerWidth - rect.right;
 		case DOWN: return window.innerHeight - rect.bottom;
 		case LEFT: return rect.x;
-	}
-}
-
-/**
- * Check if the block axis of the specified element is vertical.
- */
-export function isVerticalBlockAxis(target: Element): boolean | undefined {
-	const writingMode = getComputedStyle(target).writingMode as WritingMode || undefined;
-	if (writingMode !== undefined) {
-		return axisEquals(getBlockStart(writingMode), UP);
 	}
 }

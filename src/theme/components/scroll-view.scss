@@ -1,7 +1,18 @@
+@use "../common";
+
+@include common.theme((
+	scroll-view-indicator-size: (
+		dark: 1.5rem,
+	),
+	scroll-view-indicator-color: (
+		dark: rgba(0, 0, 0, .7),
+	),
+));
 
 .scroll_view {
 	flex-grow: 1;
 	position: relative;
+	overflow: hidden;
 }
 
 .scroll_view_area {
@@ -14,4 +25,27 @@
 	min-block-size: 100%;
 	display: flex;
 	flex-direction: column;
+}
+
+.scroll_view_indicator_start,
+.scroll_view_indicator_end {
+	position: absolute;
+	inset-inline: 0;
+	block-size: var(--scroll-view-indicator-size);
+	box-shadow: 0 0 var(--scroll-view-indicator-size) var(--scroll-view-indicator-color);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity var(--layout-transition);
+}
+
+.scroll_view_indicator_start {
+	inset-block-end: 100%;
+}
+
+.scroll_view_indicator_end {
+	inset-block-start: 100%;
+}
+
+.scroll_view_indicator_visible {
+	opacity: 1;
 }

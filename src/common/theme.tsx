@@ -142,6 +142,12 @@ export interface Theme {
 	scroll_view_area?: string;
 	/** Class for scroll view content root. */
 	scroll_view_content?: string;
+	/** Class for scroll view start overflow indicators. */
+	scroll_view_indicator_start?: string;
+	/** Class for scroll view end overflow indicators. */
+	scroll_view_indicator_end?: string;
+	/** Class for visible overflow indicators. */
+	scroll_view_indicator_visible?: string;
 
 	/** Class for all text inputs */
 	text_input?: string;
