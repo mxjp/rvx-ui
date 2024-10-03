@@ -1,5 +1,5 @@
-import { extract, sig, UseUniqueId } from "@mxjp/gluon";
-import { Button, DialogBody, DialogFooter, Heading, intParser, Label, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@mxjp/gluon-ux";
+import { extract, sig } from "@mxjp/gluon";
+import { Button, DialogBody, DialogFooter, Heading, intParser, LabelFor, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@mxjp/gluon-ux";
 
 export default function() {
 	return <>
@@ -25,37 +25,31 @@ function showDialogExample() {
 		extract(LAYER)?.useHotkey("enter", ok);
 
 		return <DialogBody title="Validation" description="This dialog demonstrates the validation API." inlineSize="min(100dvw, 25rem)">
-			<UseUniqueId>
-				{id => <>
-					<Label for={id}>Name</Label>
-					<TextInput
-						id={id}
-						value={name
-							.pipe(rule, name => /^[a-z0-9]*$/i.test(name), <>The name must contain only characters and digits.</>)
-							.pipe(rule, name => name.length >= 3, <>Enter a name of at least 3 characters.</>)
-							.pipe(trim)
-						}
-					/>
-				</>}
-			</UseUniqueId>
+			<LabelFor label="Name">
+				{id => <TextInput
+					id={id}
+					value={name
+						.pipe(rule, name => /^[a-z0-9]*$/i.test(name), <>The name must contain only characters and digits.</>)
+						.pipe(rule, name => name.length >= 3, <>Enter a name of at least 3 characters.</>)
+						.pipe(trim)
+					}
+				/>}
+			</LabelFor>
 			<ValidationMessages for={name} />
 
-			<UseUniqueId>
-				{id => <>
-					<Label for={id}>Network Port</Label>
-					<TextInput
-						id={id}
-						value={port
-							.pipe(parse, intParser({
-								format: <>Enter a valid port.</>,
-								range: <>The port must be between 1 and {0xFFFF}</>,
-								testRange: port => port >= 1 && port <= 0xFFFF,
-							}))
-							.pipe(trim)
-						}
-					/>
-				</>}
-			</UseUniqueId>
+			<LabelFor label="Network Port">
+				{id => <TextInput
+					id={id}
+					value={port
+						.pipe(parse, intParser({
+							format: <>Enter a valid port.</>,
+							range: <>The port must be between 1 and {0xFFFF}</>,
+							testRange: port => port >= 1 && port <= 0xFFFF,
+						}))
+						.pipe(trim)
+					}
+				/>}
+			</LabelFor>
 			<ValidationMessages for={port} />
 
 			<DialogFooter>

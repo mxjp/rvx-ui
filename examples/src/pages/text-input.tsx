@@ -1,5 +1,5 @@
 import { sig, UseUniqueId } from "@mxjp/gluon";
-import { Button, Column, ControlGroup, DialogBody, DialogFooter, Heading, Label, Row, showDialog, Text, TextInput, trim, Value } from "@mxjp/gluon-ux";
+import { Button, Column, ControlGroup, DialogBody, DialogFooter, Heading, Label, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@mxjp/gluon-ux";
 
 export default function() {
 	const defaultText = "Hello World!";
@@ -22,20 +22,14 @@ export default function() {
 		<Heading level="2">States</Heading>
 		<Row>
 			<Column>
-				<UseUniqueId>
-					{id => <>
-						<Label for={id}>Readonly</Label>
-						<TextInput id={id} value="Hello World!" />
-					</>}
-				</UseUniqueId>
+				<LabelFor label="Readonly">
+					{id => <TextInput id={id} value="Hello World!" />}
+				</LabelFor>
 			</Column>
 			<Column>
-				<UseUniqueId>
-					{id => <>
-						<Label for={id}>Disabled</Label>
-						<TextInput id={id} value="Hello World!" disabled />
-					</>}
-				</UseUniqueId>
+				<LabelFor label="Disabled">
+					{id => <TextInput id={id} value="Hello World!" disabled />}
+				</LabelFor>
 			</Column>
 		</Row>
 

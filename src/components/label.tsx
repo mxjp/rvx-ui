@@ -1,4 +1,4 @@
-import { ClassValue, Expression, extract, StyleValue } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, StyleValue, uniqueId } from "@mxjp/gluon";
 
 import { THEME } from "../common/theme.js";
 
@@ -21,4 +21,17 @@ export function Label(props: {
 	>
 		{props.children}
 	</label>;
+}
+
+export function LabelFor(props: {
+	class?: ClassValue;
+	style?: StyleValue;
+	label: unknown;
+	children: (id: string) => unknown;
+}): unknown {
+	const id = uniqueId();
+	return <>
+		<Label class={props.class} style={props.style} for={id}>{props.label}</Label>
+		{props.children(id)}
+	</>;
 }
