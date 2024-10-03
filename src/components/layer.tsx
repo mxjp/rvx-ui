@@ -29,7 +29,7 @@ uncapture(() => watch(LAYERS, layers => {
 	for (let i = 0; i < layers.length; i++) {
 		layers[i].inert.value = i < modal;
 	}
-}));
+}, true));
 
 /**
  * Render content inside the root layer.
