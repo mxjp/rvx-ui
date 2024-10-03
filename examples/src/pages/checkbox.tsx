@@ -4,7 +4,7 @@ import { Button, Checkbox, Column, Heading, Row, Text, Value } from "@mxjp/gluon
 export default function() {
 	const checked = sig<boolean | undefined>(undefined);
 
-	return <Column>
+	return <>
 		<Heading level="1">Checkboxes</Heading>
 		<Column size="control">
 			<Checkbox checked={checked}>Editable checkbox</Checkbox>
@@ -21,5 +21,5 @@ export default function() {
 			<Checkbox checked={sig(true)} disabled>Disabled</Checkbox>
 			<Checkbox checked={true}>Readonly</Checkbox>
 		</Column>
-	</Column>;
+	</>;
 }

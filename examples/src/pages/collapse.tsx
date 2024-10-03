@@ -5,7 +5,7 @@ export default function() {
 	const collapse = sig(false);
 	const collapseAlert = new Emitter<[]>();
 
-	return <Column>
+	return <>
 		<Heading level="1">Collapses</Heading>
 		<Row size="control">
 			<Button action={() => { collapse.value = !collapse.value }}>Toggle</Button>
@@ -17,5 +17,5 @@ export default function() {
 		<Collapse visible alert={collapseAlert.event}>
 			<Text>This is always visible.</Text>
 		</Collapse>
-	</Column>;
+	</>;
 }

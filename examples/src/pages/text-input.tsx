@@ -57,6 +57,6 @@ export default function() {
 		</Row>
 
 		<Heading level="2">Multiline</Heading>
-		<TextInput multiline value={sig("This is a\nmultiline input...")} rows={10} />
+		<TextInput multiline value={sig("This is a\nmultiline input...")} rows={10} style={{ resize: "vertical" }} />
 	</Column>;
 }

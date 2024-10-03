@@ -1,13 +1,13 @@
 import { extract, sig, UseUniqueId } from "@mxjp/gluon";
-import { Button, Column, DialogBody, DialogFooter, Heading, intParser, Label, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@mxjp/gluon-ux";
+import { Button, DialogBody, DialogFooter, Heading, intParser, Label, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@mxjp/gluon-ux";
 
 export default function() {
-	return <Column>
+	return <>
 		<Heading level="1">Validation</Heading>
 		<Row size="control">
 			<Button action={showDialogExample}>Show dialog example</Button>
 		</Row>
-	</Column>;
+	</>;
 }
 
 function showDialogExample() {

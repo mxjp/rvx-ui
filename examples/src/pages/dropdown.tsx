@@ -8,7 +8,7 @@ export default function() {
 	const placement = sig<PopoutPlacement | undefined>(undefined);
 	const alignment = sig<PopoutAlignment | undefined>(undefined);
 
-	return <Column>
+	return <>
 		<Heading level="1">Dropdowns</Heading>
 		<PopoutControls placement={placement} defaultPlacement="block end" alignment={alignment} defaultAlignment="start" />
 
@@ -52,5 +52,5 @@ export default function() {
 				<Text>Selected value: <Value>{option}</Value></Text>
 			</Column>
 		</Row>
-	</Column>;
+	</>;
 }

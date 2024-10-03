@@ -1,12 +1,12 @@
 import { sig } from "@mxjp/gluon";
-import { Button, Column, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@mxjp/gluon-ux";
+import { Button, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@mxjp/gluon-ux";
 import { PopoutControls } from "../common.js";
 
 export default function() {
 	const placement = sig<PopoutPlacement | undefined>(undefined);
 	const alignment = sig<PopoutAlignment | undefined>(undefined);
 
-	return <Column>
+	return <>
 		<Heading level="1">Popovers</Heading>
 		<PopoutControls placement={placement} defaultPlacement="block end" alignment={alignment} defaultAlignment="start" />
 
@@ -57,5 +57,5 @@ export default function() {
 				</Popover> with line breaks.
 			</Text>
 		</Row>
-	</Column>;
+	</>;
 }

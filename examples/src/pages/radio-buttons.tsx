@@ -1,10 +1,10 @@
 import { sig } from "@mxjp/gluon";
-import { Column, Heading, Label, RadioButtons, Text, Value } from "@mxjp/gluon-ux";
+import { Heading, RadioButtons, Text, Value } from "@mxjp/gluon-ux";
 
 export default function() {
 	const option = sig("bar");
 
-	return <Column>
+	return <>
 		<Heading level="1">Radio Buttons</Heading>
 		<RadioButtons value={option} options={[
 			{ value: "foo", label: "Foo" },
@@ -28,5 +28,5 @@ export default function() {
 		<RadioButtons value={sig("foo")} disabled options={[
 			{ value: "foo", label: "Disabled" },
 		]} />
-	</Column>;
+	</>;
 }

@@ -2,12 +2,12 @@ import { extract, sig } from "@mxjp/gluon";
 import { Button, Column, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@mxjp/gluon-ux";
 
 export default function() {
-	return <Column>
+	return <>
 		<Heading level="1">Dialogs</Heading>
 		<Row>
 			<Button action={showExampleDialog}>Show Dialog</Button>
 		</Row>
-	</Column>;
+	</>;
 }
 
 function showExampleDialog() {

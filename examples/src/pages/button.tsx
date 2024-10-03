@@ -1,7 +1,7 @@
-import { Button, Column, Heading, Row } from "@mxjp/gluon-ux";
+import { Button, Heading, Row } from "@mxjp/gluon-ux";
 
 export default function() {
-	return <Column>
+	return <>
 		<Heading level="1">Buttons</Heading>
 		<Row size="control">
 			<Button>Default</Button>
@@ -16,5 +16,5 @@ export default function() {
 		<Row>
 			<Button action={() => new Promise(r => setTimeout(r, 3000))}>Wait for 2 seconds</Button>
 		</Row>
-	</Column>;
+	</>;
 }

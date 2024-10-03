@@ -1,22 +1,9 @@
-import { mount } from "@mxjp/gluon";
-import { RootLayer, THEME } from "@mxjp/gluon-ux";
+import { extract, mount } from "@mxjp/gluon";
+import { Column, Heading, Link, Page, RootLayer, ScrollView, THEME } from "@mxjp/gluon-ux";
 import theme from "@mxjp/gluon-ux/dist/theme.module.css";
 import { Async, Tasks, TASKS } from "@mxjp/gluon/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "@mxjp/gluon/router";
 import "./styles.scss";
-
-const routes: ComponentRoute[] = [];
-const pages = import.meta.glob("./pages/*.tsx");
-
-for (const key in pages) {
-	const name = key.slice(8, -4);
-	routes.push({
-		match: `/${name}`,
-		content: () => <Async source={pages[key]}>
-			{(module: any) => <module.default />}
-		</Async>,
-	});
-}
 
 mount(
 	document.body,
@@ -26,10 +13,45 @@ mount(
 			ctx.set(TASKS, new Tasks());
 			ctx.set(ROUTER, new HashRouter());
 
-			return <Routes routes={[
-				...routes,
-				{ content: () => <h1>404</h1> }
-			]} />;
+			const routes: ComponentRoute[] = [];
+			const links: unknown[] = [];
+			const pages = import.meta.glob("./pages/*.tsx");
+
+			for (const key in pages) {
+				const name = key.slice(8, -4);
+				const path = `/${name}`;
+
+				links.push(<Link action={() => {
+					extract(ROUTER)!.push(path);
+				}}>{name}</Link>);
+
+				routes.push({
+					match: path,
+					content: () => <Async source={pages[key]}>
+						{(module: any) => <Page inlineSize="50rem">
+							<module.default />
+						</Page>}
+					</Async>,
+				});
+			}
+
+			return <div class="app">
+				<ScrollView class="app-nav">
+					<Page>
+						<Column size="control">
+							{links}
+						</Column>
+					</Page>
+				</ScrollView>
+				<ScrollView>
+					<Routes routes={[
+						...routes,
+						{ content: () => <Page inlineSize="20rem">
+							<Heading level="1">404</Heading>
+						</Page> }
+					]} />
+				</ScrollView>
+			</div>;
 		}}
 	</RootLayer>
 )

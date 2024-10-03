@@ -1,10 +1,16 @@
 
 body {
-	margin: 2rem;
+	margin: 0;
 	text-wrap: balance;
 }
 
 .app {
-	margin: 0 auto;
-	max-width: 64rem;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	height: 100dvh;
+}
+
+.app-nav {
+	width: 15rem;
+	background-color: rgb(20, 20, 20);
 }
