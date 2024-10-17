@@ -1,11 +1,11 @@
-import { ClassValue, ContextKey, Emitter, Event, Expression, extract, For, map, sharedGlobal, sig, Signal, StyleValue, teardown, trigger, uniqueId, untrack } from "@mxjp/gluon";
+import { ClassValue, ContextKey, Emitter, Event, Expression, extract, For, map, sig, Signal, StyleValue, teardown, trigger, TriggerPipe, uniqueId, untrack } from "@mxjp/gluon";
 import { TaskSlot } from "@mxjp/gluon/async";
 
 import { THEME } from "../common/theme.js";
 import { Collapse } from "./collapse.js";
 import { Text } from "./text.js";
 
-const VALIDATORS = sharedGlobal("gluon_ux:validators", () => new WeakMap<object, Validator>());
+const VALIDATORS = new WeakMap<object, Validator>();
 
 /**
  * Context key for validation options used by new validators.
@@ -53,7 +53,7 @@ export class Validator {
 	invalid = (): boolean => this.#invalid.value;
 
 	#addRule(rule: ValidationRule, add: (rules: ValidationRuleEntry[], entry: ValidationRuleEntry) => void): void {
-		const entry = new ValidationRuleEntry(rule);
+		const entry = new ValidationRuleEntry(rule, trigger(this.#ruleUpdated));
 		this.#rules.update(rules => {
 			add(rules, entry);
 		});
@@ -67,6 +67,14 @@ export class Validator {
 			});
 		});
 	}
+
+	#ruleUpdated = () => {
+		const signalTrigger = this.#signalTrigger;
+		if (signalTrigger === "never" || (signalTrigger === "if-invalid" && !this.#invalid.value)) {
+			return;
+		}
+		this.triggerValidation();
+	};
 
 	/**
 	 * Add a rule to be validated first until the current lifecycle is disposed.
@@ -91,26 +99,13 @@ export class Validator {
 
 	async #validate(sideEffect: boolean, signal?: AbortSignal): Promise<boolean> {
 		this.#cycle++;
-		const signalTrigger = this.#signalTrigger;
 		const rules = untrack(() => this.#rules.value);
 		for (let i = 0; i < rules.length; i++) {
 			if (signal?.aborted) {
 				return false;
 			}
-			const { validate, visible, alert } = rules[i];
-			let valid: boolean;
-			if (signalTrigger === "never") {
-				valid = await validate(signal);
-			} else {
-				valid = await trigger(() => validate(signal), cycle => {
-					if (this.#cycle === cycle) {
-						if (signalTrigger === "if-invalid" && !this.#invalid.value) {
-							return;
-						}
-						this.triggerValidation();
-					}
-				}, this.#cycle);
-			}
+			const { validate, visible, alert, updated } = rules[i];
+			const valid = await updated(() => validate(signal));
 			if (valid) {
 				visible.value = false;
 			} else {
@@ -187,10 +182,12 @@ export class ValidationRuleEntry {
 	readonly alert = new Emitter<[]>();
 	readonly message: unknown;
 	readonly validate: ValidationRule["validate"];
+	readonly updated: TriggerPipe;
 
-	constructor(rule: ValidationRule) {
+	constructor(rule: ValidationRule, updated: TriggerPipe) {
 		this.message = rule.message;
 		this.validate = rule.validate.bind(rule);
+		this.updated = updated;
 	}
 }
 
