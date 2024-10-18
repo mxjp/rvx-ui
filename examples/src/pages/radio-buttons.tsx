@@ -1,5 +1,5 @@
-import { sig } from "@mxjp/gluon";
-import { Heading, RadioButtons, Text, Value } from "@mxjp/gluon-ux";
+import { sig } from "rvx";
+import { Heading, RadioButtons, Text, Value } from "@rvx/ui";
 
 export default function() {
 	const option = sig("bar");

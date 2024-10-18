@@ -1,8 +1,8 @@
-import { extract, mount } from "@mxjp/gluon";
-import { Column, Heading, Link, Page, RootLayer, ScrollView, THEME } from "@mxjp/gluon-ux";
-import theme from "@mxjp/gluon-ux/dist/theme.module.css";
-import { Async, Tasks, TASKS } from "@mxjp/gluon/async";
-import { ComponentRoute, HashRouter, ROUTER, Routes } from "@mxjp/gluon/router";
+import { extract, mount } from "rvx";
+import { Column, Heading, Link, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
+import theme from "@rvx/ui/dist/theme.module.css";
+import { Async, Tasks, TASKS } from "rvx/async";
+import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
 import "./styles.scss";
 
 mount(

@@ -1,5 +1,5 @@
-import { sig } from "@mxjp/gluon";
-import { Button, Checkbox, Column, Heading, Row, Text, Value } from "@mxjp/gluon-ux";
+import { sig } from "rvx";
+import { Button, Checkbox, Column, Heading, Row, Text, Value } from "@rvx/ui";
 
 export default function() {
 	const checked = sig<boolean | undefined>(undefined);

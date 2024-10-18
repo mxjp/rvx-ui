@@ -1,4 +1,4 @@
-import { sig, Signal, watchUpdates } from "@mxjp/gluon";
+import { sig, Signal, watchUpdates } from "rvx";
 
 import { validatorFor } from "../components/validation.js";
 

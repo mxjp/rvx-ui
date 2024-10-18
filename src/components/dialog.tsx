@@ -1,5 +1,5 @@
-import { captureSelf, ClassValue, Expression, extract, map, mount, StyleValue, uniqueId } from "@mxjp/gluon";
-import { TASKS, Tasks } from "@mxjp/gluon/async";
+import { captureSelf, ClassValue, Expression, extract, map, mount, StyleValue, uniqueId } from "rvx";
+import { TASKS, Tasks } from "rvx/async";
 
 import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";

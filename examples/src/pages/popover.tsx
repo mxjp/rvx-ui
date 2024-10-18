@@ -1,5 +1,5 @@
-import { sig } from "@mxjp/gluon";
-import { Button, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@mxjp/gluon-ux";
+import { sig } from "rvx";
+import { Button, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@rvx/ui";
 import { PopoutControls } from "../common.js";
 
 export default function() {

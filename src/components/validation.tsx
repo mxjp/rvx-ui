@@ -1,5 +1,5 @@
-import { ClassValue, ContextKey, Emitter, Event, Expression, extract, For, map, sig, Signal, StyleValue, teardown, trigger, TriggerPipe, uniqueId, untrack } from "@mxjp/gluon";
-import { TaskSlot } from "@mxjp/gluon/async";
+import { ClassValue, ContextKey, Emitter, Event, Expression, extract, For, map, sig, Signal, StyleValue, teardown, trigger, TriggerPipe, uniqueId, untrack } from "rvx";
+import { TaskSlot } from "rvx/async";
 
 import { THEME } from "../common/theme.js";
 import { Collapse } from "./collapse.js";
@@ -10,7 +10,7 @@ const VALIDATORS = new WeakMap<object, Validator>();
 /**
  * Context key for validation options used by new validators.
  */
-export const VALIDATION = Symbol.for("gluon_ux:validation") as ContextKey<ValidationOptions>;
+export const VALIDATION = Symbol.for("rvx-ui:validation") as ContextKey<ValidationOptions>;
 
 /**
  * Defines when accessed signals trigger automatic validation.

@@ -1,5 +1,5 @@
 {
-	"name": "@mxjp/gluon-ux-examples",
+	"name": "@rvx/ui-examples",
 	"type": "module",
 	"scripts": {
 		"start": "vite --force",
@@ -7,8 +7,8 @@
 		"build": "vite build && tsc --noEmit"
 	},
 	"devDependencies": {
-		"@mxjp/gluon-ux": "file:..",
-		"typescript": "^5.6.2",
-		"vite": "^5.4.8"
+		"@rvx/ui": "file:..",
+		"typescript": "^5.6.3",
+		"vite": "^5.4.9"
 	}
 }

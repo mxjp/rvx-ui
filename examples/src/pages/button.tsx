@@ -1,4 +1,4 @@
-import { Button, Heading, Row } from "@mxjp/gluon-ux";
+import { Button, Heading, Row } from "@rvx/ui";
 
 export default function() {
 	return <>

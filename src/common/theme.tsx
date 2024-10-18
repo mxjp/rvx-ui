@@ -1,14 +1,14 @@
-import { ContextKey } from "@mxjp/gluon";
+import { ContextKey } from "rvx";
 
-export const THEME = Symbol.for("gluon_ux:theme") as ContextKey<Theme>;
+export const THEME = Symbol.for("rvx-ui:theme") as ContextKey<Theme>;
 
 /**
  * A collection of class names that is used as the theme.
  *
  * @example
  * ```tsx
- * import { mount, Inject } from "@mxjp/gluon";
- * import { THEME, Button } from "@mxjp/gluon-ux";
+ * import { mount, Inject } from "rvx";
+ * import { THEME, Button } from "@rvx/ui";
  *
  * import theme from "./theme.module.css";
  *

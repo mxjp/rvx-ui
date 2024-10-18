@@ -3,7 +3,7 @@ import "../env.js";
 import { strictEqual } from "node:assert";
 import test from "node:test";
 
-import { Emitter, sig } from "@mxjp/gluon";
+import { Emitter, sig } from "rvx";
 
 import { Collapse, THEME } from "../../src/index.js";
 import { getCollapseContent, isCollapseVisible, themeClass } from "../../src/test.js";

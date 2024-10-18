@@ -6,7 +6,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"jsx": "react-jsx",
-		"jsxImportSource": "@mxjp/gluon"
+		"jsxImportSource": "rvx"
 	},
 	"include": [
 		"src",

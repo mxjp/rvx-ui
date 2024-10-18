@@ -1,4 +1,4 @@
-import { ClassValue, Expression, extract, get, Inject, map, render, sig, StyleValue, SVG, uniqueId, watch, XMLNS } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, get, Inject, map, render, sig, StyleValue, SVG, uniqueId, watch, XMLNS } from "rvx";
 
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
@@ -54,7 +54,7 @@ export function createPopover(props: {
 	/**
 	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:passive-action"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "rvx-ui:passive-action"]
 	 */
 	foreignEvents?: string[];
 
@@ -224,7 +224,7 @@ export function Popover(props: {
 	/**
 	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:passive-action"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "rvx-ui:passive-action"]
 	 */
 	foreignEvents?: string[];
 

@@ -1,5 +1,5 @@
-import { extract, sig } from "@mxjp/gluon";
-import { Button, Column, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@mxjp/gluon-ux";
+import { extract, sig } from "rvx";
+import { Button, Column, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
 
 export default function() {
 	return <>

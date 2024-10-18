@@ -1,4 +1,4 @@
-import { onTeardownLeak } from "@mxjp/gluon/test";
+import { onTeardownLeak } from "rvx/test";
 import { JSDOM } from "jsdom";
 
 onTeardownLeak(() => {
@@ -10,7 +10,7 @@ const dom = new JSDOM(`
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8">
-			<title>gluon-ux!</title>
+			<title>rvx-ui!</title>
 		</head>
 		<body></body>
 	</html>

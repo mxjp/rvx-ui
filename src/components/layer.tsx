@@ -1,4 +1,4 @@
-import { Context, ContextKey, DeriveContext, Expression, extract, get, memo, sig, Signal, teardown, uncapture, untrack, watch, wrapContext } from "@mxjp/gluon";
+import { Context, ContextKey, DeriveContext, Expression, extract, get, memo, sig, Signal, teardown, uncapture, untrack, watch, wrapContext } from "rvx";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -13,7 +13,7 @@ interface LayerInstance {
 	autoFocusFallback: Element | undefined;
 }
 
-export const LAYER = Symbol.for("gluon-ux:layer-handle") as ContextKey<LayerHandle>;
+export const LAYER = Symbol.for("rvx-ui:layer-handle") as ContextKey<LayerHandle>;
 
 const LAYERS = sig<LayerInstance[]>([
 	{

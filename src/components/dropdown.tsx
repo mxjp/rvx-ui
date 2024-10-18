@@ -1,4 +1,4 @@
-import { ClassValue, Expression, extract, For, get, map, memo, optionalString, render, sig, StyleValue, uniqueId, View, watch } from "@mxjp/gluon";
+import { ClassValue, Expression, extract, For, get, map, memo, optionalString, render, sig, StyleValue, uniqueId, View, watch } from "rvx";
 
 import { Action, createPassiveActionEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
 import { THEME } from "../common/theme.js";
@@ -80,7 +80,7 @@ export function createDropdown(props: {
 	/**
 	 * An array of event names that cause the dropdown to hide automatically when dispatched outside of the current layer stack or the anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:passive-action"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "rvx-ui:passive-action"]
 	 */
 	foreignEvents?: string[];
 }): Popout {
@@ -322,7 +322,7 @@ export function Dropdown(props: {
 	/**
 	 * An array of event names that cause the dropdown to hide automatically when dispatched outside of the current layer stack or the anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:passive-action"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "rvx-ui:passive-action"]
 	 */
 	foreignEvents?: string[];
 }): unknown {

@@ -1,4 +1,4 @@
-import { ClassValue, extract, sig, StyleValue, teardown } from "@mxjp/gluon";
+import { ClassValue, extract, sig, StyleValue, teardown } from "rvx";
 
 import { debounceEvent } from "../common/events.js";
 import { THEME } from "../common/theme.js";

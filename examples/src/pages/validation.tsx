@@ -1,5 +1,5 @@
-import { extract, sig } from "@mxjp/gluon";
-import { Button, DialogBody, DialogFooter, Heading, intParser, LabelFor, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@mxjp/gluon-ux";
+import { extract, sig } from "rvx";
+import { Button, DialogBody, DialogFooter, Heading, intParser, LabelFor, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@rvx/ui";
 
 export default function() {
 	return <>

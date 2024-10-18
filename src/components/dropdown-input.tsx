@@ -1,4 +1,4 @@
-import { ClassValue, Expression, get, map, Signal, StyleValue } from "@mxjp/gluon";
+import { ClassValue, Expression, get, map, Signal, StyleValue } from "rvx";
 
 import { Button, ButtonVariant } from "./button.js";
 import { Dropdown, DropdownItem } from "./dropdown.js";

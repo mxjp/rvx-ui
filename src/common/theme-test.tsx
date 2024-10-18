@@ -1,4 +1,4 @@
-import { extract } from "@mxjp/gluon";
+import { extract } from "rvx";
 
 import { THEME, Theme } from "./theme.js";
 

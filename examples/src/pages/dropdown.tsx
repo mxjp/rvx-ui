@@ -1,5 +1,5 @@
-import { sig } from "@mxjp/gluon";
-import { Button, Column, Dropdown, DropdownInput, DropdownItem, Heading, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@mxjp/gluon-ux";
+import { sig } from "rvx";
+import { Button, Column, Dropdown, DropdownInput, DropdownItem, Heading, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@rvx/ui";
 import { PopoutControls } from "../common.js";
 
 export default function() {

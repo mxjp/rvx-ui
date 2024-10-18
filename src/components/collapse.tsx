@@ -1,4 +1,4 @@
-import { ClassValue, Event, Expression, extract, get, map, optionalString, sig, StyleValue, teardown } from "@mxjp/gluon";
+import { ClassValue, Event, Expression, extract, get, map, optionalString, sig, StyleValue, teardown } from "rvx";
 
 import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";

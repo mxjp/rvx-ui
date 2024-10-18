@@ -1,4 +1,4 @@
-import { Expression, extract, get } from "@mxjp/gluon";
+import { Expression, extract, get } from "rvx";
 
 import { THEME } from "../common/theme.js";
 

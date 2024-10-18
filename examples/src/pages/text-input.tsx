@@ -1,5 +1,5 @@
-import { sig, UseUniqueId } from "@mxjp/gluon";
-import { Button, Column, ControlGroup, DialogBody, DialogFooter, Heading, Label, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@mxjp/gluon-ux";
+import { sig, UseUniqueId } from "rvx";
+import { Button, Column, ControlGroup, DialogBody, DialogFooter, Heading, Label, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@rvx/ui";
 
 export default function() {
 	const defaultText = "Hello World!";

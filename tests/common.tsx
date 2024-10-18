@@ -1,8 +1,8 @@
 import { deepStrictEqual } from "node:assert";
 
-import { Context } from "@mxjp/gluon";
-import { TASKS, Tasks } from "@mxjp/gluon/async";
-import { AsyncTestContext, runAsyncTest, runTest } from "@mxjp/gluon/test";
+import { Context } from "rvx";
+import { TASKS, Tasks } from "rvx/async";
+import { AsyncTestContext, runAsyncTest, runTest } from "rvx/test";
 
 import { THEME, Theme } from "../src/index.js";
 

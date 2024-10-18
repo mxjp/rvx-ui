@@ -1,4 +1,4 @@
-import { waitFor } from "@mxjp/gluon/async";
+import { waitFor } from "rvx/async";
 
 /**
  * Get an identifier for the pressed key including any modifiers.
@@ -100,12 +100,12 @@ export function startDelayedHoverOnMouseenter(event: MouseEvent, action: () => v
 }
 
 /**
- * Gluon-ux's passive action event name.
+ * Rvx-ui's passive action event name.
  *
  * + This can be dispatched from an element to indicate that the user is likely no longer interested in interacting with other elements in the same context.
  * + This is currently used to close nested dropdowns when the user hovers another dropdown item in the parent for some time.
  */
-export const PASSIVE_ACTION_EVENT = "gluon-ux:passive-action";
+export const PASSIVE_ACTION_EVENT = "rvx-ui:passive-action";
 
 /**
  * Create a {@link PASSIVE_ACTION_EVENT} custom event.

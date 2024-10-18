@@ -1,5 +1,5 @@
-import { Signal } from "@mxjp/gluon";
-import { Column, LabelFor, PopoutAlignment, PopoutPlacement, RadioButtons, Row } from "@mxjp/gluon-ux";
+import { Signal } from "rvx";
+import { Column, LabelFor, PopoutAlignment, PopoutPlacement, RadioButtons, Row } from "@rvx/ui";
 
 export function PopoutControls(props: {
 	placement: Signal<PopoutPlacement | undefined>;

@@ -1,4 +1,4 @@
-import { captureSelf, Emitter, Event as GluonEvent, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "@mxjp/gluon";
+import { captureSelf, Emitter, Event as RvxEvent, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "rvx";
 
 import { PASSIVE_ACTION_EVENT } from "../common/events.js";
 import { axisEquals, Direction, DOWN, flip, getBlockStart, getInlineStart, getSize, getWindowSize, getWindowSpaceAround, INSET, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
@@ -69,7 +69,7 @@ export interface PopoutContent {
 		/**
 		 * Called after the popout content is attached to the document, but before calculating the placement.
 		 */
-		onPlacement: GluonEvent<[event: PopoutPlacementArgs]>;
+		onPlacement: RvxEvent<[event: PopoutPlacementArgs]>;
 
 		/**
 		 * Set the size reference element.
@@ -108,7 +108,7 @@ export interface PopoutOptions {
 	/**
 	 * An array of event names that cause the popout to hide automatically when dispatched outside of the current layer stack or the latest anchor.
 	 *
-	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "gluon-ux:passive-action"]
+	 * @default ["resize", "scroll", "mousedown", "touchstart", "focusin", "rvx-ui:passive-action"]
 	 */
 	foreignEvents?: string[];
 }

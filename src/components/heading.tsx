@@ -1,4 +1,4 @@
-import { ClassValue, createElement, Expression, extract, StyleValue } from "@mxjp/gluon";
+import { ClassValue, createElement, Expression, extract, StyleValue } from "rvx";
 
 import { THEME } from "../common/theme.js";
 

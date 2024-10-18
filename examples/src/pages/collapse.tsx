@@ -1,5 +1,5 @@
-import { Emitter, sig } from "@mxjp/gluon";
-import { Button, Collapse, Column, Heading, Row, Text } from "@mxjp/gluon-ux";
+import { Emitter, sig } from "rvx";
+import { Button, Collapse, Column, Heading, Row, Text } from "@rvx/ui";
 
 export default function() {
 	const collapse = sig(false);

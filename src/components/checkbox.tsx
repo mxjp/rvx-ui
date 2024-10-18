@@ -1,5 +1,5 @@
-import { ClassValue, Expression, extract, get, optionalString, Signal, string, StyleValue, uniqueId, watch } from "@mxjp/gluon";
-import { isPending } from "@mxjp/gluon/async";
+import { ClassValue, Expression, extract, get, optionalString, Signal, string, StyleValue, uniqueId, watch } from "rvx";
+import { isPending } from "rvx/async";
 
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
