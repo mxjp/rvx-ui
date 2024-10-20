@@ -21,10 +21,14 @@
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
 		},
+		"./test": {
+			"types": "./dist/test.d.ts",
+			"default": "./dist/test.js"
+		},
 		"./dist/": "./dist/"
 	},
 	"scripts": {
-		"build": "mx-parallel npm:build:*",
+		"build": "mx-parallel npm:build:es npm:build:types && mx-parallel npm:build:tests npm:build:theme",
 		"build:es": "tsc -p tsconfig-es.json",
 		"build:types": "tsc -p tsconfig-types.json",
 		"build:tests": "tsc -p tsconfig-tests.json",
@@ -34,7 +38,7 @@
 		"start:types": "tsc -p tsconfig-types.json -w --preserveWatchOutput",
 		"start:tests": "tsc -p tsconfig-tests.json -w --preserveWatchOutput",
 		"start:theme": "sass ./src/theme/theme.scss ./dist/theme.module.css -w",
-		"test": "node --enable-source-maps --test ./tests_out/tests",
+		"test": "cd tests_out && node --enable-source-maps --import=./env.js --test",
 		"prepack": "npm run build && npm test && node scripts/prepack.js"
 	},
 	"devDependencies": {
@@ -43,7 +47,8 @@
 		"@types/node": "^22.7.6",
 		"jsdom": "^25.0.1",
 		"sass": "^1.80.2",
-		"typescript": "^5.6.3"
+		"typescript": "^5.6.3",
+		"@rvx/ui": "file:."
 	},
 	"dependencies": {
 		"rvx": "^16.0.2"

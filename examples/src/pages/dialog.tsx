@@ -1,5 +1,5 @@
+import { Button, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
 import { extract, sig } from "rvx";
-import { Button, Column, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
 
 export default function() {
 	return <>

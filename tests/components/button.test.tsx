@@ -1,14 +1,11 @@
-import "../env.js";
-
 import { strictEqual } from "node:assert";
-import test from "node:test";
-
-import { Button } from "../../src/index.js";
-import { themeClass } from "../../src/test.js";
+import test, { suite } from "node:test";
+import { Button } from "@rvx/ui";
+import { themeClass } from "@rvx/ui/test";
 import { assertClass, assertEvents, keydown, testFn, text } from "../common.js";
 
-await test("components/button", async ctx => {
-	await ctx.test("defaults", testFn(() => {
+await suite("components/button", async () => {
+	await test("defaults", testFn(() => {
 		const elem = <Button /> as HTMLButtonElement;
 		strictEqual(elem instanceof HTMLButtonElement, true);
 		strictEqual(elem.type, "button");
@@ -21,7 +18,7 @@ await test("components/button", async ctx => {
 		strictEqual(elem.childNodes.length, 0);
 	}));
 
-	await ctx.test("props & content", testFn(() => {
+	await test("props & content", testFn(() => {
 		const elem = <Button
 			type="submit"
 			disabled
@@ -43,7 +40,7 @@ await test("components/button", async ctx => {
 		strictEqual(text(elem), "Click me!");
 	}));
 
-	await ctx.test("action", testFn(() => {
+	await test("action", testFn(() => {
 		const events: unknown[] = [];
 		const elem = <Button action={() => {
 			events.push("action");

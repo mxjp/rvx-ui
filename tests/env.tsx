@@ -1,10 +1,6 @@
 import { onTeardownLeak } from "rvx/test";
 import { JSDOM } from "jsdom";
 
-onTeardownLeak(() => {
-	throw new Error("teardown leak");
-});
-
 const dom = new JSDOM(`
 	<!DOCTYPE html>
 	<html lang="en">
@@ -33,3 +29,7 @@ for (const key of [
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	(globalThis as any)[key] = dom.window[key];
 }
+
+onTeardownLeak(() => {
+	throw new Error("teardown leak");
+});

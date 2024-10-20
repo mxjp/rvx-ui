@@ -1,19 +1,15 @@
-import "../env.js";
-
+import { Collapse, THEME } from "@rvx/ui";
+import { getCollapseContent, isCollapseVisible, themeClass } from "@rvx/ui/test";
 import { strictEqual } from "node:assert";
-import test from "node:test";
-
+import test, { suite } from "node:test";
 import { Emitter, sig } from "rvx";
-
-import { Collapse, THEME } from "../../src/index.js";
-import { getCollapseContent, isCollapseVisible, themeClass } from "../../src/test.js";
 import { assertClass, assertEvents, testFn, text } from "../common.js";
 import { borderBoxEntry, mockResizeObservers, resize } from "../mocks/resize-observer.js";
 
 mockResizeObservers();
 
-await test("components/collapse", async ctx => {
-	await ctx.test("defaults & resizing", testFn(() => {
+await suite("components/collapse", async () => {
+	await test("defaults & resizing", testFn(() => {
 		const elem = <Collapse>Hello World!</Collapse> as HTMLDivElement;
 		strictEqual(isCollapseVisible(elem), false);
 		strictEqual(elem.hasAttribute("inert"), true);
@@ -39,7 +35,7 @@ await test("components/collapse", async ctx => {
 		strictEqual(elem.style.getPropertyValue("--collapse-size"), "123px");
 	}));
 
-	await ctx.test("no intermediate view element", testFn(ctx => {
+	await test("no intermediate view element", testFn(ctx => {
 		// eslint-disable-next-line camelcase
 		ctx.get(THEME)!.collapse_view = undefined;
 		const elem = <Collapse>Hello World!</Collapse> as HTMLDivElement;
@@ -48,7 +44,7 @@ await test("components/collapse", async ctx => {
 		strictEqual(text(content), "Hello World!");
 	}));
 
-	await ctx.test("visibility", testFn(() => {
+	await test("visibility", testFn(() => {
 		const visible = sig(false);
 		const elem = <Collapse visible={visible} /> as HTMLDivElement;
 		assertClass(elem, [themeClass("collapse")]);
@@ -63,7 +59,7 @@ await test("components/collapse", async ctx => {
 		strictEqual(isCollapseVisible(elem), false);
 	}));
 
-	await ctx.test("alert", testFn(() => {
+	await test("alert", testFn(() => {
 		const events: unknown[] = [];
 		const visible = sig(false);
 		const alert = new Emitter<[]>();

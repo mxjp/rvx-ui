@@ -1,10 +1,8 @@
+import { THEME, Theme } from "@rvx/ui";
 import { deepStrictEqual } from "node:assert";
-
 import { Context } from "rvx";
 import { TASKS, Tasks } from "rvx/async";
 import { AsyncTestContext, runAsyncTest, runTest } from "rvx/test";
-
-import { THEME, Theme } from "../src/index.js";
 
 export const testTheme: Theme = new Proxy({}, {
 	get(_target, prop, _recv) {
