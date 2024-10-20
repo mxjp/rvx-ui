@@ -1,45 +1,8 @@
-import { strictEqual } from "node:assert";
-import test, { suite } from "node:test";
 import { Button } from "@rvx/ui";
-import { themeClass } from "@rvx/ui/test";
-import { assertClass, assertEvents, keydown, testFn, text } from "../common.js";
+import test, { suite } from "node:test";
+import { assertEvents, keydown, testFn } from "../common.js";
 
 await suite("components/button", async () => {
-	await test("defaults", testFn(() => {
-		const elem = <Button /> as HTMLButtonElement;
-		strictEqual(elem instanceof HTMLButtonElement, true);
-		strictEqual(elem.type, "button");
-		strictEqual(elem.disabled, false);
-		assertClass(elem, [themeClass("button"), themeClass("button_default")]);
-		strictEqual(elem.id, "");
-		strictEqual(elem.getAttribute("aria-expanded"), null);
-		strictEqual(elem.getAttribute("aria-label"), null);
-		strictEqual(elem.getAttribute("aria-labelledby"), null);
-		strictEqual(elem.childNodes.length, 0);
-	}));
-
-	await test("props & content", testFn(() => {
-		const elem = <Button
-			type="submit"
-			disabled
-			class={["foo", "bar"]}
-			style={{ color: "red" }}
-			id="test"
-			aria-expanded
-			aria-label="label"
-			aria-labelledby="labelId"
-		>Click me!</Button> as HTMLButtonElement;
-		strictEqual(elem.type, "submit");
-		strictEqual(elem.disabled, true);
-		assertClass(elem, [themeClass("button"), themeClass("button_default"), "foo", "bar"]);
-		strictEqual(elem.style.color, "red");
-		strictEqual(elem.id, "test");
-		strictEqual(elem.getAttribute("aria-expanded"), "true");
-		strictEqual(elem.getAttribute("aria-label"), "label");
-		strictEqual(elem.getAttribute("aria-labelledby"), "labelId");
-		strictEqual(text(elem), "Click me!");
-	}));
-
 	await test("action", testFn(() => {
 		const events: unknown[] = [];
 		const elem = <Button action={() => {

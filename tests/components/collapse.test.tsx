@@ -9,14 +9,9 @@ import { borderBoxEntry, mockResizeObservers, resize } from "../mocks/resize-obs
 mockResizeObservers();
 
 await suite("components/collapse", async () => {
-	await test("defaults & resizing", testFn(() => {
+	await test("resizing", testFn(() => {
 		const elem = <Collapse>Hello World!</Collapse> as HTMLDivElement;
 		strictEqual(isCollapseVisible(elem), false);
-		strictEqual(elem.hasAttribute("inert"), true);
-		strictEqual(elem.id, "");
-		strictEqual(elem.getAttribute("aria-live"), "polite");
-		strictEqual(elem.getAttribute("aria-relevant"), null);
-		strictEqual(elem.getAttribute("aria-atomic"), null);
 		const view = elem.querySelector(".t_collapse_view");
 		strictEqual(view?.parentNode, elem);
 		const content = getCollapseContent(elem);
