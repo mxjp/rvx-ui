@@ -41,11 +41,8 @@ export function Checkbox(props: {
 	/> as HTMLInputElement;
 
 	watch(props.checked, checked => {
-		if (checked === undefined) {
-			input.indeterminate = true;
-		} else {
-			input.checked = checked;
-		}
+		input.indeterminate = checked === undefined;
+		input.checked = checked === true;
 	});
 
 	return <label
