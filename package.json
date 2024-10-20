@@ -24,25 +24,23 @@
 		"./dist/": "./dist/"
 	},
 	"scripts": {
-		"build": "concurrently npm:build:*",
+		"build": "mx-parallel npm:build:*",
 		"build:es": "tsc -p tsconfig-es.json",
 		"build:types": "tsc -p tsconfig-types.json",
 		"build:tests": "tsc -p tsconfig-tests.json",
 		"build:theme": "sass ./src/theme/theme.scss ./dist/theme.module.css",
-		"start": "concurrently npm:start:*",
+		"start": "mx-parallel npm:start:*",
 		"start:es": "tsc -p tsconfig-es.json -w --preserveWatchOutput",
 		"start:types": "tsc -p tsconfig-types.json -w --preserveWatchOutput",
 		"start:tests": "tsc -p tsconfig-tests.json -w --preserveWatchOutput",
 		"start:theme": "sass ./src/theme/theme.scss ./dist/theme.module.css -w",
 		"test": "node --enable-source-maps --test ./tests_out/tests",
-		"lint": "eslint --config .eslintrc.cjs ./{src,test}/**/*.{ts,tsx}",
-		"prepack": "npm run build && npm run lint && npm test && node scripts/prepack.js"
+		"prepack": "npm run build && npm test && node scripts/prepack.js"
 	},
 	"devDependencies": {
-		"@mpt/eslint-rules": "^5.0.2",
+		"@mxjp/parallel": "^1.0.2",
 		"@types/jsdom": "^21.1.7",
 		"@types/node": "^22.7.6",
-		"concurrently": "^9.0.1",
 		"jsdom": "^25.0.1",
 		"sass": "^1.80.2",
 		"typescript": "^5.6.3"
