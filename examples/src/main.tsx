@@ -1,6 +1,6 @@
-import { extract, mount } from "rvx";
 import { Column, Heading, Link, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
 import theme from "@rvx/ui/dist/theme.module.css";
+import { deriveContext, extract, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
 import "./styles.scss";
@@ -17,23 +17,26 @@ mount(
 			const links: unknown[] = [];
 			const pages = import.meta.glob("./pages/*.tsx");
 
-			for (const key in pages) {
-				const name = key.slice(8, -4);
-				const path = `/${name}`;
+			deriveContext(ctx => {
+				ctx.delete(TASKS);
+				for (const key in pages) {
+					const name = key.slice(8, -4);
+					const path = `/${name}`;
 
-				links.push(<Link action={() => {
-					extract(ROUTER)!.push(path);
-				}}>{name}</Link>);
+					links.push(<Link action={() => {
+						extract(ROUTER)!.push(path);
+					}}>{name}</Link>);
 
-				routes.push({
-					match: path,
-					content: () => <Async source={pages[key]}>
-						{(module: any) => <Page inlineSize="50rem">
-							<module.default />
-						</Page>}
-					</Async>,
-				});
-			}
+					routes.push({
+						match: path,
+						content: () => <Async source={pages[key]}>
+							{(module: any) => <Page inlineSize="50rem">
+								<module.default />
+							</Page>}
+						</Async>,
+					});
+				}
+			});
 
 			return <div class="app">
 				<ScrollView class="app-nav">
