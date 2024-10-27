@@ -1,16 +1,17 @@
-import { ClassValue, ContextKey, Emitter, Event, Expression, extract, For, map, sig, Signal, StyleValue, teardown, trigger, TriggerPipe, uniqueId, untrack } from "rvx";
+import { ClassValue, Context, Expression, For, map, sig, Signal, StyleValue, teardown, trigger, TriggerPipe, untrack } from "rvx";
 import { TaskSlot } from "rvx/async";
-
 import { THEME } from "../common/theme.js";
 import { Collapse } from "./collapse.js";
 import { Text } from "./text.js";
+import { uniqueId } from "rvx/id";
+import { Emitter, Event } from "rvx/event";
 
 const VALIDATORS = new WeakMap<object, Validator>();
 
 /**
- * Context key for validation options used by new validators.
+ * Context for validation options used by new validators.
  */
-export const VALIDATION = Symbol.for("rvx-ui:validation") as ContextKey<ValidationOptions>;
+export const VALIDATION = new Context<ValidationOptions>();
 
 /**
  * Defines when accessed signals trigger automatic validation.
@@ -33,7 +34,7 @@ export class Validator {
 	#cycle = 0;
 
 	constructor() {
-		const options = extract(VALIDATION);
+		const options = VALIDATION.current;
 		this.#signalTrigger = options?.signalTrigger ?? "if-validated";
 	}
 
@@ -238,7 +239,7 @@ export function ValidationMessage(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <Collapse
 		visible={map(props.visible, v => v ?? true)}
 		alert={props.alert}

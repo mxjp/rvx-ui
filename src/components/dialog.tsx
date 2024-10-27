@@ -1,6 +1,6 @@
-import { captureSelf, ClassValue, Expression, extract, map, mount, StyleValue, uniqueId } from "rvx";
+import { captureSelf, ClassValue, Expression, map, mount, StyleValue } from "rvx";
 import { TASKS, Tasks } from "rvx/async";
-
+import { uniqueId } from "rvx/id";
 import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
 
@@ -23,24 +23,25 @@ export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOption
 			mount(
 				document.body,
 				<Layer modal>
-					{ctx => {
-						ctx.set(TASKS, new Tasks());
-						const dialog: Dialog<T> = {
-							resolve(value) {
-								dispose();
-								resolve(value);
-							},
-							reject(reason) {
-								dispose();
-								reject(reason);
-							},
-						};
-						if (options?.cancellable ?? true) {
-							extract(LAYER)?.useHotkey("escape", () => {
-								dialog.reject(new DialogAbortError());
-							});
-						}
-						return init(dialog);
+					{() => {
+						return TASKS.inject(new Tasks(), () => {
+							const dialog: Dialog<T> = {
+								resolve(value) {
+									dispose();
+									resolve(value);
+								},
+								reject(reason) {
+									dispose();
+									reject(reason);
+								},
+							};
+							if (options?.cancellable ?? true) {
+								LAYER.current!.useHotkey("escape", () => {
+									dialog.reject(new DialogAbortError());
+								});
+							}
+							return init(dialog);
+						});
 					}}
 				</Layer>
 			);
@@ -66,7 +67,7 @@ export function DialogBody(props: {
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-describedby"?: Expression<string | undefined>;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 
 	let titleId: string | undefined;
 	let descriptionId: string | undefined;
@@ -116,7 +117,7 @@ export function DialogFooter(props: {
 	links?: unknown;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <Row
 		size="control"
 		class={[

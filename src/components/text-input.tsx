@@ -1,6 +1,5 @@
-import { ClassValue, Expression, extract, get, optionalString, Signal, StyleValue } from "rvx";
+import { ClassValue, Expression, get, optionalString, Signal, StyleValue } from "rvx";
 import { isPending, waitFor } from "rvx/async";
-
 import { keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { validatorFor } from "./validation.js";
@@ -64,7 +63,7 @@ export function TextInput(props: ({
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
 	const validator = props.value instanceof Signal ? validatorFor(props.value) : undefined;

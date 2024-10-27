@@ -1,6 +1,5 @@
-import { ClassValue, Expression, extract, get, optionalString, StyleValue } from "rvx";
+import { ClassValue, Expression, get, optionalString, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
-
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { Validator } from "./validation.js";
@@ -50,7 +49,7 @@ export function Button(props: {
 
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
 	function action(event: Event) {

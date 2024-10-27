@@ -1,5 +1,4 @@
-import { ClassValue, Expression, extract, get, StyleValue } from "rvx";
-
+import { ClassValue, Expression, get, StyleValue } from "rvx";
 import { THEME } from "../common/theme.js";
 import { SizeContext } from "../common/types.js";
 
@@ -12,7 +11,7 @@ export function Row(props: {
 	style?: StyleValue;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <div
 		class={[
 			theme?.row,

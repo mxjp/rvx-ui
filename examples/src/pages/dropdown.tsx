@@ -1,5 +1,5 @@
-import { sig } from "rvx";
 import { Button, Column, Dropdown, DropdownInput, DropdownItem, Heading, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@rvx/ui";
+import { sig } from "rvx";
 import { PopoutControls } from "../common.js";
 
 export default function() {

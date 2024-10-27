@@ -1,5 +1,5 @@
-import { captureSelf, Emitter, Event as RvxEvent, Expression, extract, get, getContext, ReadonlyContext, render, runInContext, sig, teardown, TeardownHook, untrack, View, viewNodes } from "rvx";
-
+import { captureSelf, Context, Expression, get, render, sig, teardown, TeardownHook, untrack, View, viewNodes } from "rvx";
+import { Emitter, Event as RvxEvent } from "rvx/event";
 import { PASSIVE_ACTION_EVENT } from "../common/events.js";
 import { axisEquals, Direction, DOWN, flip, getBlockStart, getInlineStart, getSize, getWindowSize, getWindowSpaceAround, INSET, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
 import { LAYER, Layer } from "./layer.js";
@@ -132,7 +132,6 @@ interface Instance {
  * Utility to create automatically placed floating content like popovers or dropdowns.
  */
 export class Popout {
-	#context: ReadonlyContext | undefined;
 	#placement: Expression<PopoutPlacement>;
 	#alignment: Expression<PopoutAlignment>;
 	#content: PopoutContent;
@@ -149,7 +148,6 @@ export class Popout {
 	 * The popout hides automatically when the current context is disposed.
 	 */
 	constructor(options: PopoutOptions) {
-		this.#context = getContext();
 		this.#placement = options.placement;
 		this.#alignment = options.alignment;
 		this.#content = options.content;
@@ -166,6 +164,71 @@ export class Popout {
 	get visible(): boolean {
 		return this.#visible.value;
 	}
+
+	#createInstance = Context.wrap((writingMode: WritingMode, scriptDir: ScriptDirection): Instance => {
+		return captureSelf(dispose => {
+			const instance: Instance = this.#instance = {
+				dispose,
+				content: undefined!,
+				view: undefined!,
+				observer: undefined!,
+				sizeReference: undefined,
+			};
+
+			instance.view = render(<Layer>
+				{() => {
+					const layer = LAYER.current!;
+					const onForeignEvent = (event: Event): void => {
+						if (event.target instanceof Node) {
+							if (layer.stackContains(event.target)) {
+								return;
+							}
+							const args = this.#instanceArgs;
+							if (args !== undefined) {
+								for (const node of viewNodes(args.anchor)) {
+									if (node === event.target || node.contains(event.target)) {
+										return;
+									}
+								}
+							}
+						}
+						this.hide();
+					};
+
+					this.#foreignEvents.forEach(t => window.addEventListener(t, onForeignEvent, { passive: true, capture: true }));
+					teardown(() => {
+						this.#foreignEvents.forEach(t => window.removeEventListener(t, onForeignEvent, { capture: true }));
+					});
+
+					instance!.content = <div style={{
+						"position": "fixed",
+						"writing-mode": writingMode,
+					}} dir={scriptDir}>
+						{this.#content({
+							popout: this,
+							onPlacement: this.#onPlacement.event,
+							placement: () => this.#placementState.value,
+							setSizeReference: target => {
+								instance!.sizeReference = target;
+							},
+						})}
+					</div> as HTMLElement;
+					return instance!.content;
+				}}
+			</Layer>);
+			document.body.appendChild(instance.view.take());
+
+			instance.observer = new ResizeObserver(entries => {
+				const args = this.#instanceArgs;
+				const size = entries[entries.length - 1]?.borderBoxSize[0];
+				if (args !== undefined && size !== undefined && (size.blockSize !== args.contentBlockSize || size.inlineSize !== args.contentInlineSize)) {
+					this.show(args.anchor, args.pointerEvent);
+				}
+			});
+			instance.observer.observe(instance.content, { box: "border-box" });
+			return instance;
+		});
+	});
 
 	/**
 	 * Show the popout or recalculate placement if already visible.
@@ -223,69 +286,7 @@ export class Popout {
 		// Ensure that there is a popout content instance:
 		let instance = this.#instance;
 		if (instance === undefined) {
-			runInContext(this.#context, () => {
-				captureSelf(dispose => {
-					instance = this.#instance = {
-						dispose,
-						content: undefined!,
-						view: undefined!,
-						observer: undefined!,
-						sizeReference: undefined,
-					};
-
-					instance.view = render(<Layer>
-						{() => {
-							const layer = extract(LAYER)!;
-							const onForeignEvent = (event: Event): void => {
-								if (event.target instanceof Node) {
-									if (layer.stackContains(event.target)) {
-										return;
-									}
-									const args = this.#instanceArgs;
-									if (args !== undefined) {
-										for (const node of viewNodes(args.anchor)) {
-											if (node === event.target || node.contains(event.target)) {
-												return;
-											}
-										}
-									}
-								}
-								this.hide();
-							};
-
-							this.#foreignEvents.forEach(t => window.addEventListener(t, onForeignEvent, { passive: true, capture: true }));
-							teardown(() => {
-								this.#foreignEvents.forEach(t => window.removeEventListener(t, onForeignEvent, { capture: true }));
-							});
-
-							instance!.content = <div style={{
-								"position": "fixed",
-								"writing-mode": writingMode,
-							}} dir={scriptDir}>
-								{this.#content({
-									popout: this,
-									onPlacement: this.#onPlacement.event,
-									placement: () => this.#placementState.value,
-									setSizeReference: target => {
-										instance!.sizeReference = target;
-									},
-								})}
-							</div> as HTMLElement;
-							return instance!.content;
-						}}
-					</Layer>);
-					document.body.appendChild(instance.view.take());
-
-					instance.observer = new ResizeObserver(entries => {
-						const args = this.#instanceArgs;
-						const size = entries[entries.length - 1]?.borderBoxSize[0];
-						if (args !== undefined && size !== undefined && (size.blockSize !== args.contentBlockSize || size.inlineSize !== args.contentInlineSize)) {
-							this.show(args.anchor, args.pointerEvent);
-						}
-					});
-					instance.observer.observe(instance.content, { box: "border-box" });
-				});
-			});
+			instance = this.#createInstance(writingMode!, scriptDir!);
 		}
 
 		const placementArgs: PopoutPlacementArgs = { gap: 0 };

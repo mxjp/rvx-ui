@@ -1,4 +1,4 @@
-import { Context, ContextKey, DeriveContext, Expression, extract, get, memo, sig, Signal, teardown, uncapture, untrack, watch, wrapContext } from "rvx";
+import { Context, Expression, get, Inject, memo, sig, Signal, teardown, uncapture, untrack, watch } from "rvx";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -13,7 +13,7 @@ interface LayerInstance {
 	autoFocusFallback: Element | undefined;
 }
 
-export const LAYER = Symbol.for("rvx-ui:layer-handle") as ContextKey<LayerHandle>;
+export const LAYER = new Context<LayerHandle>();
 
 const LAYERS = sig<LayerInstance[]>([
 	{
@@ -35,19 +35,16 @@ uncapture(() => watch(LAYERS, layers => {
  * Render content inside the root layer.
  */
 export function RootLayer(props: {
-	children: (ctx: Context) => unknown;
+	children: () => unknown;
 }): unknown {
 	const layer = LAYERS.value[0];
 	const root = <div
 		style={{ display: "contents" }}
 		inert={layer.inert}
 	>
-		<DeriveContext>
-			{ctx => {
-				ctx.set(LAYER, new Handle(layer));
-				return props.children(ctx);
-			}}
-		</DeriveContext>
+		<Inject context={LAYER} value={new Handle(layer)}>
+			{props.children}
+		</Inject>
 	</div> as HTMLDivElement;
 	layer.roots.push(root);
 	teardown(() => {
@@ -67,7 +64,7 @@ export function RootLayer(props: {
  * When disposed, focus is moved back to the previously focused element.
  */
 export function Layer(props: {
-	children: (ctx: Context) => unknown;
+	children: () => unknown;
 
 	/**
 	 * If true, all layers below this one are marked as inert until the current context is disposed.
@@ -145,12 +142,9 @@ export function Layer(props: {
 		style={{ display: "contents" }}
 		inert={() => layer.inert.value || !enabled()}
 	>
-		<DeriveContext>
-			{ctx => {
-				ctx.set(LAYER, new Handle(layer));
-				return props.children(ctx);
-			}}
-		</DeriveContext>
+		<Inject context={LAYER} value={new Handle(layer)}>
+			{props.children}
+		</Inject>
 	</div> as HTMLElement;
 	layer.roots.push(root);
 	return root;
@@ -213,14 +207,14 @@ export interface LayerHandle {
  * Reactively check if the layer in the current context (or the root layer if there is none) is inert.
  */
 export function isInertLayer(): boolean {
-	return extract(LAYER)?.inert ?? untrack(() => LAYERS.value[0]).inert.value;
+	return LAYER.current?.inert ?? untrack(() => LAYERS.value[0]).inert.value;
 }
 
 /**
  * Reactively check if the layer in the current context (or the root layer if there is none) is the top layer.
  */
 export function isTopLayer(): boolean {
-	return extract(LAYER)?.top ?? LAYERS.value.length === 1;
+	return LAYER.current?.top ?? LAYERS.value.length === 1;
 }
 
 function instanceContains(instance: LayerInstance, node: Node): boolean {
@@ -253,7 +247,7 @@ class Handle implements LayerHandle {
 	useEvent<K extends keyof WindowEventMap>(type: K, listener: (event: WindowEventMap[K]) => void, options?: boolean | AddEventListenerOptions): void;
 	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
 	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void {
-		const wrapper = wrapContext((event: Event): void => {
+		const wrapper = Context.wrap((event: Event): void => {
 			if (this.top) {
 				listener(event);
 			}

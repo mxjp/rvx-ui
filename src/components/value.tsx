@@ -1,5 +1,4 @@
-import { ClassValue, Expression, extract, StyleValue } from "rvx";
-
+import { ClassValue, Expression, StyleValue } from "rvx";
 import { THEME } from "../common/theme.js";
 
 export function Value(props: {
@@ -8,7 +7,7 @@ export function Value(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <span
 		class={[
 			theme?.value,

@@ -1,5 +1,5 @@
-import { ClassValue, Event, Expression, extract, get, map, optionalString, sig, StyleValue, teardown } from "rvx";
-
+import { ClassValue, Expression, get, map, optionalString, sig, StyleValue, teardown } from "rvx";
+import { Event } from "rvx/event";
 import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
 
@@ -14,7 +14,7 @@ export function Collapse(props: {
 	"aria-relevant"?: Expression<AriaRelevant | undefined>;
 	"aria-atomic"?: Expression<boolean | undefined>;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	const visible = map(props.visible, v => v ?? false);
 	const alert = sig(false);
 	const size = sig<number | undefined>(undefined);

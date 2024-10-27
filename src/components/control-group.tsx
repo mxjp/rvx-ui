@@ -1,5 +1,4 @@
-import { ClassValue, Expression, extract, StyleValue } from "rvx";
-
+import { ClassValue, Expression, StyleValue } from "rvx";
 import { THEME } from "../common/theme.js";
 
 export function ControlGroup(props: {
@@ -8,7 +7,7 @@ export function ControlGroup(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <div
 		class={[
 			theme?.control_group,

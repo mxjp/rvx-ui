@@ -1,5 +1,4 @@
-import { ClassValue, Expression, extract, StyleValue } from "rvx";
-
+import { ClassValue, Expression, StyleValue } from "rvx";
 import { THEME } from "../common/theme.js";
 import { Column } from "./column.js";
 
@@ -11,7 +10,7 @@ export function Page(props: {
 	style?: StyleValue;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <div
 		role={props.role}
 		id={props.id}

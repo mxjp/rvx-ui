@@ -1,5 +1,6 @@
-import { Emitter, sig } from "rvx";
-import { Button, Collapse, Column, Heading, Row, Text } from "@rvx/ui";
+import { Button, Collapse, Heading, Row, Text } from "@rvx/ui";
+import { sig } from "rvx";
+import { Emitter } from "rvx/event";
 
 export default function() {
 	const collapse = sig(false);

@@ -1,6 +1,6 @@
-import { ContextKey } from "rvx";
+import { Context } from "rvx";
 
-export const THEME = Symbol.for("rvx-ui:theme") as ContextKey<Theme>;
+export const THEME = new Context<Theme>();
 
 /**
  * A collection of class names that is used as the theme.

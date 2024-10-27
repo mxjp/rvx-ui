@@ -1,6 +1,6 @@
 import { Column, Heading, Link, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
 import theme from "@rvx/ui/dist/theme.module.css";
-import { deriveContext, extract, mount } from "rvx";
+import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
 import "./styles.scss";
@@ -8,23 +8,22 @@ import "./styles.scss";
 mount(
 	document.body,
 	<RootLayer>
-		{ctx => {
-			ctx.set(THEME, theme);
-			ctx.set(TASKS, new Tasks());
-			ctx.set(ROUTER, new HashRouter());
-
+		{() => Context.inject([
+			THEME.with(theme),
+			TASKS.with(new Tasks()),
+			ROUTER.with(new HashRouter()),
+		], () => {
 			const routes: ComponentRoute[] = [];
 			const links: unknown[] = [];
 			const pages = import.meta.glob("./pages/*.tsx");
 
-			deriveContext(ctx => {
-				ctx.delete(TASKS);
+			TASKS.inject(undefined, () => {
 				for (const key in pages) {
 					const name = key.slice(8, -4);
 					const path = `/${name}`;
 
 					links.push(<Link action={() => {
-						extract(ROUTER)!.push(path);
+						ROUTER.current!.push(path);
 					}}>{name}</Link>);
 
 					routes.push({
@@ -55,6 +54,6 @@ mount(
 					]} />
 				</ScrollView>
 			</div>;
-		}}
+		})}
 	</RootLayer>
 )

@@ -1,6 +1,5 @@
-import { ClassValue, Expression, extract, get, map, optionalString, StyleValue } from "rvx";
+import { ClassValue, Expression, get, map, optionalString, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
-
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { separated } from "../common/types.js";
@@ -72,7 +71,7 @@ export function Link(props: {
 
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
 	function action(event: Event) {

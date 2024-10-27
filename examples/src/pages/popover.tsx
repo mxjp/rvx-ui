@@ -1,5 +1,5 @@
-import { sig } from "rvx";
 import { Button, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@rvx/ui";
+import { sig } from "rvx";
 import { PopoutControls } from "../common.js";
 
 export default function() {

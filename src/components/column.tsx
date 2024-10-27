@@ -1,5 +1,4 @@
-import { ClassValue, Expression, extract, map, StyleValue } from "rvx";
-
+import { ClassValue, Expression, map, StyleValue } from "rvx";
 import { THEME } from "../common/theme.js";
 import { SizeContext } from "../common/types.js";
 
@@ -13,7 +12,7 @@ export function Column(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <div
 		class={[
 			theme?.column,

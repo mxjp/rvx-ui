@@ -1,6 +1,7 @@
-import { ClassValue, Expression, extract, StyleValue, uniqueId } from "rvx";
+import { ClassValue, Expression, StyleValue } from "rvx";
 
 import { THEME } from "../common/theme.js";
+import { uniqueId } from "rvx/id";
 
 export function Label(props: {
 	class?: ClassValue;
@@ -9,7 +10,7 @@ export function Label(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	return <label
 		class={[
 			theme?.label,

@@ -1,5 +1,6 @@
-import { ClassValue, Expression, extract, get, optionalString, Signal, string, StyleValue, uniqueId, watch } from "rvx";
+import { ClassValue, Expression, get, optionalString, Signal, string, StyleValue, watch } from "rvx";
 import { isPending } from "rvx/async";
+import { uniqueId } from "rvx/id";
 
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
@@ -16,7 +17,7 @@ export function Checkbox(props: {
 	children?: unknown;
 }): unknown {
 	const id = uniqueId();
-	const theme = extract(THEME);
+	const theme = THEME.current;
 
 	const disabled = props.checked instanceof Signal
 		? () => isPending() || get(props.disabled)

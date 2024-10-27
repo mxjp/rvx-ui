@@ -1,5 +1,4 @@
-import { ClassValue, extract, sig, StyleValue, teardown } from "rvx";
-
+import { ClassValue, sig, StyleValue, teardown } from "rvx";
 import { debounceEvent } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { axisEquals, DOWN, getBlockStart, getSize, RIGHT, UP, WritingMode } from "../common/writing-mode.js";
@@ -9,7 +8,7 @@ export function ScrollView(props: {
 	style?: StyleValue;
 	children?: unknown;
 }): unknown {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	const vertical = sig<boolean | undefined>(undefined);
 	const scrollbarComp = sig(0);
 	const startIndicator = sig(false);

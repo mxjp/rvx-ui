@@ -1,5 +1,5 @@
-import { extract, sig } from "rvx";
 import { Button, DialogBody, DialogFooter, Heading, intParser, LabelFor, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@rvx/ui";
+import { sig } from "rvx";
 
 export default function() {
 	return <>
@@ -22,7 +22,7 @@ function showDialogExample() {
 			}
 		}
 
-		extract(LAYER)?.useHotkey("enter", ok);
+		LAYER.current?.useHotkey("enter", ok);
 
 		return <DialogBody title="Validation" description="This dialog demonstrates the validation API." inlineSize="min(100dvw, 25rem)">
 			<LabelFor label="Name">

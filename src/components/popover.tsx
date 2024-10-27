@@ -1,5 +1,5 @@
-import { ClassValue, Expression, extract, get, Inject, map, render, sig, StyleValue, SVG, uniqueId, watch, XMLNS } from "rvx";
-
+import { ClassValue, Expression, get, Inject, map, render, sig, StyleValue, SVG, watch, XMLNS } from "rvx";
+import { uniqueId } from "rvx/id";
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { DOWN, getSize, getXY, LEFT, RIGHT, UP } from "../common/writing-mode.js";
@@ -76,8 +76,8 @@ export function createPopover(props: {
 		placement: map(props.placement, v => v ?? "block"),
 		alignment: map(props.alignment, v => v ?? "center"),
 		content: ({ popout, onPlacement, placement, setSizeReference }) => {
-			const theme = extract(THEME);
-			const layer = extract(LAYER)!;
+			const theme = THEME.current;
+			const layer = LAYER.current!;
 			const spikeTransform = sig("");
 
 			layer.useHotkey("escape", () => {
@@ -113,7 +113,7 @@ export function createPopover(props: {
 
 			const spikeArea = <div class={theme?.popover_spike_area}>
 				<div class={theme?.popover_spike} style={{ transform: spikeTransform }}>
-					<Inject key={XMLNS} value={SVG}>
+					<Inject context={XMLNS} value={SVG}>
 						{() => {
 							return <svg viewBox="0 0 16 16" preserveAspectRatio="none">
 								<path d="M0,16 L8,0 L16,16 Z" />

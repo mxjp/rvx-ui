@@ -1,5 +1,3 @@
-import { extract } from "rvx";
-
 import { THEME, Theme } from "./theme.js";
 
 /**
@@ -8,7 +6,7 @@ import { THEME, Theme } from "./theme.js";
  * @throws An error if the current theme doesn't support the specified key.
  */
 export function themeClass(key: keyof Theme): string {
-	const theme = extract(THEME);
+	const theme = THEME.current;
 	if (!theme) {
 		throw new Error("theme is not available in the current context");
 	}

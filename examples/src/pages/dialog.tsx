@@ -1,5 +1,5 @@
 import { Button, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
-import { extract, sig } from "rvx";
+import { sig } from "rvx";
 
 export default function() {
 	return <>
@@ -12,7 +12,7 @@ export default function() {
 
 function showExampleDialog() {
 	showDialog<number>(dialog => {
-		extract(LAYER)?.useHotkey("enter", () => {
+		LAYER.current?.useHotkey("enter", () => {
 			dialog.resolve(77);
 		});
 		return <DialogBody title="Example Dialog" description="This is an accessible example dialog." maxInlineSize="35rem">

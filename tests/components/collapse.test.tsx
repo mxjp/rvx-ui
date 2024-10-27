@@ -2,7 +2,8 @@ import { Collapse, THEME } from "@rvx/ui";
 import { getCollapseContent, isCollapseVisible, themeClass } from "@rvx/ui/test";
 import { strictEqual } from "node:assert";
 import test, { suite } from "node:test";
-import { Emitter, sig } from "rvx";
+import { sig } from "rvx";
+import { Emitter } from "rvx/event";
 import { assertClass, assertEvents, testFn, text } from "../common.js";
 import { borderBoxEntry, mockResizeObservers, resize } from "../mocks/resize-observer.js";
 
@@ -30,9 +31,8 @@ await suite("components/collapse", async () => {
 		strictEqual(elem.style.getPropertyValue("--collapse-size"), "123px");
 	}));
 
-	await test("no intermediate view element", testFn(ctx => {
-		// eslint-disable-next-line camelcase
-		ctx.get(THEME)!.collapse_view = undefined;
+	await test("no intermediate view element", testFn(() => {
+		THEME.current!.collapse_view = undefined;
 		const elem = <Collapse>Hello World!</Collapse> as HTMLDivElement;
 		const content = getCollapseContent(elem);
 		strictEqual(content?.parentNode, elem);

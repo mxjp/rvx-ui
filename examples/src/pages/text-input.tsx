@@ -1,5 +1,5 @@
-import { sig, UseUniqueId } from "rvx";
-import { Button, Column, ControlGroup, DialogBody, DialogFooter, Heading, Label, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@rvx/ui";
+import { Button, Column, ControlGroup, DialogBody, DialogFooter, Heading, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@rvx/ui";
+import { sig } from "rvx";
 
 export default function() {
 	const defaultText = "Hello World!";

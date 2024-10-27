@@ -1,6 +1,6 @@
 import { THEME, Theme } from "@rvx/ui";
 import { deepStrictEqual } from "node:assert";
-import { Context } from "rvx";
+import { Context, ContextState } from "rvx";
 import { TASKS, Tasks } from "rvx/async";
 import { AsyncTestContext, runAsyncTest, runTest } from "rvx/test";
 
@@ -39,16 +39,17 @@ export function future<T = void>(): [Promise<T>, ResolveFn<T>, RejectFn] {
 	return [promise, resolve, reject];
 }
 
-function setupTestContext(ctx: Context): void {
-	ctx.set(TASKS, new Tasks());
-	ctx.set(THEME, Object.create(testTheme) as Theme);
+export function createTestContext(): ContextState<unknown>[] {
+	return [
+		TASKS.with(new Tasks()),
+		THEME.with(Object.create(testTheme) as Theme),
+	];
 }
 
-export function testFn(fn: (ctx: Context) => void): () => void {
+export function testFn(fn: () => void): () => void {
 	return () => {
-		return runTest(ctx => {
-			setupTestContext(ctx);
-			fn(ctx);
+		return runTest(() => {
+			Context.inject(createTestContext(), fn);
 		});
 	};
 }
@@ -56,8 +57,7 @@ export function testFn(fn: (ctx: Context) => void): () => void {
 export function asyncTestFn(fn: (ctx: AsyncTestContext) => Promise<void>): () => Promise<void> {
 	return () => {
 		return runAsyncTest(async ctx => {
-			setupTestContext(ctx.ctx);
-			await fn(ctx);
+			await Context.inject(createTestContext(), () => fn(ctx));
 		});
 	};
 }
