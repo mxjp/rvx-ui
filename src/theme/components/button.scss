@@ -2,81 +2,94 @@
 
 @include common.theme((
 	button-default-bg: (
-		dark: rgb(54, 54, 54),
+		dark: rgb(64, 64, 64),
 	),
-	button-default-bg-lit: (
-		dark: rgb(72, 72, 72),
+	button-default-bg-hover: (
+		dark: rgb(90, 90, 90),
 	),
 	button-default-fg: (
 		dark: var(--fg),
 	),
-	button-default-border: (
-		dark: rgb(80, 80, 80),
-	),
 
 	button-primary-bg: (
-		dark: rgb(0, 100, 200),
+		dark: rgb(0, 192, 255),
 	),
-	button-primary-bg-lit: (
-		dark: rgb(0, 128, 255),
+	button-primary-bg-hover: (
+		dark: rgb(92, 214, 255),
 	),
 	button-primary-fg: (
-		dark: white,
+		dark: black,
 	),
-	button-primary-border: (
-		dark: rgb(0, 100, 200),
+	button-primary-focus: (
+		dark: rgb(200, 241, 255),
 	),
 
 	button-success-bg: (
 		dark: rgb(0, 200, 100),
 	),
-	button-success-bg-lit: (
+	button-success-bg-hover: (
 		dark: rgb(0, 242, 121),
 	),
 	button-success-fg: (
 		dark: black,
 	),
-	button-success-border: (
-		dark: rgb(0, 200, 100),
+	button-success-focus: (
+		dark: rgb(200, 255, 228),
 	),
 
 	button-warning-bg: (
-		dark: rgb(255, 200, 0),
+		dark: rgb(230, 180, 0),
 	),
-	button-warning-bg-lit: (
-		dark: rgb(255, 224, 122),
+	button-warning-bg-hover: (
+		dark: rgb(255, 220, 105),
 	),
 	button-warning-fg: (
 		dark: black,
 	),
-	button-warning-border: (
-		dark: rgb(255, 200, 0),
+	button-warning-focus: (
+		dark: rgb(255, 243, 200),
 	),
 
 	button-danger-bg: (
 		dark: rgb(255, 0, 64),
 	),
-	button-danger-bg-lit: (
-		dark: rgb(255, 64, 96),
+	button-danger-bg-hover: (
+		dark: rgb(255, 70, 100),
 	),
 	button-danger-fg: (
 		dark: black,
 	),
-	button-danger-border: (
-		dark: rgb(255, 0, 64),
+	button-danger-focus: (
+		dark: rgb(255, 200, 214),
 	),
 
 	button-input-bg: (
 		dark: rgb(16, 16, 16),
 	),
-	button-input-bg-lit: (
-		dark: rgb(36, 36, 36),
+	button-input-bg-hover: (
+		dark: rgb(60, 60, 60),
+	),
+	button-input-bg-active: (
+		dark: rgb(80, 80, 80),
 	),
 	button-input-fg: (
 		dark: white,
 	),
 	button-input-border: (
 		dark: rgb(80, 80, 80),
+	),
+
+	button-text-bg: (
+		dark: transparent,
+	),
+	button-text-bg-hover: (
+		dark: rgb(80, 80, 80),
+	),
+	button-text-bg-active: (
+		dark: rgb(100, 100, 100),
+	),
+	button-text-fg: (
+		dark: var(--fg),
 	),
 ));
 
@@ -92,6 +105,12 @@
 	@include common.padding(control-pad, var(--control-border));
 
 	border-radius: var(--control-radius);
+	transition: var(--color-transition) background-color,
+		var(--color-transition) border-color;
+
+	&:not(.button_text) {
+		box-shadow: var(--control-shadow);
+	}
 
 	&[disabled] {
 		cursor: default;
@@ -99,14 +118,22 @@
 	}
 }
 
-@each $variant in (default, primary, success, warning, danger, input) {
+@each $variant in (default, primary, success, warning, danger, input, text) {
 	.button_#{$variant} {
 		background-color: var(--button-#{$variant}-bg);
 		color: var(--button-#{$variant}-fg);
-		border: var(--control-border) solid var(--button-#{$variant}-border, transparent);
-		&:hover:not(:active):not([disabled]),
-		&:focus-visible:not([disabled]) {
-			background-color: var(--button-#{$variant}-bg-lit);
+		border: var(--button-#{$variant}-border, transparent) solid var(--control-border);
+
+		&:hover:not(:active):not([disabled]) {
+			background-color: var(--button-#{$variant}-bg-hover);
+		}
+
+		&:focus-visible {
+			border-color: var(--button-#{$variant}-focus, var(--accent));
+		}
+
+		&:active {
+			background-color: var(--button-#{$variant}-bg-active, var(--button-#{$variant}-bg));
 		}
 	}
 }

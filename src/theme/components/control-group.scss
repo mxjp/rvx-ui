@@ -2,7 +2,12 @@
 .control_group {
 	display: flex;
 	flex-direction: row;
-	flex-wrap: wrap;
+
+	box-shadow: var(--control-shadow);
+	* {
+		--control-shadow: none;
+	}
+
 	& > :not(:first-child) {
 		border-start-start-radius: 0;
 		border-end-start-radius: 0;

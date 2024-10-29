@@ -12,6 +12,9 @@ $root-size: 14px;
 	font-size: #{math.div(1rem, 16px) * $root-size};
 	line-height: 1;
 
+	--accent: rgb(0, 192, 255);
+	accent-color: var(--accent);
+
 	--content-column-gap: #{px(16)};
 	--content-row-gap: #{px(16)};
 	--content-radius: #{px(8)};
@@ -20,8 +23,9 @@ $root-size: 14px;
 
 	--control-column-gap: #{px(8)};
 	--control-row-gap: #{px(8)};
-	--control-radius: #{px(4)};
-	--control-border: #{px(1)};
+	--control-radius: #{px(5)};
+	--control-border: #{px(2)};
+	--control-shadow: 0 0 #{px(3)} rgba(0, 0, 0, .5);
 	--control-disabled: opacity(.5);
 	@include common.define-quad(control-pad, px(8), px(10));
 
@@ -33,17 +37,18 @@ $root-size: 14px;
 	--space-gap: #{px(6)};
 
 	--layout-transition: .15s ease;
+	--color-transition: .1s ease;
 }
 
 @include common.theme((
 	bg: (
-		dark: rgb(32, 32, 32),
+		dark: rgb(36, 36, 36),
 	),
 	fg: (
 		dark: white,
 	),
 	focus-outline: (
-		dark: var(--control-border) dashed rgb(0, 127, 255),
+		dark: var(--control-border) dashed var(--accent),
 	),
 ));
 
@@ -65,5 +70,5 @@ body {
 }
 
 ::selection {
-	background-color: rgba(0, 100, 200, .7);
+	background-color: rgba(0, 150, 200, .6);
 }
