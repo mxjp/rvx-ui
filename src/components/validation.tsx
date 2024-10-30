@@ -31,7 +31,6 @@ export class Validator {
 	#signalTrigger: ValidationSignalTrigger;
 	#rules = sig<ValidationRuleEntry[]>([]);
 	#invalid = sig(false);
-	#cycle = 0;
 
 	constructor() {
 		const options = VALIDATION.current;
@@ -99,7 +98,6 @@ export class Validator {
 	}
 
 	async #validate(sideEffect: boolean, signal?: AbortSignal): Promise<boolean> {
-		this.#cycle++;
 		const rules = untrack(() => this.#rules.value);
 		for (let i = 0; i < rules.length; i++) {
 			if (signal?.aborted) {
@@ -144,7 +142,6 @@ export class Validator {
 	 * Reset this validator to it's initial state.
 	 */
 	reset(): void {
-		this.#cycle++;
 		this.#invalid.value = false;
 		const rules = untrack(() => this.#rules.value);
 		for (let i = 0; i < rules.length; i++) {
