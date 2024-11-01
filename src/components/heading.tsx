@@ -20,3 +20,11 @@ export function Heading(props: {
 		id: props.id,
 	}, props.children);
 }
+
+/**
+ * Get the next nested heading level.
+ */
+export function getNestedHeadingLevel(level: HeadingLevel): HeadingLevel {
+	const l = Number(level) + 1;
+	return l > 6 ? "6" : String(l) as HeadingLevel;
+}
