@@ -10,11 +10,19 @@
 		);
 	}
 
+	& > :first-child {
+		margin-block-start: calc(var(--parent-row-gap) * (var(--space-scale) - 1) / 2);
+	}
+
 	& > :not(:last-child) {
 		margin-block-end: calc(
 			(var(--space-below, var(--parent-row-gap)) - var(--parent-row-gap)) * var(--space-scale)
 			+ var(--parent-row-gap) * (var(--space-scale) - 1) / 2
 		);
+	}
+
+	& > :last-child {
+		margin-block-end: calc(var(--parent-row-gap) * (var(--space-scale) - 1) / 2);
 	}
 }
 

@@ -18,5 +18,18 @@ export default function() {
 		<Collapse visible alert={collapseAlert.event}>
 			<Text>This is always visible.</Text>
 		</Collapse>
+
+		<Heading level="2">Flex Layout</Heading>
+		<div style={{
+			"outline": "1px dashed var(--accent)",
+			"display": "flex",
+			"flex-direction": "column",
+		}}>
+			<div>Above</div>
+			<Collapse visible={collapse}>
+				Hello World!
+			</Collapse>
+			<div>Below</div>
+		</div>
 	</>;
 }

@@ -1,6 +1,9 @@
-import { Button, Card, Heading, Row, Text } from "@rvx/ui";
+import { Button, Card, Collapse, Heading, Link, Row, Text } from "@rvx/ui";
+import { sig } from "rvx";
 
 export default function() {
+	const visible = sig(false);
+
 	return <>
 		<Heading level="1">Cards</Heading>
 		<Card>
@@ -10,6 +13,20 @@ export default function() {
 				<Button>Some</Button>
 				<Button>Buttons</Button>
 			</Row>
+		</Card>
+
+		<Heading level="2">Collapses</Heading>
+		<Card>
+			<Text>
+				<Link action={() => { visible.value = !visible.value; }}>
+					Click me!
+				</Link>
+			</Text>
+			<Collapse visible={visible}>
+				<Text>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit...
+				</Text>
+			</Collapse>
 		</Card>
 
 		<Heading level="2">Variants</Heading>
