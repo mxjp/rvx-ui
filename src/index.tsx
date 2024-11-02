@@ -5,6 +5,7 @@ export * from "./common/trim.js";
 export * from "./common/types.js";
 export * from "./common/writing-mode.js";
 export * from "./components/button.js";
+export * from "./components/card.js";
 export * from "./components/checkbox.js";
 export * from "./components/collapse.js";
 export * from "./components/column.js";

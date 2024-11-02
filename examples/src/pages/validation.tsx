@@ -4,7 +4,7 @@ import { sig } from "rvx";
 export default function() {
 	return <>
 		<Heading level="1">Validation</Heading>
-		<Row size="control">
+		<Row>
 			<Button action={showDialogExample}>Show dialog example</Button>
 		</Row>
 	</>;

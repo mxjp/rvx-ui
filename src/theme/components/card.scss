@@ -1,0 +1,31 @@
+@use "../common";
+
+@include common.theme((
+	card-default-border: (
+		dark: rgb(72, 72, 72),
+	),
+	card-info-border: (
+		dark: rgb(0, 96, 128),
+	),
+	card-success-border: (
+		dark: rgb(0, 128, 64),
+	),
+	card-warning-border: (
+		dark: rgb(150, 117, 0),
+	),
+	card-danger-border: (
+		dark: rgb(160, 0, 40),
+	),
+));
+
+.card {
+	box-shadow: var(--content-shadow);
+	border-radius: var(--content-radius);
+	@include common.padding(content-pad, var(--content-border));
+}
+
+@each $name in (default, info, success, warning, danger) {
+	.card_#{$name} {
+		border: var(--content-border) solid var(--card-#{$name}-border);
+	}
+}

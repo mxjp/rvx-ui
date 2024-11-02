@@ -40,6 +40,14 @@ export interface Theme {
 	/** Additional class for buttons with the "text" variant */
 	button_text?: string;
 
+	card?: string;
+	card_content?: string;
+	card_default?: string;
+	card_info?: string;
+	card_success?: string;
+	card_warning?: string;
+	card_danger?: string;
+
 	/** Class for all checkbox containing labels */
 	checkbox_label?: string;
 	/** Class for all checkbox inputs */

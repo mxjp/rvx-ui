@@ -19,6 +19,7 @@ $root-size: 14px;
 	--content-row-gap: #{px(16)};
 	--content-radius: #{px(8)};
 	--content-border: #{px(2)};
+	--content-shadow: 0 0 #{px(16)} rgba(0, 0, 0, .2);
 	@include common.define-quad(content-pad, px(20), px(20));
 
 	--control-column-gap: #{px(8)};

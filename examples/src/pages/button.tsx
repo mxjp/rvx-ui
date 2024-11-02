@@ -6,7 +6,7 @@ export default function() {
 
 	return <>
 		<Heading level="1">Buttons</Heading>
-		<Row size="control">
+		<Row>
 			<Button>Default</Button>
 			<Button variant="input">Input</Button>
 			<Button variant="success">Success</Button>

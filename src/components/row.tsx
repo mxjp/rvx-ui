@@ -15,7 +15,7 @@ export function Row(props: {
 	return <div
 		class={[
 			theme?.row,
-			() => theme?.[`row_${get(props.size) ?? "content"}`],
+			() => theme?.[`row_${get(props.size) ?? "control"}`],
 			props.class,
 		]}
 		style={[

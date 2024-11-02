@@ -8,7 +8,7 @@ export default function() {
 
 	return <>
 		<Heading level="1">Collapses</Heading>
-		<Row size="control">
+		<Row>
 			<Button action={() => { collapse.value = !collapse.value }}>Toggle</Button>
 			<Button action={() => collapseAlert.emit()} variant="warning">Alert</Button>
 		</Row>
