@@ -1,4 +1,4 @@
-import { ClassValue, createElement, Expression, StyleValue } from "rvx";
+import { ClassValue, Expression, StyleValue } from "rvx";
 import { THEME } from "../common/theme.js";
 
 export type HeadingLevel = "1" | "2" | "3" | "4" | "5" | "6";
@@ -11,14 +11,14 @@ export function Heading(props: {
 	children?: unknown;
 }): unknown {
 	const theme = THEME.current;
-	return createElement(`h${props.level}`, {
-		class: [
-			theme?.heading,
-			props.class,
-		],
-		style: props.style,
-		id: props.id,
-	}, props.children);
+	const Tag = `h${props.level}`;
+	return <Tag
+		class={[theme?.heading, props.class]}
+		style={props.style}
+		id={props.id}
+	>
+		{props.children}
+	</Tag>;
 }
 
 /**

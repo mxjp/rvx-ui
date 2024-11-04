@@ -1,6 +1,6 @@
-import { Context } from "rvx";
+import { DefaultContext } from "rvx";
 
-export const THEME = new Context<Theme>();
+export const THEME = new DefaultContext<Theme | undefined>(undefined);
 
 /**
  * A collection of class names that is used as the theme.
