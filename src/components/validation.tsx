@@ -1,10 +1,10 @@
 import { ClassValue, Context, Expression, For, map, sig, Signal, StyleValue, teardown, trigger, TriggerPipe, untrack } from "rvx";
-import { TaskSlot } from "rvx/async";
+import { Queue } from "rvx/async";
+import { Emitter, Event } from "rvx/event";
+import { uniqueId } from "rvx/id";
 import { THEME } from "../common/theme.js";
 import { Collapse } from "./collapse.js";
 import { Text } from "./text.js";
-import { uniqueId } from "rvx/id";
-import { Emitter, Event } from "rvx/event";
 
 const VALIDATORS = new WeakMap<object, Validator>();
 
@@ -27,7 +27,7 @@ export interface ValidationOptions {
 }
 
 export class Validator {
-	#slot = new TaskSlot();
+	#queue = new Queue();
 	#signalTrigger: ValidationSignalTrigger;
 	#rules = sig<ValidationRuleEntry[]>([]);
 	#invalid = sig(false);
@@ -128,14 +128,14 @@ export class Validator {
 	 * Validate using the currently attached rules.
 	 */
 	async validate(signal?: AbortSignal): Promise<boolean> {
-		return this.#slot.block(() => this.#validate(false, signal));
+		return this.#queue.block(() => this.#validate(false, signal));
 	}
 
 	/**
 	 * Trigger validation as a side effect.
 	 */
 	triggerValidation(): void {
-		this.#slot.sideEffect(signal => this.#validate(true, signal));
+		this.#queue.sideEffect(signal => this.#validate(true, signal));
 	}
 
 	/**
