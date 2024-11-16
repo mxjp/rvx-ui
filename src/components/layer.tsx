@@ -13,7 +13,7 @@ interface LayerInstance {
 	autoFocusFallback: Element | undefined;
 }
 
-export const LAYER = new Context<LayerHandle>();
+export const LAYER = new Context<LayerHandle | undefined>();
 
 const LAYERS = sig<LayerInstance[]>([
 	{

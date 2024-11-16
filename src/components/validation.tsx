@@ -11,7 +11,7 @@ const VALIDATORS = new WeakMap<object, Validator>();
 /**
  * Context for validation options used by new validators.
  */
-export const VALIDATION = new Context<ValidationOptions>();
+export const VALIDATION = new Context<ValidationOptions | undefined>();
 
 /**
  * Defines when accessed signals trigger automatic validation.
