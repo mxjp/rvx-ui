@@ -1,3 +1,4 @@
+import { ENV } from "rvx";
 
 const RESIZE_EVENT = "resize-observer-mock:resize";
 
@@ -33,7 +34,7 @@ export function mockResizeObservers(): void {
 }
 
 export function resize(target: EventTarget, entries: ResizeObserverEntry[]): void {
-	target.dispatchEvent(new CustomEvent(RESIZE_EVENT, { detail: entries }));
+	target.dispatchEvent(new ENV.current.CustomEvent(RESIZE_EVENT, { detail: entries }));
 }
 
 export function borderBoxEntry(...boxes: readonly ResizeObserverSize[]): ResizeObserverEntry {

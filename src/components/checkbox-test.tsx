@@ -1,3 +1,4 @@
+import { ENV } from "rvx";
 import { themeClass } from "../common/theme-test.js";
 
 function assertCheckbox(checkbox: Element): asserts checkbox is HTMLElement {
@@ -25,7 +26,7 @@ export function toggleCheckbox(checkbox: Element, checked?: boolean): void {
 	checked ??= !input.checked;
 	input.indeterminate = false;
 	input.checked = checked;
-	input.dispatchEvent(new CustomEvent("input"));
+	input.dispatchEvent(new ENV.current.CustomEvent("input"));
 }
 
 export function getCheckboxContent(checkbox: Element): HTMLElement {

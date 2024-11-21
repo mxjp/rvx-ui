@@ -1,6 +1,6 @@
 import { THEME, Theme } from "@rvx/ui";
 import { deepStrictEqual } from "node:assert";
-import { Context, ContextState } from "rvx";
+import { Context, ContextState, ENV } from "rvx";
 import { TASKS, Tasks } from "rvx/async";
 import { AsyncTestContext, runAsyncTest, runTest } from "rvx/test";
 
@@ -16,7 +16,7 @@ export function assertEvents(events: unknown[], expected: unknown[]): void {
 }
 
 export function text(node: Node): string {
-	if (node instanceof Comment) {
+	if (node instanceof ENV.current.Comment) {
 		return "";
 	}
 	return (node.textContent ?? "").trim();
@@ -63,7 +63,7 @@ export function asyncTestFn(fn: (ctx: AsyncTestContext) => Promise<void>): () =>
 }
 
 export function keydown(target: EventTarget, init: KeyboardEventInit): void {
-	target.dispatchEvent(new KeyboardEvent("keydown", {
+	target.dispatchEvent(new ENV.current.KeyboardEvent("keydown", {
 		bubbles: true,
 		...init,
 	}));
