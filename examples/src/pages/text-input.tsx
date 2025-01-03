@@ -1,4 +1,4 @@
-import { Button, Column, ControlGroup, DialogBody, DialogFooter, Heading, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@rvx/ui";
+import { Button, Column, debounce, DialogBody, DialogFooter, Heading, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@rvx/ui";
 import { sig } from "rvx";
 
 export default function() {
@@ -10,14 +10,27 @@ export default function() {
 	return <Column>
 		<Heading level="1">Text Inputs</Heading>
 		<Row>
-			<ControlGroup>
-				<TextInput value={text.pipe(trim)} />
-				<Button disabled={() => text.value === defaultText} action={() => { text.value = defaultText }}>Reset</Button>
-			</ControlGroup>
+			<Column>
+				<LabelFor label="Trimmed">
+					{id => {
+						return <TextInput id={id} value={text.pipe(trim)} />;
+					}}
+				</LabelFor>
+			</Column>
+			<Column>
+				<LabelFor label="Trimmed & Debounced">
+					{id => {
+						return <TextInput id={id} value={text.pipe(trim).pipe(debounce, 300)} />;
+					}}
+				</LabelFor>
+			</Column>
 		</Row>
 		<Text>
 			You typed "<Value style={{ "white-space": "pre-wrap" }}>{text}</Value>"
 		</Text>
+		<Row>
+			<Button disabled={() => text.value === defaultText} action={() => { text.value = defaultText }}>Reset</Button>
+		</Row>
 
 		<Heading level="2">States</Heading>
 		<Row>
