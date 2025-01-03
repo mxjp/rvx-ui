@@ -216,7 +216,7 @@ export class Popout {
 					return instance!.content;
 				}}
 			</Layer>);
-			document.body.appendChild(instance.view.take());
+			instance.view.appendTo(document.body);
 
 			instance.observer = new ResizeObserver(entries => {
 				const args = this.#instanceArgs;
