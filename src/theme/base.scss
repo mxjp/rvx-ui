@@ -39,6 +39,8 @@ $root-size: 14px;
 
 	--layout-transition: .15s ease;
 	--color-transition: .1s ease;
+
+	--dialog-fadeout-ms: 150;
 }
 
 @include common.theme((

@@ -60,6 +60,8 @@ export interface Theme {
 	dialog_container?: string;
 	dialog_body?: string;
 	dialog_footer?: string;
+	dialog_fadein?: string;
+	dialog_fadeout?: string;
 
 	dropdown?: string;
 	dropdown_expansion?: string;

@@ -1,5 +1,6 @@
-import { captureSelf, ClassValue, Expression, map, mount, StyleValue } from "rvx";
+import { captureSelf, ClassValue, Context, created, Expression, map, render, sig, StyleValue, teardown } from "rvx";
 import { TASKS, Tasks } from "rvx/async";
+import { Emitter, Event } from "rvx/event";
 import { uniqueId } from "rvx/id";
 import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
@@ -17,34 +18,49 @@ export interface DialogOptions {
 	cancellable?: boolean;
 }
 
+export const DIALOG_FADEOUT = new Context<Event<[tasks: Promise<void>[]]> | undefined>();
+
 export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOptions): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
 		captureSelf(dispose => {
-			mount(
-				document.body,
-				<Layer modal>
-					{() => {
-						return TASKS.inject(new Tasks(), () => {
-							const dialog: Dialog<T> = {
-								resolve(value) {
-									dispose();
-									resolve(value);
-								},
-								reject(reason) {
-									dispose();
-									reject(reason);
-								},
-							};
-							if (options?.cancellable ?? true) {
-								LAYER.current!.useHotkey("escape", () => {
-									dialog.reject(new DialogAbortError());
-								});
-							}
-							return init(dialog);
-						});
-					}}
+			const enabled = sig(true);
+			const fadeout = new Emitter<[tasks: Promise<void>[]]>();
+			const view = render(
+				<Layer modal enabled={enabled}>
+					{() => Context.inject([
+						TASKS.with(new Tasks()),
+						DIALOG_FADEOUT.with(fadeout.event),
+					], () => {
+						const dialog: Dialog<T> = {
+							resolve(value) {
+								dispose();
+								resolve(value);
+							},
+							reject(reason) {
+								dispose();
+								reject(reason);
+							},
+						};
+						if (options?.cancellable ?? true) {
+							LAYER.current!.useHotkey("escape", () => {
+								dialog.reject(new DialogAbortError());
+							});
+						}
+						return init(dialog);
+					})}
 				</Layer>
 			);
+			view.appendTo(document.body);
+			teardown(async () => {
+				try {
+					enabled.value = false;
+					const tasks: Promise<void>[] = [];
+					fadeout.emit(tasks);
+					await Promise.all(tasks);
+				} finally {
+					view.detach();
+				}
+			});
 		});
 	});
 }
@@ -82,7 +98,7 @@ export function DialogBody(props: {
 		head.push(<Text id={descriptionId}>{props.description}</Text>);
 	}
 
-	return <div
+	const body = <div
 		class={[
 			theme?.dialog_container,
 			props.class,
@@ -108,7 +124,26 @@ export function DialogBody(props: {
 			{head}
 			{props.children}
 		</div>
-	</div>;
+	</div> as HTMLElement;
+
+	created(() => {
+		if (theme?.dialog_fadein) {
+			body.offsetParent;
+			body.classList.add(theme.dialog_fadein);
+		}
+	});
+
+	DIALOG_FADEOUT.current?.(tasks => {
+		if (theme?.dialog_fadeout) {
+			body.classList.add(theme.dialog_fadeout);
+		}
+		const duration = parseInt(getComputedStyle(body).getPropertyValue("--dialog-fadeout-ms"));
+		if (Number.isSafeInteger(duration)) {
+			tasks.push(new Promise(resolve => setTimeout(resolve, duration)));
+		}
+	});
+
+	return body;
 }
 
 export function DialogFooter(props: {

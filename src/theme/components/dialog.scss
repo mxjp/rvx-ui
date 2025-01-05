@@ -26,11 +26,38 @@
 	grid-template-rows: 3fr auto 4fr;
 
 	overflow: auto;
+
+	transition: opacity var(--layout-transition);
+	opacity: 0;
+}
+
+.dialog_fadein {
+	opacity: 1;
+	.dialog_body {
+		transform: scale(1);
+	}
+}
+
+.dialog_fadeout {
+	pointer-events: none;
+	opacity: 0;
+	.dialog_body {
+		transform: scale(.9);
+	}
+}
+
+@media (prefers-reduced-motion) {
+	.dialog_body.dialog_body {
+		transform: unset;
+	}
 }
 
 .dialog_body {
 	grid-row: 2 / 3;
 	grid-column: 2 / 3;
+
+	transform: scale(.9);
+	transition: transform var(--layout-transition);
 
 	background-color: var(--dialog-bg);
 	box-shadow: var(--dialog-shadow);
