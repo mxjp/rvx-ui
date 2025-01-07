@@ -1,4 +1,4 @@
-import { sig, Signal, watchUpdates } from "rvx";
+import { $, Signal, watchUpdates } from "rvx";
 
 import { Validator } from "../components/validation.js";
 
@@ -67,7 +67,7 @@ export type ParserMessages<P extends Parser<any, any, any>> = P extends Parser<a
  *
  * @example
  * ```tsx
- * const value = sig(0);
+ * const value = $(0);
  *
  * // Format the current value as initial value:
  * <TextInput value={
@@ -79,10 +79,10 @@ export type ParserMessages<P extends Parser<any, any, any>> = P extends Parser<a
  */
 export function parse<S, P extends Parser<S, any, any>>(source: Signal<S>, parser: P, input?: Signal<ParserInput<P>>): Signal<ParserInput<P>> {
 	if (input === undefined) {
-		input = sig(parser.format(source.value));
+		input = $(parser.format(source.value));
 	}
 
-	const invalid = sig<undefined | ParserMessages<P>>(undefined);
+	const invalid = $<undefined | ParserMessages<P>>(undefined);
 
 	watchUpdates(source, value => {
 		try {

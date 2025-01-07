@@ -1,4 +1,4 @@
-import { ClassValue, Expression, get, map, optionalString, sig, StyleValue, teardown } from "rvx";
+import { $, ClassValue, Expression, get, map, optionalString, StyleValue, teardown } from "rvx";
 import { Event } from "rvx/event";
 import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
@@ -16,8 +16,8 @@ export function Collapse(props: {
 }): unknown {
 	const theme = THEME.current;
 	const visible = map(props.visible, v => v ?? false);
-	const alert = sig(false);
-	const size = sig<number | undefined>(undefined);
+	const alert = $(false);
+	const size = $<number | undefined>(undefined);
 
 	const content = <div class={theme?.collapse_content}>
 		{props.children}

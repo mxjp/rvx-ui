@@ -1,4 +1,4 @@
-import { sig, Signal, teardown, watchUpdates } from "rvx";
+import { $, Signal, teardown, watchUpdates } from "rvx";
 import { validatorFor } from "../components/validation.js";
 
 /**
@@ -12,7 +12,7 @@ import { validatorFor } from "../components/validation.js";
  * ```
  */
 export function debounce<T>(source: Signal<T>, delay: number): Signal<T> {
-	const input = sig(source.value);
+	const input = $(source.value);
 	let timer: number | undefined;
 
 	watchUpdates(input, value => {

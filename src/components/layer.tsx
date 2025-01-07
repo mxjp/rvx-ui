@@ -1,4 +1,4 @@
-import { Context, Expression, get, Inject, memo, sig, Signal, teardown, uncapture, untrack, watch } from "rvx";
+import { $, Context, Expression, get, Inject, memo, Signal, teardown, uncapture, untrack, watch } from "rvx";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -15,11 +15,11 @@ interface LayerInstance {
 
 export const LAYER = new Context<LayerHandle | undefined>();
 
-const LAYERS = sig<LayerInstance[]>([
+const LAYERS = $<LayerInstance[]>([
 	{
 		roots: [],
 		modal: false,
-		inert: sig(false),
+		inert: $(false),
 		autoFocusFallback: undefined,
 	},
 ]);
@@ -79,7 +79,7 @@ export function Layer(props: {
 	const layer: LayerInstance = {
 		roots: [],
 		modal: props.modal ?? false,
-		inert: sig(false),
+		inert: $(false),
 		autoFocusFallback: undefined,
 	};
 

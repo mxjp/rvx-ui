@@ -1,4 +1,4 @@
-import { ClassValue, Expression, get, Inject, map, render, sig, StyleValue, SVG, watch, XMLNS } from "rvx";
+import { $, ClassValue, Expression, get, Inject, map, render, StyleValue, SVG, watch, XMLNS } from "rvx";
 import { uniqueId } from "rvx/id";
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
@@ -78,7 +78,7 @@ export function createPopover(props: {
 		content: ({ popout, onPlacement, placement, setSizeReference }) => {
 			const theme = THEME.current;
 			const layer = LAYER.current!;
-			const spikeTransform = sig("");
+			const spikeTransform = $("");
 
 			layer.useHotkey("escape", () => {
 				popout.hide();

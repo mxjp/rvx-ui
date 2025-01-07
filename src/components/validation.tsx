@@ -1,4 +1,4 @@
-import { ClassValue, Context, Expression, For, map, sig, Signal, StyleValue, teardown, trigger, TriggerPipe, untrack } from "rvx";
+import { $, ClassValue, Context, Expression, For, map, Signal, StyleValue, teardown, trigger, TriggerPipe, untrack } from "rvx";
 import { Queue } from "rvx/async";
 import { Emitter, Event } from "rvx/event";
 import { uniqueId } from "rvx/id";
@@ -29,8 +29,8 @@ export interface ValidationOptions {
 export class Validator {
 	#queue = new Queue();
 	#signalTrigger: ValidationSignalTrigger;
-	#rules = sig<ValidationRuleEntry[]>([]);
-	#invalid = sig(false);
+	#rules = $<ValidationRuleEntry[]>([]);
+	#invalid = $(false);
 
 	constructor() {
 		const options = VALIDATION.current;
@@ -176,7 +176,7 @@ export interface ValidationRule {
 
 export class ValidationRuleEntry {
 	readonly id = uniqueId();
-	readonly visible = sig(false);
+	readonly visible = $(false);
 	readonly alert = new Emitter<[]>();
 	readonly message: unknown;
 	readonly validate: ValidationRule["validate"];

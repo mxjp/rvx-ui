@@ -1,4 +1,4 @@
-import { captureSelf, Context, Expression, get, render, sig, teardown, TeardownHook, untrack, View, viewNodes } from "rvx";
+import { $, captureSelf, Context, Expression, get, render, teardown, TeardownHook, untrack, View, viewNodes } from "rvx";
 import { Emitter, Event as RvxEvent } from "rvx/event";
 import { PASSIVE_ACTION_EVENT } from "../common/events.js";
 import { axisEquals, Direction, DOWN, flip, getBlockStart, getInlineStart, getSize, getWindowSize, getWindowSpaceAround, INSET, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
@@ -138,9 +138,9 @@ export class Popout {
 	#foreignEvents: string[];
 	#instance?: Instance;
 	#instanceArgs?: InstanceArgs;
-	#visible = sig(false);
+	#visible = $(false);
 	#onPlacement = new Emitter<[PopoutPlacementArgs]>();
-	#placementState = sig<PopoutPlacementInfo | undefined>(undefined);
+	#placementState = $<PopoutPlacementInfo | undefined>(undefined);
 
 	/**
 	 * Create a new popout.

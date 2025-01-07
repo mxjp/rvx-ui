@@ -1,4 +1,4 @@
-import { ClassValue, Expression, For, get, map, memo, optionalString, render, sig, StyleValue, View, watch } from "rvx";
+import { $, ClassValue, Expression, For, get, map, memo, optionalString, render, StyleValue, View, watch } from "rvx";
 import { uniqueId } from "rvx/id";
 import { Action, createPassiveActionEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
 import { THEME } from "../common/theme.js";
@@ -92,7 +92,7 @@ export function createDropdown(props: {
 			const theme = THEME.current;
 			const layer = LAYER.current!;
 
-			const activeItem = sig<DropdownItem | undefined>(undefined);
+			const activeItem = $<DropdownItem | undefined>(undefined);
 			const instances = new WeakMap<DropdownItem, {
 				id: string;
 				children: Popout | undefined;

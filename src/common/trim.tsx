@@ -1,4 +1,4 @@
-import { sig, Signal, watchUpdates } from "rvx";
+import { $, Signal, watchUpdates } from "rvx";
 
 import { validatorFor } from "../components/validation.js";
 
@@ -13,7 +13,7 @@ import { validatorFor } from "../components/validation.js";
  * ```
  */
 export function trim(source: Signal<string>): Signal<string> {
-	const input = sig(source.value);
+	const input = $(source.value);
 
 	watchUpdates(input, value => {
 		source.value = value.trim();

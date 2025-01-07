@@ -1,4 +1,4 @@
-import { captureSelf, ClassValue, Context, created, Expression, map, render, sig, StyleValue, teardown } from "rvx";
+import { $, captureSelf, ClassValue, Context, created, Expression, map, render, StyleValue, teardown } from "rvx";
 import { TASKS, Tasks } from "rvx/async";
 import { Emitter, Event } from "rvx/event";
 import { uniqueId } from "rvx/id";
@@ -23,7 +23,7 @@ export const DIALOG_FADEOUT = new Context<Event<[tasks: Promise<void>[]]> | unde
 export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOptions): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
 		captureSelf(dispose => {
-			const enabled = sig(true);
+			const enabled = $(true);
 			const fadeout = new Emitter<[tasks: Promise<void>[]]>();
 			const view = render(
 				<Layer modal enabled={enabled}>
