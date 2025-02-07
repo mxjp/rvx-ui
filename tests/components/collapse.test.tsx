@@ -2,7 +2,7 @@ import { Collapse, THEME } from "@rvx/ui";
 import { getCollapseContent, isCollapseVisible, themeClass } from "@rvx/ui/test";
 import { strictEqual } from "node:assert";
 import test, { suite } from "node:test";
-import { sig } from "rvx";
+import { $ } from "rvx";
 import { Emitter } from "rvx/event";
 import { assertClass, assertEvents, testFn, text } from "../common.js";
 import { borderBoxEntry, mockResizeObservers, resize } from "../mocks/resize-observer.js";
@@ -40,7 +40,7 @@ await suite("components/collapse", async () => {
 	}));
 
 	await test("visibility", testFn(() => {
-		const visible = sig(false);
+		const visible = $(false);
 		const elem = <Collapse visible={visible} /> as HTMLDivElement;
 		assertClass(elem, [themeClass("collapse")]);
 		strictEqual(isCollapseVisible(elem), false);
@@ -56,7 +56,7 @@ await suite("components/collapse", async () => {
 
 	await test("alert", testFn(() => {
 		const events: unknown[] = [];
-		const visible = sig(false);
+		const visible = $(false);
 		const alert = new Emitter<[]>();
 		const elem = <Collapse visible={visible} alert={alert.event} /> as HTMLDivElement;
 

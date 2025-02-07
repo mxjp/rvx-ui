@@ -2,12 +2,12 @@ import { Checkbox } from "@rvx/ui";
 import { getCheckboxContent, isCheckboxChecked, toggleCheckbox } from "@rvx/ui/test";
 import { strictEqual } from "node:assert";
 import test, { suite } from "node:test";
-import { sig } from "rvx";
+import { $ } from "rvx";
 import { testFn, text } from "../common.js";
 
 await suite("components/checkbox", async () => {
 	await test("checked", testFn(() => {
-		const value = sig<boolean | undefined>(undefined);
+		const value = $<boolean | undefined>(undefined);
 		const checkbox = <Checkbox checked={value}>Hello World!</Checkbox> as Element;
 		const content = getCheckboxContent(checkbox);
 		strictEqual(text(content), "Hello World!");
