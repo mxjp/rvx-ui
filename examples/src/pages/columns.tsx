@@ -1,8 +1,8 @@
 import { Button, Collapse, Column, Heading, Row, Text } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 
 export default function() {
-	const visible = sig(false);
+	const visible = $(false);
 
 	const outline = "1px dashed var(--accent)";
 

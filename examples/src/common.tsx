@@ -1,5 +1,5 @@
-import { Signal } from "rvx";
 import { Column, LabelFor, PopoutAlignment, PopoutPlacement, RadioButtons, Row } from "@rvx/ui";
+import { Signal } from "rvx";
 
 export function PopoutControls(props: {
 	placement: Signal<PopoutPlacement | undefined>;

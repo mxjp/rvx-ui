@@ -1,8 +1,8 @@
-import { sig } from "rvx";
 import { Heading, RadioButtons, Text, Value } from "@rvx/ui";
+import { $ } from "rvx";
 
 export default function() {
-	const option = sig("bar");
+	const option = $("bar");
 
 	return <>
 		<Heading level="1">Radio Buttons</Heading>
@@ -16,7 +16,7 @@ export default function() {
 		</Text>
 
 		<Heading level="2">Unselected</Heading>
-		<RadioButtons value={sig(undefined)} options={[
+		<RadioButtons value={$(undefined)} options={[
 			{ value: "foo", label: "Foo" },
 			{ value: "bar", label: "Bar" },
 		]} />
@@ -25,7 +25,7 @@ export default function() {
 		<RadioButtons value="foo" options={[
 			{ value: "foo", label: "Readonly" },
 		]} />
-		<RadioButtons value={sig("foo")} disabled options={[
+		<RadioButtons value={$("foo")} disabled options={[
 			{ value: "foo", label: "Disabled" },
 		]} />
 	</>;

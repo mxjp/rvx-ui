@@ -1,5 +1,5 @@
 import { Button, DialogBody, DialogFooter, Heading, intParser, LabelFor, LAYER, parse, Row, rule, showDialog, TextInput, trim, validate, ValidationMessages } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 
 export default function() {
 	return <>
@@ -12,8 +12,8 @@ export default function() {
 
 function showDialogExample() {
 	showDialog(dialog => {
-		const name = sig("");
-		const port = sig(443);
+		const name = $("");
+		const port = $(443);
 
 		async function ok() {
 			if (await validate(name, port)) {

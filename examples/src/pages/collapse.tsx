@@ -1,9 +1,9 @@
 import { Button, Collapse, Heading, Row, Text } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 import { Emitter } from "rvx/event";
 
 export default function() {
-	const collapse = sig(false);
+	const collapse = $(false);
 	const collapseAlert = new Emitter<[]>();
 
 	return <>

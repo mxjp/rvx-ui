@@ -1,8 +1,8 @@
 import { Button, Card, Collapse, Heading, Link, Row, Text } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 
 export default function() {
-	const visible = sig(false);
+	const visible = $(false);
 
 	return <>
 		<Heading level="1">Cards</Heading>

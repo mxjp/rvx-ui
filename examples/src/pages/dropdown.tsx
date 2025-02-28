@@ -1,12 +1,12 @@
 import { Button, Column, Dropdown, DropdownInput, DropdownItem, Heading, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 import { PopoutControls } from "../common.js";
 
 export default function() {
-	const option = sig("bar");
+	const option = $("bar");
 
-	const placement = sig<PopoutPlacement | undefined>(undefined);
-	const alignment = sig<PopoutAlignment | undefined>(undefined);
+	const placement = $<PopoutPlacement | undefined>(undefined);
+	const alignment = $<PopoutAlignment | undefined>(undefined);
 
 	return <>
 		<Heading level="1">Dropdowns</Heading>

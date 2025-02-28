@@ -1,8 +1,8 @@
-import { sig } from "rvx";
 import { Button, Checkbox, Column, Heading, Row, Text, Value } from "@rvx/ui";
+import { $ } from "rvx";
 
 export default function() {
-	const checked = sig<boolean | undefined>(undefined);
+	const checked = $<boolean | undefined>(undefined);
 
 	return <>
 		<Heading level="1">Checkboxes</Heading>
@@ -18,7 +18,7 @@ export default function() {
 
 		<Heading level="2">States</Heading>
 		<Column size="control">
-			<Checkbox checked={sig(true)} disabled>Disabled</Checkbox>
+			<Checkbox checked={$(true)} disabled>Disabled</Checkbox>
 			<Checkbox checked={true}>Readonly</Checkbox>
 		</Column>
 	</>;

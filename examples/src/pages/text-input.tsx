@@ -1,11 +1,11 @@
 import { Button, Column, debounce, DialogBody, DialogFooter, Heading, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 
 export default function() {
 	const defaultText = "Hello World!";
 
-	const text = sig(defaultText);
-	const enterAction = sig("Press enter...");
+	const text = $(defaultText);
+	const enterAction = $("Press enter...");
 
 	return <Column>
 		<Heading level="1">Text Inputs</Heading>
@@ -64,6 +64,6 @@ export default function() {
 		</Row>
 
 		<Heading level="2">Multiline</Heading>
-		<TextInput multiline value={sig("This is a\nmultiline input...")} rows={10} style={{ resize: "vertical" }} />
+		<TextInput multiline value={$("This is a\nmultiline input...")} rows={10} style={{ resize: "vertical" }} />
 	</Column>;
 }

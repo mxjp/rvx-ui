@@ -1,5 +1,5 @@
 import { Button, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 
 export default function() {
 	return <>
@@ -20,7 +20,7 @@ function showExampleDialog() {
 				<Button autofocus action={() => {
 					showDialog<void>(dialog => {
 						return <DialogBody title="Nested dialog" description="This is a dialog in a dialog.">
-							<RadioButtons autofocus value={sig(7)} options={[
+							<RadioButtons autofocus value={$(7)} options={[
 								{ value: 42, label: "Autofocused radio buttons" },
 								{ value: 123, label: "..." },
 							]} />

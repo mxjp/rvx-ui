@@ -1,10 +1,10 @@
 import { Button, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@rvx/ui";
-import { sig } from "rvx";
+import { $ } from "rvx";
 import { PopoutControls } from "../common.js";
 
 export default function() {
-	const placement = sig<PopoutPlacement | undefined>(undefined);
-	const alignment = sig<PopoutAlignment | undefined>(undefined);
+	const placement = $<PopoutPlacement | undefined>(undefined);
+	const alignment = $<PopoutAlignment | undefined>(undefined);
 
 	return <>
 		<Heading level="1">Popovers</Heading>
