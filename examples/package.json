@@ -2,7 +2,7 @@
 	"name": "@rvx/ui-examples",
 	"type": "module",
 	"scripts": {
-		"start": "vite --force",
+		"start": "vite",
 		"preview": "vite preview",
 		"build": "vite build && tsc --noEmit"
 	},
