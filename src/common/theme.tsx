@@ -78,6 +78,10 @@ export interface Theme {
 
 	link?: string;
 
+	nav_list?: string;
+	nav_list_item?: string;
+	nav_list_item_current?: string;
+
 	page?: string;
 	page_scrollbar_comp?: string;
 	page_content_col?: string;

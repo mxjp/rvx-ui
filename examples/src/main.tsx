@@ -1,4 +1,4 @@
-import { Column, Heading, Link, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
+import { Heading, NavList, NavListButton, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
 import theme from "@rvx/ui/dist/theme.module.css";
 import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
@@ -22,9 +22,12 @@ mount(
 					const name = key.slice(8, -4);
 					const path = `/${name}`;
 
-					links.push(<Link action={() => {
-						ROUTER.current!.push(path);
-					}}>{name}</Link>);
+					links.push(<NavListButton
+						action={() => {
+							ROUTER.current!.push(path);
+						}}
+						current={() => ROUTER.current?.path === path}
+					>{name}</NavListButton>);
 
 					routes.push({
 						match: path,
@@ -40,9 +43,9 @@ mount(
 			return <div class="app">
 				<ScrollView class="app-nav">
 					<Page>
-						<Column size="control">
+						<NavList>
 							{links}
-						</Column>
+						</NavList>
 					</Page>
 				</ScrollView>
 				<ScrollView>

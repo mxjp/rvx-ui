@@ -1,0 +1,80 @@
+@use "../common";
+
+@include common.theme((
+	nav-list-item-bg: (
+		dark: transparent,
+	),
+	nav-list-item-bg-hover: (
+		dark: rgb(64, 64, 64),
+	),
+	nav-list-item-bg-active: (
+		dark: rgb(52, 52, 52),
+	),
+	nav-list-item-bg-current: (
+		dark: rgb(40, 40, 40),
+	),
+	nav-list-item-fg: (
+		dark: rgb(172, 172, 172),
+	),
+	nav-list-item-fg-hover: (
+		dark: var(--fg),
+	),
+	nav-list-item-fg-active: (
+		dark: var(--fg),
+	),
+	nav-list-item-fg-current: (
+		dark: var(--fg),
+	),
+	nav-list-item-border: (
+		dark: transparent,
+	),
+));
+
+.nav_list {
+	display: flex;
+	flex-direction: column;
+}
+
+.nav_list_item {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 600;
+	line-height: 1;
+	text-align: left;
+
+	background-color: var(--nav-list-item-bg);
+	color: var(--nav-list-item-fg);
+	border: var(--nav-list-item-border) solid var(--control-border);
+
+	cursor: pointer;
+
+	outline: none;
+	@include common.padding(control-pad, var(--control-border));
+
+	border-radius: var(--control-radius);
+	transition: var(--color-transition) background-color,
+		var(--color-transition) border-color;
+
+	&[disabled] {
+		cursor: default;
+		filter: var(--control-disabled);
+	}
+
+	&:hover:not(:active):not([disabled]),
+	&:focus-visible {
+		color: var(--nav-list-item-fg-hover);
+		background-color: var(--nav-list-item-bg-hover);
+	}
+
+	&:active {
+		color: var(--nav-list-item-fg-active);
+		background-color: var(--nav-list-item-bg-active);
+	}
+}
+
+.nav_list_item_current {
+	color: var(--nav-list-item-fg-current);
+	background-color: var(--nav-list-item-bg-current);
+	box-shadow: var(--control-shadow);
+	z-index: 1;
+}
