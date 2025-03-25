@@ -5,13 +5,13 @@
 		dark: transparent,
 	),
 	nav-list-item-bg-hover: (
-		dark: rgb(64, 64, 64),
+		dark: rgba(255, 255, 255, 0.1),
 	),
 	nav-list-item-bg-active: (
-		dark: rgb(52, 52, 52),
+		dark: rgba(255, 255, 255, 0.08),
 	),
 	nav-list-item-bg-current: (
-		dark: rgb(40, 40, 40),
+		dark: rgba(255, 255, 255, 0.1),
 	),
 	nav-list-item-fg: (
 		dark: rgb(172, 172, 172),
@@ -33,6 +33,8 @@
 .nav_list {
 	display: flex;
 	flex-direction: column;
+	position: relative;
+	z-index: 0;
 }
 
 .nav_list_item {
