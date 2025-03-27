@@ -1,6 +1,6 @@
 {
 	"name": "@rvx/ui",
-	"description": "Rvx based complete UI component library",
+	"description": "Rvx based UI component library",
 	"homepage": "https://github.com/mxjp/rvx-ui",
 	"repository": {
 		"type": "git",
