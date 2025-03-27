@@ -1,3 +1,4 @@
+export * from "./common/coupling.js";
 export * from "./common/debounce.js";
 export * from "./common/events.js";
 export * from "./common/parsers.js";
@@ -26,6 +27,7 @@ export * from "./components/popover.js";
 export * from "./components/radio-buttons.js";
 export * from "./components/row.js";
 export * from "./components/scroll-view.js";
+export * from "./components/slider.js";
 export * from "./components/text-input.js";
 export * from "./components/text.js";
 export * from "./components/validation.js";

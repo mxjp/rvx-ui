@@ -1,0 +1,14 @@
+
+.slider_host {
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--control-row-gap);
+
+	& > input {
+		outline: none;
+
+		&:focus-visible {
+			outline: var(--focus-outline);
+		}
+	}
+}

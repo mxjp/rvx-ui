@@ -109,6 +109,8 @@ export interface Theme {
 	scroll_view_indicator_end?: string;
 	scroll_view_indicator_visible?: string;
 
+	slider_host?: string;
+
 	text_input?: string;
 
 	text?: string;
