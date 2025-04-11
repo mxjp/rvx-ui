@@ -1,3 +1,4 @@
+@use "../common";
 
 .column {
 	display: flex;
@@ -31,6 +32,10 @@
 		row-gap: var(--#{$size}-row-gap);
 		& > * {
 			--parent-row-gap: var(--#{$size}-row-gap);
+		}
+
+		&.column_padded {
+			@include common.padding(#{$size}-pad, var(--content-border));
 		}
 	}
 }

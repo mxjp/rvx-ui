@@ -1,7 +1,5 @@
-import { ClassValue, Expression, StyleValue } from "rvx";
-
+import { ClassValue, Expression, StyleValue, uniqueId } from "rvx";
 import { THEME } from "../common/theme.js";
-import { uniqueId } from "rvx/id";
 
 export function Label(props: {
 	class?: ClassValue;

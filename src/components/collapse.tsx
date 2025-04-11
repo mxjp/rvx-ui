@@ -1,5 +1,5 @@
-import { $, ClassValue, Expression, get, map, optionalString, StyleValue, teardown } from "rvx";
-import { Event } from "rvx/event";
+import { $, ClassValue, Event, Expression, get, map, StyleValue, teardown } from "rvx";
+import { optionalString } from "rvx/convert";
 import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
 

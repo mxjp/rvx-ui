@@ -45,5 +45,13 @@ export default function() {
 			<Heading level="3">Heading</Heading>
 			<Text>Automatic heading layout</Text>
 		</Column>
+
+		<Heading level="2">Padding</Heading>
+		<Column style={{ outline }} padded>
+			<Text>Content size</Text>
+		</Column>
+		<Column style={{ outline }} size="control" padded>
+			<Text>Control size</Text>
+		</Column>
 	</>;
 }

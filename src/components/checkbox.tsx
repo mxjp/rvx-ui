@@ -1,7 +1,7 @@
-import { ClassValue, Expression, get, optionalString, Signal, string, StyleValue, watch } from "rvx";
+import { ClassValue, Expression, get, Signal, StyleValue, uniqueId, watch } from "rvx";
 import { isPending } from "rvx/async";
-import { uniqueId } from "rvx/id";
 
+import { optionalString, string } from "rvx/convert";
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
 import { validatorFor } from "./validation.js";

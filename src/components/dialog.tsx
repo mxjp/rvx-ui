@@ -1,7 +1,5 @@
-import { $, captureSelf, ClassValue, Context, created, Expression, map, render, StyleValue, teardown } from "rvx";
-import { TASKS, Tasks } from "rvx/async";
-import { Emitter, Event } from "rvx/event";
-import { uniqueId } from "rvx/id";
+import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, render, StyleValue, teardown, uniqueId } from "rvx";
+import { TASKS, Tasks, useMicrotask } from "rvx/async";
 import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
 
@@ -126,7 +124,7 @@ export function DialogBody(props: {
 		</div>
 	</div> as HTMLElement;
 
-	created(() => {
+	useMicrotask(() => {
 		if (theme?.dialog_fadein) {
 			body.offsetParent;
 			body.classList.add(theme.dialog_fadein);

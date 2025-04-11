@@ -21,7 +21,10 @@
 .card {
 	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
-	@include common.padding(content-pad, var(--content-border));
+
+	&:not(.card_unpadded) {
+		@include common.padding(content-pad, var(--content-border));
+	}
 }
 
 @each $name in (default, info, success, warning, danger) {

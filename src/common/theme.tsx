@@ -33,6 +33,7 @@ export interface Theme {
 	button_text?: string;
 
 	card?: string;
+	card_unpadded?: string;
 	card_content?: string;
 	card_default?: string;
 	card_info?: string;
@@ -52,6 +53,7 @@ export interface Theme {
 	collapse_content?: string;
 
 	column?: string;
+	column_padded?: string;
 	column_content?: string;
 	column_control?: string;
 
@@ -110,6 +112,12 @@ export interface Theme {
 	scroll_view_indicator_visible?: string;
 
 	slider_host?: string;
+
+	tab_handle?: string;
+	tab_list?: string;
+	tab_list_padded?: string;
+	tab_panel?: string;
+	tab_panel_padded?: string;
 
 	text_input?: string;
 

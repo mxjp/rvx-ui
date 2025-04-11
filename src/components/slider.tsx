@@ -1,5 +1,4 @@
-import { Expression, map, Show, Signal } from "rvx";
-import { uniqueId } from "rvx/id";
+import { Expression, map, Show, Signal, uniqueId } from "rvx";
 import { THEME } from "../common/theme.js";
 
 export function Slider(props: {

@@ -1,7 +1,5 @@
-import { $, ClassValue, Context, Expression, For, map, Signal, StyleValue, teardown, trigger, TriggerPipe, untrack } from "rvx";
+import { $, ClassValue, Context, Emitter, Event, Expression, For, map, Signal, StyleValue, teardown, trigger, TriggerPipe, uniqueId, untrack } from "rvx";
 import { Queue } from "rvx/async";
-import { Emitter, Event } from "rvx/event";
-import { uniqueId } from "rvx/id";
 import { THEME } from "../common/theme.js";
 import { Collapse } from "./collapse.js";
 import { Text } from "./text.js";

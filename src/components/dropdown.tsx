@@ -1,5 +1,5 @@
-import { $, ClassValue, Expression, For, get, map, memo, optionalString, render, StyleValue, View, watch } from "rvx";
-import { uniqueId } from "rvx/id";
+import { $, ClassValue, Expression, For, get, map, memo, render, StyleValue, uniqueId, View, watch } from "rvx";
+import { optionalString } from "rvx/convert";
 import { Action, createPassiveActionEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { LAYER } from "./layer.js";

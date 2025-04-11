@@ -45,5 +45,9 @@ export default function() {
 		<Card variant="danger">
 			<Text>Danger</Text>
 		</Card>
+
+		<Card variant="info" unpadded>
+			<Text>Unpadded</Text>
+		</Card>
 	</>;
 }

@@ -1,9 +1,9 @@
-import { ClassValue, Expression, For, get, map, optionalString, Signal, string, StyleValue } from "rvx";
+import { ClassValue, Expression, For, get, map, Signal, StyleValue, uniqueId } from "rvx";
 import { isPending } from "rvx/async";
+import { optionalString, string } from "rvx/convert";
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
 import { validatorFor } from "./validation.js";
-import { uniqueId } from "rvx/id";
 
 export interface RadioOption<T> {
 	value: T;

@@ -1,5 +1,6 @@
-import { ClassValue, Expression, get, map, optionalString, StyleValue } from "rvx";
+import { ClassValue, Expression, get, map, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
+import { optionalString } from "rvx/convert";
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 

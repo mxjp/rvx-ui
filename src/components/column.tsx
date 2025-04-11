@@ -11,12 +11,14 @@ export function Column(props: {
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
 	children?: unknown;
+	padded?: boolean;
 }): unknown {
 	const theme = THEME.current;
 	return <div
 		class={[
 			theme?.column,
 			map(props.size, size => theme?.[`column_${size ?? "content"}`]),
+			map(props.padded, padded => padded ? theme?.column_padded : undefined),
 			props.class,
 		]}
 		style={props.style}

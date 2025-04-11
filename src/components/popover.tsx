@@ -1,5 +1,4 @@
-import { $, ClassValue, Expression, get, Inject, map, render, StyleValue, SVG, watch, XMLNS } from "rvx";
-import { uniqueId } from "rvx/id";
+import { $, ClassValue, Expression, get, Inject, map, render, StyleValue, SVG, uniqueId, watch, XMLNS } from "rvx";
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { DOWN, getSize, getXY, LEFT, RIGHT, UP } from "../common/writing-mode.js";

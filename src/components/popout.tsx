@@ -1,5 +1,4 @@
-import { $, captureSelf, Context, Expression, get, render, teardown, TeardownHook, untrack, View, viewNodes } from "rvx";
-import { Emitter, Event as RvxEvent } from "rvx/event";
+import { $, captureSelf, Context, Emitter, Expression, get, render, Event as RvxEvent, teardown, TeardownHook, untrack, View, viewNodes } from "rvx";
 import { PASSIVE_ACTION_EVENT } from "../common/events.js";
 import { axisEquals, Direction, DOWN, flip, getBlockStart, getInlineStart, getSize, getWindowSize, getWindowSpaceAround, INSET, LEFT, RIGHT, ScriptDirection, UP, WritingMode } from "../common/writing-mode.js";
 import { LAYER, Layer } from "./layer.js";

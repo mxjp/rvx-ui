@@ -1,0 +1,26 @@
+@use "../common";
+
+.tab_list {
+	display: flex;
+	flex-direction: row;
+}
+
+.tab_handle {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 600;
+	line-height: 1;
+
+	cursor: pointer;
+
+	outline: none;
+	@include common.padding(control-pad, var(--control-border));
+
+	background-color: transparent;
+	color: inherit;
+	border: transparent solid var(--control-border);
+}
+
+.tab_panel_padded {
+	@include common.padding(content-pad, var(--content-border));
+}
