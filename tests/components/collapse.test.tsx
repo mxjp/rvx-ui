@@ -2,8 +2,7 @@ import { Collapse, THEME } from "@rvx/ui";
 import { getCollapseContent, isCollapseVisible, themeClass } from "@rvx/ui/test";
 import { strictEqual } from "node:assert";
 import test, { suite } from "node:test";
-import { $ } from "rvx";
-import { Emitter } from "rvx/event";
+import { $, Emitter } from "rvx";
 import { assertClass, assertEvents, testFn, text } from "../common.js";
 import { borderBoxEntry, mockResizeObservers, resize } from "../mocks/resize-observer.js";
 

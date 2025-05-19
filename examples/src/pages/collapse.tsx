@@ -1,6 +1,5 @@
 import { Button, Collapse, Heading, Row, Text } from "@rvx/ui";
-import { $ } from "rvx";
-import { Emitter } from "rvx/event";
+import { $, Emitter } from "rvx";
 
 export default function() {
 	const collapse = $(false);
