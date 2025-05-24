@@ -10,11 +10,11 @@
 
 @mixin theme($defs) {
 	:root {
-		@include set-theme-vars($defs, light);
-		@media (prefers-color-scheme: dark) {
+		// @include set-theme-vars($defs, light);
+		// @media (prefers-color-scheme: dark) {
 			@include set-theme-vars($defs, dark);
 			color-scheme: dark;
-		}
+		// }
 
 		@media (prefers-contrast: more) {
 			@include set-theme-vars($defs, light-hc);
