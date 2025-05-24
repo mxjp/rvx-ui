@@ -4,7 +4,7 @@ import { isPending } from "rvx/async";
 import { optionalString, string } from "rvx/convert";
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
-import { validatorFor } from "./validation.js";
+import { closestValidator } from "./validation.js";
 
 export function Checkbox(props: {
 	checked?: Expression<boolean | undefined>;
@@ -23,7 +23,7 @@ export function Checkbox(props: {
 		? () => isPending() || get(props.disabled)
 		: () => true;
 
-	const validator = props.checked instanceof Signal ? validatorFor(props.checked) : undefined;
+	const validator = props.checked instanceof Signal ? closestValidator(props.checked) : undefined;
 
 	const input = <input
 		id={id}
@@ -36,7 +36,7 @@ export function Checkbox(props: {
 		}}
 		aria-readonly={string(!(props.checked instanceof Signal))}
 		aria-invalid={validator ? optionalString(validator.invalid) : undefined}
-		aria-errormessage={validator ? validator.errorMessageIds : undefined}
+		aria-errormessage={validator ? validator.messageIds : undefined}
 		autofocus={props.autofocus}
 		disabled={disabled}
 	/> as HTMLInputElement;

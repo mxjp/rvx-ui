@@ -3,7 +3,7 @@ import { isPending } from "rvx/async";
 import { optionalString, string } from "rvx/convert";
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
-import { validatorFor } from "./validation.js";
+import { closestValidator } from "./validation.js";
 
 export interface RadioOption<T> {
 	value: T;
@@ -32,7 +32,7 @@ export function RadioButtons<T>(props: {
 		? () => isPending() || get(props.disabled)
 		: true;
 
-	const validator = props.value instanceof Signal ? validatorFor(props.value) : undefined;
+	const validator = props.value instanceof Signal ? closestValidator(props.value) : undefined;
 
 	return <div
 		role="radiogroup"
@@ -44,7 +44,7 @@ export function RadioButtons<T>(props: {
 		style={props.style}
 		aria-readonly={string(!(props.options instanceof Signal))}
 		aria-invalid={validator ? optionalString(validator.invalid) : undefined}
-		aria-errormessage={validator ? validator.errorMessageIds : undefined}
+		aria-errormessage={validator ? validator.messageIds : undefined}
 		aria-label={props["aria-label"]}
 		aria-labelledby={props["aria-labelledby"]}
 	>

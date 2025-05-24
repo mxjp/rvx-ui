@@ -3,7 +3,7 @@ import { isPending, waitFor } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { validatorFor } from "./validation.js";
+import { closestValidator } from "./validation.js";
 
 export type TextInputType = "text" | "password";
 export type TextAreaWrap = "hard" | "soft";
@@ -67,7 +67,7 @@ export function TextInput(props: ({
 	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
-	const validator = props.value instanceof Signal ? validatorFor(props.value) : undefined;
+	const validator = props.value instanceof Signal ? closestValidator(props.value) : undefined;
 
 	const InputTag = props.multiline ? "textarea" : "input";
 	const input = <InputTag
@@ -110,7 +110,7 @@ export function TextInput(props: ({
 		aria-labelledby={props["aria-labelledby"]}
 
 		aria-invalid={validator ? optionalString(validator.invalid) : undefined}
-		aria-errormessage={validator ? validator.errorMessageIds : undefined}
+		aria-errormessage={validator ? validator.messageIds : undefined}
 	/> as HTMLInputElement;
 
 	return input;

@@ -2,7 +2,7 @@ import { ClassValue, Expression, get, map, Signal, StyleValue } from "rvx";
 import { Button, ButtonVariant } from "./button.js";
 import { Dropdown, DropdownItem } from "./dropdown.js";
 import { PopoutAlignment, PopoutPlacement } from "./popout.js";
-import { validatorFor } from "./validation.js";
+import { closestValidator } from "./validation.js";
 
 export interface DropdownValue<T> {
 	value: T;
@@ -46,7 +46,7 @@ export function DropdownInput<T>(props: {
 			role="combobox"
 			aria-label={props["aria-label"]}
 			aria-labelledby={props["aria-labelledby"]}
-			validator={props.value instanceof Signal ? validatorFor(props.value) : undefined}
+			validator={props.value instanceof Signal ? closestValidator(props.value) : undefined}
 		>
 			{props.children ?? (() => {
 				const value = get(props.value);

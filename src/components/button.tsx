@@ -78,7 +78,7 @@ export function Button(props: {
 		aria-haspopup={props["aria-haspopup"]}
 		aria-controls={props["aria-controls"]}
 		aria-invalid={props.validator ? optionalString(props.validator.invalid) : undefined}
-		aria-errormessage={props.validator ? props.validator.errorMessageIds : undefined}
+		aria-errormessage={props.validator ? props.validator.messageIds : undefined}
 		autofocus={props.autofocus}
 
 		on:click={action}

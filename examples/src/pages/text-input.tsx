@@ -1,5 +1,6 @@
-import { Button, Column, debounce, DialogBody, DialogFooter, Heading, LabelFor, Row, showDialog, Text, TextInput, trim, Value } from "@rvx/ui";
+import { Button, Column, DialogBody, DialogFooter, Heading, LabelFor, Row, showDialog, Text, TextInput, Value } from "@rvx/ui";
 import { $ } from "rvx";
+import { debounce, trim } from "rvx/convert";
 
 export default function() {
 	const defaultText = "Hello World!";
