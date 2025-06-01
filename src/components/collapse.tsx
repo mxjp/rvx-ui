@@ -110,7 +110,7 @@ export interface CollapseItem<T> {
 }
 
 export function CollapseFor<T>(props: {
-	each: Expression<CollapseItem<T>[]>;
+	each: Expression<Iterable<CollapseItem<T>>>;
 	children: Component<T>;
 }): unknown {
 
@@ -125,7 +125,10 @@ export function CollapseFor<T>(props: {
 	const fadein = $(false);
 	useMicrotask(() => fadein.value = true);
 
-	watch(props.each, items => {
+	watch(() => {
+		const iter = get(props.each);
+		return Array.isArray(iter) ? iter : Array.from(iter);
+	}, items => {
 		entries.update(entries => {
 			let itemIndex = 0;
 			let entryIndex = 0;
