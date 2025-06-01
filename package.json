@@ -51,6 +51,6 @@
 		"@rvx/ui": "file:."
 	},
 	"dependencies": {
-		"rvx": "^21.0.1"
+		"rvx": "^21.1.0"
 	}
 }
