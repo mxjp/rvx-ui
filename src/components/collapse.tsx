@@ -50,21 +50,17 @@ export function Collapse(props: {
 	if (props.fadein !== undefined) {
 		const visibleSig = visible = $(false);
 		watch(props.visible, visible => {
-			if (visible) {
-				const fadein = get(props.fadein);
-				if (fadein) {
-					visibleSig.value = false;
-					let handle = requestAnimationFrame(() => {
-						handle = requestAnimationFrame(() => {
-							visibleSig.value = true;
-						});
-					});
-					teardown(() => cancelAnimationFrame(handle));
-				} else {
-					visibleSig.value = true;
-				}
-			} else {
+			const fadein = get(props.fadein);
+			if (fadein) {
 				visibleSig.value = false;
+				let handle = requestAnimationFrame(() => {
+					handle = requestAnimationFrame(() => {
+						visibleSig.value = visible ?? false;
+					});
+				});
+				teardown(() => cancelAnimationFrame(handle));
+			} else {
+				visibleSig.value = visible ?? false;
 			}
 		});
 	}
