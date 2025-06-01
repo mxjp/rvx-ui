@@ -1,9 +1,15 @@
-import { Button, Collapse, Heading, Row, Text } from "@rvx/ui";
-import { $, Emitter } from "rvx";
+import { Button, Card, Checkbox, Collapse, CollapseFor, CollapseItem, Column, Heading, Row, Text } from "@rvx/ui";
+import { $, Emitter, map, Show } from "rvx";
 
 export default function() {
 	const collapse = $(false);
 	const collapseAlert = new Emitter<[]>();
+
+	const render = $(false);
+	const visible = $(true);
+	const fadein = $(true);
+
+	const list = $<CollapseItem<number>[]>([]);
 
 	return <>
 		<Heading level="1">Collapses</Heading>
@@ -18,6 +24,18 @@ export default function() {
 			<Text>This is always visible.</Text>
 		</Collapse>
 
+		<Heading level="2">Initial Fade In</Heading>
+		<Row>
+			<Checkbox checked={render}>Render</Checkbox>
+			<Checkbox checked={visible}>Visible</Checkbox>
+			<Checkbox checked={fadein}>Fade In</Checkbox>
+		</Row>
+		<Show when={render}>
+			{() => <Collapse visible={visible} fadein={fadein}>
+				Fade in is currently {map(fadein, x => x ? "enabled" : "disabled")}.
+			</Collapse>}
+		</Show>
+
 		<Heading level="2">Flex Layout</Heading>
 		<div style={{
 			"outline": "1px dashed var(--accent)",
@@ -30,5 +48,28 @@ export default function() {
 			</Collapse>
 			<div>Below</div>
 		</div>
+
+		<Heading level="2">Lists</Heading>
+		<Row>
+			{[
+				[],
+				[1, 2, 3],
+				[1, 3],
+				[2],
+			].map(values => {
+				return <Button action={() => {
+					list.value = values.map(v => ({ value: v }));
+				}}>{values.length === 0 ? <>Empty</> : values.join(", ")}</Button>
+			})}
+		</Row>
+		<Column size="control">
+			<CollapseFor each={list}>
+				{value => <Card variant="info" unpadded>
+					<Column padded size="control">
+						{value}
+					</Column>
+				</Card>}
+			</CollapseFor>
+		</Column>
 	</>;
 }
