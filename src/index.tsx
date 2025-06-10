@@ -28,5 +28,6 @@ export * from "./components/slider.js";
 export * from "./components/tabs.js";
 export * from "./components/text-input.js";
 export * from "./components/text.js";
+export * from "./components/validation-rules.js";
 export * from "./components/validation.js";
 export * from "./components/value.js";

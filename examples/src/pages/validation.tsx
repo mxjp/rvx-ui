@@ -1,44 +1,45 @@
-import { Button, Heading, LabelFor, Row, TextInput, validate, ValidationMessages, Validator } from "@rvx/ui";
+import { Button, Heading, intParser, LabelFor, Row, rule, TextInput, validate, ValidationMessages } from "@rvx/ui";
 import { $ } from "rvx";
+import { trim } from "rvx/convert";
 
 export default function() {
 	const name = $("");
+	const port = $(443);
 
 	async function ok() {
-		await validate([name]);
+		await validate([name, port]);
 	}
 
 	return <>
 		<Heading level="1">Validation</Heading>
 
-		<LabelFor label="Name">
+		<LabelFor label="Username">
 			{id => <TextInput
 				id={id}
 				value={name
-					.pipe(source => {
-						function IsEmpty() {
-							return <>Enter a name.</>;
-						}
-
-						function InvalidChars() {
-							return <>The name must contain only letters and numbers.</>;
-						}
-
-						Validator.get(source).prependRule(() => {
-							if (source.value.length === 0) {
-								return [IsEmpty];
-							}
-							if (/[^a-z0-9]/.test(source.value)) {
-								return [InvalidChars];
-							}
-						});
-
-						return source;
-					})
+					.pipe(rule, name => /^[a-z0-9]*$/.test(name), () => <>The name must contain only letters and numbers.</>)
+					.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
+					.pipe(trim)
 				}
 			/>}
 		</LabelFor>
 		<ValidationMessages for={name} />
+
+		<LabelFor label="Network Port">
+			{id => <TextInput
+				id={id}
+				value={port
+					.pipe(intParser, {
+						format: () => <>Enter a valid port.</>,
+						range: () => <>The port must range from 1 to {0xFFFF}.</>,
+						min: 1,
+						max: 0xFFFF,
+					})
+					.pipe(trim)
+				}
+			/>}
+		</LabelFor>
+		<ValidationMessages for={port} />
 
 		<Row>
 			<Button variant="primary" action={ok}>Validate</Button>
