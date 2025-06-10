@@ -6,7 +6,7 @@ export type CardVariant = "default" | "info" | "success" | "warning" | "danger";
 
 export function Card(props: {
 	variant?: Expression<CardVariant | undefined>;
-	unpadded?: Expression<boolean | undefined>;
+	raw?: boolean;
 	children?: unknown;
 }): unknown {
 	const theme = THEME.current;
@@ -14,11 +14,14 @@ export function Card(props: {
 		class={[
 			theme?.card,
 			map(props.variant, variant => theme?.[`card_${variant ?? "default"}`]),
-			map(props.unpadded, unpadded => unpadded ? theme?.card_unpadded : undefined),
+			map(props.raw, unpadded => unpadded ? theme?.card_raw : undefined),
 		]}
 	>
-		<Column class={theme?.card_content}>
-			{props.children}
-		</Column>
+		{props.raw
+			? props.children
+			: <Column class={theme?.card_content}>
+				{props.children}
+			</Column>
+		}
 	</div>;
 }

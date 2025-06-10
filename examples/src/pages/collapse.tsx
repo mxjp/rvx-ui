@@ -64,7 +64,7 @@ export default function() {
 		</Row>
 		<Column size="control">
 			<CollapseFor each={list}>
-				{value => <Card variant="info" unpadded>
+				{value => <Card variant="info" raw>
 					<Column padded size="control">
 						{value}
 					</Column>

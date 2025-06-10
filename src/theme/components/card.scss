@@ -22,7 +22,7 @@
 	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
 
-	&:not(.card_unpadded) {
+	&:not(.card_raw) {
 		@include common.padding(content-pad, var(--content-border));
 	}
 }

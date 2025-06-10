@@ -33,7 +33,7 @@ export interface Theme {
 	button_text?: string;
 
 	card?: string;
-	card_unpadded?: string;
+	card_raw?: string;
 	card_content?: string;
 	card_default?: string;
 	card_info?: string;
@@ -114,6 +114,7 @@ export interface Theme {
 	slider_host?: string;
 
 	tab_handle?: string;
+	tab_handle_current?: string;
 	tab_list?: string;
 	tab_list_padded?: string;
 	tab_panel?: string;

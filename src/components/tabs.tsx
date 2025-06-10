@@ -35,7 +35,10 @@ export function Tabs(props: {
 			<For each={props.tabs}>
 				{tab => <button
 					role="tab"
-					class={theme?.tab_handle}
+					class={[
+						theme?.tab_handle,
+						() => selected.value === tab ? theme?.tab_handle_current : undefined,
+					]}
 					aria-selected={string(() => selected.value === tab)}
 					aria-controls={uniqueIdFor(tab)}
 					on:click={event => {

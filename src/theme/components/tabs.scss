@@ -1,8 +1,30 @@
 @use "../common";
 
+@include common.theme((
+	tab-handle-marker: (
+		dark: rgb(150, 150, 150),
+	),
+	tab-handle-bg: (
+		dark: rgb(64, 64, 64),
+	),
+	tab-handle-bg-active: (
+		dark: rgb(72, 72, 72),
+	),
+	tab-handle-fg: (
+		dark: rgb(172, 172, 172),
+	),
+	tab-handle-fg-active: (
+		dark: var(--fg),
+	),
+	tab-handle-fg-current: (
+		dark: var(--fg),
+	),
+));
+
 .tab_list {
 	display: flex;
 	flex-direction: row;
+	border-bottom: var(--separator) solid var(--separator-color);
 }
 
 .tab_handle {
@@ -17,8 +39,25 @@
 	@include common.padding(control-pad, var(--control-border));
 
 	background-color: transparent;
-	color: inherit;
+	color: var(--tab-handle-fg);
 	border: transparent solid var(--control-border);
+	border-radius: var(--control-radius) var(--control-radius) 0 0;
+	transition: var(--color-transition) background-color,
+		var(--color-transition) border-color;
+
+	&:hover,
+	&:focus-visible {
+		color: var(--tab-handle-fg-active);
+		background-color: var(--tab-handle-bg-active);
+	}
+	&:active {
+		background-color: var(--tab-handle-bg);
+	}
+}
+
+.tab_handle_current {
+	border-bottom-color: var(--tab-handle-marker);
+	color: var(--tab-handle-fg-current);
 }
 
 .tab_panel_padded {
