@@ -3,13 +3,13 @@ import { string } from "rvx/convert";
 import { THEME } from "../common/theme.js";
 
 export interface Tab {
-	label: unknown;
+	label: Component;
 	content: Component;
 }
 
 export function Tabs(props: {
 	tabs: Expression<Iterable<Tab>>;
-	selected?: Signal<Tab>;
+	selected?: Signal<Tab | undefined>;
 	padded?: Expression<boolean | undefined>;
 }) {
 	const theme = THEME.current;
@@ -47,7 +47,7 @@ export function Tabs(props: {
 						selected.value = tab;
 					}}
 				>
-					{tab.label}
+					{tab.label()}
 				</button>}
 			</For>
 		</div>
