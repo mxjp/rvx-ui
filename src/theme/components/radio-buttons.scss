@@ -24,6 +24,11 @@
 	}
 }
 
+.radio_button_padding {
+	padding: var(--input-padding);
+	margin: calc(var(--input-padding) * -1);
+}
+
 .radio_button_input {
 	margin: 0;
 	outline: none;

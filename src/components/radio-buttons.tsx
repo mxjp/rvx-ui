@@ -51,26 +51,27 @@ export function RadioButtons<T>(props: {
 		<For each={props.options}>
 			{(option, index) => {
 				const id = uniqueId();
+				const input = <input
+					id={id}
+					type="radio"
+					class={theme?.radio_button_input}
+					name={group}
+					value={id}
+					disabled={disabled}
+					autofocus={() => get(props.autofocus) && index() === 0}
+					prop:checked={map(props.value, x => x === option.value)}
+					on:input={() => {
+						if (props.value instanceof Signal) {
+							props.value.value = option.value;
+						}
+					}}
+				/>;
 
 				return <label
 					for={id}
 					class={theme?.radio_button_label}
 				>
-					<input
-						id={id}
-						type="radio"
-						class={theme?.radio_button_input}
-						name={group}
-						value={id}
-						disabled={disabled}
-						autofocus={() => get(props.autofocus) && index() === 0}
-						prop:checked={map(props.value, x => x === option.value)}
-						on:input={() => {
-							if (props.value instanceof Signal) {
-								props.value.value = option.value;
-							}
-						}}
-					/>
+					{theme?.radio_button_padding ? <div class={theme.radio_button_padding}>{input}</div> : input}
 					<Text class={theme?.radio_button_content}>
 						{option.label}
 					</Text>

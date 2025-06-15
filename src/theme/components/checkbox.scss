@@ -18,6 +18,11 @@
 	}
 }
 
+.checkbox_padding {
+	padding: var(--input-padding);
+	margin: calc(var(--input-padding) * -1);
+}
+
 .checkbox_input {
 	margin: 0;
 	outline: none;

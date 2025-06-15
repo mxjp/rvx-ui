@@ -42,6 +42,7 @@ export interface Theme {
 	card_danger?: string;
 
 	checkbox_label?: string;
+	checkbox_padding?: string;
 	checkbox_input?: string;
 	checkbox_content?: string;
 
@@ -97,6 +98,7 @@ export interface Theme {
 
 	radio_buttons?: string;
 	radio_button_label?: string;
+	radio_button_padding?: string;
 	radio_button_input?: string;
 	radio_button_content?: string;
 

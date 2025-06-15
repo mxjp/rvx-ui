@@ -6,6 +6,7 @@
 
 	& > input {
 		outline: none;
+		cursor: grab;
 
 		&:focus-visible {
 			outline: var(--focus-outline);

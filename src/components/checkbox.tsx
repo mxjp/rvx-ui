@@ -54,7 +54,7 @@ export function Checkbox(props: {
 		]}
 		style={props.style}
 	>
-		{input}
+		{theme?.checkbox_padding ? <div class={theme.checkbox_padding}>{input}</div> : input}
 		<Text class={theme?.checkbox_content}>
 			{props.children}
 		</Text>
