@@ -34,13 +34,20 @@
 	line-height: 1;
 
 	cursor: pointer;
-
 	outline: none;
-	@include common.padding(control-pad, var(--control-border));
+
+	padding-block:
+		var(--control-pad-block-start)
+		calc(var(--control-pad-block-end) - var(--control-border));
+	padding-inline:
+		var(--control-pad-inline-start)
+		var(--control-pad-inline-end);
 
 	background-color: transparent;
 	color: var(--tab-handle-fg);
-	border: transparent solid var(--control-border);
+	border: none;
+	border-block-end: transparent solid var(--control-border);
+
 	border-radius: var(--control-radius) var(--control-radius) 0 0;
 	transition: var(--color-transition) background-color,
 		var(--color-transition) border-color;
@@ -56,7 +63,7 @@
 }
 
 .tab_handle_current {
-	border-bottom-color: var(--tab-handle-marker);
+	border-block-end-color: var(--tab-handle-marker);
 	color: var(--tab-handle-fg-current);
 }
 
