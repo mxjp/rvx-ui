@@ -16,7 +16,7 @@ export default function() {
 		{
 			label: () => <>Bar</>,
 			content: () => <Column size="control">
-				<Heading level="3">Content A</Heading>
+				<Heading level="3">Content B</Heading>
 				<Link action={() => {
 					selected.value = tabs[0];
 				}}>Go to <Value>Foo</Value></Link>
