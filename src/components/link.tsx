@@ -1,9 +1,8 @@
 import { ClassValue, Expression, get, map, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
-import { optionalString } from "rvx/convert";
+import { optionalString, separated } from "rvx/convert";
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { separated } from "../common/types.js";
 
 export type LinkReferrerPolicy = "no-referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "same-origin" | "strict-origin" | "strict-origin-when-cross-origin" | "unsafe-url";
 
