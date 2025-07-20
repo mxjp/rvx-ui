@@ -1,4 +1,4 @@
-import { $, Context, Expression, get, Inject, memo, Signal, teardown, uncapture, untrack, watch } from "rvx";
+import { $, Component, Context, Expression, get, Inject, memo, Signal, teardown, uncapture, untrack, watch } from "rvx";
 
 import { Action, handleActionEvent, keyFor } from "../common/events.js";
 
@@ -24,6 +24,13 @@ const LAYERS = $<LayerInstance[]>([
 	},
 ]);
 
+const TOP_LAYER: LayerInstance = {
+	roots: [],
+	modal: false,
+	inert: $(false),
+	autoFocusFallback: undefined,
+};
+
 uncapture(() => watch(LAYERS, layers => {
 	const modal = layers.findLastIndex(l => l.modal);
 	for (let i = 0; i < layers.length; i++) {
@@ -31,19 +38,13 @@ uncapture(() => watch(LAYERS, layers => {
 	}
 }));
 
-/**
- * Render content inside the root layer.
- */
-export function RootLayer(props: {
-	children: () => unknown;
-}): unknown {
-	const layer = LAYERS.value[0];
+function staticLayer(layer: LayerInstance, content: Component) {
 	const root = <div
 		style={{ display: "contents" }}
 		inert={layer.inert}
 	>
 		<Inject context={LAYER} value={new Handle(layer)}>
-			{props.children}
+			{content}
 		</Inject>
 	</div> as HTMLDivElement;
 	layer.roots.push(root);
@@ -57,6 +58,26 @@ export function RootLayer(props: {
 }
 
 /**
+ * Render content inside the root layer.
+ */
+export function RootLayer(props: {
+	children: Component;
+}): unknown {
+	return staticLayer(untrack(() => LAYERS.value[0]), props.children);
+}
+
+/**
+ * Render content inside the top layer.
+ *
+ * This layer is not affected by other modal layers.
+ */
+export function TopLayer(props: {
+	children: Component;
+}) {
+	return staticLayer(TOP_LAYER, props.children);
+}
+
+/**
  * An input layer that is inert while there are other modal layers on top of it.
  *
  * After creation, the first element with the "autofocus" attribute inside this layer is focused.
@@ -64,7 +85,7 @@ export function RootLayer(props: {
  * When disposed, focus is moved back to the previously focused element.
  */
 export function Layer(props: {
-	children: () => unknown;
+	children: Component;
 
 	/**
 	 * If true, all layers below this one are marked as inert until the current context is disposed.
@@ -240,6 +261,9 @@ class Handle implements LayerHandle {
 	}
 
 	get top(): boolean {
+		if (this.#instance === TOP_LAYER) {
+			return true;
+		}
 		const layers = LAYERS.value;
 		return layers[layers.length - 1] === this.#instance;
 	}
@@ -276,7 +300,7 @@ class Handle implements LayerHandle {
 		if (i < 0) {
 			return this.contains(node);
 		}
-		for (;;) {
+		for (; ;) {
 			if (instanceContains(layers[i], node)) {
 				return true;
 			}
