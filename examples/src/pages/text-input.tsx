@@ -54,7 +54,7 @@ export default function() {
 					return <DialogBody>
 						<Heading level="2">Message</Heading>
 						<Text>
-						You typed "<Value style={{ "white-space": "pre-wrap" }}>{enterAction.value}</Value>"
+							You typed <Value style={{ "white-space": "pre-wrap" }}>{enterAction.value}</Value>.
 						</Text>
 						<DialogFooter>
 							<Button action={() => dialog.resolve()}>Close</Button>
