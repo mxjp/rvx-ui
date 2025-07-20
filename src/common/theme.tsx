@@ -85,6 +85,16 @@ export interface Theme {
 	nav_list_item?: string;
 	nav_list_item_current?: string;
 
+	notification_host?: string;
+	notification_area?: string;
+	notification?: string;
+	notification_raw?: string;
+	notification_default?: string;
+	notification_info?: string;
+	notification_success?: string;
+	notification_warning?: string;
+	notification_danger?: string;
+
 	page?: string;
 	page_scrollbar_comp?: string;
 	page_content_col?: string;

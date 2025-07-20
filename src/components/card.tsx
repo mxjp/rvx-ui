@@ -13,8 +13,8 @@ export function Card(props: {
 	return <div
 		class={[
 			theme?.card,
+			props.raw ? theme?.card_raw : undefined,
 			map(props.variant, variant => theme?.[`card_${variant ?? "default"}`]),
-			map(props.raw, unpadded => unpadded ? theme?.card_raw : undefined),
 		]}
 	>
 		{props.raw

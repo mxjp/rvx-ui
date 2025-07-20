@@ -1,0 +1,59 @@
+@use "../common";
+
+// TODO: Maybe just use cards with extra marker class for optional style distinction.
+@include common.theme((
+	notification-default-border: (
+		dark: rgb(72, 72, 72),
+	),
+	notification-info-border: (
+		dark: rgb(0, 192, 255),
+	),
+	notification-success-border: (
+		dark: rgb(0, 255, 128),
+	),
+	notification-warning-border: (
+		dark: rgb(255, 200, 0),
+	),
+	notification-danger-border: (
+		dark: rgb(255, 0, 64),
+	),
+	notification-shadow: (
+		dark: 0 0 .5rem rgba(0, 0, 0, .5),
+	),
+));
+
+.notification_host {
+	--overflow-safe-area: .5rem;
+	display: grid;
+	// TODO: Globally configurable position & inline size.
+	grid-template-columns: 1fr minmax(auto, 32rem) 0;
+	grid-template-rows: 1fr auto 0;
+	overflow: auto;
+
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 2;
+	padding: 1rem;
+}
+
+.notification_area {
+	grid-area: 2 / 2;
+}
+
+.notification {
+	pointer-events: all;
+	box-shadow: var(--notification-shadow);
+	border-radius: var(--content-radius);
+	background-color: var(--bg);
+
+	&:not(.notification_raw) {
+		@include common.padding(content-pad, var(--content-border));
+	}
+}
+
+@each $name in (default, info, success, warning, danger) {
+	.notification_#{$name} {
+		border: var(--content-border) solid var(--notification-#{$name}-border);
+	}
+}

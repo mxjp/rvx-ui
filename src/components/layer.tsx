@@ -38,7 +38,7 @@ uncapture(() => watch(LAYERS, layers => {
 	}
 }));
 
-function staticLayer(layer: LayerInstance, content: Component) {
+function staticLayer(layer: LayerInstance, content: Component): unknown {
 	const root = <div
 		style={{ display: "contents" }}
 		inert={layer.inert}
@@ -73,7 +73,7 @@ export function RootLayer(props: {
  */
 export function TopLayer(props: {
 	children: Component;
-}) {
+}): unknown {
 	return staticLayer(TOP_LAYER, props.children);
 }
 
