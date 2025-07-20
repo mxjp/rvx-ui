@@ -1,6 +1,6 @@
 import { Button, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@rvx/ui";
 import { $ } from "rvx";
-import { PopoutControls } from "../common.js";
+import { LoremIpsum, PopoutControls } from "../common.js";
 
 export default function() {
 	const placement = $<PopoutPlacement | undefined>(undefined);
@@ -19,9 +19,7 @@ export default function() {
 			>
 				{() => <>
 					<Heading level="2">Hello World!</Heading>
-					<Text>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit...
-					</Text>
+					<LoremIpsum />
 					<Row>
 						<Popover
 							anchor={props => <Button {...props} autofocus>Toggle nested popover</Button>}
@@ -50,9 +48,7 @@ export default function() {
 				>
 					{() => <>
 						<Heading level="2">Hello World!</Heading>
-						<Text>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit...
-						</Text>
+						<LoremIpsum />
 					</>}
 				</Popover> with line breaks.
 			</Text>

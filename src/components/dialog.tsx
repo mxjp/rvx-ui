@@ -74,9 +74,7 @@ export function DialogBody(props: {
 	description?: unknown;
 
 	inlineSize?: Expression<string | undefined>;
-	maxInlineSize?: Expression<string | undefined>;
 	blockSize?: Expression<string | undefined>;
-	maxBlockSize?: Expression<string | undefined>;
 
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-describedby"?: Expression<string | undefined>;
@@ -101,7 +99,13 @@ export function DialogBody(props: {
 			theme?.dialog_container,
 			props.class,
 		]}
-		style={props.style}
+		style={[
+			props.style,
+			{
+				"--dialog-inline-size": map(props.inlineSize, v => v ?? "auto"),
+				"--dialog-block-size": map(props.blockSize, v => v ?? "auto"),
+			},
+		]}
 		role={map(props.role, v => v ?? "dialog")}
 		aria-labelledby={map(props["aria-labelledby"], v => v ?? titleId)}
 		aria-describedby={map(props["aria-describedby"], v => v ?? descriptionId)}
@@ -112,12 +116,6 @@ export function DialogBody(props: {
 				theme?.column_content,
 				theme?.dialog_body,
 			]}
-			style={{
-				"inline-size": props.inlineSize,
-				"max-inline-size": props.maxInlineSize,
-				"block-size": props.blockSize,
-				"max-block-size": props.maxBlockSize,
-			}}
 		>
 			{head}
 			{props.children}

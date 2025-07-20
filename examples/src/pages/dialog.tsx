@@ -1,5 +1,6 @@
 import { Button, DialogBody, DialogFooter, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
 import { $ } from "rvx";
+import { LoremIpsum } from "../common";
 
 export default function() {
 	return <>
@@ -15,7 +16,7 @@ function showExampleDialog() {
 		LAYER.current?.useHotkey("enter", () => {
 			dialog.resolve(77);
 		});
-		return <DialogBody title="Example Dialog" description="This is an accessible example dialog." maxInlineSize="35rem">
+		return <DialogBody title="Example Dialog" description="This is an accessible example dialog." inlineSize="35rem">
 			<Row>
 				<Button autofocus action={() => {
 					showDialog<void>(dialog => {
@@ -37,9 +38,7 @@ function showExampleDialog() {
 			<Text>
 				The text below is here to demonstrate the dialog's size limitation.
 			</Text>
-			<Text>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit. Aenean sagittis turpis nec pharetra vehicula. Integer quis semper purus, a commodo justo. Proin at quam sit amet lectus vulputate sodales sed a metus. Suspendisse eleifend sit amet urna non consequat. Aenean non lectus viverra, laoreet tortor sit amet, eleifend enim. Fusce at consequat augue, vitae porttitor nisi. Nullam tincidunt vel quam nec rutrum. Pellentesque nec tincidunt quam. Aliquam volutpat elit sem, quis porttitor risus cursus a. Sed a nunc risus. Nam porta tincidunt libero, quis pretium turpis.
-			</Text>
+			<LoremIpsum />
 			<DialogFooter>
 				<Button action={() => dialog.reject()}>Cancel</Button>
 				<Button action={() => dialog.resolve(42)} variant="primary">Ok</Button>

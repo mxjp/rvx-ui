@@ -1,5 +1,6 @@
 import { Button, Card, Collapse, Heading, Link, Row, Text } from "@rvx/ui";
 import { $ } from "rvx";
+import { LoremIpsum } from "../common";
 
 export default function() {
 	const visible = $(false);
@@ -23,9 +24,7 @@ export default function() {
 				</Link>
 			</Text>
 			<Collapse visible={visible}>
-				<Text>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut cursus augue, in ornare metus. Maecenas vulputate tristique arcu. Morbi rhoncus massa sed facilisis interdum. Vestibulum efficitur id neque in suscipit...
-				</Text>
+				<LoremIpsum />
 			</Collapse>
 		</Card>
 
