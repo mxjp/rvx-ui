@@ -2,13 +2,15 @@
 .collapse {
 	display: block;
 	position: relative;
+	opacity: 0;
 	--space-scale: 0;
 }
 
 .collapse_sized {
 	transition:
 		margin-block-start var(--layout-transition),
-		margin-block-end var(--layout-transition);
+		margin-block-end var(--layout-transition),
+		opacity var(--layout-transition);
 }
 
 @keyframes alert {
@@ -24,6 +26,7 @@
 
 .collapse_visible.collapse_visible {
 	--space-scale: 1;
+	opacity: 1;
 }
 
 .collapse_view {
