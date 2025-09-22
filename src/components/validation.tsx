@@ -179,13 +179,18 @@ export class Validator {
 	}
 }
 
+export type ValidationTarget = Validator | Signal<unknown>;
+
 /**
  * Get the validator attached to the specified target.
  *
  * @param target The target.
  * @returns The validator or `undefined` if there is none.
  */
-export function validatorFor(target: Signal<unknown>): Validator | undefined {
+export function validatorFor(target: ValidationTarget): Validator | undefined {
+	if (target instanceof Validator) {
+		return target;
+	}
 	return VALIDATORS.get(target);
 }
 
@@ -195,14 +200,13 @@ export function validatorFor(target: Signal<unknown>): Validator | undefined {
  * @param target The target.
  * @returns The validator or `undefined` if there is none.
  */
-export function closestValidator(target: Signal<unknown>): Validator | undefined;
-export function closestValidator(target: Signal<unknown> | undefined): Validator | undefined {
+export function closestValidator(target: ValidationTarget | undefined): Validator | undefined {
 	while (target) {
-		const validator = VALIDATORS.get(target);
+		const validator = validatorFor(target);
 		if (validator) {
 			return validator;
 		}
-		target = target.source;
+		target = (target as Signal<unknown>).source;
 	}
 }
 
@@ -213,7 +217,7 @@ export function closestValidator(target: Signal<unknown> | undefined): Validator
  * @param abortSignal An optional abort signal to abort validation if supported.
  * @returns `true` if valid.
  */
-export async function validate(targets: Signal<unknown>[], abortSignal?: AbortSignal): Promise<boolean> {
+export async function validate(targets: ValidationTarget[], abortSignal?: AbortSignal): Promise<boolean> {
 	const tasks: Promise<boolean>[] = [];
 	for (let i = 0; i < targets.length; i++) {
 		const validator = validatorFor(targets[i]);
