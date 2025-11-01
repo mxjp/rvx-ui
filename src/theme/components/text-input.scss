@@ -29,6 +29,7 @@
 	box-shadow: var(--control-shadow);
 	background-color: var(--text-input-bg);
 	color: var(--text-input-fg);
+	line-height: calc(1em + var(--line-gap));
 
 	&:focus {
 		border-color: var(--text-input-border-lit);
