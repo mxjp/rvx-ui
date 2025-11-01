@@ -21,6 +21,5 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
-          scope: mxjp
       - run: npm ci
-      - run: npm publish --provenance --access=public
+      - run: npm publish --provenance
