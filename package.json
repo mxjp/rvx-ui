@@ -43,14 +43,14 @@
 	},
 	"devDependencies": {
 		"@mxjp/parallel": "^1.0.2",
-		"@types/jsdom": "^21.1.7",
-		"@types/node": "^22.15.19",
-		"jsdom": "^26.1.0",
-		"sass": "^1.89.2",
-		"typescript": "^5.8.3",
+		"@types/jsdom": "^27.0.0",
+		"@types/node": "^24.9.2",
+		"jsdom": "^27.1.0",
+		"sass": "^1.93.3",
+		"typescript": "^5.9.3",
 		"@rvx/ui": "file:."
 	},
 	"dependencies": {
-		"rvx": "^22.2.3"
+		"rvx": "^22.2.4"
 	}
 }
