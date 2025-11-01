@@ -21,10 +21,12 @@ export default function() {
 			{ value: "bar", label: "Bar" },
 		]} />
 
-		<Heading level="2">States</Heading>
+		<Heading level="2">Readonly</Heading>
 		<RadioButtons value="foo" options={[
 			{ value: "foo", label: "Readonly" },
 		]} />
+
+		<Heading level="2">Disabled</Heading>
 		<RadioButtons value={$("foo")} disabled options={[
 			{ value: "foo", label: "Disabled" },
 		]} />

@@ -7,7 +7,7 @@ export function PopoutControls(props: {
 	alignment: Signal<PopoutAlignment | undefined>;
 	defaultAlignment: unknown;
 }) {
-	return <Row>
+	return <Row size="content">
 		<Column>
 			<LabelFor label="Placement">
 				{id => <RadioButtons<PopoutPlacement | undefined> value={props.placement} id={id} options={[
