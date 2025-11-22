@@ -20,6 +20,11 @@
 	inset: 0;
 }
 
+.scroll_view_area:focus-visible {
+	outline: var(--focus-outline);
+	outline-offset: calc(var(--control-border) * -1);
+}
+
 .scroll_view_content {
 	inline-size: 100%;
 	min-block-size: 100%;

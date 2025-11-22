@@ -56,15 +56,18 @@ export interface Theme {
 	column?: string;
 	column_padded?: string;
 	column_content?: string;
+	column_group?: string;
 	column_control?: string;
 
 	control_group?: string;
 
 	dialog_container?: string;
 	dialog_body?: string;
-	dialog_footer?: string;
 	dialog_fadein?: string;
 	dialog_fadeout?: string;
+	dialog_scroll_view?: string;
+	dialog_scroll_view_content?: string;
+	dialog_footer?: string;
 
 	dropdown?: string;
 	dropdown_expansion?: string;
@@ -114,6 +117,7 @@ export interface Theme {
 
 	row?: string;
 	row_content?: string;
+	row_group?: string;
 	row_control?: string;
 
 	scroll_view?: string;

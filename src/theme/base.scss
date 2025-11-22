@@ -15,12 +15,16 @@ $root-size: 14px;
 	--accent: rgb(0, 192, 255);
 	accent-color: var(--accent);
 
-	--content-column-gap: #{px(16)};
-	--content-row-gap: #{px(16)};
+	--content-column-gap: #{px(24)};
+	--content-row-gap: #{px(24)};
 	--content-radius: #{px(8)};
 	--content-border: #{px(2)};
 	--content-shadow: 0 0 #{px(16)} rgba(0, 0, 0, .2);
 	@include common.define-quad(content-pad, px(20), px(20));
+
+	--group-column-gap: #{px(16)};
+	--group-row-gap: #{px(16)};
+	@include common.define-quad(group-pad, px(20), px(20));
 
 	--control-column-gap: #{px(8)};
 	--control-row-gap: #{px(8)};

@@ -27,7 +27,7 @@
 	}
 }
 
-@each $size in "content", "control" {
+@each $size in "content", "group", "control" {
 	.column_#{$size} {
 		row-gap: var(--#{$size}-row-gap);
 		& > * {

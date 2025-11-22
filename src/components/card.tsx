@@ -1,11 +1,13 @@
 import { Expression, map } from "rvx";
 import { THEME } from "../common/theme.js";
+import { SizeContext } from "../common/types.js";
 import { Column } from "./column.js";
 
 export type CardVariant = "default" | "info" | "success" | "warning" | "danger";
 
 export function Card(props: {
 	variant?: Expression<CardVariant | undefined>;
+	size?: SizeContext;
 	raw?: boolean;
 	children?: unknown;
 }): unknown {
@@ -19,7 +21,7 @@ export function Card(props: {
 	>
 		{props.raw
 			? props.children
-			: <Column class={theme?.card_content}>
+			: <Column class={theme?.card_content} size={map(props.size, s => s ?? "group")}>
 				{props.children}
 			</Column>
 		}

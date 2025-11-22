@@ -1,4 +1,4 @@
-import { Button, Checkbox, Collapse, Column, Heading, intParser, LabelFor, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
+import { Button, Checkbox, Collapse, Column, Group, Heading, intParser, LabelFor, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
 import { $, Inject, Nest, Show } from "rvx";
 import { trim } from "rvx/convert";
 
@@ -11,33 +11,37 @@ function BaseExample() {
 	}
 
 	return <>
-		<LabelFor label="Username">
-			{id => <TextInput
-				id={id}
-				value={name
-					.pipe(rule, name => /^[a-z0-9]*$/.test(name), () => <>The name must contain only letters and numbers.</>)
-					.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
-					.pipe(trim)
-				}
-			/>}
-		</LabelFor>
-		<ValidationMessages for={name} />
+		<Group>
+			<LabelFor label="Username">
+				{id => <TextInput
+					id={id}
+					value={name
+						.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
+						.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
+						.pipe(trim)
+					}
+				/>}
+			</LabelFor>
+			<ValidationMessages for={name} />
+		</Group>
 
-		<LabelFor label="Network Port">
-			{id => <TextInput
-				id={id}
-				value={port
-					.pipe(intParser, {
-						format: () => <>Enter a valid port.</>,
-						range: () => <>The port must range from 1 to {0xFFFF}.</>,
-						min: 1,
-						max: 0xFFFF,
-					})
-					.pipe(trim)
-				}
-			/>}
-		</LabelFor>
-		<ValidationMessages for={port} />
+		<Group>
+			<LabelFor label="Network Port">
+				{id => <TextInput
+					id={id}
+					value={port
+						.pipe(intParser, {
+							format: () => <>Enter a valid port.</>,
+							range: () => <>The port must range from 1 to {0xFFFF}.</>,
+							min: 1,
+							max: 0xFFFF,
+						})
+						.pipe(trim)
+					}
+				/>}
+			</LabelFor>
+			<ValidationMessages for={port} />
+		</Group>
 
 		<Row>
 			<Button variant="primary" action={ok}>Validate</Button>
@@ -63,14 +67,16 @@ function CustomRulesExample() {
 	});
 
 	return <>
-		<LabelFor label="Options">
-			{id => <Column id={id} size="control">
-				<Checkbox checked={foo}>Foo</Checkbox>
-				<Checkbox checked={bar}>Bar</Checkbox>
-				<Checkbox checked={baz}>Baz</Checkbox>
-			</Column>}
-		</LabelFor>
-		<ValidationMessages for={validator} />
+		<Group>
+			<LabelFor label="Options">
+				{id => <Column id={id} size="control">
+					<Checkbox checked={foo}>Foo</Checkbox>
+					<Checkbox checked={bar}>Bar</Checkbox>
+					<Checkbox checked={baz}>Baz</Checkbox>
+				</Column>}
+			</LabelFor>
+			<ValidationMessages for={validator} />
+		</Group>
 
 		<Row>
 			<Button variant="primary" action={async () => {

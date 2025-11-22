@@ -2,7 +2,7 @@
 .slider_host {
 	display: flex;
 	flex-direction: column;
-	row-gap: var(--control-row-gap);
+	row-gap: var(--group-row-gap);
 
 	& > input {
 		outline: none;

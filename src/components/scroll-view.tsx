@@ -6,6 +6,8 @@ import { axisEquals, DOWN, getBlockStart, getSize, RIGHT, UP, WritingMode } from
 export function ScrollView(props: {
 	class?: ClassValue;
 	style?: StyleValue;
+	contentClass?: ClassValue;
+	contentStyle?: StyleValue;
 	children?: unknown;
 }): unknown {
 	const theme = THEME.current;
@@ -39,11 +41,18 @@ export function ScrollView(props: {
 	};
 
 	const area = <div
-		class={theme?.scroll_view_area}
-		style={{
-			overflow: () => vertical.value ? "hidden auto" : "auto hidden",
-		}}
+		class={[
+			props.contentClass,
+			theme?.scroll_view_area,
+		]}
+		style={[
+			props.contentStyle,
+			{
+				overflow: () => vertical.value ? "hidden auto" : "auto hidden",
+			}
+		]}
 		on:scroll={[debounceEvent(100, () => updateIndicators()), { passive: true }]}
+		tabindex="0"
 	>
 		{content}
 	</div> as HTMLElement;

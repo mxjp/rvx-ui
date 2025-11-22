@@ -23,7 +23,7 @@ export function showNotification(content: Component<Notification>, options?: Not
 	const theme = THEME.current;
 	if (!host) {
 		host = render(<div class={theme?.notification_host}>
-			<Column class={theme?.notification_area}>
+			<Column class={theme?.notification_area} size="group">
 				<For each={instances}>
 					{instance => instance()}
 				</For>
@@ -45,7 +45,7 @@ export function showNotification(content: Component<Notification>, options?: Not
 			]}>
 				{options?.raw
 					? content(handle)
-					: <Column>
+					: <Column size="group">
 						{content(handle)}
 					</Column>
 				}

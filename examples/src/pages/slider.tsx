@@ -1,4 +1,4 @@
-import { coupleMinMax, Heading, LabelFor, Slider, sliderMarkers } from "@rvx/ui";
+import { coupleMinMax, Group, Heading, LabelFor, Slider, sliderMarkers } from "@rvx/ui";
 import { $ } from "rvx";
 
 export default function() {
@@ -16,9 +16,11 @@ export default function() {
 
 	return <>
 		<Heading level="1">Sliders</Heading>
-		<Slider value={a} min={0} max={10} step={1}>
-			Current value: {a}
-		</Slider>
+		<Group>
+			<Slider value={a} min={0} max={10} step={1}>
+				Current value: {a}
+			</Slider>
+		</Group>
 
 		<Heading level="2">Markers</Heading>
 		<LabelFor label="Uniform markers">

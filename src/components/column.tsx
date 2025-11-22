@@ -27,3 +27,10 @@ export function Column(props: {
 		{props.children}
 	</div>;
 }
+
+/**
+ * Shorthand for `<Column size="group">...`
+ */
+export function Group(props: Omit<Parameters<typeof Column>[0], "size">) {
+	return Column({ size: "group", ...props });
+}

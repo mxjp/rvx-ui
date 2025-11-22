@@ -1,4 +1,4 @@
-import { Button, Column, DialogBody, DialogFooter, Heading, LabelFor, Row, showDialog, Text, TextInput, Value } from "@rvx/ui";
+import { Button, Column, DialogBody, DialogFooter, Group, Heading, LabelFor, Row, showDialog, Text, TextInput, Value } from "@rvx/ui";
 import { $ } from "rvx";
 import { debounce, trim } from "rvx/convert";
 
@@ -10,42 +10,38 @@ export default function() {
 
 	return <Column>
 		<Heading level="1">Text Inputs</Heading>
-		<Row>
-			<Column>
+		<Group>
+			<Row>
 				<LabelFor label="Trimmed">
 					{id => {
 						return <TextInput id={id} value={text.pipe(trim)} />;
 					}}
 				</LabelFor>
-			</Column>
-			<Column>
 				<LabelFor label="Trimmed & Debounced">
 					{id => {
 						return <TextInput id={id} value={text.pipe(trim).pipe(debounce, 300)} />;
 					}}
 				</LabelFor>
-			</Column>
-		</Row>
-		<Text>
-			You typed "<Value style={{ "white-space": "pre-wrap" }}>{text}</Value>"
-		</Text>
-		<Row>
-			<Button disabled={() => text.value === defaultText} action={() => { text.value = defaultText }}>Reset</Button>
-		</Row>
+			</Row>
+			<Text>
+				You typed "<Value style={{ "white-space": "pre-wrap" }}>{text}</Value>"
+			</Text>
+			<Row>
+				<Button disabled={() => text.value === defaultText} action={() => { text.value = defaultText }}>Reset</Button>
+			</Row>
+		</Group>
 
 		<Heading level="2">States</Heading>
-		<Row>
-			<Column>
+		<Group>
+			<Row>
 				<LabelFor label="Readonly">
 					{id => <TextInput id={id} value="Hello World!" />}
 				</LabelFor>
-			</Column>
-			<Column>
 				<LabelFor label="Disabled">
 					{id => <TextInput id={id} value="Hello World!" disabled />}
 				</LabelFor>
-			</Column>
-		</Row>
+			</Row>
+		</Group>
 
 		<Heading level="2">Enter action</Heading>
 		<Row>

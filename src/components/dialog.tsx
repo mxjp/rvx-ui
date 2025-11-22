@@ -1,6 +1,6 @@
 import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, render, StyleValue, teardown, uniqueId } from "rvx";
 import { TASKS, Tasks, useMicrotask } from "rvx/async";
-import { FlexSpace, Heading, Row, Text, THEME } from "../index.js";
+import { FlexSpace, Heading, Row, ScrollView, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
 
 export class DialogAbortError extends Error {}
@@ -140,6 +140,15 @@ export function DialogBody(props: {
 	});
 
 	return body;
+}
+
+export function DialogScrollView(props: {
+	children?: unknown;
+}) {
+	const theme = THEME.current;
+	return <ScrollView class={theme?.dialog_scroll_view} contentClass={theme?.dialog_scroll_view_content}>
+		{props.children}
+	</ScrollView>;
 }
 
 export function DialogFooter(props: {

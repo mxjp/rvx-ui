@@ -1,4 +1,4 @@
-import { Button, Heading, Row, Text } from "@rvx/ui";
+import { Button, Group, Heading, Row, Text } from "@rvx/ui";
 import { useAbortSignal } from "rvx/async";
 
 export default function() {
@@ -17,16 +17,18 @@ export default function() {
 		</Row>
 
 		<Heading level="2">Async Actions</Heading>
-		<Row>
-			<Button action={() => {
-				return new Promise(r => {
-					abort.addEventListener("abort", () => r());
-					setTimeout(r, 3000);
-				});
-			}}>Wait for 3 seconds</Button>
-		</Row>
-		<Text>
-			This async action can be aborted by navigating to another page.
-		</Text>
+		<Group>
+			<Row>
+				<Button action={() => {
+					return new Promise(r => {
+						abort.addEventListener("abort", () => r());
+						setTimeout(r, 3000);
+					});
+				}}>Wait for 3 seconds</Button>
+			</Row>
+			<Text>
+				This async action can be aborted by navigating to another page.
+			</Text>
+		</Group>
 	</>;
 }

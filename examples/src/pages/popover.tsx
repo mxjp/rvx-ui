@@ -1,4 +1,4 @@
-import { Button, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@rvx/ui";
+import { Button, Group, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@rvx/ui";
 import { $ } from "rvx";
 import { LoremIpsum, PopoutControls } from "../common.js";
 
@@ -17,7 +17,7 @@ export default function() {
 				alignment={alignment}
 				maxInlineSize="32rem"
 			>
-				{() => <>
+				{() => <Group>
 					<Heading level="2">Hello World!</Heading>
 					<LoremIpsum />
 					<Row>
@@ -37,7 +37,7 @@ export default function() {
 							</>}
 						</Popover>
 					</Row>
-				</>}
+				</Group>}
 			</Popover>
 			<Text>
 				This is a <Popover
@@ -46,10 +46,10 @@ export default function() {
 					alignment={alignment}
 					maxInlineSize="32rem"
 				>
-					{() => <>
+					{() => <Group>
 						<Heading level="2">Hello World!</Heading>
 						<LoremIpsum />
-					</>}
+					</Group>}
 				</Popover> with line breaks.
 			</Text>
 		</Row>

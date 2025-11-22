@@ -66,6 +66,13 @@
 	@include common.padding(content-pad, var(--content-border));
 }
 
-.dialog_footer {
-	--space-above: 2rem;
+.dialog_scroll_view {
+	border-block-start: var(--content-border) solid var(--dialog-border);
+	border-block-end: var(--content-border) solid var(--dialog-border);
+	margin-inline-start: calc(var(--content-pad-inline-start) * -1 + var(--content-border));
+	margin-inline-end: calc(var(--content-pad-inline-end) * -1 + var(--content-border));
+}
+
+.dialog_scroll_view_content {
+	@include common.padding(content-pad, var(--content-border));
 }

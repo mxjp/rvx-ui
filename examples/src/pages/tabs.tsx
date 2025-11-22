@@ -1,4 +1,4 @@
-import { Card, Column, Heading, Link, Tab, Tabs, Text, Value } from "@rvx/ui";
+import { Card, Column, Group, Heading, Link, Tab, Tabs, Text, Value } from "@rvx/ui";
 import { $, Show } from "rvx";
 
 export default function() {
@@ -26,28 +26,8 @@ export default function() {
 
 	return <>
 		<Heading level="1">Tabs</Heading>
-		<Tabs tabs={[
-			{
-				label: () => <>Foo</>,
-				content: () => <>Content A</>,
-			},
-			{
-				label: () => <>Bar</>,
-				content: () => <>Content B</>,
-			},
-		]} />
-
-		<Heading level="2">Selection</Heading>
-		<Text>
-			Selected tab: <Show when={selected}>
-				{tab => <Value>{tab.label()}</Value>}
-			</Show>
-		</Text>
-		<Tabs selected={selected} tabs={tabs} />
-
-		<Heading level="2">Embedding</Heading>
-		<Card raw>
-			<Tabs padded tabs={[
+		<Group>
+			<Tabs tabs={[
 				{
 					label: () => <>Foo</>,
 					content: () => <>Content A</>,
@@ -57,6 +37,34 @@ export default function() {
 					content: () => <>Content B</>,
 				},
 			]} />
-		</Card>
+		</Group>
+
+		<Heading level="2">Selection</Heading>
+		<Group>
+			<Text>
+				Selected tab: <Show when={selected}>
+					{tab => <Value>{tab.label()}</Value>}
+				</Show>
+			</Text>
+		</Group>
+		<Group>
+			<Tabs selected={selected} tabs={tabs} />
+		</Group>
+
+		<Heading level="2">Embedding</Heading>
+		<Group>
+			<Card raw>
+				<Tabs padded tabs={[
+					{
+						label: () => <>Foo</>,
+						content: () => <>Content A</>,
+					},
+					{
+						label: () => <>Bar</>,
+						content: () => <>Content B</>,
+					},
+				]} />
+			</Card>
+		</Group>
 	</>;
 }

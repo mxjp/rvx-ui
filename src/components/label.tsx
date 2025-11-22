@@ -1,5 +1,6 @@
 import { ClassValue, Expression, StyleValue, uniqueId } from "rvx";
 import { THEME } from "../common/theme.js";
+import { Group } from "./column.js";
 
 export function Label(props: {
 	class?: ClassValue;
@@ -29,8 +30,8 @@ export function LabelFor(props: {
 	children: (id: string) => unknown;
 }): unknown {
 	const id = uniqueId();
-	return <>
+	return <Group>
 		<Label class={props.class} style={props.style} for={id}>{props.label}</Label>
 		{props.children(id)}
-	</>;
+	</Group>;
 }
