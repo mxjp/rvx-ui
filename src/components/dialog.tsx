@@ -133,7 +133,7 @@ export function DialogBody(props: {
 		if (theme?.dialog_fadeout) {
 			body.classList.add(theme.dialog_fadeout);
 		}
-		const duration = parseInt(getComputedStyle(body).getPropertyValue("--dialog-fadeout-ms"));
+		const duration = parseInt(getComputedStyle(body).getPropertyValue("--layout-transition-ms"));
 		if (Number.isSafeInteger(duration)) {
 			tasks.push(new Promise(resolve => setTimeout(resolve, duration)));
 		}
