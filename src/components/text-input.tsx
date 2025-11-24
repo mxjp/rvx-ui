@@ -1,5 +1,5 @@
 import { ClassValue, Expression, get, Signal, StyleValue } from "rvx";
-import { isPending, waitFor } from "rvx/async";
+import { isPending, TASKS } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { keyFor } from "../common/events.js";
 import { THEME } from "../common/theme.js";
@@ -101,7 +101,7 @@ export function TextInput(props: ({
 				event.preventDefault();
 				event.stopImmediatePropagation();
 				if (result instanceof Promise) {
-					waitFor(result);
+					TASKS.current?.waitFor(result);
 				}
 			}
 		}}
