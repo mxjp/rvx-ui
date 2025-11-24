@@ -21,15 +21,14 @@ export function ScrollView(props: {
 	</div> as HTMLElement;
 
 	const updateIndicators = (blockStart = getBlockStart(getComputedStyle(area).writingMode as WritingMode || "horizontal-tb")) => {
-		const areaSize = getSize(area.getBoundingClientRect(), blockStart);
 		let start: number;
 		let end: number;
 		if (blockStart === UP || blockStart === DOWN) {
 			start = area.scrollTop;
-			end = area.scrollHeight - start - areaSize;
+			end = area.scrollHeight - start - area.clientHeight;
 		} else {
 			start = area.scrollLeft;
-			end = area.scrollWidth - start - areaSize;
+			end = area.scrollWidth - start - area.clientWidth;
 		}
 		if (blockStart === DOWN || blockStart === RIGHT) {
 			const x = start;
