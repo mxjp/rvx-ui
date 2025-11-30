@@ -44,7 +44,10 @@ export default function() {
 		<Group>
 			<Column style={{ outline }}>
 				<Heading level="2">Heading</Heading>
-				<Text>Automatic heading layout</Text>
+				<Group style={{ outline }}>
+					<Text>Automatic heading layout</Text>
+					<Text>Some more text...</Text>
+				</Group>
 				<Heading level="3">Heading</Heading>
 				<Text>Automatic heading layout</Text>
 			</Column>

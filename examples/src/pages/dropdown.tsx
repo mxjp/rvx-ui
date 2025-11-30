@@ -10,8 +10,10 @@ export default function() {
 
 	return <>
 		<Heading level="1">Dropdowns</Heading>
+		<PopoutControls placement={placement} defaultPlacement="block end" alignment={alignment} defaultAlignment="start" />
+
+		<Heading level="2">Custom Dropdowns</Heading>
 		<Group>
-			<PopoutControls placement={placement} defaultPlacement="block end" alignment={alignment} defaultAlignment="start" />
 			<Row>
 				<Dropdown
 					anchor={props => <Button {...props}>Toggle dropdown</Button>}

@@ -1,4 +1,4 @@
-import { Button, Checkbox, Collapse, Column, Group, Heading, intParser, LabelFor, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
+import { Button, Card, Checkbox, Collapse, Column, Group, Heading, intParser, LabelFor, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
 import { $, Inject, Nest, Show } from "rvx";
 import { trim } from "rvx/convert";
 
@@ -92,10 +92,21 @@ export default function() {
 	const trigger = $<ValidationTrigger | undefined>(undefined);
 
 	return <>
+		<Heading level="1">Validation</Heading>
+		<Card>
+			<LabelFor label="Trigger">
+				{id => <RadioButtons<ValidationTrigger | undefined> id={id} value={trigger} options={[
+					{ value: "if-validated", label: "if-validated" },
+					{ value: undefined, label: "if-invalid (default)" },
+					{ value: "never", label: "never" },
+				]} />}
+			</LabelFor>
+		</Card>
+
 		<Nest watch={() => [trigger.value]}>
 			{([trigger]) => <Inject context={VALIDATION} value={{ trigger }}>
 				{() => <>
-					<Heading level="1">Validation</Heading>
+					<Heading level="2">Basic Rules</Heading>
 					<BaseExample />
 
 					<Heading level="2">Custom & Composite Rules</Heading>
@@ -103,14 +114,5 @@ export default function() {
 				</>}
 			</Inject>}
 		</Nest>
-
-		<Heading level="2">Configuration</Heading>
-		<LabelFor label="Trigger">
-			{id => <RadioButtons<ValidationTrigger | undefined> id={id} value={trigger} options={[
-				{ value: "if-validated", label: "if-validated" },
-				{ value: undefined, label: "if-invalid (default)" },
-				{ value: "never", label: "never" },
-			]} />}
-		</LabelFor>
 	</>;
 }

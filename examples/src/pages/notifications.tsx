@@ -9,10 +9,8 @@ export default function() {
 				<NotificationTypes />
 				<Button action={() => {
 					showDialog<void>(dialog => {
-						return <DialogBody title="Example" inlineSize="20rem">
-							<Row>
-								<NotificationTypes />
-							</Row>
+						return <DialogBody title="Example">
+							<NotificationTypes />
 							<DialogFooter>
 								<Button action={() => dialog.resolve()}>Close</Button>
 							</DialogFooter>
@@ -27,7 +25,7 @@ export default function() {
 }
 
 function NotificationTypes() {
-	return <>
+	return <Row>
 		<Button action={() => {
 			showNotification(() => <>
 				<Text>Hello World!</Text>
@@ -42,5 +40,5 @@ function NotificationTypes() {
 				</Row>
 			</>, { variant: "success" });
 		}}>Custom Handling</Button>
-	</>;
+	</Row>;
 }
