@@ -1,4 +1,4 @@
-import { waitFor } from "rvx/async";
+import { TASKS } from "rvx/async";
 
 /**
  * Get an identifier for the pressed key including any modifiers.
@@ -63,7 +63,7 @@ export function handleActionEvent<T extends unknown[]>(event: Event, action: Act
 	event.preventDefault();
 	event.stopImmediatePropagation();
 	if (result instanceof Promise) {
-		waitFor(result);
+		TASKS.current?.waitFor(result);
 	}
 	return true;
 }
