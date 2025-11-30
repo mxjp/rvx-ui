@@ -43,14 +43,14 @@
 	},
 	"devDependencies": {
 		"@mxjp/parallel": "^1.0.2",
+		"@rvx/ui": "file:.",
 		"@types/jsdom": "^27.0.0",
-		"@types/node": "^24.9.2",
-		"jsdom": "^27.1.0",
-		"sass": "^1.93.3",
-		"typescript": "^5.9.3",
-		"@rvx/ui": "file:."
+		"@types/node": "^24.10.1",
+		"jsdom": "^27.2.0",
+		"sass": "^1.94.2",
+		"typescript": "^5.9.3"
 	},
-	"dependencies": {
+	"peerDependencies": {
 		"rvx": "^22.4.1"
 	}
 }
