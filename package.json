@@ -51,6 +51,6 @@
 		"typescript": "^5.9.3"
 	},
 	"peerDependencies": {
-		"rvx": "^22.4.1"
+		"rvx": "^22.4.2"
 	}
 }
