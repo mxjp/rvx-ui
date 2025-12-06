@@ -5,7 +5,7 @@
 	flex-wrap: wrap;
 }
 
-@each $size in "content", "control" {
+@each $size in "content", "group", "control" {
 	.row_#{$size} {
 		column-gap: var(--#{$size}-column-gap);
 		row-gap: var(--#{$size}-row-gap);
