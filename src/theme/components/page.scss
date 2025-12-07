@@ -1,7 +1,14 @@
 
 .page {
-	margin: 2rem;
+	padding-block:
+		var(--page-pad-block-start)
+		var(--page-pad-block-end);
+	padding-inline:
+		var(--page-pad-inline-start)
+		var(--page-pad-inline-end);
+
 	display: flex;
+	flex-direction: row;
 	justify-content: center;
 }
 
@@ -14,9 +21,10 @@
 .page_content_col {
 	flex-grow: 1;
 	max-inline-size: var(--page-inline-size);
-	flex-basis: calc(var(--page-inline-size) - var(--scrollbar-comp, 0));
+	flex-basis: calc(var(--page-inline-size) - var(--scrollbar-comp, 0px));
 }
 
 .page_content {
-	--scrollbar-size: 0rem;
+	--scrollbar-comp: unset;
+	--page-inline-size: unset;
 }
