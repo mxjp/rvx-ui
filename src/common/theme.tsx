@@ -23,6 +23,10 @@ export const THEME = new Context<Theme | undefined>(undefined);
  * ```
  */
 export interface Theme {
+	breadcrumbs?: string;
+	breadcrumb_item?: string;
+	breadcrumb_separator?: string;
+
 	button?: string;
 	button_default?: string;
 	button_primary?: string;

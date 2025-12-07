@@ -1,0 +1,37 @@
+@use "../common";
+
+@include common.theme((
+	breadcrumb-separator: (
+		dark: rgb(120, 120, 120),
+	),
+));
+
+.breadcrumbs {
+	flex-wrap: wrap;
+	column-gap: var(--control-column-gap);
+	row-gap: var(--control-row-gap);
+}
+
+.breadcrumbs, .breadcrumb_item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	column-gap: var(--control-column-gap);
+	row-gap: var(--control-row-gap);
+}
+
+.breadcrumb_item {
+	line-height: calc(1em + var(--line-gap));
+	margin-block: calc(var(--line-gap) / -2);
+}
+
+.breadcrumb_separator {
+	block-size: calc(1em + var(--line-gap));
+	display: block;
+	position: relative;
+}
+
+.breadcrumb_separator svg {
+	block-size: 100%;
+	stroke: var(--breadcrumb-separator);
+}

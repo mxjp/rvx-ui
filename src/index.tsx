@@ -3,6 +3,7 @@ export * from "./common/events.js";
 export * from "./common/theme.js";
 export * from "./common/types.js";
 export * from "./common/writing-mode.js";
+export * from "./components/breadcrumbs.js";
 export * from "./components/button.js";
 export * from "./components/card.js";
 export * from "./components/checkbox.js";
