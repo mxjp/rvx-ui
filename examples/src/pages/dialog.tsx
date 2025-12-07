@@ -1,4 +1,4 @@
-import { Button, Column, DialogBody, DialogFooter, DialogScrollView, Group, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
+import { Button, DialogBody, DialogFooter, DialogScrollView, Group, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
 import { $ } from "rvx";
 import { LoremIpsum } from "../common";
 
