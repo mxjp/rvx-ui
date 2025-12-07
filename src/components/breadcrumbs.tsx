@@ -1,7 +1,7 @@
 import { ClassValue, Expression, For, Inject, Show, StyleValue, SVG, XMLNS } from "rvx";
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
-import { Link } from "./link";
+import { Link } from "./link.js";
 
 export interface Breadcrumb {
 	label: unknown;
