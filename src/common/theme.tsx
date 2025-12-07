@@ -103,6 +103,7 @@ export interface Theme {
 	notification_danger?: string;
 
 	page?: string;
+	page_center_block?: string;
 	page_scrollbar_comp?: string;
 	page_content_col?: string;
 	page_content?: string;

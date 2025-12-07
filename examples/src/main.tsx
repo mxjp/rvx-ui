@@ -51,7 +51,7 @@ mount(
 				<ScrollView>
 					<Routes routes={[
 						...routes,
-						{ content: () => <Page inlineSize="20rem">
+						{ content: () => <Page inlineSize="20rem" centerBlock>
 							<Heading level="1">404</Heading>
 						</Page> }
 					]} />

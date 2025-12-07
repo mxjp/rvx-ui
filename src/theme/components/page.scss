@@ -12,6 +12,19 @@
 	justify-content: center;
 }
 
+.page_center_block {
+	flex-grow: 1;
+
+	& > .page_content_col {
+		display: grid;
+		grid-template-rows: 5fr auto 7fr;
+
+		& > .page_content {
+			grid-row: 2;
+		}
+	}
+}
+
 .page_scrollbar_comp {
 	flex-grow: 1;
 	flex-basis: 0;

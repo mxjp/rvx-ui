@@ -1,9 +1,10 @@
-import { ClassValue, Expression, StyleValue } from "rvx";
+import { ClassValue, Expression, map, StyleValue } from "rvx";
 import { THEME } from "../common/theme.js";
 import { Column } from "./column.js";
 
 export function Page(props: {
 	inlineSize?: Expression<string | undefined>;
+	centerBlock?: Expression<boolean>;
 	role?: Expression<string | undefined>;
 	id?: Expression<string | undefined>;
 	class?: ClassValue;
@@ -17,6 +18,7 @@ export function Page(props: {
 		class={[
 			props.class,
 			theme?.page,
+			map(props.centerBlock, v => v ? theme?.page_center_block : undefined),
 		]}
 		style={[
 			props.style,
