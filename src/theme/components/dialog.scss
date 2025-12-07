@@ -23,7 +23,7 @@
 
 	display: grid;
 	grid-template-columns: 1fr minmax(auto, var(--dialog-inline-size)) 1fr;
-	grid-template-rows: 3fr minmax(auto, var(--dialog-block-size)) 4fr;
+	grid-template-rows: 5fr minmax(auto, var(--dialog-block-size)) 7fr;
 
 	overflow: auto;
 
