@@ -21,7 +21,7 @@ $root-size: 14px;
 	--content-row-gap: #{px(24)};
 	--content-radius: #{px(8)};
 	--content-border: #{px(2)};
-	--content-shadow: 0 0 #{px(16)} rgba(0, 0, 0, .2);
+	--content-shadow: 0 0 #{px(12)} rgba(0, 0, 0, .3);
 	@include common.define-quad(content-pad, px(20), px(20));
 
 	--group-column-gap: #{px(16)};
@@ -32,7 +32,7 @@ $root-size: 14px;
 	--control-row-gap: #{px(8)};
 	--control-radius: #{px(5)};
 	--control-border: #{px(2)};
-	--control-shadow: 0 0 #{px(3)} rgba(0, 0, 0, .5);
+	--control-shadow: 0 0 #{px(3)} rgba(0, 0, 0, 0.5);
 	--control-disabled: opacity(.5);
 	@include common.define-quad(control-pad, px(8), px(10));
 
@@ -55,7 +55,10 @@ $root-size: 14px;
 
 @include common.theme((
 	bg: (
-		dark: rgb(36, 36, 36),
+		dark: rgb(24, 24, 24),
+	),
+	bg-alt: (
+		dark: rgb(32, 32, 32),
 	),
 	fg: (
 		dark: white,

@@ -2,13 +2,13 @@
 
 @include common.theme((
 	text-input-bg: (
-		dark: rgb(16, 16, 16),
+		dark: rgb(48, 48, 48),
 	),
 	text-input-fg: (
 		dark: white,
 	),
 	text-input-border: (
-		dark: rgb(0, 0, 0),
+		dark: rgb(54, 54, 54),
 	),
 	text-input-border-lit: (
 		dark: var(--accent),

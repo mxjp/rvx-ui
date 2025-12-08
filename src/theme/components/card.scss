@@ -2,7 +2,7 @@
 
 @include common.theme((
 	card-default-border: (
-		dark: rgb(72, 72, 72),
+		dark: rgb(36, 36, 36),
 	),
 	card-info-border: (
 		dark: rgb(0, 192, 255),
@@ -21,6 +21,7 @@
 .card {
 	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
+	background-color: var(--bg-alt);
 
 	&:not(.card_raw) {
 		@include common.padding(content-pad, var(--content-border));

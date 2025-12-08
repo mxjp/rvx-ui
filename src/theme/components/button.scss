@@ -2,7 +2,7 @@
 
 @include common.theme((
 	button-default-bg: (
-		dark: rgb(64, 64, 64),
+		dark: rgb(72, 72, 72),
 	),
 	button-default-bg-hover: (
 		dark: rgb(90, 90, 90),
@@ -64,29 +64,23 @@
 	),
 
 	button-input-bg: (
-		dark: rgb(16, 16, 16),
+		dark: rgb(48, 48, 48),
 	),
 	button-input-bg-hover: (
-		dark: rgb(40, 40, 40),
-	),
-	button-input-bg-active: (
-		dark: rgb(60, 60, 60),
+		dark: rgb(64, 64, 64),
 	),
 	button-input-fg: (
 		dark: white,
-	),
-	button-input-border: (
-		dark: rgb(0, 0, 0),
 	),
 
 	button-text-bg: (
 		dark: transparent,
 	),
 	button-text-bg-hover: (
-		dark: rgb(80, 80, 80),
+		dark: rgb(48, 48, 48),
 	),
 	button-text-bg-active: (
-		dark: rgb(100, 100, 100),
+		dark: rgb(64, 64, 64),
 	),
 	button-text-fg: (
 		dark: var(--fg),

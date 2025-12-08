@@ -2,13 +2,13 @@
 
 @include common.theme((
 	dialog-container-bg: (
-		dark: rgba(32, 32, 32, .8),
+		dark: rgba(24, 24, 24, .8),
 	),
 	dialog-bg: (
 		dark: var(--bg),
 	),
 	dialog-border: (
-		dark: rgb(72, 72, 72),
+		dark: rgb(48, 48, 48),
 	),
 	dialog-shadow: (
 		dark: 0 0 2rem rgba(0, 0, 0, .5),
