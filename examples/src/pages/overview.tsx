@@ -5,24 +5,6 @@ export default function () {
 	return <>
 		<GenericControls />
 
-		<Row size="group">
-			<Card style={{ "flex-grow": "1" }}>
-				Default
-			</Card>
-			<Card variant="info">
-				Info
-			</Card>
-			<Card variant="success">
-				Success
-			</Card>
-			<Card variant="warning">
-				Warning
-			</Card>
-			<Card variant="danger">
-				Danger
-			</Card>
-		</Row>
-
 		<Card raw>
 			<Tabs padded tabs={[
 				{
@@ -84,6 +66,24 @@ function GenericControls() {
 				{ label: "Bar", value: 1 },
 				{ label: "Baz", value: 2 },
 			]} />
+		</Row>
+
+		<Row size="group">
+			<Card style={{ "flex-grow": "1" }}>
+				Default
+			</Card>
+			<Card variant="info">
+				Info
+			</Card>
+			<Card variant="success">
+				Success
+			</Card>
+			<Card variant="warning">
+				Warning
+			</Card>
+			<Card variant="danger">
+				Danger
+			</Card>
 		</Row>
 	</>;
 }

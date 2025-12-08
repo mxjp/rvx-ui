@@ -1,5 +1,5 @@
-import { Button, Card, Checkbox, Collapse, Column, Group, Heading, intParser, LabelFor, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
-import { $, Inject, Nest, Show } from "rvx";
+import { Button, Card, Checkbox, Column, Group, Heading, intParser, LabelFor, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
+import { $, Inject, Nest } from "rvx";
 import { trim } from "rvx/convert";
 
 function BaseExample() {
@@ -11,23 +11,23 @@ function BaseExample() {
 	}
 
 	return <>
-		<Group>
-			<LabelFor label="Username">
-				{id => <TextInput
+		<LabelFor label="Username">
+			{id => <>
+				<TextInput
 					id={id}
 					value={name
 						.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
 						.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
 						.pipe(trim)
 					}
-				/>}
-			</LabelFor>
-			<ValidationMessages for={name} />
-		</Group>
+				/>
+				<ValidationMessages for={name} />
+			</>}
+		</LabelFor>
 
-		<Group>
-			<LabelFor label="Network Port">
-				{id => <TextInput
+		<LabelFor label="Network Port">
+			{id => <>
+				<TextInput
 					id={id}
 					value={port
 						.pipe(intParser, {
@@ -38,10 +38,10 @@ function BaseExample() {
 						})
 						.pipe(trim)
 					}
-				/>}
-			</LabelFor>
-			<ValidationMessages for={port} />
-		</Group>
+				/>
+				<ValidationMessages for={port} />
+			</>}
+		</LabelFor>
 
 		<Row>
 			<Button variant="primary" action={ok}>Validate</Button>
@@ -88,7 +88,7 @@ function CustomRulesExample() {
 	</>;
 }
 
-export default function() {
+export default function () {
 	const trigger = $<ValidationTrigger | undefined>(undefined);
 
 	return <>
