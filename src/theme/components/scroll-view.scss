@@ -2,10 +2,12 @@
 
 @include common.theme((
 	scroll-view-indicator-size: (
-		dark: 1.5rem,
+		dark: 2rem,
+		light: 2rem,
 	),
 	scroll-view-indicator-color: (
-		dark: rgba(0, 0, 0, .7),
+		dark: rgba(0, 0, 0, .6),
+		light: rgba(0, 0, 0, .2),
 	),
 ));
 

@@ -4,21 +4,23 @@
 @include common.theme((
 	notification-default-border: (
 		dark: rgb(48, 48, 48),
+		light: rgb(200, 200, 200),
 	),
 	notification-info-border: (
-		dark: rgb(0, 192, 255),
+		dark: rgb(64, 160, 255),
+		light: rgb(0, 127, 255),
 	),
 	notification-success-border: (
-		dark: rgb(0, 255, 128),
+		dark: rgb(64, 255, 64),
+		light: rgb(0, 255, 0),
 	),
 	notification-warning-border: (
 		dark: rgb(255, 200, 0),
+		light: rgb(255, 200, 0),
 	),
 	notification-danger-border: (
-		dark: rgb(255, 0, 64),
-	),
-	notification-shadow: (
-		dark: 0 0 .5rem rgba(0, 0, 0, .5),
+		dark: rgb(255, 64, 64),
+		light: rgb(255, 0, 0),
 	),
 ));
 
@@ -43,7 +45,7 @@
 
 .notification {
 	pointer-events: all;
-	box-shadow: var(--notification-shadow);
+	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
 	background-color: var(--bg);
 

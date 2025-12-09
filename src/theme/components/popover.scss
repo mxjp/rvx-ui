@@ -1,17 +1,5 @@
 @use "../common";
 
-@include common.theme((
-	popover-bg: (
-		dark: var(--bg),
-	),
-	popover-border: (
-		dark: rgb(48, 48, 48),
-	),
-	popover-shadow: (
-		dark: 0 0 1rem rgba(0, 0, 0, .5),
-	),
-));
-
 .popover {
 	position: relative;
 	outline: none;
@@ -35,7 +23,7 @@
 	svg {
 		width: 2rem;
 		height: 1rem;
-		fill: var(--popover-border);
+		fill: var(--overlay-border);
 		transform-origin: bottom;
 		transform: scale(0.75);
 		stroke: none;
@@ -43,8 +31,8 @@
 }
 
 .popover_scroll_area {
-	background-color: var(--popover-bg);
-	box-shadow: var(--popover-shadow);
+	background-color: var(--overlay-bg);
+	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);
 	max-block-size: var(--popout-max-block-size);
 	max-inline-size: var(--popout-max-inline-size);
@@ -53,6 +41,6 @@
 
 .popover_content {
 	border-radius: var(--content-radius);
-	border: var(--content-border) solid var(--popover-border);
+	border: var(--content-border) solid var(--overlay-border);
 	@include common.padding(content-pad, var(--content-border));
 }

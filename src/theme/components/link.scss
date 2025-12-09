@@ -1,16 +1,10 @@
 @use "../common";
 
-@include common.theme((
-	link-fg: (
-		dark: rgb(64, 208, 255),
-	),
-));
-
 .link {
 	--space-below: var(--control-row-gap);
 	line-height: calc(1em + var(--line-gap));
 
-	color: var(--link-fg);
+	color: var(--accent);
 	font-weight: 600;
 	text-decoration: none;
 	cursor: pointer;

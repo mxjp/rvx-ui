@@ -2,7 +2,8 @@
 
 @include common.theme((
 	validation-message-fg: (
-		dark: rgb(255, 84, 127),
+		dark: rgb(255, 64, 64),
+		light: rgb(212, 0, 0),
 	),
 ));
 

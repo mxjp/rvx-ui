@@ -3,30 +3,39 @@
 @include common.theme((
 	nav-list-item-bg: (
 		dark: transparent,
+		light: transparent,
 	),
 	nav-list-item-bg-hover: (
 		dark: rgba(255, 255, 255, 0.1),
+		light: rgba(0, 0, 0, 0.075),
 	),
 	nav-list-item-bg-active: (
 		dark: rgba(255, 255, 255, 0.08),
+		light: rgba(0, 0, 0, 0.125),
 	),
 	nav-list-item-bg-current: (
 		dark: rgba(255, 255, 255, 0.1),
+		light: rgba(0, 0, 0, 0.125),
 	),
 	nav-list-item-fg: (
 		dark: rgb(172, 172, 172),
+		light: rgb(72, 72, 72),
 	),
 	nav-list-item-fg-hover: (
 		dark: var(--fg),
+		light: var(--fg),
 	),
 	nav-list-item-fg-active: (
 		dark: var(--fg),
+		light: var(--fg),
 	),
 	nav-list-item-fg-current: (
 		dark: var(--fg),
+		light: var(--fg),
 	),
 	nav-list-item-border: (
 		dark: transparent,
+		light: transparent,
 	),
 ));
 

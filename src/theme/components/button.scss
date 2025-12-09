@@ -3,87 +3,120 @@
 @include common.theme((
 	button-default-bg: (
 		dark: rgb(72, 72, 72),
+		light: rgb(92, 92, 92),
 	),
 	button-default-bg-hover: (
-		dark: rgb(90, 90, 90),
+		dark: rgb(100, 100, 100),
+		light: rgb(128, 128, 128),
 	),
 	button-default-fg: (
-		dark: var(--fg),
+		dark: white,
+		light: white,
+	),
+	button-default-focus: (
+		light: rgb(100, 178, 255),
 	),
 
 	button-primary-bg: (
-		dark: rgb(0, 192, 255),
+		dark: rgb(64, 160, 255),
+		light: rgb(0, 127, 255),
 	),
 	button-primary-bg-hover: (
-		dark: rgb(92, 214, 255),
+		dark: rgb(112, 184, 255),
+		light: rgb(64, 160, 255),
 	),
 	button-primary-fg: (
 		dark: black,
+		light: white,
 	),
 	button-primary-focus: (
 		dark: rgb(200, 241, 255),
+		light: rgb(0, 56, 112),
 	),
 
 	button-success-bg: (
-		dark: rgb(0, 200, 100),
+		dark: rgb(64, 255, 64),
+		light: rgb(0, 255, 0),
 	),
 	button-success-bg-hover: (
-		dark: rgb(0, 242, 121),
+		dark: rgb(160, 255, 160),
+		light: rgb(130, 255, 130),
 	),
 	button-success-fg: (
 		dark: black,
+		light: black,
 	),
 	button-success-focus: (
-		dark: rgb(200, 255, 228),
+		dark: rgb(224, 255, 224),
+		light: rgb(0, 160, 0),
 	),
 
 	button-warning-bg: (
-		dark: rgb(230, 180, 0),
+		dark: rgb(255, 200, 0),
+		light: rgb(255, 200, 0),
 	),
 	button-warning-bg-hover: (
-		dark: rgb(255, 220, 105),
+		dark: rgb(255, 224, 112),
+		light: rgb(255, 224, 112),
 	),
 	button-warning-fg: (
 		dark: black,
+		light: black,
 	),
 	button-warning-focus: (
 		dark: rgb(255, 243, 200),
+		light: rgb(150, 117, 0),
 	),
 
 	button-danger-bg: (
-		dark: rgb(255, 0, 64),
+		dark: rgb(255, 40, 40),
+		light: rgb(255, 0, 0),
 	),
 	button-danger-bg-hover: (
-		dark: rgb(255, 70, 100),
+		dark: rgb(255, 100, 100),
+		light: rgb(255, 80, 80),
 	),
 	button-danger-fg: (
-		dark: black,
+		dark: white,
+		light: white,
 	),
 	button-danger-focus: (
 		dark: rgb(255, 200, 214),
+		light: rgb(112, 0, 0),
 	),
 
 	button-input-bg: (
 		dark: rgb(48, 48, 48),
+		light: rgb(250, 250, 250),
 	),
 	button-input-bg-hover: (
 		dark: rgb(64, 64, 64),
+		light: rgb(230, 230, 230),
 	),
 	button-input-fg: (
 		dark: white,
+		light: black,
+	),
+	button-input-border: (
+		dark: transparent,
+		light: rgb(220, 220, 220),
 	),
 
 	button-text-bg: (
 		dark: transparent,
+		light: transparent,
 	),
 	button-text-bg-hover: (
 		dark: rgb(48, 48, 48),
+		light: rgb(230, 230, 230),
 	),
 	button-text-bg-active: (
 		dark: rgb(64, 64, 64),
+		light: rgb(240, 240, 240),
 	),
 	button-text-fg: (
 		dark: var(--fg),
+		light: var(--fg),
 	),
 ));
 

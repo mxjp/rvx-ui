@@ -1,17 +1,9 @@
 @use "../common";
 
 @include common.theme((
-	dropdown-bg: (
-		dark: var(--bg),
-	),
-	dropdown-border: (
-		dark: rgb(48, 48, 48),
-	),
-	dropdown-shadow: (
-		dark: 0 0 1rem rgba(0, 0, 0, .5),
-	),
 	dropdown-item-active-bg: (
 		dark: rgb(63, 63, 63),
+		light: rgb(224, 224, 224),
 	),
 ));
 
@@ -25,8 +17,8 @@
 }
 
 .dropdown_scroll_area {
-	background-color: var(--dropdown-bg);
-	box-shadow: var(--dropdown-shadow);
+	background-color: var(--overlay-bg);
+	box-shadow: var(--overlay-shadow);
 	border-radius: var(--control-radius);
 	max-block-size: var(--popout-max-block-size);
 	max-inline-size: var(--popout-max-inline-size);
@@ -37,7 +29,7 @@
 	display: flex;
 	flex-direction: column;
 	border-radius: var(--control-radius);
-	border: var(--content-border) solid var(--dropdown-border);
+	border: var(--content-border) solid var(--overlay-border);
 }
 
 .dropdown_item {

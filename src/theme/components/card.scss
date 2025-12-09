@@ -3,18 +3,23 @@
 @include common.theme((
 	card-default-border: (
 		dark: rgb(36, 36, 36),
+		light: rgb(216, 216, 216),
 	),
 	card-info-border: (
-		dark: rgb(0, 192, 255),
+		dark: rgb(64, 160, 255),
+		light: rgb(0, 127, 255),
 	),
 	card-success-border: (
-		dark: rgb(0, 255, 128),
+		dark: rgb(64, 255, 64),
+		light: rgb(0, 255, 0),
 	),
 	card-warning-border: (
 		dark: rgb(255, 200, 0),
+		light: rgb(255, 200, 0),
 	),
 	card-danger-border: (
-		dark: rgb(255, 0, 64),
+		dark: rgb(255, 64, 64),
+		light: rgb(255, 0, 0),
 	),
 ));
 

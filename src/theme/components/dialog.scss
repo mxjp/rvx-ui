@@ -1,25 +1,10 @@
 @use "../common";
 
-@include common.theme((
-	dialog-container-bg: (
-		dark: rgba(24, 24, 24, .8),
-	),
-	dialog-bg: (
-		dark: var(--bg),
-	),
-	dialog-border: (
-		dark: rgb(48, 48, 48),
-	),
-	dialog-shadow: (
-		dark: 0 0 2rem rgba(0, 0, 0, .5),
-	),
-));
-
 .dialog_container {
 	position: fixed;
 	inset: 0;
 
-	background-color: var(--dialog-container-bg);
+	background-color: var(--overlay-backdrop);
 
 	display: grid;
 	grid-template-columns: 1fr minmax(auto, var(--dialog-inline-size)) 1fr;
@@ -59,16 +44,16 @@
 	transform: scale(.9);
 	transition: transform var(--layout-transition);
 
-	background-color: var(--dialog-bg);
-	box-shadow: var(--dialog-shadow);
+	background-color: var(--overlay-bg);
+	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);
-	border: var(--content-border) solid var(--dialog-border);
+	border: var(--content-border) solid var(--overlay-border);
 	@include common.padding(content-pad, var(--content-border));
 }
 
 .dialog_scroll_view {
-	border-block-start: var(--content-border) solid var(--dialog-border);
-	border-block-end: var(--content-border) solid var(--dialog-border);
+	border-block-start: var(--content-border) solid var(--overlay-border);
+	border-block-end: var(--content-border) solid var(--overlay-border);
 	margin-inline-start: calc(var(--content-pad-inline-start) * -1 + var(--content-border));
 	margin-inline-end: calc(var(--content-pad-inline-end) * -1 + var(--content-border));
 }

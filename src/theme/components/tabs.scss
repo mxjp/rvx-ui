@@ -3,21 +3,27 @@
 @include common.theme((
 	tab-handle-marker: (
 		dark: rgb(150, 150, 150),
+		light: rgb(160, 160, 160),
 	),
 	tab-handle-bg: (
 		dark: rgb(64, 64, 64),
+		light: rgb(230, 230, 230),
 	),
 	tab-handle-bg-active: (
 		dark: rgb(72, 72, 72),
+		light: rgb(220, 220, 220),
 	),
 	tab-handle-fg: (
 		dark: rgb(172, 172, 172),
+		light: rgb(72, 72, 72),
 	),
 	tab-handle-fg-active: (
 		dark: var(--fg),
+		light: var(--fg),
 	),
 	tab-handle-fg-current: (
 		dark: var(--fg),
+		light: var(--fg),
 	),
 ));
 
