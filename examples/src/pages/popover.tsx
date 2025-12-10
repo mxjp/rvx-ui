@@ -8,7 +8,7 @@ export default function() {
 
 	return <>
 		<Heading level="1">Popovers</Heading>
-		<PopoutControls placement={placement} defaultPlacement="block end" alignment={alignment} defaultAlignment="start" />
+		<PopoutControls placement={placement} defaultPlacement="block end" alignment={alignment} defaultAlignment="center" />
 
 		<Row>
 			<Popover
