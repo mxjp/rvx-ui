@@ -38,7 +38,6 @@ export interface Theme {
 
 	card?: string;
 	card_raw?: string;
-	card_content?: string;
 	card_default?: string;
 	card_info?: string;
 	card_success?: string;

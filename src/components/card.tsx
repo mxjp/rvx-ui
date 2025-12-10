@@ -25,7 +25,7 @@ export function Card(props: {
 	>
 		{props.raw
 			? props.children
-			: <Column class={theme?.card_content} size={map(props.size, s => s ?? "group")}>
+			: <Column size={map(props.size, s => s ?? "group")}>
 				{props.children}
 			</Column>
 		}
