@@ -1,8 +1,8 @@
-import { Button, Column, DialogBody, DialogFooter, Group, Heading, LabelFor, Row, showDialog, Text, TextInput, Value } from "@rvx/ui";
+import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, Heading, LabelFor, Row, showDialog, Text, TextInput, Value } from "@rvx/ui";
 import { $ } from "rvx";
 import { debounce, trim } from "rvx/convert";
 
-export default function() {
+export default function () {
 	const defaultText = "Hello World!";
 
 	const text = $(defaultText);
@@ -47,11 +47,12 @@ export default function() {
 		<Row>
 			<TextInput value={enterAction} enterAction={() => {
 				showDialog<void>(dialog => {
-					return <DialogBody>
-						<Heading level="2">Message</Heading>
-						<Text>
-							You typed <Value style={{ "white-space": "pre-wrap" }}>{enterAction.value}</Value>.
-						</Text>
+					return <DialogBody title="Message">
+						<DialogContent>
+							<Text>
+								You typed <Value style={{ "white-space": "pre-wrap" }}>{enterAction.value}</Value>.
+							</Text>
+						</DialogContent>
 						<DialogFooter>
 							<Button action={() => dialog.resolve()}>Close</Button>
 						</DialogFooter>

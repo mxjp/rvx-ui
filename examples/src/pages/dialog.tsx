@@ -1,4 +1,4 @@
-import { Button, DialogBody, DialogFooter, DialogScrollView, Group, Heading, LAYER, RadioButtons, Row, showDialog, Text } from "@rvx/ui";
+import { Button, DialogBody, DialogContent, DialogFooter, Group, Heading, LAYER, RadioButtons, Row, ScrollView, showDialog, Text } from "@rvx/ui";
 import { $ } from "rvx";
 import { LoremIpsum } from "../common";
 
@@ -20,33 +20,33 @@ function showExampleDialog() {
 			dialog.resolve(77);
 		});
 		return <DialogBody title="Example Dialog" description="This is an accessible example dialog." inlineSize="35rem">
-			<Group>
+			<DialogContent>
 				<Row>
 					<Button autofocus action={() => {
 						showDialog<void>(dialog => {
-							return <DialogBody title="Nested dialog" description="This is a dialog in a dialog.">
-								<RadioButtons autofocus value={$(7)} options={[
-									{ value: 42, label: "Autofocused radio buttons" },
-									{ value: 123, label: "..." },
-								]} />
+							return <DialogBody title="Nested dialog">
+								<DialogContent>
+									<RadioButtons autofocus value={$(7)} options={[
+										{ value: 42, label: "Autofocused radio buttons" },
+										{ value: 123, label: "..." },
+									]} />
+								</DialogContent>
 								<DialogFooter>
 									<Button action={() => dialog.resolve()}>Close</Button>
 								</DialogFooter>
 							</DialogBody>;
 						});
-					}}>
-						Open Nested Dialog
-					</Button>
+					}}>Open Nested Dialog</Button>
 				</Row>
-			</Group>
 
-			<Heading level="3">Text Blocks</Heading>
-			<Group>
-				<Text>
-					The text below is here to demonstrate the dialog's size limitation.
-				</Text>
-				<LoremIpsum />
-			</Group>
+				<Heading level="3">Text Blocks</Heading>
+				<Group>
+					<Text>
+						The text below is here to demonstrate the dialog's size limitation.
+					</Text>
+					<LoremIpsum />
+				</Group>
+			</DialogContent>
 			<DialogFooter>
 				<Button action={() => dialog.reject()}>Cancel</Button>
 				<Button action={() => dialog.resolve(42)} variant="primary">Ok</Button>
@@ -62,14 +62,14 @@ function showExampleDialog() {
 function showScrollableDialog() {
 	showDialog(dialog => {
 		return <DialogBody title="Scrollable Dialog" blockSize="40rem" inlineSize="32rem">
-			<DialogScrollView>
-				<Group>
+			<ScrollView>
+				<DialogContent>
 					<Heading level="3">Some Content</Heading>
 					<LoremIpsum />
 					<Heading level="3">Some Content</Heading>
 					<LoremIpsum />
-				</Group>
-			</DialogScrollView>
+				</DialogContent>
+			</ScrollView>
 			<DialogFooter>
 				<Button action={() => dialog.resolve()}>Close</Button>
 			</DialogFooter>

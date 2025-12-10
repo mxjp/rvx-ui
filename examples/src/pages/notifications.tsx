@@ -1,26 +1,26 @@
-import { Button, DialogBody, DialogFooter, Group, Heading, Row, showDialog, showNotification, Text } from "@rvx/ui";
+import { Button, DialogBody, DialogContent, DialogFooter, Group, Heading, Row, showDialog, showNotification, Text } from "@rvx/ui";
 import { LoremIpsum } from "../common";
 
 export default function() {
 	return <>
 		<Heading level="1">Notifications</Heading>
-		<Group>
-			<Row>
-				<NotificationTypes />
-				<Button action={() => {
-					showDialog<void>(dialog => {
-						return <DialogBody title="Example">
+		<Row>
+			<NotificationTypes />
+			<Button action={() => {
+				showDialog<void>(dialog => {
+					return <DialogBody title="Example">
+						<DialogContent>
 							<NotificationTypes />
-							<DialogFooter>
-								<Button action={() => dialog.resolve()}>Close</Button>
-							</DialogFooter>
-						</DialogBody>;
-					});
-				}}>
-					Dialog
-				</Button>
-			</Row>
-		</Group>
+						</DialogContent>
+						<DialogFooter>
+							<Button action={() => dialog.resolve()}>Close</Button>
+						</DialogFooter>
+					</DialogBody>;
+				});
+			}}>
+				Dialog
+			</Button>
+		</Row>
 	</>;
 }
 

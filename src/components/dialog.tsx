@@ -1,9 +1,9 @@
 import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, render, StyleValue, teardown, uniqueId } from "rvx";
 import { TASKS, Tasks, useMicrotask } from "rvx/async";
-import { FlexSpace, Heading, Row, ScrollView, Text, THEME } from "../index.js";
+import { Column, FlexSpace, Group, Heading, Row, Separated, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
 
-export class DialogAbortError extends Error {}
+export class DialogAbortError extends Error { }
 
 export interface Dialog<T> {
 	resolve: (value: T) => void;
@@ -110,16 +110,10 @@ export function DialogBody(props: {
 		aria-labelledby={map(props["aria-labelledby"], v => v ?? titleId)}
 		aria-describedby={map(props["aria-describedby"], v => v ?? descriptionId)}
 	>
-		<div
-			class={[
-				theme?.column,
-				theme?.column_content,
-				theme?.dialog_body,
-			]}
-		>
-			{head}
+		<Separated class={theme?.dialog_body}>
+			{head.length > 0 ? <Group padded>{head}</Group> : undefined}
 			{props.children}
-		</div>
+		</Separated>
 	</div> as HTMLElement;
 
 	useMicrotask(() => {
@@ -142,13 +136,8 @@ export function DialogBody(props: {
 	return body;
 }
 
-export function DialogScrollView(props: {
-	children?: unknown;
-}) {
-	const theme = THEME.current;
-	return <ScrollView class={theme?.dialog_scroll_view} contentClass={theme?.dialog_scroll_view_content}>
-		{props.children}
-	</ScrollView>;
+export function DialogContent(props: Omit<Parameters<typeof Column>[0], "padded" | "size">) {
+	return Column({ ...props, padded: true });
 }
 
 export function DialogFooter(props: {
@@ -158,21 +147,22 @@ export function DialogFooter(props: {
 	children?: unknown;
 }): unknown {
 	const theme = THEME.current;
-	return <Row
-		size="control"
-		class={[
-			theme?.dialog_footer,
-			props.class,
-		]}
-		style={props.style}
-		align="center"
-	>
-		<Row size="control">
-			{props.links}
+	return <Group padded>
+		<Row
+			class={[
+				theme?.dialog_footer,
+				props.class,
+			]}
+			style={props.style}
+			align="center"
+		>
+			<Row size="control">
+				{props.links}
+			</Row>
+			<FlexSpace />
+			<Row size="control">
+				{props.children}
+			</Row>
 		</Row>
-		<FlexSpace />
-		<Row size="control">
-			{props.children}
-		</Row>
-	</Row>;
+	</Group>
 }
