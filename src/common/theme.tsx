@@ -108,6 +108,7 @@ export interface Theme {
 	page_content?: string;
 
 	popover?: string;
+	popover_raw?: string;
 	popover_spike_area?: string;
 	popover_scroll_area?: string;
 	popover_spike?: string;

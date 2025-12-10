@@ -67,6 +67,7 @@ export function createPopover(props: {
 	id?: string;
 	class?: ClassValue;
 	style?: StyleValue;
+	raw?: Expression<boolean | undefined>;
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-describedby"?: Expression<string | undefined>;
@@ -126,6 +127,7 @@ export function createPopover(props: {
 				theme?.column,
 				theme?.column_content,
 				theme?.popover_content,
+				map(props.raw, raw => raw ? theme?.popover_raw : undefined),
 			]}>
 				{props.content({ popout })}
 			</div> as HTMLElement;
@@ -189,6 +191,8 @@ export function Popover(props: {
 
 	/** Style for the popover. */
 	style?: StyleValue;
+
+	raw?: Expression<boolean | undefined>;
 
 	/** The popover content component. */
 	children: PopoverContent;
@@ -270,6 +274,7 @@ export function Popover(props: {
 		role: props.role,
 		class: props.class,
 		style: props.style,
+		raw: props.raw,
 
 		"aria-label": props["aria-label"],
 		"aria-labelledby": () => (get(props["aria-label"]) === undefined

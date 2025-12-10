@@ -1,5 +1,6 @@
 
 .separated_column {
+	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 
@@ -9,6 +10,7 @@
 }
 
 .separated_row {
+	overflow: hidden;
 	display: flex;
 	flex-direction: row;
 

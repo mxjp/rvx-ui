@@ -1,8 +1,8 @@
-import { Button, Group, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Text } from "@rvx/ui";
+import { Button, Collapse, Group, Heading, Link, PopoutAlignment, PopoutPlacement, Popover, Row, Separated, Text } from "@rvx/ui";
 import { $ } from "rvx";
 import { LoremIpsum, PopoutControls } from "../common.js";
 
-export default function() {
+export default function () {
 	const placement = $<PopoutPlacement | undefined>(undefined);
 	const alignment = $<PopoutAlignment | undefined>(undefined);
 
@@ -12,7 +12,7 @@ export default function() {
 
 		<Row>
 			<Popover
-				anchor={props => <Button {...props}>Toggle popover</Button>}
+				anchor={props => <Button {...props}>Generic Usage</Button>}
 				placement={placement}
 				alignment={alignment}
 				maxInlineSize="32rem"
@@ -39,19 +39,42 @@ export default function() {
 					</Row>
 				</Group>}
 			</Popover>
-			<Text>
-				This is a <Popover
-					anchor={props => <Link {...props}>popover<br/>anchor</Link>}
-					placement={placement}
-					alignment={alignment}
-					maxInlineSize="32rem"
-				>
-					{() => <Group>
-						<Heading level="2">Hello World!</Heading>
-						<LoremIpsum />
-					</Group>}
-				</Popover> with line breaks.
-			</Text>
+			<Popover
+				raw
+				anchor={props => <Button {...props}>Raw Popover</Button>}
+				placement={placement}
+				alignment={alignment}
+				maxInlineSize="32rem"
+			>
+				{() => {
+					const visible = $(false);
+					return <Separated>
+						<Group padded>
+							<Text>Group A</Text>
+							<Row>
+								<Button action={() => { visible.value = !visible.value; }}>Toggle Collapse</Button>
+							</Row>
+						</Group>
+						<Collapse visible={visible}>
+							<Group padded>
+								<Text>Group A</Text>
+							</Group>
+						</Collapse>
+					</Separated>;
+				}}
+			</Popover>
 		</Row>
+		<Text>
+			This is a <Popover
+				anchor={props => <Link {...props}>popover<br />anchor</Link>}
+				placement={placement}
+				alignment={alignment}
+				maxInlineSize="32rem"
+			>
+				{() => <Group>
+					<Heading level="2">Hello World!</Heading>
+				</Group>}
+			</Popover> with line breaks.
+		</Text>
 	</>;
 }
