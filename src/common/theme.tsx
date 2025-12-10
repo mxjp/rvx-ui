@@ -132,6 +132,9 @@ export interface Theme {
 	scroll_view_indicator_end?: string;
 	scroll_view_indicator_visible?: string;
 
+	separated_column?: string;
+	separated_row?: string;
+
 	slider_host?: string;
 
 	tab_handle?: string;

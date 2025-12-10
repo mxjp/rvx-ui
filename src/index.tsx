@@ -26,6 +26,7 @@ export * from "./components/popover.js";
 export * from "./components/radio-buttons.js";
 export * from "./components/row.js";
 export * from "./components/scroll-view.js";
+export * from "./components/separated.js";
 export * from "./components/slider.js";
 export * from "./components/tabs.js";
 export * from "./components/text-input.js";

@@ -1,0 +1,18 @@
+
+.separated_column {
+	display: flex;
+	flex-direction: column;
+
+	& > * + * {
+		border-block-start: calc(var(--separator) * var(--space-scale)) solid var(--separator-color);
+	}
+}
+
+.separated_row {
+	display: flex;
+	flex-direction: row;
+
+	& > * + * {
+		border-inline-start: calc(var(--separator) * var(--space-scale)) solid var(--separator-color);
+	}
+}
