@@ -50,7 +50,7 @@
 	background-color: var(--bg);
 
 	&:not(.notification_raw) {
-		@include common.padding(content-pad, var(--content-border));
+		@include common.padding(content-pad);
 	}
 }
 

@@ -29,7 +29,7 @@
 	background-color: var(--bg-alt);
 
 	&:not(.card_raw) {
-		@include common.padding(content-pad, var(--content-border));
+		@include common.padding(content-pad);
 	}
 }
 

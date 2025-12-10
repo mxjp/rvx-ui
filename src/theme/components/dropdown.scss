@@ -34,7 +34,8 @@
 
 .dropdown_item {
 	cursor: pointer;
-	@include common.padding(control-pad, var(--control-border));
+	@include common.padding(control-pad);
+	border: transparent solid var(--control-border);
 
 	&.dropdown_item_active {
 		background-color: var(--dropdown-item-active-bg);

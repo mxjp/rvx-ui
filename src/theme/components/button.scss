@@ -129,7 +129,7 @@
 	cursor: pointer;
 
 	outline: none;
-	@include common.padding(control-pad, var(--control-border));
+	@include common.padding(control-pad);
 
 	border-radius: var(--control-radius);
 	transition: var(--color-transition) background-color,

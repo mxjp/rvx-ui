@@ -42,5 +42,5 @@
 .popover_content {
 	border-radius: var(--content-radius);
 	border: var(--content-border) solid var(--overlay-border);
-	@include common.padding(content-pad, var(--content-border));
+	@include common.padding(content-pad);
 }

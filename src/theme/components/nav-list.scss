@@ -56,13 +56,13 @@
 	background-color: var(--nav-list-item-bg);
 	color: var(--nav-list-item-fg);
 	border: var(--nav-list-item-border) solid var(--control-border);
+	border-radius: var(--control-radius);
 
 	cursor: pointer;
 
 	outline: none;
-	@include common.padding(control-pad, var(--control-border));
+	@include common.padding(control-pad);
 
-	border-radius: var(--control-radius);
 	transition: var(--color-transition) background-color,
 		var(--color-transition) border-color;
 

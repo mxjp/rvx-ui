@@ -32,20 +32,11 @@
 	--#{$name}-inline-end: #{$inline-end};
 }
 
-@mixin padding($name, $subtract: null) {
-	@if $subtract {
-		padding-block:
-			calc(var(--#{$name}-block-start) - $subtract)
-			calc(var(--#{$name}-block-end) - $subtract);
-		padding-inline:
-			calc(var(--#{$name}-inline-start) - $subtract)
-			calc(var(--#{$name}-inline-end) - $subtract);
-	} @else {
-		padding-block:
-			var(--#{$name}-block-start)
-			var(--#{$name}-block-end);
-		padding-inline:
-			var(--#{$name}-inline-start)
-			var(--#{$name}-inline-end);
-	}
+@mixin padding($name) {
+	padding-block:
+		var(--#{$name}-block-start)
+		var(--#{$name}-block-end);
+	padding-inline:
+		var(--#{$name}-inline-start)
+		var(--#{$name}-inline-end);
 }

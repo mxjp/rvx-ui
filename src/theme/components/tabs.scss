@@ -43,11 +43,11 @@
 	outline: none;
 
 	padding-block:
-		var(--control-pad-block-start)
-		calc(var(--control-pad-block-end) - var(--control-border));
+		calc(var(--control-pad-block-start) + var(--control-border))
+		var(--control-pad-block-end);
 	padding-inline:
-		var(--control-pad-inline-start)
-		var(--control-pad-inline-end);
+		calc(var(--control-pad-inline-start) + var(--control-border))
+		calc(var(--control-pad-inline-end) + var(--control-border));
 
 	background-color: transparent;
 	color: var(--tab-handle-fg);
@@ -74,5 +74,5 @@
 }
 
 .tab_panel_padded {
-	@include common.padding(content-pad, var(--content-border));
+	@include common.padding(content-pad);
 }

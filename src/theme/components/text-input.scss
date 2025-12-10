@@ -46,5 +46,5 @@
 }
 
 input.text_input {
-	block-size: calc(var(--control-pad-block-start) + 1em + var(--control-pad-block-end));
+	block-size: calc(var(--control-pad-block-start) + 1em + var(--control-pad-block-end) + var(--control-border) * 2);
 }
