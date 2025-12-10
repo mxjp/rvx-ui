@@ -120,6 +120,7 @@ export interface Theme {
 	radio_button_content?: string;
 
 	row?: string;
+	row_padded?: string;
 	row_content?: string;
 	row_group?: string;
 	row_control?: string;

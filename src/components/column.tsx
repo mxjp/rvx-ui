@@ -7,11 +7,11 @@ import { SizeContext } from "../common/types.js";
  */
 export function Column(props: {
 	size?: Expression<SizeContext | undefined>;
+	padded?: Expression<boolean | undefined>;
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
 	children?: unknown;
-	padded?: boolean;
 }): unknown {
 	const theme = THEME.current;
 	return <div
