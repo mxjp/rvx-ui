@@ -1,9 +1,10 @@
-import { Button, Card, Collapse, Group, Heading, Link, Row, Text } from "@rvx/ui";
+import { Button, Card, Collapse, Group, Heading, Link, Row, Separated, Text } from "@rvx/ui";
 import { $ } from "rvx";
 import { LoremIpsum } from "../common";
 
-export default function() {
+export default function () {
 	const visible = $(false);
+	const innerVisible = $(false);
 
 	return <>
 		<Heading level="1">Cards</Heading>
@@ -19,18 +20,32 @@ export default function() {
 		</Group>
 
 		<Heading level="2">Collapses</Heading>
-		<Group>
-			<Card>
-				<Text>
-					<Link action={() => { visible.value = !visible.value; }}>
-						Click me!
-					</Link>
-				</Text>
+		<Card raw>
+			<Separated>
+				<Group padded>
+					<Text>
+						<Link action={() => { visible.value = !visible.value; }}>
+							Click me!
+						</Link>
+					</Text>
+				</Group>
 				<Collapse visible={visible}>
-					<LoremIpsum />
+					<Group padded>
+						<LoremIpsum />
+						<Row>
+							<Button action={() => { innerVisible.value = !innerVisible.value; }}>
+								Toggle Second Collapse
+							</Button>
+						</Row>
+					</Group>
 				</Collapse>
-			</Card>
-		</Group>
+				<Collapse visible={innerVisible}>
+					<Group padded>
+						<LoremIpsum limit={120} />
+					</Group>
+				</Collapse>
+			</Separated>
+		</Card>
 
 		<Heading level="2">Variants</Heading>
 		<Group>
@@ -48,9 +63,6 @@ export default function() {
 			</Card>
 			<Card variant="danger">
 				<Text>Danger</Text>
-			</Card>
-			<Card raw>
-				<Text>Raw</Text>
 			</Card>
 		</Group>
 	</>;
