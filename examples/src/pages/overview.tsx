@@ -4,20 +4,20 @@ import { $ } from "rvx";
 export default function () {
 	return <>
 		<GenericControls />
-
 		<Card raw>
-			<Tabs padded tabs={[
-				{
-					label: () => <>Foo</>,
-					content: () => <Column>
-						<GenericControls />
-					</Column>,
-				},
-				{
-					label: () => <>Bar</>,
-					content: () => <>Content B</>,
-				},
-			]} />
+			<Tabs
+				tabs={[
+					{
+						label: () => <>Foo</>,
+						content: GenericControls,
+					},
+					{
+						label: () => <>Bar</>,
+						content: () => <>Content B</>,
+					},
+				]}
+				content={content => <Column padded>{content()}</Column>}
+			/>
 		</Card>
 	</>;
 }

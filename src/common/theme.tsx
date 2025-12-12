@@ -135,6 +135,7 @@ export interface Theme {
 
 	separated_column?: string;
 	separated_row?: string;
+	has_separator?: string;
 
 	slider_host?: string;
 
@@ -143,7 +144,6 @@ export interface Theme {
 	tab_list?: string;
 	tab_list_padded?: string;
 	tab_panel?: string;
-	tab_panel_padded?: string;
 
 	text_input?: string;
 

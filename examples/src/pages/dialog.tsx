@@ -1,14 +1,15 @@
-import { Button, DialogBody, DialogContent, DialogFooter, Group, Heading, LAYER, RadioButtons, Row, ScrollView, showDialog, Text } from "@rvx/ui";
+import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, Heading, LAYER, RadioButtons, Row, ScrollView, showDialog, TabList, Tabs, Text } from "@rvx/ui";
 import { $ } from "rvx";
 import { LoremIpsum } from "../common";
 
-export default function() {
+export default function () {
 	return <>
 		<Heading level="1">Dialogs</Heading>
 		<Group>
 			<Row>
 				<Button action={showExampleDialog}>Show Dialog</Button>
-				<Button action={showScrollableDialog}>Scrollable Dialog</Button>
+				<Button action={showScrollableDialog}>Scrollable</Button>
+				<Button action={showTabsDialog}>With Tabs</Button>
 			</Row>
 		</Group>
 	</>;
@@ -62,7 +63,7 @@ function showExampleDialog() {
 function showScrollableDialog() {
 	showDialog(dialog => {
 		return <DialogBody title="Scrollable Dialog" blockSize="40rem" inlineSize="32rem">
-			<ScrollView>
+			<ScrollView style={{ "min-block-size": "12rem" }}>
 				<DialogContent>
 					<Heading level="3">Some Content</Heading>
 					<LoremIpsum />
@@ -70,6 +71,42 @@ function showScrollableDialog() {
 					<LoremIpsum />
 				</DialogContent>
 			</ScrollView>
+			<DialogFooter>
+				<Button action={() => dialog.resolve()}>Close</Button>
+			</DialogFooter>
+		</DialogBody>;
+	});
+}
+
+function showTabsDialog() {
+	showDialog(dialog => {
+		return <DialogBody title="Tab Dialog" blockSize="40rem" inlineSize="32rem">
+			<Tabs
+				tabs={[
+					{
+						label: () => <>Foo</>,
+						content: () => <Column>
+							<Heading level="3">Some Content</Heading>
+							<LoremIpsum />
+							<Heading level="3">Some Content</Heading>
+							<LoremIpsum />
+						</Column>
+					},
+					{
+						label: () => <>Bar</>,
+						content: () => <Column>
+							<Heading level="3">Something else</Heading>
+							<LoremIpsum />
+						</Column>
+					},
+				]}
+				list={props => <TabList {...props} padded />}
+				content={content => <ScrollView style={{ "min-block-size": "12rem" }}>
+					<DialogContent>
+						{content()}
+					</DialogContent>
+				</ScrollView>}
+			/>
 			<DialogFooter>
 				<Button action={() => dialog.resolve()}>Close</Button>
 			</DialogFooter>

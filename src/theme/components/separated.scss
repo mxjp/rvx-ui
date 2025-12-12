@@ -1,20 +1,24 @@
 
 .separated_column {
-	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 
-	& > * + * {
+	& > * {
+		overflow: hidden;
+	}
+	& > :not(.has_separator) + :not(.has_separator) {
 		border-block-start: calc(var(--separator) * var(--space-scale)) solid var(--separator-color);
 	}
 }
 
 .separated_row {
-	overflow: hidden;
 	display: flex;
 	flex-direction: row;
 
-	& > * + * {
+	& > * {
+		overflow: hidden;
+	}
+	& > :not(.has_separator) + :not(.has_separator) {
 		border-inline-start: calc(var(--separator) * var(--space-scale)) solid var(--separator-color);
 	}
 }

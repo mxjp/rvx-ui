@@ -1,7 +1,7 @@
-import { Card, Column, Group, Heading, Link, Tab, Tabs, Text, Value } from "@rvx/ui";
+import { Card, Column, Group, Heading, Link, Separated, Tab, TabList, TabPanel, Tabs, Text, Value } from "@rvx/ui";
 import { $, Show } from "rvx";
 
-export default function() {
+export default function () {
 	const selected = $<Tab | undefined>(undefined);
 	const tabs: Tab[] = [
 		{
@@ -51,10 +51,24 @@ export default function() {
 			<Tabs selected={selected} tabs={tabs} />
 		</Group>
 
-		<Heading level="2">Embedding</Heading>
-		<Group>
-			<Card raw>
-				<Tabs padded tabs={[
+		<Heading level="2">Projection</Heading>
+		<Card raw>
+			<Tabs tabs={[
+				{
+					label: () => <>Foo</>,
+					content: () => <>Content A</>,
+				},
+				{
+					label: () => <>Bar</>,
+					content: () => <>Content B</>,
+				},
+			]} panel={props => <Column padded><TabPanel {...props} /></Column>} />
+		</Card>
+
+		<div style={{ "border": "2px dashed gray", "padding": ".5rem" }}>
+			<code>{"<Tabs>"}</code>
+			<Tabs
+				tabs={[
 					{
 						label: () => <>Foo</>,
 						content: () => <>Content A</>,
@@ -63,8 +77,20 @@ export default function() {
 						label: () => <>Bar</>,
 						content: () => <>Content B</>,
 					},
-				]} />
-			</Card>
-		</Group>
+				]}
+				list={props => <div style={{ "border": "2px dashed red", "padding": ".5rem" }}>
+					<code>{"<TabList>"}</code>
+					<TabList {...props} />
+				</div>}
+				panel={props => <div style={{ "border": "2px dashed orange", "padding": ".5rem" }}>
+					<code>{"<TabPanel>"}</code>
+					<TabPanel {...props} />
+				</div>}
+				content={content => <div style={{ "border": "2px dashed green", "padding": ".5rem" }}>
+					<code>{"content:"}</code>
+					{content()}
+				</div>}
+			/>
+		</div>
 	</>;
 }

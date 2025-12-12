@@ -33,6 +33,12 @@
 	border-bottom: var(--separator) solid var(--separator-color);
 }
 
+.tab_list_padded {
+	padding-inline:
+		calc(var(--content-pad-inline-start) - var(--control-pad-inline-start))
+		calc(var(--content-pad-inline-end) - var(--control-pad-inline-end));
+}
+
 .tab_handle {
 	font-family: inherit;
 	font-size: inherit;
@@ -71,6 +77,12 @@
 .tab_handle_current {
 	border-block-end-color: var(--tab-handle-marker);
 	color: var(--tab-handle-fg-current);
+}
+
+.tab_panel {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 .tab_panel_padded {
