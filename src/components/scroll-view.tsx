@@ -3,6 +3,8 @@ import { debounceEvent } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { axisEquals, DOWN, getBlockStart, getSize, RIGHT, UP, WritingMode } from "../common/writing-mode.js";
 
+const DEBOUNCE_DELAY = 100;
+
 export function ScrollView(props: {
 	class?: ClassValue;
 	style?: StyleValue;
@@ -50,7 +52,7 @@ export function ScrollView(props: {
 				overflow: () => vertical.value ? "hidden auto" : "auto hidden",
 			}
 		]}
-		on:scroll={[debounceEvent(100, () => updateIndicators()), { passive: true }]}
+		on:scroll={[debounceEvent(DEBOUNCE_DELAY, () => updateIndicators()), { passive: true }]}
 		tabindex="0"
 	>
 		{content}
@@ -79,14 +81,15 @@ export function ScrollView(props: {
 		]} />
 	</div> as HTMLElement;
 
-	const rootObserver = new ResizeObserver(() => {
+	const rootObserver = new ResizeObserver(debounceEvent(DEBOUNCE_DELAY, () => {
 		const blockStart = getBlockStart(getComputedStyle(root).writingMode as WritingMode || "horizontal-tb");
 		vertical.value ??= axisEquals(blockStart, UP);
 		updateIndicators(blockStart);
-	});
+	}));
 	rootObserver.observe(root);
 	teardown(() => rootObserver.disconnect());
 
+	const intersectUpdateIndicators = debounceEvent(DEBOUNCE_DELAY, updateIndicators);
 	const contentObserver = new IntersectionObserver(() => {
 		const rootRect = root.getBoundingClientRect();
 		const contentRect = content.getBoundingClientRect();
@@ -95,7 +98,7 @@ export function ScrollView(props: {
 		const dir = isVertical ? RIGHT : UP;
 		scrollbarComp.value = Math.max(0, getSize(rootRect, dir) - getSize(contentRect, dir));
 		vertical.value ??= isVertical;
-		updateIndicators(blockStart);
+		intersectUpdateIndicators(blockStart);
 	}, { root, rootMargin: "0px 0px 0px 0px", threshold: 1 });
 	contentObserver.observe(content);
 	teardown(() => contentObserver.disconnect());
