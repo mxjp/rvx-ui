@@ -11,10 +11,11 @@ export function ScrollView(props: {
 	contentClass?: ClassValue;
 	contentStyle?: StyleValue;
 	children?: unknown;
+	scrollbarComp?: boolean;
 }): unknown {
 	const theme = THEME.current;
 	const vertical = $<boolean | undefined>(undefined);
-	const scrollbarComp = $(0);
+	const scrollbarComp = props.scrollbarComp ? $(0) : undefined;
 	const startIndicator = $(false);
 	const endIndicator = $(false);
 
@@ -66,7 +67,7 @@ export function ScrollView(props: {
 		style={[
 			props.style,
 			{
-				"--scrollbar-comp": () => `${scrollbarComp.value}px`,
+				"--scrollbar-comp": scrollbarComp ? (() => `${scrollbarComp.value}px`) : "initial",
 			},
 		]}
 	>
@@ -91,12 +92,14 @@ export function ScrollView(props: {
 
 	const intersectUpdateIndicators = debounceEvent(DEBOUNCE_DELAY, updateIndicators);
 	const contentObserver = new IntersectionObserver(() => {
-		const rootRect = root.getBoundingClientRect();
-		const contentRect = content.getBoundingClientRect();
 		const blockStart = getBlockStart(getComputedStyle(root).writingMode as WritingMode || "horizontal-tb");
 		const isVertical = axisEquals(blockStart, UP);
-		const dir = isVertical ? RIGHT : UP;
-		scrollbarComp.value = Math.max(0, getSize(rootRect, dir) - getSize(contentRect, dir));
+		if (scrollbarComp) {
+			const contentRect = content.getBoundingClientRect();
+			const rootRect = root.getBoundingClientRect();
+			const dir = isVertical ? RIGHT : UP;
+			scrollbarComp.value = Math.max(0, getSize(rootRect, dir) - getSize(contentRect, dir));
+		}
 		vertical.value ??= isVertical;
 		intersectUpdateIndicators(blockStart);
 	}, { root, rootMargin: "0px 0px 0px 0px", threshold: 1 });

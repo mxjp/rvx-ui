@@ -48,7 +48,7 @@ mount(
 						</NavList>
 					</Page>
 				</ScrollView>
-				<ScrollView>
+				<ScrollView scrollbarComp>
 					<Routes routes={[
 						...routes,
 						{ content: () => <Page inlineSize="20rem" centerBlock>
