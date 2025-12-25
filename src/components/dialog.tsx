@@ -2,6 +2,7 @@ import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, r
 import { TASKS, Tasks, useMicrotask } from "rvx/async";
 import { Column, FlexSpace, Group, Heading, Row, Separated, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
+import { inOverlayContext } from "../common/context.js";
 
 export class DialogAbortError extends Error { }
 
@@ -20,7 +21,7 @@ export const DIALOG_FADEOUT = new Context<Event<[tasks: Promise<void>[]]> | unde
 
 export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOptions): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
-		captureSelf(dispose => {
+		inOverlayContext(captureSelf, dispose => {
 			const enabled = $(true);
 			const fadeout = new Emitter<[tasks: Promise<void>[]]>();
 			const view = render(

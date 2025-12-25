@@ -1,4 +1,4 @@
-import { Heading, NavList, NavListButton, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
+import { captureOverlayContext, Heading, NavList, NavListButton, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
 import theme from "@rvx/ui/dist/theme.module.css";
 import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
@@ -13,6 +13,8 @@ mount(
 			TASKS.with(new Tasks()),
 			ROUTER.with(new HashRouter()),
 		], () => {
+			captureOverlayContext();
+
 			const routes: ComponentRoute[] = [];
 			const links: unknown[] = [];
 			const pages = import.meta.glob("./pages/*.tsx");
