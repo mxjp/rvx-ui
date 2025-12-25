@@ -1,0 +1,12 @@
+@use "../common";
+
+@include common.theme((
+	error-message-fg: (
+		dark: rgb(255, 64, 64),
+		light: rgb(212, 0, 0),
+	),
+));
+
+.error_message {
+	color: var(--error-message-fg);
+}

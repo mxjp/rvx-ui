@@ -149,8 +149,7 @@ export interface Theme {
 
 	text?: string;
 
-	validation_message?: string;
-	validation_message_container?: string;
+	error_message?: string;
 
 	value?: string;
 }

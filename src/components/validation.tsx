@@ -1,8 +1,7 @@
 import { $, Component, Context, Emitter, memo, Signal, teardown, trigger, TriggerPipe, uniqueIdFor, untrack } from "rvx";
 import { Queue } from "rvx/async";
-import { THEME } from "../common/theme.js";
 import { CollapseFor, CollapseItem } from "./collapse.js";
-import { Text } from "./text.js";
+import { ErrorMessage } from "./error.js";
 
 const VALIDATORS = new WeakMap<Signal<unknown>, Validator>();
 const ALERTS = new WeakMap<Component, Emitter<[]>>();
@@ -229,15 +228,6 @@ export async function validate(targets: ValidationTarget[], abortSignal?: AbortS
 	return !(await Promise.all(tasks)).includes(false);
 }
 
-export function ValidationMessage(props: {
-	children: unknown;
-}): unknown {
-	const theme = THEME.current;
-	return <Text class={theme?.validation_message}>
-		{props.children}
-	</Text>;
-}
-
 export function ValidationMessages(props: {
 	for: Signal<unknown> | Validator;
 }) {
@@ -265,8 +255,8 @@ export function ValidationMessages(props: {
 			}
 		}
 	}}>
-		{message => <ValidationMessage>
+		{message => <ErrorMessage>
 			{message()}
-		</ValidationMessage>}
+		</ErrorMessage>}
 	</CollapseFor>;
 }
