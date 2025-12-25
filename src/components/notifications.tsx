@@ -17,6 +17,14 @@ export interface NotificationOptions {
 	raw?: boolean;
 }
 
+export interface NotificationHostOptions {
+	inlineSize: string;
+}
+
+export const NOTIFICATIONS = $<NotificationHostOptions>({
+	inlineSize: "32rem",
+});
+
 let host: View | undefined;
 const instances = $<Component[]>([]);
 
@@ -25,7 +33,12 @@ export function showNotification(content: Component<Notification>, options?: Not
 		const theme = THEME.current;
 		if (!host) {
 			uncapture(() => {
-				host = render(<div class={theme?.notification_host}>
+				host = render(<div
+					class={theme?.notification_host}
+					style={{
+						"--notification-inline-size": () => NOTIFICATIONS.value.inlineSize,
+					}}
+				>
 					<Column class={theme?.notification_area} size="group">
 						<For each={instances}>
 							{instance => instance()}

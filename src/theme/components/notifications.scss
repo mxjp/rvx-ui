@@ -27,8 +27,7 @@
 .notification_host {
 	--overflow-safe-area: .5rem;
 	display: grid;
-	// TODO: Globally configurable position & inline size.
-	grid-template-columns: 1fr minmax(auto, 32rem) 0;
+	grid-template-columns: 1fr minmax(auto, var(--notification-inline-size)) 0;
 	grid-template-rows: 1fr auto 0;
 	overflow: auto;
 
