@@ -63,6 +63,8 @@ export interface Theme {
 	column_control?: string;
 
 	control_group?: string;
+	control_group_row?: string;
+	control_group_column?: string;
 
 	dialog_container?: string;
 	dialog_body?: string;
