@@ -9,16 +9,23 @@
 	gap: var(--separator);
 
 	& > * {
-		--control-shadow: none;
+		box-shadow: none;
 	}
 }
 
 .control_group_row {
 	flex-direction: row;
-
+	& > :first-child {
+		border-start-start-radius: inherit;
+		border-end-start-radius: inherit;
+	}
 	& > :not(:first-child) {
 		border-start-start-radius: 0;
 		border-end-start-radius: 0;
+	}
+	& > :last-child {
+		border-start-end-radius: inherit;
+		border-end-end-radius: inherit;
 	}
 	& > :not(:last-child) {
 		border-start-end-radius: 0;
@@ -28,10 +35,17 @@
 
 .control_group_column {
 	flex-direction: column;
-
+	& > :first-child {
+		border-start-start-radius: inherit;
+		border-start-end-radius: inherit;
+	}
 	& > :not(:first-child) {
 		border-start-start-radius: 0;
 		border-start-end-radius: 0;
+	}
+	& > :last-child {
+		border-end-start-radius: inherit;
+		border-end-end-radius: inherit;
 	}
 	& > :not(:last-child) {
 		border-end-start-radius: 0;

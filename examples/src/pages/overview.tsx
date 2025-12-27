@@ -49,7 +49,10 @@ function GenericControls() {
 			<ControlGroup column>
 				<Button variant="item">Foo</Button>
 				<Button variant="item">Bar</Button>
-				<Button variant="item">Baz</Button>
+				<ControlGroup>
+					<Button variant="item">Baz</Button>
+					<TextInput value={$("...")} style={{ "flex-grow": "1" }} />
+				</ControlGroup>
 			</ControlGroup>
 		</Group>
 
