@@ -13,7 +13,6 @@ export default function() {
 			<Button variant="primary">Primary</Button>
 			<Button variant="warning">Warning</Button>
 			<Button variant="danger">Danger</Button>
-			<Button variant="text">Text</Button>
 		</Row>
 
 		<Heading level="2">Async Actions</Heading>

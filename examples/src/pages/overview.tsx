@@ -38,7 +38,6 @@ function GenericControls() {
 				<Button variant="primary">Primary</Button>
 				<Button variant="warning">Warning</Button>
 				<Button variant="danger">Danger</Button>
-				<Button variant="text">Text</Button>
 			</Row>
 			<Row>
 				<TextInput value={$("Hello World!")} />

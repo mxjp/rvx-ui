@@ -6,7 +6,7 @@ import { THEME } from "../common/theme.js";
 import { Validator } from "./validation.js";
 
 export type ButtonType = "button" | "submit" | "reset" | "menu";
-export type ButtonVariant = "default" | "primary" | "success" | "danger" | "warning" | "input" | "text";
+export type ButtonVariant = "default" | "primary" | "success" | "danger" | "warning" | "input";
 
 export function Button(props: {
 	/**

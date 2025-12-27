@@ -101,23 +101,6 @@
 		dark: rgb(54, 54, 54),
 		light: rgb(220, 220, 220),
 	),
-
-	button-text-bg: (
-		dark: transparent,
-		light: transparent,
-	),
-	button-text-bg-hover: (
-		dark: rgb(48, 48, 48),
-		light: rgb(230, 230, 230),
-	),
-	button-text-bg-active: (
-		dark: rgb(64, 64, 64),
-		light: rgb(240, 240, 240),
-	),
-	button-text-fg: (
-		dark: var(--fg),
-		light: var(--fg),
-	),
 ));
 
 .button {
@@ -145,7 +128,7 @@
 	}
 }
 
-@each $variant in (default, primary, success, warning, danger, input, text) {
+@each $variant in (default, primary, success, warning, danger, input) {
 	.button_#{$variant} {
 		background-color: var(--button-#{$variant}-bg);
 		color: var(--button-#{$variant}-fg);
