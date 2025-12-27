@@ -35,7 +35,7 @@ $root-size: 14px;
 
 	--input-extension: #{px(4)};
 
-	--separator: #{px(1)};
+	--separator: #{px(2)};
 
 	--focus-outline-offset: #{px(2)};
 
@@ -72,8 +72,8 @@ $root-size: 14px;
 		light: var(--control-border) dashed var(--accent),
 	),
 	separator-color: (
-		dark: rgb(42, 42, 42),
-		light: rgb(220, 220, 220),
+		dark: rgb(40, 40, 40),
+		light: rgb(240, 240, 240),
 	),
 	selection-bg: (
 		dark: rgba(64, 160, 255, 0.5),

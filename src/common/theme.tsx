@@ -34,6 +34,7 @@ export interface Theme {
 	button_danger?: string;
 	button_warning?: string;
 	button_input?: string;
+	button_item?: string;
 
 	card?: string;
 	card_raw?: string;

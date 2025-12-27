@@ -101,6 +101,19 @@
 		dark: rgb(54, 54, 54),
 		light: rgb(220, 220, 220),
 	),
+
+	button-item-bg: (
+		dark: rgb(48, 48, 48),
+		light: rgb(225, 225, 225),
+	),
+	button-item-bg-hover: (
+		dark: rgb(64, 64, 64),
+		light: rgb(200, 200, 200),
+	),
+	button-item-fg: (
+		dark: white,
+		light: black,
+	),
 ));
 
 .button {
@@ -128,7 +141,7 @@
 	}
 }
 
-@each $variant in (default, primary, success, warning, danger, input) {
+@each $variant in (default, primary, success, warning, danger, input, item) {
 	.button_#{$variant} {
 		background-color: var(--button-#{$variant}-bg);
 		color: var(--button-#{$variant}-fg);
@@ -148,6 +161,7 @@
 	}
 }
 
-.button_input {
+.button_input,
+.button_item {
 	text-align: left;
 }

@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, Card, Checkbox, Column, Group, LabelFor, RadioButtons, Row, Slider, sliderMarkers, Tabs, Text, TextInput } from "@rvx/ui";
+import { Breadcrumbs, Button, Card, Checkbox, Column, ControlGroup, Group, LabelFor, RadioButtons, Row, Slider, sliderMarkers, Tabs, Text, TextInput } from "@rvx/ui";
 import { $ } from "rvx";
 
 export default function () {
@@ -40,9 +40,17 @@ function GenericControls() {
 				<Button variant="danger">Danger</Button>
 			</Row>
 			<Row>
-				<TextInput value={$("Hello World!")} />
-				<TextInput value="Hello World!" disabled />
+				<ControlGroup>
+					<TextInput value={$("Hello World!")} />
+					<TextInput value="Hello World!" disabled />
+					<Button>...</Button>
+				</ControlGroup>
 			</Row>
+			<ControlGroup column>
+				<Button variant="item">Foo</Button>
+				<Button variant="item">Bar</Button>
+				<Button variant="item">Baz</Button>
+			</ControlGroup>
 		</Group>
 
 		<LabelFor label="Some Label">
