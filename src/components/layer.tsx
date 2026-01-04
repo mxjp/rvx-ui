@@ -40,6 +40,7 @@ uncapture(() => watch(LAYERS, layers => {
 
 function staticLayer(layer: LayerInstance, content: Component): unknown {
 	const root = <div
+		data-rvx-layer
 		style={{ display: "contents" }}
 		inert={layer.inert}
 	>
@@ -160,6 +161,7 @@ export function Layer(props: {
 	});
 
 	const root = <div
+		data-rvx-layer
 		style={{ display: "contents" }}
 		inert={() => layer.inert.value || !enabled()}
 	>
