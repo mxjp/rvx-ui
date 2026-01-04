@@ -4,6 +4,7 @@ import { inOverlayContext } from "../common/context.js";
 import { THEME } from "../common/theme.js";
 import { Collapse } from "./collapse.js";
 import { Column } from "./column.js";
+import { TopLayer } from "./layer.js";
 
 export type NotificationVariant = "default" | "info" | "success" | "warning" | "danger";
 
@@ -33,18 +34,20 @@ export function showNotification(content: Component<Notification>, options?: Not
 		const theme = THEME.current;
 		if (!host) {
 			uncapture(() => {
-				host = render(<div
-					class={theme?.notification_host}
-					style={{
-						"--notification-inline-size": () => NOTIFICATIONS.value.inlineSize,
-					}}
-				>
-					<Column class={theme?.notification_area} size="group">
-						<For each={instances}>
-							{instance => instance()}
-						</For>
-					</Column>
-				</div>);
+				host = render(<TopLayer>
+					{() => <div
+						class={theme?.notification_host}
+						style={{
+							"--notification-inline-size": () => NOTIFICATIONS.value.inlineSize,
+						}}
+					>
+						<Column class={theme?.notification_area} size="group">
+							<For each={instances}>
+								{instance => instance()}
+							</For>
+						</Column>
+					</div>}
+				</TopLayer>);
 			});
 		}
 		host!.appendTo(document.body);
