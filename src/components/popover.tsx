@@ -45,10 +45,10 @@ export function createPopover(props: {
 	 */
 	content: PopoverContent;
 
-	inlineSize?: Expression<string | undefined>;
-	maxInlineSize?: Expression<string | undefined>;
-	blockSize?: Expression<string | undefined>;
-	maxBlockSize?: Expression<string | undefined>;
+	inlineSize?: Expression<string | null>;
+	maxInlineSize?: Expression<string | null>;
+	blockSize?: Expression<string | null>;
+	maxBlockSize?: Expression<string | null>;
 
 	/**
 	 * An array of event names that cause the popover to hide automatically when dispatched outside of the current layer stack or the anchor.
@@ -197,10 +197,10 @@ export function Popover(props: {
 	/** The popover content component. */
 	children: PopoverContent;
 
-	inlineSize?: Expression<string | undefined>;
-	maxInlineSize?: Expression<string | undefined>;
-	blockSize?: Expression<string | undefined>;
-	maxBlockSize?: Expression<string | undefined>;
+	inlineSize?: Expression<string | null>;
+	maxInlineSize?: Expression<string | null>;
+	blockSize?: Expression<string | null>;
+	maxBlockSize?: Expression<string | null>;
 
 	/**
 	 * Defines the direction in which the popover is placed in relation to the anchor.

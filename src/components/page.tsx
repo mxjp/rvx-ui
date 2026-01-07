@@ -3,7 +3,7 @@ import { THEME } from "../common/theme.js";
 import { Column } from "./column.js";
 
 export function Page(props: {
-	inlineSize?: Expression<string | undefined>;
+	inlineSize?: Expression<string | null>;
 	centerBlock?: Expression<boolean>;
 	role?: Expression<string | undefined>;
 	id?: Expression<string | undefined>;

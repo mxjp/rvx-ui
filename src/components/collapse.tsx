@@ -76,7 +76,7 @@ export function Collapse(props: {
 		]}
 		style={[
 			{
-				"--collapse-size": () => size.value === undefined ? undefined : `${size.value}px`,
+				"--collapse-size": () => size.value === undefined ? null : `${size.value}px`,
 			},
 			props.style,
 		]}
