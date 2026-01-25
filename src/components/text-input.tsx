@@ -1,7 +1,7 @@
 import { ClassValue, Expression, get, Signal, StyleValue } from "rvx";
-import { isPending, TASKS } from "rvx/async";
+import { isPending } from "rvx/async";
 import { optionalString } from "rvx/convert";
-import { keyFor } from "../common/events.js";
+import { handleActionEvent, isKey } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { closestValidator } from "./validation.js";
 
@@ -92,17 +92,8 @@ export function TextInput(props: ({
 			}
 		}}
 		on:keydown={event => {
-			const key = keyFor(event);
-			if (key === "enter" && props.enterAction && !disabled()) {
-				const result = props.enterAction(event);
-				if (result === false) {
-					return;
-				}
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				if (result instanceof Promise) {
-					TASKS.current?.waitFor(result);
-				}
+			if (isKey(event, "enter") && props.enterAction && !disabled()) {
+				handleActionEvent(event, props.enterAction);
 			}
 		}}
 

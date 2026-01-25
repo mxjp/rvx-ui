@@ -1,6 +1,6 @@
 import { $, Component, Context, Expression, get, Inject, memo, Signal, teardown, uncapture, untrack, watch } from "rvx";
 
-import { Action, handleActionEvent, keyFor } from "../common/events.js";
+import { Action, handleActionEvent, isKey, Key } from "../common/events.js";
 
 interface LayerInstance {
 	/** The root nodes of this layer. */
@@ -199,9 +199,9 @@ export interface LayerHandle {
 	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
 
 	/**
-	 * Shorthand for adding a global "keydown" event listener using {@link useEvent} and {@link keyFor}.
+	 * Shorthand for adding a global "keydown" event listener using {@link useEvent}.
 	 */
-	useHotkey(key: string, action: Action): void;
+	useHotkey(key: string | Key, action: Action): void;
 
 	/**
 	 * Check if this layer contains the specified node.
@@ -286,7 +286,7 @@ class Handle implements LayerHandle {
 
 	useHotkey(key: string, action: Action): void {
 		this.useEvent("keydown", event => {
-			if (keyFor(event) === key) {
+			if (isKey(event, key)) {
 				handleActionEvent(event, action);
 			}
 		});

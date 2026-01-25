@@ -1,6 +1,6 @@
 import { $, ClassValue, Expression, For, get, map, memo, render, StyleValue, uniqueId, View, watch } from "rvx";
 import { optionalString } from "rvx/convert";
-import { Action, createPassiveActionEvent, handleActionEvent, keyFor, startDelayedHoverOnMouseenter } from "../common/events.js";
+import { Action, createPassiveActionEvent, handleActionEvent, isKey, startDelayedHoverOnMouseenter } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { LAYER } from "./layer.js";
 import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
@@ -118,54 +118,41 @@ export function createDropdown(props: {
 			layer.useEvent("keydown", event => {
 				const currentItems = items();
 				const current = activeItem.value;
-				switch (keyFor(event)) {
-					case "escape": {
+				if (isKey(event, "escape")) {
+					popout.hide();
+				} else if (isKey(event, "arrowleft")) {
+					if (props.expansion) {
 						popout.hide();
-						break;
-					}
-					case "arrowleft": {
-						if (props.expansion) {
-							popout.hide();
-							break;
-						}
+					} else {
 						return;
 					}
-					case "arrowdown": {
-						activeItem.value = currentItems[(current === undefined ? 0 : (currentItems.indexOf(current) + 1)) % currentItems.length];
-						scrollToActive();
-						break;
-					}
-					case "arrowup": {
-						const index = current === undefined ? -1 : (currentItems.indexOf(current) - 1);
-						activeItem.value = currentItems[index < 0 ? currentItems.length - 1 : index];
-						scrollToActive();
-						break;
-					}
-					case "arrowright": {
-						if (current) {
-							const instance = instances.get(current);
-							if (instance?.children) {
-								instance.children.show(instance.view, event);
-								event.stopImmediatePropagation();
-								event.preventDefault();
-							}
+				} else if (isKey(event, "arrowdown")) {
+					activeItem.value = currentItems[(current === undefined ? 0 : (currentItems.indexOf(current) + 1)) % currentItems.length];
+					scrollToActive();
+				} else if (isKey(event, "arrowup")) {
+					const index = current === undefined ? -1 : (currentItems.indexOf(current) - 1);
+					activeItem.value = currentItems[index < 0 ? currentItems.length - 1 : index];
+					scrollToActive();
+				} else if (isKey(event, "arrowright")) {
+					if (current) {
+						const instance = instances.get(current);
+						if (instance?.children) {
+							instance.children.show(instance.view, event);
+							event.stopImmediatePropagation();
+							event.preventDefault();
 						}
-						break;
 					}
-					case "enter": {
-						if (current?.action && handleActionEvent(event, current.action)) {
-							popout.hide();
-						} else if (current) {
-							const instance = instances.get(current);
-							if (instance?.children) {
-								instance.children.show(instance.view, event);
-								event.stopImmediatePropagation();
-								event.preventDefault();
-							}
+				} else if (isKey(event, "enter")) {
+					if (current?.action && handleActionEvent(event, current.action)) {
+						popout.hide();
+					} else if (current) {
+						const instance = instances.get(current);
+						if (instance?.children) {
+							instance.children.show(instance.view, event);
+							event.stopImmediatePropagation();
+							event.preventDefault();
 						}
-						break;
 					}
-					default: return;
 				}
 				event.stopImmediatePropagation();
 				event.preventDefault();

@@ -1,7 +1,7 @@
 import { ClassValue, Expression, get, map, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString } from "rvx/convert";
-import { Action, handleActionEvent, keyFor } from "../common/events.js";
+import { Action, handleActionEvent, isKey } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 
 export function NavList(props: {
@@ -69,8 +69,7 @@ export function NavListButton(props: {
 		id={props.id}
 		on:click={action}
 		on:keydown={event => {
-			const key = keyFor(event);
-			if (key === "enter" || key === "space") {
+			if (isKey(event, "enter") || isKey(event, " ")) {
 				action(event);
 			}
 		}}

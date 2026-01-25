@@ -1,48 +1,22 @@
 import { TASKS } from "rvx/async";
 
-/**
- * Get an identifier for the pressed key including any modifiers.
- *
- * The identifier is constructed by concatenating the modifies and lower cased key. In addition, the space key is represented as `space` for better readability.
- *
- * Modifiers in order:
- * + `ctrl+`
- * + `shift+`
- * + `alt+`
- * + `meta+`
- *
- * Examples:
- * + `shift+a`
- * + `ctrl+shift+space`
- *
- * @returns The identifier.
- *
- * @example
- * ```tsx
- * switch (keyFor(event)) {
- *   case "enter": ...
- *   case "ctrl+a": ...
- * }
- * ```
- */
-export function keyFor(event: KeyboardEvent): string {
-	let key = event.key.toLowerCase();
-	if (key === " ") {
-		key = "space";
+export interface Key {
+	key: string;
+	meta?: boolean;
+	alt?: boolean;
+	shift?: boolean;
+	ctrl?: boolean;
+}
+
+export function isKey(event: KeyboardEvent, key: string | Key) {
+	if (typeof key === "string") {
+		key = { key };
 	}
-	if (event.metaKey) {
-		key = "meta+" + key;
-	}
-	if (event.altKey) {
-		key = "alt+" + key;
-	}
-	if (event.shiftKey) {
-		key = "shift+" + key;
-	}
-	if (event.ctrlKey) {
-		key = "ctrl+" + key;
-	}
-	return key;
+	return event.key.toLowerCase() === key.key
+		&& event.metaKey === (key.meta ?? false)
+		&& event.altKey === (key.alt ?? false)
+		&& event.shiftKey === (key.shift ?? false)
+		&& event.ctrlKey === (key.ctrl ?? false);
 }
 
 /**

@@ -1,7 +1,7 @@
 import { ClassValue, Expression, get, map, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString, separated } from "rvx/convert";
-import { Action, handleActionEvent, keyFor } from "../common/events.js";
+import { Action, handleActionEvent, isKey } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 
 export type LinkReferrerPolicy = "no-referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "same-origin" | "strict-origin" | "strict-origin-when-cross-origin" | "unsafe-url";
@@ -106,8 +106,7 @@ export function Link(props: {
 
 		on:click={action}
 		on:keydown={event => {
-			const key = keyFor(event);
-			if (key === "enter" || key === "space") {
+			if (isKey(event, "enter") || isKey(event, " ")) {
 				action(event);
 			}
 		}}
