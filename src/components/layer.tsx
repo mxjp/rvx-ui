@@ -1,6 +1,6 @@
 import { $, Component, Context, Expression, get, Inject, memo, Signal, teardown, uncapture, untrack, watch } from "rvx";
-
 import { Action, handleActionEvent, isKey, Key } from "../common/events.js";
+import { useGlobalFocusTrap } from "../common/focus-trap.js";
 
 interface LayerInstance {
 	/** The root nodes of this layer. */
@@ -104,6 +104,10 @@ export function Layer(props: {
 		inert: $(false),
 		autoFocusFallback: undefined,
 	};
+
+	if (props.modal) {
+		useGlobalFocusTrap();
+	}
 
 	const enabled = memo(() => Boolean(get(props.enabled) ?? true));
 	watch(enabled, enable => {
