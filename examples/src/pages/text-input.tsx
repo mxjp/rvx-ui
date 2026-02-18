@@ -1,5 +1,5 @@
-import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, Heading, LabelFor, Row, showDialog, Text, TextInput, Value } from "@rvx/ui";
-import { $ } from "rvx";
+import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, handleKeyActionEvent, Heading, LabelFor, Row, showDialog, Text, TextInput, Value } from "@rvx/ui";
+import { $, Overwrite } from "rvx";
 import { debounce, trim } from "rvx/convert";
 
 export default function () {
@@ -45,20 +45,24 @@ export default function () {
 
 		<Heading level="2">Enter action</Heading>
 		<Row>
-			<TextInput value={enterAction} enterAction={() => {
-				showDialog<void>(dialog => {
-					return <DialogBody title="Message">
-						<DialogContent>
-							<Text>
-								You typed <Value style={{ "white-space": "pre-wrap" }}>{enterAction.value}</Value>.
-							</Text>
-						</DialogContent>
-						<DialogFooter>
-							<Button action={() => dialog.resolve()}>Close</Button>
-						</DialogFooter>
-					</DialogBody>;
+			<Overwrite on:keydown={event => {
+				handleKeyActionEvent(event, "enter", () => {
+					showDialog<void>(dialog => {
+						return <DialogBody title="Message">
+							<DialogContent>
+								<Text>
+									You typed <Value style={{ "white-space": "pre-wrap" }}>{enterAction.value}</Value>.
+								</Text>
+							</DialogContent>
+							<DialogFooter>
+								<Button action={() => dialog.resolve()}>Close</Button>
+							</DialogFooter>
+						</DialogBody>;
+					});
 				});
-			}} />
+			}}>
+				<TextInput value={enterAction} />
+			</Overwrite>
 		</Row>
 
 		<Heading level="2">Multiline</Heading>

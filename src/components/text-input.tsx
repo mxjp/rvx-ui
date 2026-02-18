@@ -54,8 +54,6 @@ export function TextInput(props: ({
 	 */
 	value: Expression<string>;
 
-	enterAction?: (event: Event) => void | boolean | Promise<void>;
-
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
@@ -89,11 +87,6 @@ export function TextInput(props: ({
 		on:input={() => {
 			if (props.value instanceof Signal) {
 				props.value.value = input.value;
-			}
-		}}
-		on:keydown={event => {
-			if (isKey(event, "enter") && props.enterAction && !disabled()) {
-				handleActionEvent(event, props.enterAction);
 			}
 		}}
 

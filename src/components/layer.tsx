@@ -1,5 +1,5 @@
 import { $, Component, Context, Expression, get, Inject, memo, Signal, teardown, uncapture, untrack, watch } from "rvx";
-import { Action, handleActionEvent, isKey, Key } from "../common/events.js";
+import { Action, handleKeyActionEvent, Key } from "../common/events.js";
 import { useGlobalFocusTrap } from "../common/focus-trap.js";
 
 interface LayerInstance {
@@ -290,9 +290,7 @@ class Handle implements LayerHandle {
 
 	useHotkey(key: string, action: Action): void {
 		this.useEvent("keydown", event => {
-			if (isKey(event, key)) {
-				handleActionEvent(event, action);
-			}
+			handleKeyActionEvent(event, key, action);
 		});
 	}
 

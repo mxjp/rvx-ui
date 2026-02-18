@@ -24,12 +24,12 @@ export function isKey(event: KeyboardEvent, key: string | Key) {
  *
  * Returning false indicates, that no action has been performed and that another action or the browser default behavior can be run.
  */
-export type Action<T extends unknown[] = []> = (event: Event, ...args: T) => void | boolean | Promise<void>;
+export type Action<T extends unknown[] = [], E = Event> = (event: E, ...args: T) => void | boolean | Promise<void>;
 
 /**
  * Call an action that was triggered by the specified event.
  */
-export function handleActionEvent<T extends unknown[]>(event: Event, action: Action<T>, ...args: T): boolean {
+export function handleActionEvent<T extends unknown[], E extends Event = Event>(event: E, action: Action<T, E>, ...args: T): boolean {
 	const result = action(event, ...args);
 	if (result === false) {
 		return false;
@@ -40,6 +40,14 @@ export function handleActionEvent<T extends unknown[]>(event: Event, action: Act
 		TASKS.current?.waitFor(result);
 	}
 	return true;
+}
+
+export function handleKeyActionEvent<T extends unknown[]>(event: KeyboardEvent, key: string | Key, action: Action<T, KeyboardEvent>, ...args: T) {
+	if (isKey(event, key) && !TASKS.current?.pending) {
+		return handleActionEvent(event, action, ...args);
+	} else {
+		return false;
+	}
 }
 
 /**
