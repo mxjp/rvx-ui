@@ -1,3 +1,4 @@
+import { Expression, get, Overwrite } from "rvx";
 import { TASKS } from "rvx/async";
 
 export interface Key {
@@ -48,6 +49,16 @@ export function handleKeyActionEvent<T extends unknown[]>(event: KeyboardEvent, 
 	} else {
 		return false;
 	}
+}
+
+export function WithAction(props: {
+	children: unknown,
+	action: Action<[], KeyboardEvent>,
+	key?: Expression<string | Key | undefined>;
+}) {
+	return <Overwrite on:keydown={e => handleKeyActionEvent(e, get(props.key) ?? "enter", props.action)}>
+		{props.children}
+	</Overwrite>;
 }
 
 /**
