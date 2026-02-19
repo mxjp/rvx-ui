@@ -1,11 +1,8 @@
 
 .control_group {
 	display: flex;
-
 	box-shadow: var(--control-shadow);
 	border-radius: var(--control-radius);
-
-	background: var(--separator-color);
 	gap: var(--separator);
 
 	& > * {

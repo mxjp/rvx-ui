@@ -44,15 +44,16 @@
 	transform: scale(.9);
 	transition: transform var(--layout-transition);
 
-	background-color: var(--overlay-bg);
+	background-color: var(--bg-alt);
 	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);
-	border: var(--content-border) solid var(--overlay-border);
+
+	border: var(--content-border) solid var(--card-default-border);
 }
 
 .dialog_scroll_view {
-	border-block-start: var(--content-border) solid var(--overlay-border);
-	border-block-end: var(--content-border) solid var(--overlay-border);
+	border-block-start: var(--content-border) solid var(--card-default-border);
+	border-block-end: var(--content-border) solid var(--card-default-border);
 	margin-inline-start: calc(var(--content-pad-inline-start) * -1 + var(--content-border));
 	margin-inline-end: calc(var(--content-pad-inline-end) * -1 + var(--content-border));
 }

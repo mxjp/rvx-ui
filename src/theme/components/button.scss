@@ -3,18 +3,15 @@
 @include common.theme((
 	button-default-bg: (
 		dark: rgb(72, 72, 72),
-		light: rgb(92, 92, 92),
+		light: rgb(208, 208, 208),
 	),
 	button-default-bg-hover: (
 		dark: rgb(100, 100, 100),
-		light: rgb(128, 128, 128),
+		light: rgb(192, 192, 192),
 	),
 	button-default-fg: (
 		dark: white,
-		light: white,
-	),
-	button-default-focus: (
-		light: rgb(100, 178, 255),
+		light: black,
 	),
 
 	button-primary-bg: (
@@ -104,11 +101,11 @@
 
 	button-item-bg: (
 		dark: rgb(48, 48, 48),
-		light: rgb(225, 225, 225),
+		light: rgb(235, 235, 235),
 	),
 	button-item-bg-hover: (
 		dark: rgb(64, 64, 64),
-		light: rgb(200, 200, 200),
+		light: rgb(215, 215, 215),
 	),
 	button-item-fg: (
 		dark: white,

@@ -53,7 +53,7 @@ $root-size: 14px;
 @include common.theme((
 	bg: (
 		dark: rgb(24, 24, 24),
-		light: rgb(245, 245, 245),
+		light: rgb(247, 247, 247),
 	),
 	bg-alt: (
 		dark: rgb(32, 32, 32),
@@ -73,7 +73,7 @@ $root-size: 14px;
 	),
 	separator-color: (
 		dark: rgb(40, 40, 40),
-		light: rgb(248, 248, 248),
+		light: rgba(200, 200, 200, 0.3),
 	),
 	selection-bg: (
 		dark: rgba(64, 160, 255, 0.5),
@@ -82,14 +82,6 @@ $root-size: 14px;
 	overlay-backdrop: (
 		dark: rgba(24, 24, 24, .8),
 		light: rgba(245, 245, 245, .7),
-	),
-	overlay-bg: (
-		dark: var(--bg),
-		light: var(--bg),
-	),
-	overlay-border: (
-		dark: rgb(48, 48, 48),
-		light: rgb(216, 216, 216),
 	),
 	overlay-shadow: (
 		dark: 0 0 #{px(12)} rgba(0, 0, 0, .3),
