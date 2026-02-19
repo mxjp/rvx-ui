@@ -2,6 +2,7 @@ import { ClassValue, Expression, get, Signal, StyleValue, uniqueId, watch } from
 import { isPending } from "rvx/async";
 
 import { optionalString, string } from "rvx/convert";
+import { ID_PAIR } from "../common/id-pairs.js";
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
 import { closestValidator } from "./validation.js";
@@ -16,7 +17,8 @@ export function Checkbox(props: {
 	autofocus?: Expression<boolean | undefined>;
 	children?: unknown;
 }): unknown {
-	const id = uniqueId();
+	const pairId = ID_PAIR.current.consume();
+	const id = props.children === undefined ? pairId : uniqueId();
 	const theme = THEME.current;
 
 	const disabled = props.checked instanceof Signal

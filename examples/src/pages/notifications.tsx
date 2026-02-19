@@ -1,4 +1,4 @@
-import { Button, DialogBody, DialogContent, DialogFooter, Group, Heading, Row, showDialog, showNotification, Text } from "@rvx/ui";
+import { Button, DialogBody, DialogContent, DialogFooter, Heading, Row, showDialog, showNotification, Text } from "@rvx/ui";
 import { LoremIpsum } from "../common";
 
 export default function() {

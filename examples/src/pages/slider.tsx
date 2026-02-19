@@ -1,4 +1,4 @@
-import { coupleMinMax, Group, Heading, LabelFor, Slider, sliderMarkers } from "@rvx/ui";
+import { coupleMinMax, Group, Heading, Label, Slider, sliderMarkers } from "@rvx/ui";
 import { $ } from "rvx";
 
 export default function() {
@@ -16,34 +16,33 @@ export default function() {
 
 	return <>
 		<Heading level="1">Sliders</Heading>
+		<Slider value={a} min={0} max={10} step={1}>
+			Current value: {a}
+		</Slider>
+
+		<Heading level="2">Markers</Heading>
 		<Group>
-			<Slider value={a} min={0} max={10} step={1}>
-				Current value: {a}
+			<Label>Uniform markers</Label>
+			<Slider value={b} min={0} max={5} step={0.25} markers={sliderMarkers(0, 5, 0.25)}>
+				Current value: {b}
+			</Slider>
+		</Group>
+		<Group>
+			<Label>Custom markers</Label>
+			<Slider value={c} min={0} max={5} step={0.25} markers={[0, ...sliderMarkers(1, 4, 0.5), 5]}>
+				Current value: {c}
 			</Slider>
 		</Group>
 
-		<Heading level="2">Markers</Heading>
-		<LabelFor label="Uniform markers">
-			{id => <Slider id={id} value={b} min={0} max={5} step={0.25} markers={sliderMarkers(0, 5, 0.25)}>
-				Current value: {b}
-			</Slider>}
-		</LabelFor>
-		<LabelFor label="Custom markers">
-			{id => <Slider id={id} value={c} min={0} max={5} step={0.25} markers={[0, ...sliderMarkers(1, 4, 0.5), 5]}>
-				Current value: {c}
-			</Slider>}
-		</LabelFor>
-
 		<Heading level="2">Coupling</Heading>
-		<LabelFor label="Min">
-			{id => <Slider id={id} value={min} />}
-		</LabelFor>
-		<LabelFor label="Middle">
-			{id => <Slider id={id} value={mid} />}
-		</LabelFor>
-		<LabelFor label="Max">
-			{id => <Slider id={id} value={max} />}
-		</LabelFor>
+		<Group>
+			<Label>Min</Label>
+			<Slider value={min} />
+			<Label>Middle</Label>
+			<Slider value={mid} />
+			<Label>Max</Label>
+			<Slider value={max} />
+		</Group>
 
 		<Heading level="2">Invalid initial values</Heading>
 		<Slider value={d} min={0} max={10} step={2} markers={sliderMarkers(0, 10, 2)}>

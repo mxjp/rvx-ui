@@ -1,7 +1,7 @@
 import { ClassValue, Expression, get, Signal, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString } from "rvx/convert";
-import { handleActionEvent, isKey } from "../common/events.js";
+import { ID_PAIR } from "../common/id-pairs.js";
 import { THEME } from "../common/theme.js";
 import { closestValidator } from "./validation.js";
 
@@ -62,6 +62,7 @@ export function TextInput(props: ({
 	"aria-label"?: Expression<string | undefined>;
 	"aria-labelledby"?: Expression<string | undefined>;
 }): unknown {
+	const id = props.id ?? ID_PAIR.current.consume();
 	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
@@ -78,7 +79,7 @@ export function TextInput(props: ({
 			props.class,
 		]}
 		style={props.style}
-		id={props.id}
+		id={id}
 		autofocus={props.autofocus}
 		spellcheck={optionalString(props.spellcheck)}
 		readonly={!(props.value instanceof Signal)}

@@ -1,6 +1,6 @@
-import { ClassValue, Expression, StyleValue, uniqueId } from "rvx";
+import { ClassValue, Expression, StyleValue } from "rvx";
+import { ID_PAIR } from "../common/id-pairs.js";
 import { THEME } from "../common/theme.js";
-import { Group } from "./column.js";
 
 export function Label(props: {
 	class?: ClassValue;
@@ -10,28 +10,16 @@ export function Label(props: {
 	children?: unknown;
 }): unknown {
 	const theme = THEME.current;
+	const idFor = props.for ?? ID_PAIR.current.prefix();
 	return <label
 		class={[
 			theme?.label,
 			props.class,
 		]}
 		style={props.style}
-		for={props.for}
+		for={idFor}
 		id={props.id}
 	>
 		{props.children}
 	</label>;
-}
-
-export function LabelFor(props: {
-	class?: ClassValue;
-	style?: StyleValue;
-	label: unknown;
-	children: (id: string) => unknown;
-}): unknown {
-	const id = uniqueId();
-	return <Group>
-		<Label class={props.class} style={props.style} for={id}>{props.label}</Label>
-		{props.children(id)}
-	</Group>;
 }

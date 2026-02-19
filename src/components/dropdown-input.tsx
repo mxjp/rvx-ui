@@ -1,4 +1,5 @@
 import { ClassValue, Expression, get, map, Signal, StyleValue } from "rvx";
+import { ID_PAIR } from "../common/id-pairs.js";
 import { Button, ButtonVariant } from "./button.js";
 import { Dropdown, DropdownItem } from "./dropdown.js";
 import { PopoutAlignment, PopoutPlacement } from "./popout.js";
@@ -32,6 +33,7 @@ export function DropdownInput<T>(props: {
 	alignment?: Expression<PopoutAlignment | undefined>;
 	foreignEvents?: string[];
 }): unknown {
+	const id = props.id ?? ID_PAIR.current.consume();
 	const items = new WeakMap<DropdownValue<T>, DropdownItem>();
 	return <Dropdown
 		anchor={a => <Button
@@ -40,7 +42,7 @@ export function DropdownInput<T>(props: {
 			disabled={props.value instanceof Signal ? props.disabled : true}
 			class={props.class}
 			style={props.style}
-			id={props.id}
+			id={id}
 			autofocus={props.autofocus}
 			title={props.title}
 			role="combobox"

@@ -1,4 +1,4 @@
-import { Card, LabelFor, PopoutAlignment, PopoutPlacement, RadioButtons, Row, Text } from "@rvx/ui";
+import { Card, Group, Label, PopoutAlignment, PopoutPlacement, RadioButtons, Row, Text } from "@rvx/ui";
 import { Signal } from "rvx";
 
 export function PopoutControls(props: {
@@ -9,8 +9,9 @@ export function PopoutControls(props: {
 }) {
 	return <Card>
 		<Row size="content">
-			<LabelFor label="Placement">
-				{id => <RadioButtons<PopoutPlacement | undefined> value={props.placement} id={id} options={[
+			<Group>
+				<Label>Placement</Label>
+				<RadioButtons<PopoutPlacement | undefined> value={props.placement} options={[
 					{ value: undefined, label: <>Default ({props.defaultPlacement})</> },
 					{ value: "block", label: "Block" },
 					{ value: "block-start", label: "Block start" },
@@ -18,16 +19,18 @@ export function PopoutControls(props: {
 					{ value: "inline", label: "Inline" },
 					{ value: "inline-start", label: "Inline start" },
 					{ value: "inline-end", label: "Inline end" },
-				]} />}
-			</LabelFor>
-			<LabelFor label="Alignment">
-				{id => <RadioButtons<PopoutAlignment | undefined> value={props.alignment} id={id} options={[
+				]} />
+			</Group>
+
+			<Group>
+				<Label>Alignment</Label>
+				<RadioButtons<PopoutAlignment | undefined> value={props.alignment} options={[
 					{ value: undefined, label: <>Default ({props.defaultAlignment})</> },
 					{ value: "start", label: "Start" },
 					{ value: "center", label: "Center" },
 					{ value: "end", label: "End" },
-				]} />}
-			</LabelFor>
+				]} />
+			</Group>
 		</Row>
 	</Card>;
 }

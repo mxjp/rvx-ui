@@ -1,5 +1,5 @@
-import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, handleKeyActionEvent, Heading, LabelFor, Row, showDialog, Text, TextInput, Value, WithAction } from "@rvx/ui";
-import { $, Overwrite } from "rvx";
+import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, Heading, Label, Row, showDialog, Text, TextInput, Value, WithAction } from "@rvx/ui";
+import { $ } from "rvx";
 import { debounce, trim } from "rvx/convert";
 
 export default function () {
@@ -12,16 +12,14 @@ export default function () {
 		<Heading level="1">Text Inputs</Heading>
 		<Group>
 			<Row>
-				<LabelFor label="Trimmed">
-					{id => {
-						return <TextInput id={id} value={text.pipe(trim)} />;
-					}}
-				</LabelFor>
-				<LabelFor label="Trimmed & Debounced">
-					{id => {
-						return <TextInput id={id} value={text.pipe(trim).pipe(debounce, 300)} />;
-					}}
-				</LabelFor>
+				<Group>
+					<Label>Trimmed</Label>
+					<TextInput value={text.pipe(trim)} />
+				</Group>
+				<Group>
+					<Label>Trimmed & Debounced</Label>
+					<TextInput value={text.pipe(trim).pipe(debounce, 300)} />
+				</Group>
 			</Row>
 			<Text>
 				You typed "<Value style={{ "white-space": "pre-wrap" }}>{text}</Value>"
@@ -32,16 +30,16 @@ export default function () {
 		</Group>
 
 		<Heading level="2">States</Heading>
-		<Group>
-			<Row>
-				<LabelFor label="Readonly">
-					{id => <TextInput id={id} value="Hello World!" />}
-				</LabelFor>
-				<LabelFor label="Disabled">
-					{id => <TextInput id={id} value="Hello World!" disabled />}
-				</LabelFor>
-			</Row>
-		</Group>
+		<Row>
+			<Group>
+				<Label>Readonly</Label>
+				<TextInput value="Hello World!" />
+			</Group>
+			<Group>
+				<Label>Disabled</Label>
+				<TextInput value="Hello World!" disabled />
+			</Group>
+		</Row>
 
 		<Heading level="2">Enter action</Heading>
 		<Row>

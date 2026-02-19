@@ -1,4 +1,4 @@
-import { Card, Column, Group, Heading, Link, Separated, Tab, TabList, TabPanel, Tabs, Text, Value } from "@rvx/ui";
+import { Card, Column, Group, Heading, Link, Tab, TabList, TabPanel, Tabs, Text, Value } from "@rvx/ui";
 import { $, Show } from "rvx";
 
 export default function () {

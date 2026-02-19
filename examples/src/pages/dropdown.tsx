@@ -1,4 +1,4 @@
-import { Button, Column, Dropdown, DropdownInput, DropdownItem, Group, Heading, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@rvx/ui";
+import { Button, Dropdown, DropdownInput, DropdownItem, Group, Heading, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@rvx/ui";
 import { $ } from "rvx";
 import { PopoutControls } from "../common.js";
 

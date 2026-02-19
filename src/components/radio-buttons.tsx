@@ -1,6 +1,7 @@
 import { ClassValue, Expression, For, get, map, Signal, StyleValue, uniqueId } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString, string } from "rvx/convert";
+import { ID_PAIR } from "../common/id-pairs.js";
 import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
 import { closestValidator } from "./validation.js";
@@ -25,6 +26,7 @@ export function RadioButtons<T>(props: {
 
 	children?: never;
 }): unknown {
+	const id = props.id ?? ID_PAIR.current.consume();
 	const group = uniqueId();
 	const theme = THEME.current;
 

@@ -1,4 +1,5 @@
 import { Expression, map, Show, Signal, uniqueId } from "rvx";
+import { ID_PAIR } from "../common/id-pairs.js";
 import { THEME } from "../common/theme.js";
 
 export function Slider(props: {
@@ -12,9 +13,10 @@ export function Slider(props: {
 }) {
 	const theme = THEME.current;
 	const markerId = uniqueId();
+	const id = props.id ?? ID_PAIR.current.consume();
 
 	const input = <input
-		id={props.id}
+		id={id}
 		type="range"
 		min={map(props.min, min => min ?? 0)}
 		max={map(props.max, max => max ?? 100)}

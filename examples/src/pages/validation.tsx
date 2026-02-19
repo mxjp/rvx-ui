@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Column, Group, Heading, intParser, LabelFor, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
+import { Button, Card, Checkbox, Column, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
 import { $, Inject, Nest } from "rvx";
 import { trim } from "rvx/convert";
 
@@ -11,37 +11,29 @@ function BaseExample() {
 	}
 
 	return <>
-		<LabelFor label="Username">
-			{id => <>
-				<TextInput
-					id={id}
-					value={name
-						.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
-						.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
-						.pipe(trim)
-					}
-				/>
-				<ValidationMessages for={name} />
-			</>}
-		</LabelFor>
+		<Label>Username</Label>
+		<TextInput
+			value={name
+				.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
+				.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
+				.pipe(trim)
+			}
+		/>
+		<ValidationMessages for={name} />
 
-		<LabelFor label="Network Port">
-			{id => <>
-				<TextInput
-					id={id}
-					value={port
-						.pipe(intParser, {
-							format: () => <>Enter a valid port.</>,
-							range: () => <>The port must range from 1 to {0xFFFF}.</>,
-							min: 1,
-							max: 0xFFFF,
-						})
-						.pipe(trim)
-					}
-				/>
-				<ValidationMessages for={port} />
-			</>}
-		</LabelFor>
+		<Label>Network Port</Label>
+		<TextInput
+			value={port
+				.pipe(intParser, {
+					format: () => <>Enter a valid port.</>,
+					range: () => <>The port must range from 1 to {0xFFFF}.</>,
+					min: 1,
+					max: 0xFFFF,
+				})
+				.pipe(trim)
+			}
+		/>
+		<ValidationMessages for={port} />
 
 		<Row>
 			<Button variant="primary" action={ok}>Validate</Button>
@@ -68,13 +60,13 @@ function CustomRulesExample() {
 
 	return <>
 		<Group>
-			<LabelFor label="Options">
-				{id => <Column id={id} size="control">
-					<Checkbox checked={foo}>Foo</Checkbox>
-					<Checkbox checked={bar}>Bar</Checkbox>
-					<Checkbox checked={baz}>Baz</Checkbox>
-				</Column>}
-			</LabelFor>
+			<Label>Options</Label>
+			<Column size="control">
+				<Checkbox checked={foo}>Foo</Checkbox>
+				<Checkbox checked={bar}>Bar</Checkbox>
+				<Checkbox checked={baz}>Baz</Checkbox>
+			</Column>
+
 			<ValidationMessages for={validator} />
 		</Group>
 
@@ -94,13 +86,12 @@ export default function () {
 	return <>
 		<Heading level="1">Validation</Heading>
 		<Card>
-			<LabelFor label="Trigger">
-				{id => <RadioButtons<ValidationTrigger | undefined> id={id} value={trigger} options={[
-					{ value: "if-validated", label: "if-validated" },
-					{ value: undefined, label: "if-invalid (default)" },
-					{ value: "never", label: "never" },
-				]} />}
-			</LabelFor>
+			<Label>Trigger</Label>
+			<RadioButtons value={trigger} options={[
+				{ value: "if-validated", label: "if-validated" },
+				{ value: undefined, label: "if-invalid (default)" },
+				{ value: "never", label: "never" },
+			]} />
 		</Card>
 
 		<Nest watch={() => [trigger.value]}>

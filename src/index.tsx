@@ -2,6 +2,7 @@ export * from "./common/context.js";
 export * from "./common/coupling.js";
 export * from "./common/events.js";
 export * from "./common/focus-trap.js";
+export * from "./common/id-pairs.js";
 export * from "./common/theme.js";
 export * from "./common/types.js";
 export * from "./common/writing-mode.js";
