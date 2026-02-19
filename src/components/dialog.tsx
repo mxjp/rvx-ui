@@ -1,8 +1,8 @@
 import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, render, StyleValue, teardown, uniqueId } from "rvx";
 import { TASKS, Tasks, useMicrotask } from "rvx/async";
+import { inOverlayContext } from "../common/context.js";
 import { Column, FlexSpace, Group, Heading, Row, Separated, Text, THEME } from "../index.js";
 import { LAYER, Layer } from "./layer.js";
-import { inOverlayContext } from "../common/context.js";
 
 export class DialogAbortError extends Error { }
 
@@ -37,12 +37,12 @@ export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOption
 							},
 							reject(reason) {
 								dispose();
-								reject(reason);
+								reject(reason ?? new DialogAbortError());
 							},
 						};
 						if (options?.cancellable ?? true) {
 							LAYER.current!.useHotkey("escape", () => {
-								dialog.reject(new DialogAbortError());
+								dialog.reject();
 							});
 						}
 						return init(dialog);
