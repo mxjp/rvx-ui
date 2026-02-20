@@ -270,6 +270,8 @@ export function Dropdown(props: {
 	 */
 	anchor: (props: DropdownAnchorProps) => unknown;
 
+	anchorRect?: Expression<View | undefined>;
+
 	/**
 	 * The items contained in this dropdown.
 	 *
@@ -328,7 +330,7 @@ export function Dropdown(props: {
 
 	const anchor = render(props.anchor({
 		action: event => {
-			dropdown.toggle(anchor, event);
+			dropdown.toggle(get(props.anchorRect) ?? anchor, event);
 		},
 		"aria-haspopup": "listbox",
 		"aria-controls": () => dropdown.visible ? get(id) : undefined,

@@ -1,4 +1,4 @@
-import { $, ClassValue, Expression, get, Inject, map, render, StyleValue, SVG, uniqueId, watch, XMLNS } from "rvx";
+import { $, ClassValue, Expression, get, Inject, map, render, StyleValue, SVG, uniqueId, View, watch, XMLNS } from "rvx";
 import { Action } from "../common/events.js";
 import { THEME } from "../common/theme.js";
 import { DOWN, getSize, getXY, LEFT, RIGHT, UP } from "../common/writing-mode.js";
@@ -179,6 +179,8 @@ export function Popover(props: {
 	 */
 	anchor: (props: PopoverAnchorProps) => unknown;
 
+	anchorRect?: Expression<View | undefined>;
+
 	/**
 	 * The anchor id.
 	 *
@@ -285,7 +287,7 @@ export function Popover(props: {
 
 	const anchor = render(props.anchor({
 		action: event => {
-			popover.toggle(anchor, event);
+			popover.toggle(get(props.anchorRect) ?? anchor, event);
 		},
 		id,
 		"aria-label": props["aria-label"],

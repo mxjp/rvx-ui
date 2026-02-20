@@ -1,4 +1,4 @@
-import { ClassValue, Expression, get, map, Signal, StyleValue } from "rvx";
+import { ClassValue, Expression, get, map, Signal, StyleValue, View } from "rvx";
 import { ID_PAIR } from "../common/id-pairs.js";
 import { Button, ButtonVariant } from "./button.js";
 import { Dropdown, DropdownItem } from "./dropdown.js";
@@ -29,6 +29,7 @@ export function DropdownInput<T>(props: {
 	dropdownId?: string;
 	dropdownClass?: ClassValue;
 	dropdownStyle?: StyleValue;
+	anchorRect?: Expression<View | undefined>;
 	placement?: Expression<PopoutPlacement | undefined>;
 	alignment?: Expression<PopoutAlignment | undefined>;
 	foreignEvents?: string[];
@@ -55,6 +56,7 @@ export function DropdownInput<T>(props: {
 				return get(props.values).find(v => v.value === value)?.label;
 			})}
 		</Button>}
+		anchorRect={props.anchorRect}
 		items={() => get(props.values).map<DropdownItem>(value => {
 			let item = items.get(value);
 			if (item === undefined) {

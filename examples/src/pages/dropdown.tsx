@@ -1,5 +1,5 @@
-import { Button, Dropdown, DropdownInput, DropdownItem, Group, Heading, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@rvx/ui";
-import { $ } from "rvx";
+import { Button, ControlGroup, Dropdown, DropdownInput, DropdownItem, Group, Heading, Label, PopoutAlignment, PopoutPlacement, Row, Text, Value } from "@rvx/ui";
+import { $, Expression, render, Signal } from "rvx";
 import { PopoutControls } from "../common.js";
 
 export default function() {
@@ -40,9 +40,10 @@ export default function() {
 		</Group>
 
 		<Heading level="2">Inputs</Heading>
-		<Row>
+		<Row size="content">
 			<Group>
-				<DropdownInput<string>
+				<Label>Default Anchor</Label>
+				<DropdownInput
 					value={option}
 					values={[
 						{ value: "foo", label: "Foo" },
@@ -52,8 +53,34 @@ export default function() {
 					placement={placement}
 					alignment={alignment}
 				/>
-				<Text>Selected value: <Value>{option}</Value></Text>
+			</Group>
+			<Group>
+				<Label>Custom Anchor</Label>
+				<CustomAnchorExample value={option} placement={placement} alignment={alignment} />
 			</Group>
 		</Row>
+		<Text>Selected value: <Value>{option}</Value></Text>
 	</>;
+}
+
+function CustomAnchorExample(props: {
+	value: Signal<string>;
+	placement: Expression<PopoutPlacement | undefined>;
+	alignment: Expression<PopoutAlignment | undefined>;
+}) {
+	const anchor = render(<ControlGroup>
+		<DropdownInput
+			value={props.value}
+			anchorRect={() => anchor}
+			values={[
+				{ value: "foo", label: "Foo" },
+				{ value: "bar", label: "Bar" },
+				{ value: "baz", label: "Baz" },
+			]}
+			placement={props.placement}
+			alignment={props.alignment}
+		/>
+		<Button>Some Button...</Button>
+	</ControlGroup>);
+	return anchor;
 }
