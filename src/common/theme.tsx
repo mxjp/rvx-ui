@@ -135,6 +135,8 @@ export interface Theme {
 	scroll_view_indicator_end?: string;
 	scroll_view_indicator_visible?: string;
 
+	secondary?: string;
+
 	separated_column?: string;
 	separated_row?: string;
 	has_separator?: string;
