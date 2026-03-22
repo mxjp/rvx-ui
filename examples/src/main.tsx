@@ -1,4 +1,4 @@
-import { captureOverlayContext, Heading, NavList, NavListButton, Page, RootLayer, ScrollView, THEME } from "@rvx/ui";
+import { captureOverlayContext, Heading, NavList, NavListButton, Page, PLACEHOLDER, RootLayer, ScrollView, THEME } from "@rvx/ui";
 import theme from "@rvx/ui/dist/theme.module.css";
 import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
@@ -12,6 +12,7 @@ mount(
 			THEME.with(theme),
 			TASKS.with(new Tasks()),
 			ROUTER.with(new HashRouter()),
+			PLACEHOLDER.with(() => <>Please Wait</>),
 		], () => {
 			captureOverlayContext();
 

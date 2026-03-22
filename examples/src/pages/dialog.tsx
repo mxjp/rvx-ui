@@ -1,5 +1,6 @@
-import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, Heading, LAYER, RadioButtons, Row, ScrollView, showDialog, TabList, Tabs, Text } from "@rvx/ui";
+import { Button, Column, DialogBody, DialogContent, DialogFooter, Group, Heading, LAYER, Placeholder, RadioButtons, Row, ScrollView, showDialog, TabList, Tabs, Text } from "@rvx/ui";
 import { $ } from "rvx";
+import { TASKS } from "rvx/async";
 import { LoremIpsum } from "../common";
 
 export default function () {
@@ -62,15 +63,19 @@ function showExampleDialog() {
 
 function showScrollableDialog() {
 	showDialog(dialog => {
+		TASKS.current!.waitFor(new Promise(r => setTimeout(r, 1000)));
+
 		return <DialogBody title="Scrollable Dialog" blockSize="40rem" inlineSize="32rem">
-			<ScrollView style={{ "min-block-size": "12rem" }}>
-				<DialogContent>
-					<Heading level="3">Some Content</Heading>
-					<LoremIpsum />
-					<Heading level="3">Some Content</Heading>
-					<LoremIpsum />
-				</DialogContent>
-			</ScrollView>
+			<Placeholder>
+				<ScrollView style={{ "min-block-size": "12rem" }}>
+					<DialogContent>
+						<Heading level="3">Some Content</Heading>
+						<LoremIpsum />
+						<Heading level="3">Some Content</Heading>
+						<LoremIpsum />
+					</DialogContent>
+				</ScrollView>
+			</Placeholder>
 			<DialogFooter>
 				<Button action={() => dialog.resolve()}>Close</Button>
 			</DialogFooter>

@@ -25,6 +25,7 @@ export * from "./components/link.js";
 export * from "./components/nav-list.js";
 export * from "./components/notifications.js";
 export * from "./components/page.js";
+export * from "./components/placeholder.js";
 export * from "./components/popout.js";
 export * from "./components/popover.js";
 export * from "./components/radio-buttons.js";

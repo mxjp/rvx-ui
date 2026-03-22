@@ -15,6 +15,7 @@ export type DialogInit<T> = (dialog: Dialog<T>) => unknown;
 
 export interface DialogOptions {
 	cancellable?: boolean;
+	detachCancel?: boolean;
 }
 
 export const DIALOG_FADEOUT = new Context<Event<[tasks: Promise<void>[]]> | undefined>();
@@ -41,8 +42,10 @@ export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOption
 							},
 						};
 						if (options?.cancellable ?? true) {
-							LAYER.current!.useHotkey("escape", () => {
-								dialog.reject();
+							TASKS.inject((options?.detachCancel ?? true) ? null : TASKS.current, () => {
+								LAYER.current!.useHotkey("escape", () => {
+									dialog.reject();
+								});
 							});
 						}
 						return init(dialog);

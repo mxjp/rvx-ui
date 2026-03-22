@@ -99,6 +99,8 @@ $root-size: 14px;
 
 body {
 	background-color: var(--bg);
+	--parent-bg: var(--bg);
+
 	color: var(--fg);
 
 	text-wrap: balance;

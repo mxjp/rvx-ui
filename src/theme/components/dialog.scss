@@ -45,6 +45,8 @@
 	transition: transform var(--layout-transition);
 
 	background-color: var(--bg-alt);
+	--parent-bg: var(--bg-alt);
+
 	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);
 

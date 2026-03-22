@@ -47,6 +47,7 @@
 	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
 	background-color: var(--bg);
+	--parent-bg: var(--bg);
 
 	&:not(.notification_raw) {
 		@include common.padding(content-pad);

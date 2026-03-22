@@ -32,6 +32,8 @@
 
 .popover_scroll_area {
 	background-color: var(--bg-alt);
+	--parent-bg: var(--bg);
+
 	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);
 	max-block-size: var(--popout-max-block-size);

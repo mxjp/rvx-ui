@@ -109,6 +109,11 @@ export interface Theme {
 	page_content_col?: string;
 	page_content?: string;
 
+	placeholder_area?: string;
+	placeholder_content?: string;
+	placeholder_message?: string;
+	placeholder?: string;
+
 	popover?: string;
 	popover_raw?: string;
 	popover_spike_area?: string;
