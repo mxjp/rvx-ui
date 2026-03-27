@@ -46,6 +46,7 @@ export function Collapse(props: {
 		}
 	});
 
+	const transition = $(false);
 	let visible = props.visible;
 	if (props.fadein !== undefined) {
 		const visibleSig = visible = $(false);
@@ -69,7 +70,7 @@ export function Collapse(props: {
 		inert={map(props.visible, v => !v)}
 		class={[
 			theme?.collapse,
-			() => size.value === undefined ? undefined : theme?.collapse_sized,
+			() => size.value === undefined || !transition.value ? undefined : theme?.collapse_sized,
 			() => alert.value ? theme?.collapse_alert : undefined,
 			map(visible, v => v ? theme?.collapse_visible : undefined),
 			props.class,
@@ -91,6 +92,21 @@ export function Collapse(props: {
 			</div>
 			: content}
 	</div> as HTMLDivElement;
+
+	watch(visible, () => {
+		transition.value = true;
+		useMicrotask(() => {
+			const duration = parseInt(getComputedStyle(root).getPropertyValue("--layout-transition-ms"));
+			if (Number.isSafeInteger(duration)) {
+				useTimeout(() => {
+					transition.value = false;
+				}, duration);
+			} else {
+				transition.value = false;
+			}
+		});
+	});
+
 	return root;
 }
 

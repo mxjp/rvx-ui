@@ -9,6 +9,9 @@ export default function() {
 	const visible = $(true);
 	const fadein = $(true);
 
+	const inner = $(false);
+	const outer = $(true);
+
 	const list = $<CollapseItem<number>[]>([]);
 
 	return <>
@@ -40,21 +43,6 @@ export default function() {
 			</Show>
 		</Group>
 
-		<Heading level="2">Flex Layout</Heading>
-		<Group>
-			<div style={{
-				"outline": "1px dashed var(--accent)",
-				"display": "flex",
-				"flex-direction": "column",
-			}}>
-				<div>Above</div>
-				<Collapse visible={collapse}>
-					Hello World!
-				</Collapse>
-				<div>Below</div>
-			</div>
-		</Group>
-
 		<Heading level="2">Lists</Heading>
 		<Group>
 			<Row>
@@ -71,13 +59,31 @@ export default function() {
 			</Row>
 			<Column size="control">
 				<CollapseFor each={list}>
-					{value => <Card variant="info" raw>
+					{value => <Card raw>
 						<Column padded size="control">
 							{value}
 						</Column>
 					</Card>}
 				</CollapseFor>
 			</Column>
+		</Group>
+
+		<Heading level="2">Nesting</Heading>
+		<Group>
+			<Row>
+				<Button action={() => { inner.value = !inner.value; }}>Toggle Inner</Button>
+				<Button action={() => { outer.value = !outer.value; }}>Toggle Outer</Button>
+			</Row>
+			<Collapse visible={outer}>
+				<Group>
+					<Card>Outer</Card>
+					<Collapse visible={inner}>
+						<Card>Inner</Card>
+					</Collapse>
+					<Card>Outer</Card>
+				</Group>
+			</Collapse>
+			<Card>Content below...</Card>
 		</Group>
 	</>;
 }
