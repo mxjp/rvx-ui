@@ -6,11 +6,11 @@
 	--space-scale: 0;
 }
 
-.collapse_sized {
+.sized {
 	transition:
-		margin-block-start var(--layout-transition),
-		margin-block-end var(--layout-transition),
-		opacity var(--layout-transition);
+		margin-block-start var(--transition-layout),
+		margin-block-end var(--transition-layout),
+		opacity var(--transition-layout);
 }
 
 @keyframes alert {
@@ -20,46 +20,46 @@
 	to { transform: translateX(0rem); }
 }
 
-.collapse_alert {
+.alert {
 	animation: alert .2s ease;
 }
 
-.collapse_visible.collapse_visible {
+.visible.visible {
 	--space-scale: 1;
 	opacity: 1;
 }
 
-.collapse_view {
+.view {
 	block-size: 0px;
 	position: relative;
 	overflow: hidden;
 
-	.collapse_sized > & {
+	.sized > & {
 		transition:
-			block-size var(--layout-transition),
-			margin var(--layout-transition);
+			block-size var(--transition-layout),
+			margin var(--transition-layout);
 	}
 
-	.collapse_visible > & {
+	.visible > & {
 		block-size: calc(var(--collapse-size) + var(--overflow-safe-area) * 2);
 		margin: calc(var(--overflow-safe-area) * -1);
 	}
 }
 
-.collapse_content {
+.content {
 	position: absolute;
 	inline-size: 100%;
 	top: 0px;
 	left: 0px;
 
-	.collapse_sized > * > & {
+	.sized > * > & {
 		transition:
-			top var(--layout-transition),
-			left var(--layout-transition),
-			inline-size var(--layout-transition);
+			top var(--transition-layout),
+			left var(--transition-layout),
+			inline-size var(--transition-layout);
 	}
 
-	.collapse_visible & {
+	.visible & {
 		top: var(--overflow-safe-area);
 		left: var(--overflow-safe-area);
 		inline-size: calc(100% - var(--overflow-safe-area) * 2);

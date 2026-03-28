@@ -1,7 +1,7 @@
+import styles from "@rvx/ui/theme/components/collapse.module.css";
 import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, watch } from "rvx";
 import { useMicrotask, useTimeout } from "rvx/async";
 import { optionalString } from "rvx/convert";
-import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
 
 export function Collapse(props: {
@@ -16,11 +16,10 @@ export function Collapse(props: {
 	"aria-relevant"?: Expression<AriaRelevant | undefined>;
 	"aria-atomic"?: Expression<boolean | undefined>;
 }): unknown {
-	const theme = THEME.current;
 	const alert = $(false);
 	const size = $<number | undefined>(undefined);
 
-	const content = <div class={theme?.collapse_content}>
+	const content = <div class={styles.content}>
 		{props.children}
 	</div> as HTMLDivElement;
 
@@ -69,10 +68,10 @@ export function Collapse(props: {
 	const root = <div
 		inert={map(props.visible, v => !v)}
 		class={[
-			theme?.collapse,
-			() => size.value === undefined || !transition.value ? undefined : theme?.collapse_sized,
-			() => alert.value ? theme?.collapse_alert : undefined,
-			map(visible, v => v ? theme?.collapse_visible : undefined),
+			styles.collapse,
+			() => size.value === undefined || !transition.value ? undefined : styles.sized,
+			() => alert.value ? styles.alert : undefined,
+			map(visible, v => v ? styles.visible : undefined),
 			props.class,
 		]}
 		style={[
@@ -86,11 +85,9 @@ export function Collapse(props: {
 		aria-relevant={props["aria-relevant"]}
 		aria-atomic={optionalString(props["aria-atomic"])}
 	>
-		{theme?.collapse_view
-			? <div class={theme.collapse_view}>
-				{content}
-			</div>
-			: content}
+		<div class={styles.view}>
+			{content}
+		</div>
 	</div> as HTMLDivElement;
 
 	watch(visible, () => {
@@ -125,7 +122,6 @@ export function CollapseFor<T>(props: {
 	each: Expression<Iterable<CollapseItem<T>>>;
 	children: Component<T>;
 }): unknown {
-
 	interface Entry {
 		/** item */
 		i: CollapseItem<T>;

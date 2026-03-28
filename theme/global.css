@@ -51,6 +51,9 @@ body {
 	--control-padding-inline: .5rem;
 
 	--transition-color: .1s ease;
+	--transition-layout: .25s ease;
+
+	--overflow-safe-area: .2rem;
 }
 
 .rvx-dark {
