@@ -34,7 +34,7 @@ body {
 	--content-row-gap: 2rem;
 	--content-column-gap: 2rem;
 	--content-radius: .5rem;
-	--content-border: .1rem;
+	--content-border: .2rem;
 	--content-padding-block: 1rem;
 	--content-padding-inline: 1rem;
 
@@ -54,6 +54,8 @@ body {
 	--transition-layout: .25s ease;
 
 	--overflow-safe-area: .2rem;
+
+	--focus-outline-offset: .1rem;
 }
 
 .rvx-dark {
@@ -66,6 +68,12 @@ body {
 	--fg: white;
 	--fg-accent: rgb(64 160 255);
 
+	--overlay-shadow: 0 0 1.5rem rgba(0 0 0 / .3);
+
+	--content-shadow: 0 0 .75rem rgba(0 0 0 / .3);
+
 	--control-disabled: opacity(.5);
 	--control-shadow: 0 0 .2rem rgb(0 0 0 / .5);
+
+	--focus-outline: var(--control-border) dashed var(--fg-accent);
 }

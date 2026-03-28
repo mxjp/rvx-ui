@@ -1,5 +1,5 @@
+import styles from "@rvx/ui/theme/components/card.module.css";
 import { ClassValue, Expression, map, StyleValue } from "rvx";
-import { THEME } from "../common/theme.js";
 import { SizeContext } from "../common/types.js";
 import { Column } from "./column.js";
 
@@ -7,19 +7,18 @@ export type CardVariant = "default" | "info" | "success" | "warning" | "danger";
 
 export function Card(props: {
 	variant?: Expression<CardVariant | undefined>;
-	size?: SizeContext;
+	size?: Expression<SizeContext | undefined>;
 	raw?: boolean;
 	class?: ClassValue;
 	style?: StyleValue;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	return <div
 		class={[
 			props.class,
-			theme?.card,
-			props.raw ? theme?.card_raw : undefined,
-			map(props.variant, variant => theme?.[`card_${variant ?? "default"}`]),
+			styles.card,
+			props.raw ? styles.raw : undefined,
+			map(props.variant, variant => styles[variant ?? "default"]),
 		]}
 		style={props.style}
 	>

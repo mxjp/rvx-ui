@@ -1,0 +1,42 @@
+
+.card {
+	box-shadow: var(--content-shadow);
+	border-radius: var(--content-radius);
+	background-color: var(--bg-alt);
+	--parent-bg: var(--bg-alt);
+
+	border: var(--content-border) solid transparent;
+
+	&:not(.raw) {
+		padding-block: var(--content-padding-block);
+		padding-inline: var(--content-padding-inline);
+	}
+}
+
+.default {
+	border-color: var(--card-default);
+}
+
+.info {
+	border-color: var(--card-info);
+}
+
+.success {
+	border-color: var(--card-success);
+}
+
+.warning {
+	border-color: var(--card-warning);
+}
+
+.danger {
+	border-color: var(--card-danger);
+}
+
+:global(.rvx-dark) {
+	--card-default: rgb(36 36 36);
+	--card-info: rgb(64 160 255);
+	--card-success: rgb(64 255 64);
+	--card-warning: rgb(255 200 0);
+	--card-danger: rgb(255 64 64);
+}
