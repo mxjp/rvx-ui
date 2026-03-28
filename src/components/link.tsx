@@ -1,8 +1,8 @@
+import styles from "@rvx/ui/theme/components/link.module.css";
 import { ClassValue, Expression, get, map, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString, separated } from "rvx/convert";
 import { Action, handleActionEvent, isKey } from "../common/events.js";
-import { THEME } from "../common/theme.js";
 
 export type LinkReferrerPolicy = "no-referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "same-origin" | "strict-origin" | "strict-origin-when-cross-origin" | "unsafe-url";
 
@@ -71,7 +71,6 @@ export function Link(props: {
 
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
 	function action(event: Event) {
@@ -84,7 +83,7 @@ export function Link(props: {
 	return <a
 		disabled={disabled}
 		class={[
-			theme?.link,
+			styles.link,
 			props.class,
 		]}
 		style={props.style}

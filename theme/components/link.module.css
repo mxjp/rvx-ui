@@ -1,10 +1,9 @@
-@use "../common";
 
 .link {
 	--space-below: var(--control-row-gap);
 	line-height: calc(1em + var(--line-gap));
 
-	color: var(--accent);
+	color: var(--fg-accent);
 	font-weight: 600;
 	text-decoration: none;
 	cursor: pointer;
