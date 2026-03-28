@@ -1,5 +1,5 @@
 
-.separated_column {
+.column {
 	display: flex;
 	flex-direction: column;
 
@@ -11,7 +11,7 @@
 	}
 }
 
-.separated_row {
+.row {
 	display: flex;
 	flex-direction: row;
 

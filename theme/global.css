@@ -53,6 +53,8 @@ body {
 	--transition-color: .1s ease;
 	--transition-layout: .25s ease;
 
+	--separator: .15rem;
+
 	--overflow-safe-area: .2rem;
 	--input-extension: .2rem;
 
@@ -75,6 +77,8 @@ body {
 
 	--control-disabled: opacity(.5);
 	--control-shadow: 0 0 .2rem rgb(0 0 0 / .5);
+
+	--separator-color: rgb(40 40 40);
 
 	--focus-outline: var(--control-border) dashed var(--fg-accent);
 }

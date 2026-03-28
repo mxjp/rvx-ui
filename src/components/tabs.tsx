@@ -1,3 +1,4 @@
+import separatedStyles from "@rvx/ui/theme/components/separated.module.css";
 import styles from "@rvx/ui/theme/components/tabs.module.css";
 import { $, ClassValue, Component, Expression, For, get, map, Show, Signal, StyleValue, uniqueIdFor, watch } from "rvx";
 import { string } from "rvx/convert";
@@ -48,7 +49,7 @@ export function TabList(props: {
 		role="tablist"
 		class={[
 			styles.list,
-			// theme?.has_separator, // TODO
+			separatedStyles.has_separator,
 			map(props.padded, padded => padded ? styles.list_padded : undefined),
 			props.class,
 		]}
