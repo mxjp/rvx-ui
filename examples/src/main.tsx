@@ -2,6 +2,7 @@ import { captureOverlayContext, Heading, NavList, NavListButton, Page, PLACEHOLD
 import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
+import "./styles.css";
 
 mount(
 	document.body,
