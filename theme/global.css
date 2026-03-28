@@ -28,27 +28,27 @@ body {
 
 	--line-gap: .5rem;
 
-	--page-pad-v: 2rem;
-	--page-pad-h: 2rem;
+	--page-padding-block: 2rem;
+	--page-padding-inline: 2rem;
 
-	--content-gap-r: 2rem;
-	--content-gap-c: 2rem;
+	--content-row-gap: 2rem;
+	--content-column-gap: 2rem;
 	--content-radius: .5rem;
 	--content-border: .1rem;
-	--content-pad-r: 1rem;
-	--content-pad-c: 1rem;
+	--content-padding-block: 1rem;
+	--content-padding-inline: 1rem;
 
-	--group-gap-r: 1rem;
-	--group-gap-c: 1rem;
-	--group-pad-r: 1rem;
-	--group-pad-c: 1rem;
+	--group-row-gap: 1rem;
+	--group-column-gap: 1rem;
+	--group-padding-block: 1rem;
+	--group-padding-inline: 1rem;
 
-	--control-gap-r: .5rem;
-	--control-gap-c: .5rem;
+	--control-row-gap: .5rem;
+	--control-column-gap: .5rem;
 	--control-radius: .3rem;
 	--control-border: .2rem;
-	--control-pad-r: .5rem;
-	--control-pad-c: .5rem;
+	--control-padding-block: .5rem;
+	--control-padding-inline: .5rem;
 
 	--transition-color: .1s ease;
 }

@@ -27,34 +27,37 @@
 }
 
 .content {
-	row-gap: var(--content-gap-r);
+	row-gap: var(--content-row-gap);
 	& > * {
-		--parent-row-gap: var(--content-gap-r);
+		--parent-row-gap: var(--content-row-gap);
 	}
 
 	&.padded {
-		padding: var(--content-pad-r) var(--content-pad-c);
+		padding-block: var(--content-padding-block);
+		padding-inline: var(--content-padding-inline);
 	}
 }
 
 .group {
-	row-gap: var(--group-gap-r);
+	row-gap: var(--group-row-gap);
 	& > * {
-		--parent-row-gap: var(--group-gap-r);
+		--parent-row-gap: var(--group-row-gap);
 	}
 
 	&.padded {
-		padding: var(--group-pad-r) var(--group-pad-c);
+		padding-block: var(--group-padding-block);
+		padding-inline: var(--group-padding-inline);
 	}
 }
 
 .control {
-	row-gap: var(--control-gap-r);
+	row-gap: var(--control-row-gap);
 	& > * {
-		--parent-row-gap: var(--control-gap-r);
+		--parent-row-gap: var(--control-row-gap);
 	}
 
 	&.padded {
-		padding: var(--control-pad-r) var(--control-pad-c);
+		padding-block: var(--control-padding-block);
+		padding-inline: var(--control-padding-inline);
 	}
 }
