@@ -1,18 +1,14 @@
 
 .page {
-	padding-block:
-		var(--page-pad-block-start)
-		var(--page-pad-block-end);
-	padding-inline:
-		var(--page-pad-inline-start)
-		var(--page-pad-inline-end);
+	padding-block: var(--page-padding-block);
+	padding-inline: var(--page-padding-inline);
 
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 }
 
-.page_center_block {
+.center_block {
 	flex-grow: 1;
 
 	& > .page_content_col {
@@ -25,19 +21,19 @@
 	}
 }
 
-.page_scrollbar_comp {
+.scrollbar_comp {
 	flex-grow: 1;
 	flex-basis: 0;
 	max-inline-size: var(--scrollbar-comp, 0);
 }
 
-.page_content_col {
+.content_col {
 	flex-grow: 1;
 	max-inline-size: var(--page-inline-size);
 	flex-basis: calc(var(--page-inline-size) - var(--scrollbar-comp, 0px));
 }
 
-.page_content {
+.content {
 	--scrollbar-comp: initial;
 	--page-inline-size: initial;
 }

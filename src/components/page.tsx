@@ -1,5 +1,5 @@
+import styles from "@rvx/ui/theme/components/page.module.css";
 import { ClassValue, Expression, map, StyleValue } from "rvx";
-import { THEME } from "../common/theme.js";
 import { Column } from "./column.js";
 
 export function Page(props: {
@@ -11,14 +11,13 @@ export function Page(props: {
 	style?: StyleValue;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	return <div
 		role={props.role}
 		id={props.id}
 		class={[
 			props.class,
-			theme?.page,
-			map(props.centerBlock, v => v ? theme?.page_center_block : undefined),
+			styles.page,
+			map(props.centerBlock, v => v ? styles.center_block : undefined),
 		]}
 		style={[
 			props.style,
@@ -27,9 +26,9 @@ export function Page(props: {
 			},
 		]}
 	>
-		<div class={theme?.page_scrollbar_comp} />
-		<div class={theme?.page_content_col}>
-			<Column class={theme?.page_content}>
+		<div class={styles.scrollbar_comp} />
+		<div class={styles.content_col}>
+			<Column class={styles.content}>
 				{props.children}
 			</Column>
 		</div>
