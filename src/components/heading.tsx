@@ -1,5 +1,5 @@
 import { ClassValue, Expression, StyleValue } from "rvx";
-import { THEME } from "../common/theme.js";
+import styles from "@rvx/ui/theme/components/heading.module.css";
 
 export type HeadingLevel = "1" | "2" | "3" | "4" | "5" | "6";
 
@@ -10,10 +10,9 @@ export function Heading(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	const Tag = `h${props.level}`;
 	return <Tag
-		class={[theme?.heading, props.class]}
+		class={[styles.heading, props.class]}
 		style={props.style}
 		id={props.id}
 	>

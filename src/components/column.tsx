@@ -1,5 +1,5 @@
+import styles from "@rvx/ui/theme/components/column.module.css";
 import { ClassValue, Expression, map, StyleValue } from "rvx";
-import { THEME } from "../common/theme.js";
 import { SizeContext } from "../common/types.js";
 
 /**
@@ -13,12 +13,11 @@ export function Column(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	return <div
 		class={[
-			theme?.column,
-			map(props.size, size => theme?.[`column_${size ?? "content"}`]),
-			map(props.padded, padded => padded ? theme?.column_padded : undefined),
+			styles.column,
+			map(props.size, size => styles[size ?? "content"]),
+			map(props.padded, padded => padded ? styles.padded : undefined),
 			props.class,
 		]}
 		style={props.style}

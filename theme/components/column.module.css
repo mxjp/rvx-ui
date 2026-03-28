@@ -1,4 +1,3 @@
-@use "../common";
 
 .column {
 	display: flex;
@@ -27,15 +26,35 @@
 	}
 }
 
-@each $size in "content", "group", "control" {
-	.column_#{$size} {
-		row-gap: var(--#{$size}-row-gap);
-		& > * {
-			--parent-row-gap: var(--#{$size}-row-gap);
-		}
+.content {
+	row-gap: var(--content-gap-r);
+	& > * {
+		--parent-row-gap: var(--content-gap-r);
+	}
 
-		&.column_padded {
-			@include common.padding(#{$size}-pad);
-		}
+	&.padded {
+		padding: var(--content-pad-r) var(--content-pad-c);
+	}
+}
+
+.group {
+	row-gap: var(--group-gap-r);
+	& > * {
+		--parent-row-gap: var(--group-gap-r);
+	}
+
+	&.padded {
+		padding: var(--group-pad-r) var(--group-pad-c);
+	}
+}
+
+.control {
+	row-gap: var(--control-gap-r);
+	& > * {
+		--parent-row-gap: var(--control-gap-r);
+	}
+
+	&.padded {
+		padding: var(--control-pad-r) var(--control-pad-c);
 	}
 }

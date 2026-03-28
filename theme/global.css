@@ -26,6 +26,8 @@ body {
 		text-wrap: pretty;
 	}
 
+	--line-gap: .5rem;
+
 	--page-pad-v: 2rem;
 	--page-pad-h: 2rem;
 
