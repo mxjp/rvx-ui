@@ -1,6 +1,6 @@
+import styles from "@rvx/ui/theme/components/tabs.module.css";
 import { $, ClassValue, Component, Expression, For, get, map, Show, Signal, StyleValue, uniqueIdFor, watch } from "rvx";
 import { string } from "rvx/convert";
-import { THEME } from "../common/theme.js";
 
 export interface Tab {
 	label: Component;
@@ -44,13 +44,12 @@ export function TabList(props: {
 	class?: ClassValue;
 	style?: StyleValue;
 }) {
-	const theme = THEME.current;
 	return <div
 		role="tablist"
 		class={[
-			theme?.tab_list,
-			theme?.has_separator,
-			map(props.padded, padded => padded ? theme?.tab_list_padded : undefined),
+			styles.list,
+			// theme?.has_separator, // TODO
+			map(props.padded, padded => padded ? styles.list_padded : undefined),
 			props.class,
 		]}
 		style={props.style}
@@ -59,8 +58,8 @@ export function TabList(props: {
 			{tab => <button
 				role="tab"
 				class={[
-					theme?.tab_handle,
-					() => props.selected.value === tab ? theme?.tab_handle_current : undefined,
+					styles.handle,
+					() => props.selected.value === tab ? styles.handle_current : undefined,
 				]}
 				aria-selected={string(() => props.selected.value === tab)}
 				aria-controls={uniqueIdFor(tab)}
@@ -82,13 +81,12 @@ export function TabPanel(props: {
 	style?: StyleValue;
 	content?: Component<Component>;
 }) {
-	const theme = THEME.current;
 	return <Show when={props.tab}>
 		{tab => <div
 			role="tabpanel"
 			id={uniqueIdFor(tab)}
 			class={[
-				theme?.tab_panel,
+				styles.panel,
 				props.class,
 			]}
 			style={props.style}
