@@ -1,11 +1,10 @@
 import { ClassValue, Expression, get, Signal, StyleValue, uniqueId, watch } from "rvx";
 import { isPending } from "rvx/async";
-
 import { optionalString, string } from "rvx/convert";
 import { ID_PAIR } from "../common/id-pairs.js";
-import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
 import { closestValidator } from "./validation.js";
+import styles from "@rvx/ui/theme/components/checkbox.module.css";
 
 export function Checkbox(props: {
 	checked?: Expression<boolean | undefined>;
@@ -19,7 +18,6 @@ export function Checkbox(props: {
 }): unknown {
 	const pairId = ID_PAIR.current.consume();
 	const id = props.children === undefined ? pairId : uniqueId();
-	const theme = THEME.current;
 
 	const disabled = props.checked instanceof Signal
 		? () => isPending() || get(props.disabled)
@@ -30,7 +28,7 @@ export function Checkbox(props: {
 	const input = <input
 		id={id}
 		type="checkbox"
-		class={theme?.checkbox_input}
+		class={styles.input}
 		on:input={() => {
 			if (props.checked instanceof Signal) {
 				props.checked.value = input.checked;
@@ -51,13 +49,13 @@ export function Checkbox(props: {
 	return <label
 		for={id}
 		class={[
-			theme?.checkbox_label,
+			styles.label,
 			props.class,
 		]}
 		style={props.style}
 	>
-		{theme?.checkbox_padding ? <div class={theme.checkbox_padding}>{input}</div> : input}
-		<Text class={theme?.checkbox_content}>
+		<div class={styles.padding}>{input}</div>
+		<Text class={styles.content}>
 			{props.children}
 		</Text>
 	</label>;

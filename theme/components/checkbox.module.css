@@ -1,5 +1,5 @@
 
-.checkbox_label {
+.label {
 	display: flex;
 	column-gap: var(--control-column-gap);
 	align-items: start;
@@ -8,22 +8,22 @@
 		cursor: pointer;
 	}
 
-	&:has(.checkbox_input:disabled) > .checkbox_content {
+	&:has(.input:disabled) > .content {
 		filter: var(--control-disabled);
 	}
 
-	&:has(.checkbox_input:focus-visible) {
+	&:has(.input:focus-visible) {
 		outline: var(--focus-outline);
 		outline-offset: var(--focus-outline-offset);
 	}
 }
 
-.checkbox_padding {
+.padding {
 	padding: var(--input-extension);
 	margin: calc(var(--input-extension) * -1);
 }
 
-.checkbox_input {
+.input {
 	margin: 0;
 	outline: none;
 	cursor: inherit;
