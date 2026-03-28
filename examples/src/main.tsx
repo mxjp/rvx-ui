@@ -1,15 +1,12 @@
-import { captureOverlayContext, Heading, NavList, NavListButton, Page, PLACEHOLDER, RootLayer, ScrollView, THEME } from "@rvx/ui";
-import theme from "@rvx/ui/dist/theme.module.css";
+import { captureOverlayContext, Heading, NavList, NavListButton, Page, PLACEHOLDER, RootLayer, ScrollView } from "@rvx/ui";
 import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
-import "./styles.scss";
 
 mount(
 	document.body,
 	<RootLayer>
 		{() => Context.inject([
-			THEME.with(theme),
 			TASKS.with(new Tasks()),
 			ROUTER.with(new HashRouter()),
 			PLACEHOLDER.with(() => <>Please Wait</>),

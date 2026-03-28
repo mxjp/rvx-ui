@@ -22,7 +22,7 @@ export default function () {
 				</Group>
 			</Row>
 			<Text>
-				You typed "<Value style={{ "white-space": "pre-wrap" }}>{text}</Value>"
+				You typed <Value>{() => JSON.stringify(text.value)}</Value>
 			</Text>
 			<Row>
 				<Button disabled={() => text.value === defaultText} action={() => { text.value = defaultText }}>Reset</Button>
@@ -48,7 +48,7 @@ export default function () {
 					return <DialogBody title="Message">
 						<DialogContent>
 							<Text>
-								You typed <Value style={{ "white-space": "pre-wrap" }}>{enterAction.value}</Value>.
+								You typed <Value>{() => JSON.stringify(enterAction.value)}</Value>.
 							</Text>
 						</DialogContent>
 						<DialogFooter>
