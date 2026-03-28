@@ -1,6 +1,6 @@
 import { $, ClassValue, StyleValue, teardown } from "rvx";
 import { debounceEvent } from "../common/events.js";
-import { THEME } from "../common/theme.js";
+import styles from "@rvx/ui/theme/components/scroll-view.module.css";
 import { axisEquals, DOWN, getBlockStart, getSize, RIGHT, UP, WritingMode } from "../common/writing-mode.js";
 
 const DEBOUNCE_DELAY = 100;
@@ -13,13 +13,12 @@ export function ScrollView(props: {
 	children?: unknown;
 	scrollbarComp?: boolean;
 }): unknown {
-	const theme = THEME.current;
 	const vertical = $<boolean | undefined>(undefined);
 	const scrollbarComp = props.scrollbarComp ? $(0) : undefined;
 	const startIndicator = $(false);
 	const endIndicator = $(false);
 
-	const content = <div class={theme?.scroll_view_content}>
+	const content = <div class={styles.content}>
 		{props.children}
 	</div> as HTMLElement;
 
@@ -45,7 +44,7 @@ export function ScrollView(props: {
 	const area = <div
 		class={[
 			props.contentClass,
-			theme?.scroll_view_area,
+			styles.area,
 		]}
 		style={[
 			props.contentStyle,
@@ -62,7 +61,7 @@ export function ScrollView(props: {
 	const root = <div
 		class={[
 			props.class,
-			theme?.scroll_view,
+			styles.scroll_view,
 		]}
 		style={[
 			props.style,
@@ -73,12 +72,12 @@ export function ScrollView(props: {
 	>
 		{area}
 		<div class={[
-			theme?.scroll_view_indicator_start,
-			() => startIndicator.value && theme?.scroll_view_indicator_visible,
+			styles.indicator_start,
+			() => startIndicator.value && styles.indicator_visible,
 		]} />
 		<div class={[
-			theme?.scroll_view_indicator_end,
-			() => endIndicator.value && theme?.scroll_view_indicator_visible,
+			styles.indicator_end,
+			() => endIndicator.value && styles.indicator_visible,
 		]} />
 	</div> as HTMLElement;
 
