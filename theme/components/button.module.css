@@ -1,0 +1,90 @@
+
+.button {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 600;
+	line-height: 1;
+
+	cursor: pointer;
+
+	outline: none;
+	padding: var(--control-pad-r) var(--control-pad-c);
+
+	border-radius: var(--control-radius);
+	border-width: var(--control-border);
+
+	transition:
+		background-color var(--transition-color),
+		color var(--transition-color),
+		border-color var(--transition-color);
+
+	&[disabled] {
+		cursor: default;
+		filter: var(--control-disabled);
+	}
+
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+	border: var(--control-border) solid var(--button-border, var(--button-bg));
+
+	&:hover:not(:active):not([disabled]) {
+		background-color: var(--button-active);
+		&:not(:focus-visible) {
+			border-color: var(--button-active);
+		}
+	}
+
+	&:focus-visible {
+		border-color: var(--button-focus);
+	}
+}
+
+.default {
+	--button-bg: var(--button-default-bg);
+	--button-fg: var(--button-default-fg);
+	--button-active: var(--button-default-active);
+	--button-focus: var(--button-default-focus);
+}
+
+.primary {
+	--button-bg: var(--button-primary-bg);
+	--button-fg: var(--button-primary-fg);
+	--button-active: var(--button-primary-active);
+	--button-focus: var(--button-primary-focus);
+}
+
+.success {
+	--button-bg: var(--button-success-bg);
+	--button-fg: var(--button-success-fg);
+	--button-active: var(--button-success-active);
+	--button-focus: var(--button-success-focus);
+}
+
+.warning {
+	--button-bg: var(--button-warning-bg);
+	--button-fg: var(--button-warning-fg);
+	--button-active: var(--button-warning-active);
+	--button-focus: var(--button-warning-focus);
+}
+
+.danger {
+	--button-bg: var(--button-danger-bg);
+	--button-fg: var(--button-danger-fg);
+	--button-active: var(--button-danger-active);
+	--button-focus: var(--button-danger-focus);
+}
+
+.input {
+	--button-bg: var(--input-bg);
+	--button-fg: var(--input-fg);
+	--button-active: var(--input-active);
+	--button-focus: var(--input-focus);
+	--button-border: var(--input-border);
+}
+
+.item {
+	--button-bg: var(--button-item-bg);
+	--button-fg: var(--button-item-fg);
+	--button-active: var(--button-item-active);
+	--button-focus: var(--button-item-focus);
+}

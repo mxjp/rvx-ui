@@ -1,3 +1,5 @@
+import "@rvx/ui/theme/global.css";
+
 export * from "./common/context.js";
 export * from "./common/coupling.js";
 export * from "./common/events.js";

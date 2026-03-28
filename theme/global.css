@@ -1,0 +1,97 @@
+
+:root {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-size: .875rem;
+	line-height: 1;
+}
+
+* {
+	box-sizing: border-box;
+	--space-scale: 1;
+	--space-above: unset;
+	--space-below: unset;
+}
+
+::selection {
+	background-color: var(--bg-selection);
+}
+
+body {
+	background-color: var(--bg);
+	color: var(--fg);
+	accent-color: var(--fg-accent);
+
+	text-wrap: balance;
+	@supports (text-wrap: pretty) {
+		text-wrap: pretty;
+	}
+
+	--page-pad-v: 2rem;
+	--page-pad-h: 2rem;
+
+	--content-gap-r: 2rem;
+	--content-gap-c: 2rem;
+	--content-radius: .5rem;
+	--content-border: .1rem;
+	--content-pad-r: 1rem;
+	--content-pad-c: 1rem;
+
+	--group-gap-r: 1rem;
+	--group-gap-c: 1rem;
+	--group-pad-r: 1rem;
+	--group-pad-c: 1rem;
+
+	--control-gap-r: .5rem;
+	--control-gap-c: .5rem;
+	--control-radius: .3rem;
+	--control-border: .2rem;
+	--control-pad-r: .5rem;
+	--control-pad-c: .5rem;
+
+	--transition-color: .1s ease;
+}
+
+.rvx-dark {
+	color-scheme: dark;
+
+	--bg: rgb(24 24 24);
+	--bg-alt: rgb(32 32 32);
+	--bg-selection: rgb(64 150 255 / .5);
+
+	--fg: white;
+	--fg-accent: rgb(64 160 255);
+
+	--control-disabled: opacity(.5);
+	--control-shadow: 0 0 .2rem rgb(0 0 0 / .5);
+
+	--button-default-bg: rgb(72 72 72);
+	--button-default-fg: white;
+	--button-default-active: rgb(100 100 100);
+	--button-default-focus: var(--fg-accent);
+
+	--button-primary-bg: rgb(64 160 255);
+	--button-primary-fg: black;
+	--button-primary-active: rgb(112 184 255);
+	--button-primary-focus: rgb(200 241 255);
+
+	--button-success-bg: rgb(64 255 64);
+	--button-success-fg: black;
+	--button-success-active: rgb(160 255 160);
+	--button-success-focus: rgb(224 255 224);
+
+	--button-warning-bg: rgb(255 200 0);
+	--button-warning-fg: black;
+	--button-warning-active: rgb(255 224 112);
+	--button-warning-focus: rgb(255 243 200);
+
+	--button-danger-bg: rgb(255 40 40);
+	--button-danger-fg: white;
+	--button-danger-active: rgb(255 100 100);
+	--button-danger-focus: rgb(255 200 200);
+
+	--input-bg: rgb(36 36 36);
+	--input-fg: white;
+	--input-border: rgb(54 54 54);
+	--input-active: rgb(64 64 64);
+	--input-focus: var(--fg-accent);
+}

@@ -1,8 +1,8 @@
+import styles from "@rvx/ui/theme/components/button.module.css";
 import { ClassValue, Expression, get, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { Action, handleActionEvent, isKey } from "../common/events.js";
-import { THEME } from "../common/theme.js";
 import { Validator } from "./validation.js";
 
 export type ButtonType = "button" | "submit" | "reset" | "menu";
@@ -50,7 +50,6 @@ export function Button(props: {
 
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
 	function action(event: Event) {
@@ -64,8 +63,8 @@ export function Button(props: {
 		type={() => get(props.type) ?? "button"}
 		disabled={disabled}
 		class={[
-			theme?.button,
-			() => theme?.[`button_${get(props.variant) ?? "default"}`],
+			styles.button,
+			() => styles[get(props.variant) ?? "default"],
 			props.class,
 		]}
 		style={props.style}
