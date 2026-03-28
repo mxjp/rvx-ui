@@ -1,5 +1,5 @@
+import styles from "@rvx/ui/theme/components/text.module.css";
 import { ClassValue, Expression, StyleValue } from "rvx";
-import { THEME } from "../common/theme.js";
 
 export function Text(props: {
 	class?: ClassValue;
@@ -7,10 +7,9 @@ export function Text(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	return <div
 		class={[
-			theme?.text,
+			styles.text,
 			props.class,
 		]}
 		style={props.style}
