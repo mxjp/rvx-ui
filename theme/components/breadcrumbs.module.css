@@ -1,11 +1,3 @@
-@use "../common";
-
-@include common.theme((
-	breadcrumb-separator: (
-		dark: rgb(120, 120, 120),
-		light: rgb(180, 180, 180),
-	),
-));
 
 .breadcrumbs {
 	flex-wrap: wrap;
@@ -13,7 +5,7 @@
 	row-gap: var(--control-row-gap);
 }
 
-.breadcrumbs, .breadcrumb_item {
+.breadcrumbs, .item {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -21,18 +13,22 @@
 	row-gap: var(--control-row-gap);
 }
 
-.breadcrumb_item {
+.item {
 	line-height: calc(1em + var(--line-gap));
 	margin-block: calc(var(--line-gap) / -2);
 }
 
-.breadcrumb_separator {
+.separator {
 	block-size: calc(1em + var(--line-gap));
 	display: block;
 	position: relative;
 }
 
-.breadcrumb_separator svg {
+.separator svg {
 	block-size: 100%;
 	stroke: var(--breadcrumb-separator);
+}
+
+:global(.rvx-dark) {
+	--breadcrumb-separator: rgb(120 120 120);
 }

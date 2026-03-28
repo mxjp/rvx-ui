@@ -1,6 +1,6 @@
+import styles from "@rvx/ui/theme/components/breadcrumbs.module.css";
 import { ClassValue, Expression, For, Inject, Show, StyleValue, SVG, XMLNS } from "rvx";
 import { Action } from "../common/events.js";
-import { THEME } from "../common/theme.js";
 import { Link } from "./link.js";
 
 export interface Breadcrumb {
@@ -13,19 +13,18 @@ export function Breadcrumbs(props: {
 	class?: ClassValue;
 	style?: StyleValue;
 }) {
-	const theme = THEME.current;
 	return <div
 		class={[
-			theme?.breadcrumbs,
+			styles.breadcrumbs,
 			props.class,
 		]}
 		style={props.style}
 	>
 		<For each={props.items}>
 			{(item, index) => {
-				return <div class={theme?.breadcrumb_item}>
+				return <div class={styles.item}>
 					<Show when={() => index() !== 0}>
-						{() => <span class={theme?.breadcrumb_separator}>
+						{() => <span class={styles.separator}>
 							<Inject context={XMLNS} value={SVG}>
 								{() => <svg viewBox="0 0 8 16" preserveAspectRatio="none">
 									<path d="M2,14 L6,2" stroke-width="1.75" stroke-linecap="round" />
