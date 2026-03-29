@@ -1,5 +1,5 @@
+import styles from "@rvx/ui/theme/components/control-group.module.css";
 import { ClassValue, Expression, map, StyleValue } from "rvx";
-import { THEME } from "../common/theme.js";
 
 export function ControlGroup(props: {
 	class?: ClassValue;
@@ -8,12 +8,11 @@ export function ControlGroup(props: {
 	children?: unknown;
 	column?: Expression<boolean | undefined>;
 }): unknown {
-	const theme = THEME.current;
 	return <div
 		class={[
-			theme?.control_group,
+			styles.control_group,
 			props.class,
-			map(props.column, column => column ? theme?.control_group_column : theme?.control_group_row),
+			map(props.column, column => column ? styles.column : styles.row),
 		]}
 		style={props.style}
 		id={props.id}

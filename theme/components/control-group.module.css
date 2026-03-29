@@ -10,7 +10,7 @@
 	}
 }
 
-.control_group_row {
+.row {
 	flex-direction: row;
 	& > :first-child {
 		border-start-start-radius: inherit;
@@ -30,7 +30,7 @@
 	}
 }
 
-.control_group_column {
+.column {
 	flex-direction: column;
 	& > :first-child {
 		border-start-start-radius: inherit;
