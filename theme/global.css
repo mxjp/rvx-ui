@@ -72,6 +72,8 @@ body {
 	--fg-accent: rgb(64 160 255);
 	--fg-danger: rgb(255 64 64);
 
+	--secondary-filter: opacity(.6);
+
 	--overlay-shadow: 0 0 1.5rem rgba(0 0 0 / .3);
 	--overlay-backdrop: rgb(24 24 24 / .8);
 

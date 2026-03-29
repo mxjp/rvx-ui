@@ -1,4 +1,4 @@
 
 .secondary {
-	opacity: 0.5;
+	filter: var(--secondary-filter);
 }

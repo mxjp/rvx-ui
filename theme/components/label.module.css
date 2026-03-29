@@ -1,17 +1,9 @@
-@use "../common";
-
-@include common.theme((
-	label-fg: (
-		dark: rgb(200, 200, 200),
-		light: rgb(100, 100, 100),
-	),
-));
 
 .label {
 	--space-below: var(--control-row-gap);
 	line-height: calc(1em + var(--line-gap));
 
-	color: var(--label-fg);
+	filter: var(--secondary-filter);
 	font-size: .87rem;
 	font-weight: 600;
 
