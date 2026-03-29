@@ -1,11 +1,10 @@
-import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
+import styles from "@rvx/ui/theme/components/error.module.css";
 
 export function ErrorMessage(props: {
 	children: unknown;
 }): unknown {
-	const theme = THEME.current;
-	return <Text class={theme?.error_message}>
+	return <Text class={styles.message}>
 		{props.children}
 	</Text>;
 }
