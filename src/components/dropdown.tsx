@@ -1,7 +1,7 @@
+import styles from "@rvx/ui/theme/components/dropdown.module.css";
 import { $, ClassValue, Expression, For, get, map, memo, render, StyleValue, uniqueId, View, watch } from "rvx";
 import { optionalString } from "rvx/convert";
 import { Action, createPassiveActionEvent, handleActionEvent, isKey, startDelayedHoverOnMouseenter } from "../common/events.js";
-import { THEME } from "../common/theme.js";
 import { LAYER } from "./layer.js";
 import { Popout, PopoutAlignment, PopoutPlacement } from "./popout.js";
 
@@ -89,7 +89,6 @@ export function createDropdown(props: {
 		alignment: map(props.alignment, v => v ?? "start"),
 		foreignEvents: props.foreignEvents,
 		content: ({ popout, placement }) => {
-			const theme = THEME.current;
 			const layer = LAYER.current!;
 
 			const activeItem = $<DropdownItem | undefined>(undefined);
@@ -159,7 +158,7 @@ export function createDropdown(props: {
 			});
 
 			const content = <div class={[
-				theme?.dropdown_content,
+				styles.content,
 			]}>
 				<For each={items}>
 					{item => {
@@ -189,8 +188,8 @@ export function createDropdown(props: {
 						const root = <div
 							id={id}
 							class={[
-								theme?.dropdown_item,
-								() => activeItem.value === item && theme?.dropdown_item_active,
+								styles.item,
+								() => activeItem.value === item && styles.item_active,
 							]}
 							role="option"
 							aria-selected={item.selected}
@@ -231,8 +230,8 @@ export function createDropdown(props: {
 				style={props.style}
 				class={[
 					props.class,
-					theme?.dropdown,
-					map(props.expansion, v => v && theme?.dropdown_expansion),
+					styles.dropdown,
+					map(props.expansion, v => v && styles.expansion),
 				]}
 				role="listbox"
 				tabindex="0"
@@ -247,7 +246,7 @@ export function createDropdown(props: {
 					}
 				}}
 			>
-				<div class={theme?.dropdown_scroll_area}>
+				<div class={styles.scroll_area}>
 					{content}
 				</div>
 			</div> as HTMLElement;

@@ -1,15 +1,14 @@
-@use "../common";
 
 .dropdown {
 	position: relative;
 	outline: none;
 
-	&:not(.dropdown_expansion) {
+	&:not(.expansion) {
 		min-inline-size: var(--popout-anchor-inline-size);
 	}
 }
 
-.dropdown_scroll_area {
+.scroll_area {
 	border-radius: var(--control-radius);
 	background-color: var(--button-item-bg);
 	box-shadow: var(--overlay-shadow);
@@ -18,21 +17,22 @@
 	overflow: auto;
 }
 
-.dropdown_content {
+.content {
 	display: flex;
 	flex-direction: column;
 	border-radius: var(--control-radius);
-	border: var(--content-border) solid var(--card-default-border);
+	border: var(--content-border) solid var(--card-default);
 	overflow: hidden;
 }
 
-.dropdown_item {
+.item {
 	cursor: pointer;
-	@include common.padding(control-pad);
+	padding-block: var(--control-padding-block);
+	padding-inline: var(--control-padding-inline);
 	border: transparent solid var(--control-border);
 	border-radius: calc(var(--control-radius) - var(--control-border));
 
-	&.dropdown_item_active {
-		background-color: var(--button-item-bg-hover);
+	&.item_active {
+		background-color: var(--button-item-active);
 	}
 }
