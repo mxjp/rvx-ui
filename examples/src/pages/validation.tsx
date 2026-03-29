@@ -11,29 +11,33 @@ function BaseExample() {
 	}
 
 	return <>
-		<Label>Username</Label>
-		<TextInput
-			value={name
-				.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
-				.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
-				.pipe(trim)
-			}
-		/>
-		<ValidationMessages for={name} />
+		<Group>
+			<Label>Username</Label>
+			<TextInput
+				value={name
+					.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
+					.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
+					.pipe(trim)
+				}
+			/>
+			<ValidationMessages for={name} />
+		</Group>
 
-		<Label>Network Port</Label>
-		<TextInput
-			value={port
-				.pipe(intParser, {
-					format: () => <>Enter a valid port.</>,
-					range: () => <>The port must range from 1 to {0xFFFF}.</>,
-					min: 1,
-					max: 0xFFFF,
-				})
-				.pipe(trim)
-			}
-		/>
-		<ValidationMessages for={port} />
+		<Group>
+			<Label>Network Port</Label>
+			<TextInput
+				value={port
+					.pipe(intParser, {
+						format: () => <>Enter a valid port.</>,
+						range: () => <>The port must range from 1 to {0xFFFF}.</>,
+						min: 1,
+						max: 0xFFFF,
+					})
+					.pipe(trim)
+				}
+			/>
+			<ValidationMessages for={port} />
+		</Group>
 
 		<Row>
 			<Button variant="primary" action={ok}>Validate</Button>
