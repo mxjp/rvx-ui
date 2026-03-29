@@ -24,10 +24,8 @@
 		"./theme/": "./theme/"
 	},
 	"scripts": {
-		"build": "mx-parallel npm:build:*",
-		"build:es": "tsc -p tsconfig-es.json",
-		"start": "mx-parallel npm:start:*",
-		"start:es": "tsc -p tsconfig-es.json -w --preserveWatchOutput"
+		"build": "tsc -p tsconfig-es.json",
+		"start": "tsc -p tsconfig-es.json -w --preserveWatchOutput"
 	},
 	"devDependencies": {
 		"@mxjp/parallel": "^1.0.2",
