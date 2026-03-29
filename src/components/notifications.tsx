@@ -1,12 +1,14 @@
+import styles from "@rvx/ui/theme/components/notifications.module.css";
 import { $, captureSelf, Component, For, movable, render, teardown, uncapture, View } from "rvx";
 import { useTimeout } from "rvx/async";
 import { inOverlayContext } from "../common/context.js";
-import { THEME } from "../common/theme.js";
+import { SizeContext } from "../common/types.js";
+import { Card, CardVariant } from "./card.js";
 import { Collapse } from "./collapse.js";
 import { Column } from "./column.js";
 import { TopLayer } from "./layer.js";
 
-export type NotificationVariant = "default" | "info" | "success" | "warning" | "danger";
+export type NotificationVariant = CardVariant;
 
 export interface Notification {
 	dispose(): void;
@@ -16,6 +18,7 @@ export interface NotificationOptions {
 	variant?: NotificationVariant;
 	timeout?: number;
 	raw?: boolean;
+	size?: SizeContext;
 }
 
 export interface NotificationHostOptions {
@@ -31,17 +34,16 @@ const instances = $<Component[]>([]);
 
 export function showNotification(content: Component<Notification>, options?: NotificationOptions): Notification {
 	return inOverlayContext(() => {
-		const theme = THEME.current;
 		if (!host) {
 			uncapture(() => {
 				host = render(<TopLayer>
 					{() => <div
-						class={theme?.notification_host}
+						class={styles.host}
 						style={{
 							"--notification-inline-size": () => NOTIFICATIONS.value.inlineSize,
 						}}
 					>
-						<Column class={theme?.notification_area} size="group">
+						<Column class={styles.area} size="group">
 							<For each={instances}>
 								{instance => instance()}
 							</For>
@@ -58,18 +60,14 @@ export function showNotification(content: Component<Notification>, options?: Not
 			const visible = $(true);
 
 			const instance = movable(<Collapse fadein visible={visible}>
-				<div class={[
-					theme?.notification,
-					options?.raw ? theme?.notification_raw : undefined,
-					theme?.[`notification_${options?.variant ?? "default"}`],
-				]}>
-					{options?.raw
-						? content(handle)
-						: <Column size="group">
-							{content(handle)}
-						</Column>
-					}
-				</div>
+				<Card
+					class={styles.notification}
+					variant={options?.variant}
+					raw={options?.raw}
+					size={options?.size}
+				>
+					{content(handle)}
+				</Card>
 			</Collapse>).move;
 
 			instances.update(instances => {
