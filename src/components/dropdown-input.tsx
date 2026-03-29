@@ -15,7 +15,7 @@ export function DropdownInput<T>(props: {
 	value: Expression<T>;
 	values: Expression<DropdownValue<T>[]>;
 
-	variant?: ButtonVariant;
+	variant?: Expression<ButtonVariant | undefined>;
 	disabled?: Expression<boolean | undefined>;
 
 	class?: ClassValue;

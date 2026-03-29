@@ -76,6 +76,7 @@
 }
 
 .input {
+	text-align: left;
 	--button-bg: var(--button-input-bg);
 	--button-fg: var(--button-input-fg);
 	--button-active: var(--button-input-active);
