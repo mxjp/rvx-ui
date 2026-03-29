@@ -40,3 +40,11 @@
 	--card-warning: rgb(255 200 0);
 	--card-danger: rgb(255 64 64);
 }
+
+:global(.rvx-light) {
+	--card-default: rgb(230 230 230);
+	--card-info: rgb(0 127 255);
+	--card-success: rgb(0 255 0);
+	--card-warning: rgb(255 160 0);
+	--card-danger: rgb(255 0 0);
+}

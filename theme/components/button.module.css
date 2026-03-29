@@ -113,7 +113,7 @@
 	--button-warning-focus: rgb(255 243 200);
 
 	--button-danger-bg: rgb(255 40 40);
-	--button-danger-fg: white;
+	--button-danger-fg: black;
 	--button-danger-active: rgb(255 100 100);
 	--button-danger-focus: rgb(255 200 200);
 
@@ -126,5 +126,43 @@
 	--button-item-bg: rgb(48 48 48);
 	--button-item-fg: white;
 	--button-item-active: rgb(64 64 64);
+	--button-item-focus: var(--accent);
+}
+
+:global(.rvx-light) {
+	--button-default-bg: rgb(224 224 224);
+	--button-default-fg: black;
+	--button-default-active: rgb(200 200 200);
+	--button-default-focus: var(--accent);
+
+	--button-primary-bg: rgb(0 127 255);
+	--button-primary-fg: white;
+	--button-primary-active: rgb(64 160 255);
+	--button-primary-focus: rgb(0 56 112);
+
+	--button-success-bg: rgb(0 255 0);
+	--button-success-fg: black;
+	--button-success-active: rgb(130 255 130);
+	--button-success-focus: rgb(0 160 0);
+
+	--button-warning-bg: rgb(255 200 0);
+	--button-warning-fg: black;
+	--button-warning-active: rgb(255 224 112);
+	--button-warning-focus: rgb(150 117 0);
+
+	--button-danger-bg: rgb(255 40 40);
+	--button-danger-fg: white;
+	--button-danger-active: rgb(255 80 80);
+	--button-danger-focus: rgb(130 0 0);
+
+	--button-input-bg: rgb(250 250 250);
+	--button-input-fg: black;
+	--button-input-border: rgb(220 220 220);
+	--button-input-active: rgb(230 230 230);
+	--button-input-focus: var(--accent);
+
+	--button-item-bg: rgb(230 230 230);
+	--button-item-fg: black;
+	--button-item-active: rgb(215 215 215);
 	--button-item-focus: var(--accent);
 }

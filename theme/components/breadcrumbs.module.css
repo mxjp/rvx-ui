@@ -32,3 +32,7 @@
 :global(.rvx-dark) {
 	--breadcrumb-separator: rgb(120 120 120);
 }
+
+:global(.rvx-light) {
+	--breadcrumb-separator: rgb(180 180 180);
+}

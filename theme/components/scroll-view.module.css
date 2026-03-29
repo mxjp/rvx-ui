@@ -30,7 +30,7 @@
 	box-shadow: 0 0 var(--scroll-view-indicator-size) var(--scroll-view-indicator-color);
 	pointer-events: none;
 	opacity: 0;
-	transition: opacity var(--layout-transition);
+	transition: opacity var(--transition-layout);
 }
 
 .indicator_start {
@@ -48,4 +48,9 @@
 :global(.rvx-dark) {
 	--scroll-view-indicator-size: 2rem;
 	--scroll-view-indicator-color: rgb(0 0 0 / .6);
+}
+
+:global(.rvx-light) {
+	--scroll-view-indicator-size: 2rem;
+	--scroll-view-indicator-color: rgb(0 0 0 / .2);
 }

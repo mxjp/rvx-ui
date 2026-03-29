@@ -86,3 +86,29 @@ body {
 
 	--focus-outline: var(--control-border) dashed var(--accent);
 }
+
+.rvx-light {
+	color-scheme: light;
+
+	--bg: white;
+	--bg-alt: rgb(250 250 250);
+	--bg-selection: rgb(0 127 255 / .3);
+
+	--fg: rgb(42 42 42);
+	--accent: rgb(0 127 255);
+	--fg-danger: rgb(255 64 64);
+
+	--secondary-filter: opacity(.65);
+
+	--overlay-shadow: 0 0 3rem rgba(0 0 0 / .2);
+	--overlay-backdrop: rgb(245 245 245 / .7);
+
+	--content-shadow: 0 0 1rem rgba(0 0 0 / .1);
+
+	--control-disabled: opacity(.5);
+	--control-shadow: 0 0 .2rem rgb(0 0 0 / .2);
+
+	--separator-color: rgb(240 240 240);
+
+	--focus-outline: var(--control-border) dashed var(--accent);
+}

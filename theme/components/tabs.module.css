@@ -60,3 +60,12 @@
 	--tab-handle-fg-active: var(--fg);
 	--tab-handle-fg-current: var(--fg);
 }
+
+:global(.rvx-light) {
+	--tab-handle-marker: rgb(180 180 180);
+	--tab-handle-bg: rgb(230 230 230);
+	--tab-handle-bg-active: rgb(220 220 220);
+	--tab-handle-fg: rgb(72 72 72);
+	--tab-handle-fg-active: var(--fg);
+	--tab-handle-fg-current: var(--fg);
+}
