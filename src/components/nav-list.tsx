@@ -1,8 +1,8 @@
+import styles from "@rvx/ui/theme/components/nav-list.module.css";
 import { ClassValue, Expression, get, map, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { Action, handleActionEvent, isKey } from "../common/events.js";
-import { THEME } from "../common/theme.js";
 
 export function NavList(props: {
 	/**
@@ -17,10 +17,9 @@ export function NavList(props: {
 	id?: Expression<string | undefined>;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	return <div
 		class={[
-			theme?.nav_list,
+			styles.nav_list,
 			props.class,
 		]}
 		style={[
@@ -47,7 +46,6 @@ export function NavListButton(props: {
 	action?: Action;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
 	function action(event: Event) {
@@ -61,8 +59,8 @@ export function NavListButton(props: {
 		type="button"
 		disabled={disabled}
 		class={[
-			theme?.nav_list_item,
-			map(props.current, current => current && theme?.nav_list_item_current),
+			styles.item,
+			map(props.current, current => current && styles.item_current),
 			props.class,
 		]}
 		style={props.style}
