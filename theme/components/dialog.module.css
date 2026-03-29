@@ -1,0 +1,63 @@
+
+.container {
+	position: fixed;
+	inset: 0;
+
+	background-color: var(--overlay-backdrop);
+
+	display: grid;
+	grid-template-columns: 1fr minmax(auto, var(--dialog-inline-size)) 1fr;
+	grid-template-rows: 5fr minmax(auto, var(--dialog-block-size)) 7fr;
+
+	overflow: auto;
+
+	transition: opacity var(--transition-layout);
+	opacity: 0;
+}
+
+.fadein {
+	opacity: 1;
+	.dialog_body {
+		transform: scale(1);
+	}
+}
+
+.fadeout {
+	pointer-events: none;
+	opacity: 0;
+	.dialog_body {
+		transform: scale(.9);
+	}
+}
+
+@media (prefers-reduced-motion) {
+	.body.body {
+		transform: unset;
+	}
+}
+
+.body {
+	grid-row: 2 / 3;
+	grid-column: 2 / 3;
+
+	transform: scale(.9);
+	transition: transform var(--transition-layout);
+
+	background-color: var(--bg-alt);
+	--parent-bg: var(--bg-alt);
+
+	box-shadow: var(--overlay-shadow);
+	border-radius: var(--content-radius);
+
+	border: var(--content-border) solid var(--card-default);
+}
+
+.scroll_view {
+	border-block: var(--content-border) solid var(--card-default);
+	margin-inline: calc(var(--content-border) - var(--content-padding-inline));
+}
+
+.scroll_view_content {
+	padding-block: var(--content-padding-block);
+	padding-inline: var(--content-padding-inline);
+}

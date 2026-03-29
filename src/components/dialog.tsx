@@ -1,8 +1,14 @@
+import styles from "@rvx/ui/theme/components/dialog.module.css";
 import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, render, StyleValue, teardown, uniqueId } from "rvx";
 import { TASKS, Tasks, useMicrotask } from "rvx/async";
 import { inOverlayContext } from "../common/context.js";
-import { Column, FlexSpace, Group, Heading, Row, Separated, Text, THEME } from "../index.js";
+import { Column, Group } from "./column.js";
+import { FlexSpace } from "./flex-space.js";
+import { Heading } from "./heading.js";
 import { LAYER, Layer } from "./layer.js";
+import { Row } from "./row.js";
+import { Separated } from "./separated.js";
+import { Text } from "./text.js";
 
 export class DialogAbortError extends Error { }
 
@@ -83,8 +89,6 @@ export function DialogBody(props: {
 	"aria-labelledby"?: Expression<string | undefined>;
 	"aria-describedby"?: Expression<string | undefined>;
 }): unknown {
-	const theme = THEME.current;
-
 	let titleId: string | undefined;
 	let descriptionId: string | undefined;
 	const head: unknown[] = [];
@@ -100,7 +104,7 @@ export function DialogBody(props: {
 
 	const body = <div
 		class={[
-			theme?.dialog_container,
+			styles.container,
 			props.class,
 		]}
 		style={[
@@ -114,22 +118,22 @@ export function DialogBody(props: {
 		aria-labelledby={map(props["aria-labelledby"], v => v ?? titleId)}
 		aria-describedby={map(props["aria-describedby"], v => v ?? descriptionId)}
 	>
-		<Separated class={theme?.dialog_body}>
+		<Separated class={styles.body}>
 			{head.length > 0 ? <Group padded>{head}</Group> : undefined}
 			{props.children}
 		</Separated>
 	</div> as HTMLElement;
 
 	useMicrotask(() => {
-		if (theme?.dialog_fadein) {
+		if (styles.fadein) {
 			body.offsetParent;
-			body.classList.add(theme.dialog_fadein);
+			body.classList.add(styles.fadein);
 		}
 	});
 
 	DIALOG_FADEOUT.current?.(tasks => {
-		if (theme?.dialog_fadeout) {
-			body.classList.add(theme.dialog_fadeout);
+		if (styles.fadeout) {
+			body.classList.add(styles.fadeout);
 		}
 		const duration = parseInt(getComputedStyle(body).getPropertyValue("--layout-transition-ms"));
 		if (Number.isSafeInteger(duration)) {
@@ -150,11 +154,10 @@ export function DialogFooter(props: {
 	links?: unknown;
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
 	return <Group padded>
 		<Row
 			class={[
-				theme?.dialog_footer,
+				styles.footer,
 				props.class,
 			]}
 			style={props.style}
