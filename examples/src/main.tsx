@@ -1,7 +1,8 @@
-import { captureOverlayContext, Heading, NavList, NavListButton, Page, PLACEHOLDER, RootLayer, ScrollView } from "@rvx/ui";
+import { captureOverlayContext, Heading, NavList, NavListButton, Page, PLACEHOLDER, RootLayer, ScrollView, watchTheme } from "@rvx/ui";
 import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
+import { THEME } from "./common";
 import "./styles.css";
 
 mount(
@@ -12,6 +13,7 @@ mount(
 			ROUTER.with(new HashRouter()),
 			PLACEHOLDER.with(() => <>Please Wait</>),
 		], () => {
+			watchTheme(THEME);
 			captureOverlayContext();
 
 			const routes: ComponentRoute[] = [];

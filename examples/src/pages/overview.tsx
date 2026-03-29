@@ -1,5 +1,6 @@
 import { Breadcrumbs, Button, Card, Checkbox, Column, ControlGroup, Group, Label, RadioButtons, Row, Slider, sliderMarkers, Tabs, Text, TextInput } from "@rvx/ui";
 import { $ } from "rvx";
+import { THEME } from "../common";
 
 export default function () {
 	return <>
@@ -65,17 +66,23 @@ function GenericControls() {
 			</Slider>
 		</Group>
 
-		<Row size="group">
-			<Column size="control">
-				<Checkbox disabled>Disabled Checkbox</Checkbox>
-				<Checkbox checked>Readonly Checkbox</Checkbox>
-				<Checkbox checked={$(true)}>Writable Checkbox</Checkbox>
-			</Column>
-			<RadioButtons value={$(1)} options={[
-				{ label: "Foo", value: 0 },
-				{ label: "Bar", value: 1 },
-				{ label: "Baz", value: 2 },
-			]} />
+		<Row size="content">
+			<Group>
+				<Label>Theme</Label>
+				<RadioButtons value={THEME} options={[
+					{ label: "System", value: undefined },
+					{ label: "Dark", value: "dark" },
+					{ label: "Light", value: "light" },
+				]} />
+			</Group>
+			<Group>
+				<Label>Example Checkboxes</Label>
+				<Column size="control">
+					<Checkbox disabled>Disabled Checkbox</Checkbox>
+					<Checkbox checked>Readonly Checkbox</Checkbox>
+					<Checkbox checked={$(true)}>Writable Checkbox</Checkbox>
+				</Column>
+			</Group>
 		</Row>
 
 		<Row size="group">

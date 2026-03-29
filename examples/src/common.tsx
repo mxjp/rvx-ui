@@ -1,5 +1,7 @@
-import { Card, Group, Label, PopoutAlignment, PopoutPlacement, RadioButtons, Row, Text } from "@rvx/ui";
-import { Signal } from "rvx";
+import { Card, Group, Label, PopoutAlignment, PopoutPlacement, RadioButtons, Row, Text, Theme } from "@rvx/ui";
+import { $, Signal } from "rvx";
+
+export const THEME = $<Theme | undefined>(undefined);
 
 export function PopoutControls(props: {
 	placement: Signal<PopoutPlacement | undefined>;
