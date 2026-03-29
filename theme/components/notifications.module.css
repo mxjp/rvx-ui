@@ -1,6 +1,6 @@
 
 .host {
-	--overflow-safe-area: .5rem;
+	--overflow-safe-area: calc(7rem / 14);
 	display: grid;
 	grid-template-columns: 1fr minmax(auto, var(--notification-inline-size)) 0;
 	grid-template-rows: 1fr auto 0;

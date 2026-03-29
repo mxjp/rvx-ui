@@ -26,39 +26,39 @@ body {
 		text-wrap: pretty;
 	}
 
-	--line-gap: .5rem;
+	--line-gap: calc(8rem / 14);
 
 	--page-padding-block: 2rem;
 	--page-padding-inline: 2rem;
 
 	--content-row-gap: 2rem;
 	--content-column-gap: 2rem;
-	--content-radius: .5rem;
-	--content-border: .2rem;
-	--content-padding-block: 1rem;
-	--content-padding-inline: 1rem;
+	--content-radius: calc(10rem / 14);
+	--content-border: calc(2rem / 14);
+	--content-padding-block: calc(16rem / 14);
+	--content-padding-inline: calc(16rem / 14);
 
 	--group-row-gap: 1rem;
 	--group-column-gap: 1rem;
-	--group-padding-block: 1rem;
-	--group-padding-inline: 1rem;
+	--group-padding-block: calc(16rem / 14);
+	--group-padding-inline: calc(16rem / 14);
 
-	--control-row-gap: .5rem;
-	--control-column-gap: .5rem;
-	--control-radius: .3rem;
-	--control-border: .2rem;
-	--control-padding-block: .5rem;
-	--control-padding-inline: .5rem;
+	--control-row-gap: calc(10rem / 14);
+	--control-column-gap: calc(10rem / 14);
+	--control-radius: calc(5rem / 14);
+	--control-border: calc(2rem / 14);
+	--control-padding-block: calc(8rem / 14);
+	--control-padding-inline: calc(8rem / 14);
 
 	--transition-color: .1s ease;
 	--transition-layout: .25s ease;
 
-	--separator: .15rem;
+	--separator: calc(2rem / 14);
 
-	--overflow-safe-area: .2rem;
-	--input-extension: .2rem;
+	--overflow-safe-area: calc(2rem / 14);
+	--input-extension: calc(5rem / 14);
 
-	--focus-outline-offset: .1rem;
+	--focus-outline-offset: calc(2rem / 14);
 }
 
 .rvx-dark {

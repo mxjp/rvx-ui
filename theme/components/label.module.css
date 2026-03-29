@@ -4,7 +4,7 @@
 	line-height: calc(1em + var(--line-gap));
 
 	filter: var(--secondary-filter);
-	font-size: .87rem;
+	font-size: calc(12rem / 14);
 	font-weight: 600;
 
 	&::before,

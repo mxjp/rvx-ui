@@ -15,8 +15,8 @@
 
 @keyframes alert {
 	from { transform: translateX(0rem); }
-	30% { transform: translateX(.2rem); }
-	70% { transform: translateX(-.2rem); }
+	30% { transform: translateX(calc(3rem / 14)); }
+	70% { transform: translateX(calc(-3rem / 14)); }
 	to { transform: translateX(0rem); }
 }
 
