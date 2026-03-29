@@ -55,7 +55,7 @@ export function RadioButtons<T>(props: {
 				const input = <input
 					id={id}
 					type="radio"
-					class={styles.radio_button_input}
+					class={styles.input}
 					name={group}
 					value={id}
 					disabled={disabled}
@@ -70,10 +70,10 @@ export function RadioButtons<T>(props: {
 
 				return <label
 					for={id}
-					class={styles.radio_button_label}
+					class={styles.label}
 				>
-					<div class={styles.radio_button_padding}>{input}</div>
-					<Text class={styles.radio_button_content}>
+					<div class={styles.padding}>{input}</div>
+					<Text class={styles.content}>
 						{option.label}
 					</Text>
 				</label>;

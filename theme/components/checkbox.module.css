@@ -4,7 +4,7 @@
 	column-gap: var(--control-column-gap);
 	align-items: start;
 
-	&:has(.checkbox_input:not(:disabled)) {
+	&:has(.input:not(:disabled)) {
 		cursor: pointer;
 	}
 

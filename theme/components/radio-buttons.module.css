@@ -4,32 +4,32 @@
 	flex-direction: column;
 	row-gap: var(--control-row-gap);
 
-	&:has(.radio_button_input:focus-visible) {
+	&:has(.input:focus-visible) {
 		outline: var(--focus-outline);
 		outline-offset: var(--focus-outline-offset);
 	}
 }
 
-.radio_button_label {
+.label {
 	display: flex;
 	column-gap: var(--control-column-gap);
 	align-items: start;
 
-	&:has(.radio_button_input:not(:disabled)) {
+	&:has(.input:not(:disabled)) {
 		cursor: pointer;
 	}
 
-	&:has(.radio_button_input:disabled) > .radio_button_content {
+	&:has(.input:disabled) > .content {
 		filter: var(--control-disabled);
 	}
 }
 
-.radio_button_padding {
+.padding {
 	padding: var(--input-extension);
 	margin: calc(var(--input-extension) * -1);
 }
 
-.radio_button_input {
+.input {
 	margin: 0;
 	outline: none;
 	cursor: inherit;
