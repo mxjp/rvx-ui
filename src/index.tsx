@@ -1,3 +1,4 @@
+/// <reference types="@rvx/ui/theme/types.d.ts" />
 import "@rvx/ui/theme/global.css";
 
 export * from "./common/context.js";
