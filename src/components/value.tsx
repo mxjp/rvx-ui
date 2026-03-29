@@ -1,10 +1,9 @@
-import { THEME } from "../common/theme.js";
+import styles from "@rvx/ui/theme/components/value.module.css";
 
 export function Value(props: {
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
-	return <span class={[theme?.value]} >
+	return <span class={styles.value}>
 		{props.children}
 	</span>;
 }

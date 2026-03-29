@@ -1,10 +1,9 @@
-import { THEME } from "../common/theme.js";
+import styles from "@rvx/ui/theme/components/secondary.module.css";
 
 export function Secondary(props: {
 	children?: unknown;
 }): unknown {
-	const theme = THEME.current;
-	return <span class={[theme?.secondary]} >
+	return <span class={styles.secondary}>
 		{props.children}
 	</span>;
 }
