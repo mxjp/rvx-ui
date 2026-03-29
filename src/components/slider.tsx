@@ -1,6 +1,6 @@
+import styles from "@rvx/ui/theme/components/slider.module.css";
 import { Expression, map, Show, Signal, uniqueId } from "rvx";
 import { ID_PAIR } from "../common/id-pairs.js";
-import { THEME } from "../common/theme.js";
 
 export function Slider(props: {
 	id?: Expression<string | undefined>;
@@ -11,7 +11,6 @@ export function Slider(props: {
 	markers?: Expression<number[] | undefined>;
 	children?: unknown;
 }) {
-	const theme = THEME.current;
 	const markerId = uniqueId();
 	const id = props.id ?? ID_PAIR.current.consume();
 
@@ -30,9 +29,7 @@ export function Slider(props: {
 		list={map(props.markers, markers => markers ? markerId : undefined)}
 	/> as HTMLInputElement;
 
-	return <div
-		class={theme?.slider_host}
-	>
+	return <div class={styles.host}>
 		{input}
 
 		<Show when={props.markers}>

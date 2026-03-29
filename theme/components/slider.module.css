@@ -1,5 +1,5 @@
 
-.slider_host {
+.host {
 	display: flex;
 	flex-direction: column;
 	row-gap: var(--group-row-gap);
@@ -10,6 +10,7 @@
 
 		&:focus-visible {
 			outline: var(--focus-outline);
+			outline-offset: var(--focus-outline-offset);
 		}
 	}
 }
