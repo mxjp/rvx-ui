@@ -49,11 +49,11 @@
 	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);
 
-	border: var(--content-border) solid var(--card-default);
+	border: var(--content-border) solid var(--default-border);
 }
 
 .scroll_view {
-	border-block: var(--content-border) solid var(--card-default);
+	border-block: var(--content-border) solid var(--default-border);
 	margin-inline: calc(var(--content-border) - var(--content-padding-inline));
 }
 

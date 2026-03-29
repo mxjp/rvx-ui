@@ -82,6 +82,8 @@ body {
 	--control-disabled: opacity(.5);
 	--control-shadow: 0 0 .2rem rgb(0 0 0 / .5);
 
+	--default-border: rgb(36 36 36);
+
 	--separator-color: rgb(40 40 40);
 
 	--focus-outline: var(--control-border) dashed var(--accent);
@@ -108,7 +110,9 @@ body {
 	--control-disabled: opacity(.5);
 	--control-shadow: 0 0 .2rem rgb(0 0 0 / .2);
 
-	--separator-color: rgb(240 240 240);
+	--default-border: rgb(215 215 215);
+
+	--separator-color: rgb(230 230 230);
 
 	--focus-outline: var(--control-border) dashed var(--accent);
 }

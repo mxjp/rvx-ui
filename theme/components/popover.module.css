@@ -22,7 +22,7 @@
 	svg {
 		width: 2rem;
 		height: 1rem;
-		fill: var(--card-default);
+		fill: var(--default-border);
 		transform-origin: bottom;
 		transform: scale(0.75);
 		stroke: none;
@@ -42,7 +42,7 @@
 
 .content {
 	border-radius: var(--content-radius);
-	border: var(--content-border) solid var(--overlay-border);
+	border: var(--content-border) solid var(--default-border);
 
 	&:not(.raw) {
 		padding-block: var(--content-padding-block);
