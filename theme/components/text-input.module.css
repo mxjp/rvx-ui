@@ -1,0 +1,39 @@
+
+.text_input {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+
+	cursor: text;
+
+	outline: none;
+
+	padding-block: calc(var(--control-padding-block) - var(--line-gap));
+	padding-inline: var(--control-padding-inline);
+
+	border: var(--control-border) solid var(--text-input-border);
+	border-radius: var(--control-radius);
+	box-shadow: var(--control-shadow);
+	background-color: var(--text-input-bg);
+	color: var(--text-input-fg);
+	line-height: calc(1em + var(--line-gap));
+
+	&:focus {
+		border-color: var(--fg-accent);
+	}
+
+	&[disabled] {
+		filter: var(--control-disabled);
+		cursor: default;
+	}
+}
+
+input.text_input {
+	block-size: calc(var(--control-padding-block) * 2 + 1em + var(--control-border) * 2);
+}
+
+:global(.rvx-dark) {
+	--text-input-bg: rgb(36 36 36);
+	--text-input-fg: white;
+	--text-input-border: rgb(54 54 54);
+}

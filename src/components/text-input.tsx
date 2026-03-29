@@ -1,8 +1,8 @@
+import styles from "@rvx/ui/theme/components/text-input.module.css";
 import { ClassValue, Expression, get, Signal, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { ID_PAIR } from "../common/id-pairs.js";
-import { THEME } from "../common/theme.js";
 import { closestValidator } from "./validation.js";
 
 export type TextInputType = "text" | "password";
@@ -63,7 +63,6 @@ export function TextInput(props: ({
 	"aria-labelledby"?: Expression<string | undefined>;
 }): unknown {
 	const id = props.id ?? ID_PAIR.current.consume();
-	const theme = THEME.current;
 	const disabled = () => isPending() || get(props.disabled);
 
 	const validator = props.value instanceof Signal ? closestValidator(props.value) : undefined;
@@ -75,7 +74,7 @@ export function TextInput(props: ({
 		wrap={props.multiline ? props.wrap : undefined}
 		disabled={disabled}
 		class={[
-			theme?.text_input,
+			styles.text_input,
 			props.class,
 		]}
 		style={props.style}
