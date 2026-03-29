@@ -1,18 +1,17 @@
-@use "../common";
 
 .popover {
 	position: relative;
 	outline: none;
 }
 
-.popover_spike_area {
+.spike_area {
 	pointer-events: none;
 	position: absolute;
 	inset: -1rem;
 	z-index: 1;
 }
 
-.popover_spike {
+.spike {
 	position: relative;
 	transform-origin: bottom;
 	width: 2rem;
@@ -23,14 +22,14 @@
 	svg {
 		width: 2rem;
 		height: 1rem;
-		fill: var(--card-default-border);
+		fill: var(--card-default);
 		transform-origin: bottom;
 		transform: scale(0.75);
 		stroke: none;
 	}
 }
 
-.popover_scroll_area {
+.scroll_area {
 	background-color: var(--bg-alt);
 	--parent-bg: var(--bg);
 
@@ -41,11 +40,12 @@
 	overflow: auto;
 }
 
-.popover_content {
+.content {
 	border-radius: var(--content-radius);
 	border: var(--content-border) solid var(--overlay-border);
 
-	&:not(.popover_raw) {
-		@include common.padding(content-pad);
+	&:not(.raw) {
+		padding-block: var(--content-padding-block);
+		padding-inline: var(--content-padding-inline);
 	}
 }

@@ -1,6 +1,7 @@
+import columnStyles from "@rvx/ui/theme/components/column.module.css";
+import styles from "@rvx/ui/theme/components/popover.module.css";
 import { $, ClassValue, Expression, get, Inject, map, render, StyleValue, SVG, uniqueId, View, watch, XMLNS } from "rvx";
 import { Action } from "../common/events.js";
-import { THEME } from "../common/theme.js";
 import { DOWN, getSize, getXY, LEFT, RIGHT, UP } from "../common/writing-mode.js";
 import { DialogRole } from "./dialog.js";
 import { LAYER } from "./layer.js";
@@ -76,7 +77,6 @@ export function createPopover(props: {
 		placement: map(props.placement, v => v ?? "block"),
 		alignment: map(props.alignment, v => v ?? "center"),
 		content: ({ popout, onPlacement, placement, setSizeReference }) => {
-			const theme = THEME.current;
 			const layer = LAYER.current!;
 			const spikeTransform = $("");
 
@@ -111,8 +111,8 @@ export function createPopover(props: {
 				}
 			});
 
-			const spikeArea = <div class={theme?.popover_spike_area}>
-				<div class={theme?.popover_spike} style={{ transform: spikeTransform }}>
+			const spikeArea = <div class={styles.spike_area}>
+				<div class={styles.spike} style={{ transform: spikeTransform }}>
 					<Inject context={XMLNS} value={SVG}>
 						{() => {
 							return <svg viewBox="0 0 16 16" preserveAspectRatio="none">
@@ -124,10 +124,10 @@ export function createPopover(props: {
 			</div> as HTMLElement;
 
 			const content = <div class={[
-				theme?.column,
-				theme?.column_content,
-				theme?.popover_content,
-				map(props.raw, raw => raw ? theme?.popover_raw : undefined),
+				columnStyles.column,
+				columnStyles.content,
+				styles.content,
+				map(props.raw, raw => raw ? styles.raw : undefined),
 			]}>
 				{props.content({ popout })}
 			</div> as HTMLElement;
@@ -138,7 +138,7 @@ export function createPopover(props: {
 				role={map(props.role, v => v ?? "dialog")}
 				id={props.id}
 				class={[
-					theme?.popover,
+					styles.popover,
 					props.class,
 				]}
 				style={[
@@ -155,7 +155,7 @@ export function createPopover(props: {
 				aria-describedby={props["aria-describedby"]}
 			>
 				{spikeArea}
-				<div class={theme?.popover_scroll_area}>
+				<div class={styles.scroll_area}>
 					{content}
 				</div>
 			</div> as HTMLElement;
