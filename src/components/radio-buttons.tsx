@@ -1,8 +1,8 @@
+import styles from "@rvx/ui/theme/components/radio-buttons.module.css";
 import { ClassValue, Expression, For, get, map, Signal, StyleValue, uniqueId } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString, string } from "rvx/convert";
 import { ID_PAIR } from "../common/id-pairs.js";
-import { THEME } from "../common/theme.js";
 import { Text } from "./text.js";
 import { closestValidator } from "./validation.js";
 
@@ -28,7 +28,6 @@ export function RadioButtons<T>(props: {
 }): unknown {
 	const id = props.id ?? ID_PAIR.current.consume();
 	const group = uniqueId();
-	const theme = THEME.current;
 
 	const disabled = props.value instanceof Signal
 		? () => isPending() || get(props.disabled)
@@ -40,7 +39,7 @@ export function RadioButtons<T>(props: {
 		role="radiogroup"
 		id={props.id}
 		class={[
-			theme?.radio_buttons,
+			styles.radio_buttons,
 			props.class,
 		]}
 		style={props.style}
@@ -56,7 +55,7 @@ export function RadioButtons<T>(props: {
 				const input = <input
 					id={id}
 					type="radio"
-					class={theme?.radio_button_input}
+					class={styles.radio_button_input}
 					name={group}
 					value={id}
 					disabled={disabled}
@@ -71,10 +70,10 @@ export function RadioButtons<T>(props: {
 
 				return <label
 					for={id}
-					class={theme?.radio_button_label}
+					class={styles.radio_button_label}
 				>
-					{theme?.radio_button_padding ? <div class={theme.radio_button_padding}>{input}</div> : input}
-					<Text class={theme?.radio_button_content}>
+					<div class={styles.radio_button_padding}>{input}</div>
+					<Text class={styles.radio_button_content}>
 						{option.label}
 					</Text>
 				</label>;
