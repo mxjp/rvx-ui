@@ -11,11 +11,11 @@
 .center_block {
 	flex-grow: 1;
 
-	& > .page_content_col {
+	& > .content_col {
 		display: grid;
 		grid-template-rows: 5fr auto 7fr;
 
-		& > .page_content {
+		& > .content {
 			grid-row: 2;
 		}
 	}
