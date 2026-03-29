@@ -19,7 +19,7 @@
 	line-height: calc(1em + var(--line-gap));
 
 	&:focus {
-		border-color: var(--fg-accent);
+		border-color: var(--accent);
 	}
 
 	&[disabled] {

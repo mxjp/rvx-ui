@@ -95,7 +95,7 @@
 	--button-default-bg: rgb(72 72 72);
 	--button-default-fg: white;
 	--button-default-active: rgb(100 100 100);
-	--button-default-focus: var(--fg-accent);
+	--button-default-focus: var(--accent);
 
 	--button-primary-bg: rgb(64 160 255);
 	--button-primary-fg: black;
@@ -121,10 +121,10 @@
 	--button-input-fg: white;
 	--button-input-border: rgb(54 54 54);
 	--button-input-active: rgb(64 64 64);
-	--button-input-focus: var(--fg-accent);
+	--button-input-focus: var(--accent);
 
 	--button-item-bg: rgb(48 48 48);
 	--button-item-fg: white;
 	--button-item-active: rgb(64 64 64);
-	--button-item-focus: var(--fg-accent);
+	--button-item-focus: var(--accent);
 }

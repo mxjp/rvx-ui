@@ -19,7 +19,7 @@
 body {
 	background-color: var(--bg);
 	color: var(--fg);
-	accent-color: var(--fg-accent);
+	accent-color: var(--accent);
 
 	text-wrap: balance;
 	@supports (text-wrap: pretty) {
@@ -69,7 +69,7 @@ body {
 	--bg-selection: rgb(64 150 255 / .5);
 
 	--fg: white;
-	--fg-accent: rgb(64 160 255);
+	--accent: rgb(64 160 255);
 	--fg-danger: rgb(255 64 64);
 
 	--secondary-filter: opacity(.6);
@@ -84,5 +84,5 @@ body {
 
 	--separator-color: rgb(40 40 40);
 
-	--focus-outline: var(--control-border) dashed var(--fg-accent);
+	--focus-outline: var(--control-border) dashed var(--accent);
 }

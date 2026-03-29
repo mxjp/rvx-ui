@@ -3,7 +3,7 @@
 	--space-below: var(--control-row-gap);
 	line-height: calc(1em + var(--line-gap));
 
-	color: var(--fg-accent);
+	color: var(--accent);
 	font-weight: 600;
 	text-decoration: none;
 	cursor: pointer;

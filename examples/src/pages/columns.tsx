@@ -4,7 +4,7 @@ import { $ } from "rvx";
 export default function() {
 	const visible = $(false);
 
-	const outline = "1px dashed var(--fg-accent)";
+	const outline = "1px dashed var(--accent)";
 
 	return <>
 		<Heading level="1">Columns</Heading>
