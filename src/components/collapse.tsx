@@ -2,6 +2,7 @@ import styles from "@rvx/ui/theme/components/collapse.module.css";
 import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, watch } from "rvx";
 import { useMicrotask, useTimeout } from "rvx/async";
 import { optionalString } from "rvx/convert";
+import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
 
 export function Collapse(props: {
@@ -92,16 +93,9 @@ export function Collapse(props: {
 
 	watch(visible, () => {
 		transition.value = true;
-		useMicrotask(() => {
-			const duration = parseInt(getComputedStyle(root).getPropertyValue("--layout-transition-ms"));
-			if (Number.isSafeInteger(duration)) {
-				useTimeout(() => {
-					transition.value = false;
-				}, duration);
-			} else {
-				transition.value = false;
-			}
-		});
+		useTimeout(() => {
+			transition.value = false;
+		}, THEME.current.layoutTransitionDelay);
 	});
 
 	return root;

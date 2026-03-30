@@ -1,5 +1,13 @@
-import { $, Expression, teardown, watch } from "rvx";
+import { $, Context, Expression, teardown, watch } from "rvx";
 import { useAbortSignal } from "rvx/async";
+
+export interface ThemeConfig {
+	layoutTransitionDelay: number;
+}
+
+export const THEME = new Context<ThemeConfig>({
+	layoutTransitionDelay: 250,
+});
 
 export type Theme = "dark" | "light";
 

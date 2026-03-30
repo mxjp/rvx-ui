@@ -2,6 +2,7 @@ import styles from "@rvx/ui/theme/components/dialog.module.css";
 import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, render, StyleValue, teardown, uniqueId } from "rvx";
 import { TASKS, Tasks, useMicrotask } from "rvx/async";
 import { inOverlayContext } from "../common/context.js";
+import { THEME } from "../common/theme.js";
 import { Column, Group } from "./column.js";
 import { FlexSpace } from "./flex-space.js";
 import { Heading } from "./heading.js";
@@ -135,10 +136,8 @@ export function DialogBody(props: {
 		if (styles.fadeout) {
 			body.classList.add(styles.fadeout);
 		}
-		const duration = parseInt(getComputedStyle(body).getPropertyValue("--layout-transition-ms"));
-		if (Number.isSafeInteger(duration)) {
-			tasks.push(new Promise(resolve => setTimeout(resolve, duration)));
-		}
+		const delay = THEME.current.layoutTransitionDelay;
+		tasks.push(new Promise(resolve => setTimeout(resolve, delay)));
 	});
 
 	return body;
