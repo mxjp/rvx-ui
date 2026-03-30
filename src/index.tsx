@@ -1,5 +1,5 @@
-/// <reference types="@rvx/ui/theme/types.d.ts" />
 import "@rvx/ui/theme/global.css";
+import "@rvx/ui/theme/types.d.ts";
 
 export * from "./common/context.js";
 export * from "./common/coupling.js";
