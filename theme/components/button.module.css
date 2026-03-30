@@ -85,6 +85,7 @@
 }
 
 .item {
+	text-align: left;
 	--button-bg: var(--button-item-bg);
 	--button-fg: var(--button-item-fg);
 	--button-active: var(--button-item-active);
