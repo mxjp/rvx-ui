@@ -18,7 +18,7 @@
 	cursor: pointer;
 	outline: none;
 
-	padding-block: var(--control-padding-block);
+	padding-block: calc(var(--control-padding-block) + var(--control-border)) var(--control-padding-block);
 	padding-inline: calc(var(--control-padding-inline) + var(--control-border));
 
 	background-color: transparent;
