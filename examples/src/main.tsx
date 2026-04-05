@@ -1,5 +1,5 @@
-import { captureOverlayContext, Dropdown, DropdownItem, Heading, NavBar, NavBarButton, Page, PLACEHOLDER, RootLayer, ScrollView, watchTheme } from "@rvx/ui";
-import { Context, mount } from "rvx";
+import { Button, captureOverlayContext, Dropdown, DropdownItem, Heading, Link, NavBar, NavBarContent, NavBarItem, Page, PLACEHOLDER, RootLayer, ScrollView, Text, watchTheme } from "@rvx/ui";
+import { $, Context, mount, Show } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
 import { THEME } from "./common";
@@ -46,16 +46,29 @@ mount(
 				}
 			});
 
+			const headerButton = $(false);
+
 			return <div class={styles.app}>
 				<NavBar class={styles.bar}
 					inlineSize="50rem"
 					start={<>
 						<Dropdown
-							anchor={props => <NavBarButton {...props} current>Examples</NavBarButton>}
+							anchor={props => <NavBarItem {...props} current>Examples</NavBarItem>}
 							items={links}
 							alignment="start"
 						/>
+						<NavBarItem href="https://example.com" target="_blank">example.com</NavBarItem>
 					</>}
+					center={<NavBarContent>
+						<Link action={() => { headerButton.value = !headerButton.value }}>
+							Center Content
+						</Link>
+					</NavBarContent>}
+					end={<NavBarContent>
+						<Show when={headerButton} else={() => <Text>End Content</Text>}>
+							{() => <Button>End Content</Button>}
+						</Show>
+					</NavBarContent>}
 				/>
 				<ScrollView class={styles.content} scrollbarComp>
 					<Routes routes={[

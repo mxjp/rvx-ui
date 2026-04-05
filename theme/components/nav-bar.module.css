@@ -1,6 +1,6 @@
 
 .nav {
-	background-color: var(--bg-alt);
+	background-color: var(--nav-bar-bg);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -13,7 +13,7 @@
 
 	display: grid;
 	grid-template-columns: 1fr auto 1fr;
-	gap: var(--group-column-gap);
+	gap: var(--content-column-gap);
 }
 
 .start,
@@ -21,7 +21,7 @@
 .end {
 	display: flex;
 	flex-direction: row;
-	gap: var(--group-column-gap);
+	gap: var(--content-column-gap);
 }
 
 .start {
@@ -35,7 +35,8 @@
 .item {
 	display: flex;
 	flex-direction: row;
-	align-items: stretch;
+	align-items: center;
+	white-space: nowrap;
 
 	font-family: inherit;
 	font-size: inherit;
@@ -44,9 +45,13 @@
 
 	cursor: pointer;
 	outline: none;
+	text-decoration: none;
 
-	padding: 0;
+	padding-inline: 0;
+	padding-block: calc(var(--content-padding-block) + var(--marker-size)) var(--content-padding-block);
+
 	border: none;
+	border-block-end: var(--marker-size) solid transparent;
 
 	background-color: transparent;
 	color: var(--fg-secondary);
@@ -55,33 +60,33 @@
 		cursor: default;
 		filter: var(--control-disabled);
 	}
-}
 
-.item_content {
-	padding-block: var(--content-padding-block) calc(var(--content-padding-block) - var(--content-border));
+	transition: border-block-end-color var(--transition-color),
+		color var(--transition-color);
 
-	border-block-end: var(--content-border) solid transparent;
-
-	transition: background-color var(--transition-color),
-		margin var(--transition-color),
-		padding var(--transition-color);
-
-	.item:hover:not(:active):not([disabled]) > &,
-	.item:focus-visible:not(:active):not([disabled]) > &,
-	.expanded > & {
-		background-color: var(--bg-active);
+	&:hover:not([disabled]),
+	&:focus-visible:not([disabled]),
+	&.expanded {
+		color: var(--fg);
+		border-block-end-color: var(--nav-bar-marker-hover);
 	}
 
-	.item:hover:not([disabled]) > &,
-	.item:focus-visible:not([disabled]) > &,
-	.expanded > & {
-		margin-inline: calc(var(--group-column-gap) / -2);
-		padding-inline: calc(var(--group-column-gap) / 2);
-		z-index: 1;
-	}
-
-	.current > & {
+	&.current.current {
 		color: var(--fg);
 		border-block-end-color: var(--accent);
 	}
+}
+
+.content {
+	padding-block: var(--group-padding-block);
+}
+
+:global(.rvx-dark) {
+	--nav-bar-bg: rgb(32 32 32);
+	--nav-bar-marker-hover: rgb(80 80 80);
+}
+
+:global(.rvx-light) {
+	--nav-bar-bg: rgb(240 240 240);
+	--nav-bar-marker-hover: rgb(172 172 172);
 }

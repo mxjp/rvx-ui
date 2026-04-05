@@ -3,7 +3,7 @@
 	display: flex;
 	box-shadow: var(--control-shadow);
 	border-radius: var(--control-radius);
-	gap: var(--separator);
+	gap: var(--separator-size);
 
 	& > * {
 		box-shadow: none;
@@ -29,7 +29,7 @@
 		border-end-end-radius: 0;
 	}
 	& > * {
-		margin-inline-start: calc((var(--space-scale) - 1) * var(--separator));
+		margin-inline-start: calc((var(--space-scale) - 1) * var(--separator-size));
 	}
 }
 
@@ -52,6 +52,6 @@
 		border-end-end-radius: 0;
 	}
 	& > * {
-		margin-block-start: calc((var(--space-scale) - 1) * var(--separator));
+		margin-block-start: calc((var(--space-scale) - 1) * var(--separator-size));
 	}
 }

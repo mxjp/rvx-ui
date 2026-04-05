@@ -53,7 +53,8 @@ body {
 	--transition-color: .1s ease;
 	--transition-layout: .25s ease;
 
-	--separator: calc(2rem / 14);
+	--separator-size: calc(2rem / 14);
+	--marker-size: calc(3rem / 14);
 
 	--overflow-safe-area: calc(2rem / 14);
 	--input-extension: calc(5rem / 14);
@@ -67,7 +68,6 @@ body {
 	--bg: rgb(24 24 24);
 	--bg-alt: rgb(32 32 32);
 	--bg-selection: rgb(64 150 255 / .5);
-	--bg-active: rgb(48 48 48);
 
 	--fg: white;
 	--accent: rgb(64 160 255);
@@ -97,7 +97,6 @@ body {
 	--bg: white;
 	--bg-alt: rgb(250 250 250);
 	--bg-selection: rgb(0 127 255 / .3);
-	--bg-active: rgb(232 232 232);
 
 	--fg: rgb(42 42 42);
 	--accent: rgb(0 127 255);

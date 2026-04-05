@@ -2,7 +2,7 @@
 .list {
 	display: flex;
 	flex-direction: row;
-	border-bottom: var(--separator) solid var(--separator-color);
+	border-bottom: var(--separator-size) solid var(--separator-color);
 }
 
 .list_padded {

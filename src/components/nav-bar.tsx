@@ -1,9 +1,10 @@
 import styles from "@rvx/ui/theme/components/nav-bar.module.css";
 import { ClassValue, Content, Expression, get, map, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
-import { optionalString } from "rvx/convert";
+import { optionalString, separated } from "rvx/convert";
 import { Action, handleActionEvent, isKey } from "../common/events.js";
 import { AriaCurrent } from "../common/types.js";
+import { LinkAnchorRel, LinkAnchorTarget, LinkReferrerPolicy } from "./link.js";
 import { Row } from "./row.js";
 
 export function NavBar(props: {
@@ -40,12 +41,43 @@ export function NavBar(props: {
 	</nav>;
 }
 
-export function NavBarButton(props: {
+export function NavBarItem(props: {
 	class?: ClassValue;
 	style?: StyleValue;
-	children?: unknown;
+	children?: Content;
 	disabled?: Expression<boolean | undefined>;
 	action?: Action;
+	download?: Expression<string | boolean | undefined>;
+
+	/**
+	 * The url this link points to.
+	 */
+	href?: Expression<string | undefined>;
+
+	/**
+	 * Hints the human language of the linked url.
+	 */
+	hreflang?: Expression<string | undefined>;
+
+	/**
+	 * The link target.
+	 */
+	target?: Expression<LinkAnchorTarget | string | undefined>;
+
+	/**
+	 * How much of the referrer to send when following the link.
+	 *
+	 * @default "no-referrer"
+	 */
+	referrerpolicy?: Expression<LinkReferrerPolicy | undefined>;
+
+	/**
+	 * The link type.
+	 *
+	 * @default "noreferrer"
+	 */
+	rel?: Expression<LinkAnchorRel | LinkAnchorRel[] | undefined>;
+
 	title?: Expression<string | undefined>;
 	current?: Expression<AriaCurrent | undefined>;
 
@@ -62,8 +94,11 @@ export function NavBarButton(props: {
 		handleActionEvent(event, props.action);
 	}
 
-	return <button
-		type="button"
+	const isLink = props.href !== undefined;
+	const Tag = isLink ? "a" : "button";
+
+	return <Tag
+		type={isLink ? undefined : "button"}
 		disabled={disabled}
 		class={[
 			props.class,
@@ -78,6 +113,13 @@ export function NavBarButton(props: {
 		aria-haspopup={props["aria-haspopup"]}
 		aria-controls={props["aria-controls"]}
 
+		download={isLink && props.download}
+		href={isLink && props.href}
+		hreflang={isLink && props.hreflang}
+		target={isLink && props.target}
+		referrerpolicy={isLink && map(props.referrerpolicy, v => v ?? "no-referrer")}
+		rel={isLink && separated(map(props.rel, v => v ?? "noreferrer"), " ")}
+
 		on:click={action}
 		on:keydown={event => {
 			if (isKey(event, "enter") || isKey(event, " ")) {
@@ -85,8 +127,23 @@ export function NavBarButton(props: {
 			}
 		}}
 	>
-		<Row class={styles.item_content} align="center">
-			{props.children}
-		</Row>
-	</button>;
+		{props.children}
+	</Tag>;
+}
+
+export function NavBarContent(props: {
+	class?: ClassValue;
+	style?: StyleValue;
+	children?: Content;
+}) {
+	return <Row
+		class={[
+			props.class,
+			styles.content
+		]}
+		style={props.style}
+		align="center"
+	>
+		{props.children}
+	</Row>;
 }
