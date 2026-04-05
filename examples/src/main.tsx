@@ -32,7 +32,7 @@ mount(
 						action: () => {
 							ROUTER.current!.push(path);
 						},
-						// TODO: Current: () => ROUTER.current?.path === path
+						selected: () => ROUTER.current?.path === path,
 					});
 
 					routes.push({
@@ -51,7 +51,7 @@ mount(
 					inlineSize="50rem"
 					start={<>
 						<Dropdown
-							anchor={props => <NavBarButton {...props}>Pages</NavBarButton>}
+							anchor={props => <NavBarButton {...props} current>Examples</NavBarButton>}
 							items={links}
 							alignment="start"
 						/>

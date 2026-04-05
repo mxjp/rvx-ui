@@ -67,12 +67,14 @@
 		padding var(--transition-color);
 
 	.item:hover:not(:active):not([disabled]) > &,
-	.item:focus-visible:not(:active):not([disabled]) > & {
+	.item:focus-visible:not(:active):not([disabled]) > &,
+	.expanded > & {
 		background-color: var(--bg-active);
 	}
 
 	.item:hover:not([disabled]) > &,
-	.item:focus-visible:not([disabled]) > & {
+	.item:focus-visible:not([disabled]) > &,
+	.expanded > & {
 		margin-inline: calc(var(--group-column-gap) / -2);
 		padding-inline: calc(var(--group-column-gap) / 2);
 		z-index: 1;

@@ -69,6 +69,7 @@ export function NavBarButton(props: {
 			props.class,
 			styles.item,
 			map(props.current, current => current ? styles.current : undefined),
+			map(props["aria-expanded"], expanded => expanded ? styles.expanded : undefined),
 		]}
 		style={props.style}
 		title={props.title}
