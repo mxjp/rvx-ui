@@ -1,9 +1,9 @@
-import { captureOverlayContext, Heading, NavList, NavListButton, Page, PLACEHOLDER, RootLayer, ScrollView, watchTheme } from "@rvx/ui";
+import { captureOverlayContext, Dropdown, DropdownItem, Heading, NavBar, NavBarButton, Page, PLACEHOLDER, RootLayer, ScrollView, watchTheme } from "@rvx/ui";
 import { Context, mount } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
 import { THEME } from "./common";
-import "./styles.css";
+import styles from "./main.module.css";
 
 mount(
 	document.body,
@@ -17,20 +17,23 @@ mount(
 			captureOverlayContext();
 
 			const routes: ComponentRoute[] = [];
-			const links: unknown[] = [];
+			// const links: unknown[] = [];
 			const pages = import.meta.glob("./pages/*.tsx");
+
+			const links: DropdownItem[] = [];
 
 			TASKS.inject(undefined, () => {
 				for (const key in pages) {
 					const name = key.slice(8, -4);
 					const path = `/${name}`;
 
-					links.push(<NavListButton
-						action={() => {
+					links.push({
+						label: name,
+						action: () => {
 							ROUTER.current!.push(path);
-						}}
-						current={() => ROUTER.current?.path === path}
-					>{name}</NavListButton>);
+						},
+						// TODO: Current: () => ROUTER.current?.path === path
+					});
 
 					routes.push({
 						match: path,
@@ -43,15 +46,18 @@ mount(
 				}
 			});
 
-			return <div class="app">
-				<ScrollView class="app-nav">
-					<Page>
-						<NavList>
-							{links}
-						</NavList>
-					</Page>
-				</ScrollView>
-				<ScrollView scrollbarComp>
+			return <div class={styles.app}>
+				<NavBar class={styles.bar}
+					inlineSize="50rem"
+					start={<>
+						<Dropdown
+							anchor={props => <NavBarButton {...props}>Pages</NavBarButton>}
+							items={links}
+							alignment="start"
+						/>
+					</>}
+				/>
+				<ScrollView class={styles.content} scrollbarComp>
 					<Routes routes={[
 						...routes,
 						{ content: () => <Page inlineSize="20rem" centerBlock>

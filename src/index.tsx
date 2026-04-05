@@ -25,7 +25,7 @@ export * from "./components/heading.js";
 export * from "./components/label.js";
 export * from "./components/layer.js";
 export * from "./components/link.js";
-export * from "./components/nav-list.js";
+export * from "./components/nav-bar.js";
 export * from "./components/notifications.js";
 export * from "./components/page.js";
 export * from "./components/placeholder.js";

@@ -1,0 +1,12 @@
+
+:global(body) {
+	margin: 0;
+	text-wrap: balance;
+}
+
+.app {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	grid-template-columns: 1fr;
+	height: 100dvh;
+}

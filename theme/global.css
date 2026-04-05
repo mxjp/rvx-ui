@@ -67,10 +67,12 @@ body {
 	--bg: rgb(24 24 24);
 	--bg-alt: rgb(32 32 32);
 	--bg-selection: rgb(64 150 255 / .5);
+	--bg-active: rgb(48 48 48);
 
 	--fg: white;
 	--accent: rgb(64 160 255);
 	--fg-danger: rgb(255 64 64);
+	--fg-secondary: rgb(255 255 255 / .6);
 
 	--secondary-filter: opacity(.6);
 
@@ -95,10 +97,12 @@ body {
 	--bg: white;
 	--bg-alt: rgb(250 250 250);
 	--bg-selection: rgb(0 127 255 / .3);
+	--bg-active: rgb(232 232 232);
 
 	--fg: rgb(42 42 42);
 	--accent: rgb(0 127 255);
 	--fg-danger: rgb(255 64 64);
+	--fg-secondary: rgb(42 42 42 / .6);
 
 	--secondary-filter: opacity(.65);
 
