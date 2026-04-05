@@ -33,6 +33,6 @@
 		"typescript": "^6.0.2"
 	},
 	"peerDependencies": {
-		"rvx": "^24.1.3"
+		"rvx": "^25.0.0"
 	}
 }
