@@ -34,7 +34,7 @@ export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOption
 			const fadeout = new Emitter<[tasks: Promise<void>[]]>();
 			const view = render(
 				<Layer modal enabled={enabled}>
-					{() => Context.inject([
+					{() => Context.provide([
 						TASKS.with(new Tasks()),
 						DIALOG_FADEOUT.with(fadeout.event),
 					], () => {
@@ -49,7 +49,7 @@ export function showDialog<T = void>(init: DialogInit<T>, options?: DialogOption
 							},
 						};
 						if (options?.cancellable ?? true) {
-							TASKS.inject((options?.detachCancel ?? true) ? null : TASKS.current, () => {
+							TASKS.provide((options?.detachCancel ?? true) ? null : TASKS.current, () => {
 								LAYER.current!.useHotkey("escape", () => {
 									dialog.reject();
 								});

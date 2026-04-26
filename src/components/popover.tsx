@@ -1,6 +1,6 @@
 import columnStyles from "@rvx/ui/theme/components/column.module.css";
 import styles from "@rvx/ui/theme/components/popover.module.css";
-import { $, ClassValue, Expression, get, Inject, map, render, StyleValue, SVG, uniqueId, View, watch, XMLNS } from "rvx";
+import { $, ClassValue, Expression, get, map, Provide, render, StyleValue, SVG, uniqueId, View, watch, XMLNS } from "rvx";
 import { Action } from "../common/events.js";
 import { DOWN, getSize, getXY, LEFT, RIGHT, UP } from "../common/writing-mode.js";
 import { DialogRole } from "./dialog.js";
@@ -113,13 +113,13 @@ export function createPopover(props: {
 
 			const spikeArea = <div class={styles.spike_area}>
 				<div class={styles.spike} style={{ transform: spikeTransform }}>
-					<Inject context={XMLNS} value={SVG}>
+					<Provide context={XMLNS} value={SVG}>
 						{() => {
 							return <svg viewBox="0 0 16 16" preserveAspectRatio="none">
 								<path d="M0,16 L8,0 L16,16 Z" />
 							</svg>;
 						}}
-					</Inject>
+					</Provide>
 				</div>
 			</div> as HTMLElement;
 

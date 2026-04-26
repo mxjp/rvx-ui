@@ -1,5 +1,5 @@
 import styles from "@rvx/ui/theme/components/breadcrumbs.module.css";
-import { ClassValue, Expression, For, Inject, Show, StyleValue, SVG, XMLNS } from "rvx";
+import { ClassValue, Expression, For, Provide, Show, StyleValue, SVG, XMLNS } from "rvx";
 import { Action } from "../common/events.js";
 import { Link } from "./link.js";
 
@@ -25,11 +25,11 @@ export function Breadcrumbs(props: {
 				return <div class={styles.item}>
 					<Show when={() => index() !== 0}>
 						{() => <span class={styles.separator}>
-							<Inject context={XMLNS} value={SVG}>
+							<Provide context={XMLNS} value={SVG}>
 								{() => <svg viewBox="0 0 8 16" preserveAspectRatio="none">
 									<path d="M2,14 L6,2" stroke-width="1.75" stroke-linecap="round" />
 								</svg>}
-							</Inject>
+							</Provide>
 						</span>}
 					</Show>
 					{item.action

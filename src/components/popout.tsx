@@ -164,7 +164,7 @@ export class Popout {
 		return this.#visible.value;
 	}
 
-	#createInstance = Context.wrap((writingMode: WritingMode, scriptDir: ScriptDirection): Instance => {
+	#createInstance = Context.bind((writingMode: WritingMode, scriptDir: ScriptDirection): Instance => {
 		return captureSelf(dispose => {
 			const instance: Instance = this.#instance = {
 				dispose,

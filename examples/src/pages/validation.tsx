@@ -1,5 +1,5 @@
 import { Button, Card, Checkbox, Column, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
-import { $, Inject, Nest } from "rvx";
+import { $, Nest, Provide } from "rvx";
 import { trim } from "rvx/convert";
 
 function BaseExample() {
@@ -99,7 +99,7 @@ export default function () {
 		</Card>
 
 		<Nest watch={() => [trigger.value]}>
-			{([trigger]) => <Inject context={VALIDATION} value={{ trigger }}>
+			{([trigger]) => <Provide context={VALIDATION} value={{ trigger }}>
 				{() => <>
 					<Heading level="2">Basic Rules</Heading>
 					<BaseExample />
@@ -107,7 +107,7 @@ export default function () {
 					<Heading level="2">Custom & Composite Rules</Heading>
 					<CustomRulesExample />
 				</>}
-			</Inject>}
+			</Provide>}
 		</Nest>
 	</>;
 }

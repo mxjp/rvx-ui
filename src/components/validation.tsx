@@ -85,13 +85,13 @@ export class Validator {
 	#createRuleEntry(rule: ValidationRule): ValidationRuleEntry {
 		const entry = new ValidationRuleEntry(rule, this.#notify);
 		teardown(() => {
-			this.#rules.update(rules => {
-				const index = rules.indexOf(entry);
-				if (index < 0) {
-					return false;
-				}
-				rules.splice(index, 1);
-			});
+			const rules = this.#rules.inert;
+			const index = rules.indexOf(entry);
+			if (index < 0) {
+				return false;
+			}
+			rules.splice(index, 1);
+			this.#rules.notify();
 		});
 		return entry;
 	}
@@ -141,9 +141,8 @@ export class Validator {
 	 */
 	appendRule(rule: ValidationRule): void {
 		const entry = this.#createRuleEntry(rule);
-		this.#rules.update(rules => {
-			rules.push(entry);
-		});
+		this.#rules.inert.push(entry);
+		this.#rules.notify();
 	}
 
 	/**
@@ -151,15 +150,14 @@ export class Validator {
 	 */
 	prependRule(rule: ValidationRule): void {
 		const entry = this.#createRuleEntry(rule);
-		this.#rules.update(rules => {
-			rules.unshift(entry);
-		});
+		this.#rules.inert.unshift(entry);
+		this.#rules.notify();
 	}
 
 	/**
 	 * Attach this validator to the specified target.
 	 *
-	 * This will overwrite existing validators on the target.
+	 * This will override existing validators on the target.
 	 */
 	attach(target: Signal<unknown>): void {
 		VALIDATORS.set(target, this);

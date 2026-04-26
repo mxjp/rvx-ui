@@ -10,5 +10,5 @@ export function inOverlayContext<F extends (...args: any) => any>(fn: F, ...args
 	if (!overlayContext) {
 		captureOverlayContext();
 	}
-	return Context.window(overlayContext!, fn, ...args);
+	return Context.isolate(overlayContext!, fn, ...args);
 }

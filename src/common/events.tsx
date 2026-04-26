@@ -1,4 +1,4 @@
-import { Expression, get, Overwrite } from "rvx";
+import { Expression, get, Override } from "rvx";
 import { TASKS } from "rvx/async";
 
 export interface Key {
@@ -56,9 +56,9 @@ export function WithAction(props: {
 	action: Action<[], KeyboardEvent>,
 	key?: Expression<string | Key | undefined>;
 }) {
-	return <Overwrite on:keydown={e => handleKeyActionEvent(e, get(props.key) ?? "enter", props.action)}>
+	return <Override on:keydown={e => handleKeyActionEvent(e, get(props.key) ?? "enter", props.action)}>
 		{props.children}
-	</Overwrite>;
+	</Override>;
 }
 
 /**

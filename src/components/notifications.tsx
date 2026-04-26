@@ -1,5 +1,5 @@
 import styles from "@rvx/ui/theme/components/notifications.module.css";
-import { $, captureSelf, Component, For, movable, render, teardown, uncapture, View } from "rvx";
+import { $, captureSelf, Component, For, leak, movable, render, teardown, View } from "rvx";
 import { useTimeout } from "rvx/async";
 import { inOverlayContext } from "../common/context.js";
 import { SizeContext } from "../common/types.js";
@@ -35,7 +35,7 @@ const instances = $<Component[]>([]);
 export function showNotification(content: Component<Notification>, options?: NotificationOptions): Notification {
 	return inOverlayContext(() => {
 		if (!host) {
-			uncapture(() => {
+			leak(() => {
 				host = render(<TopLayer>
 					{() => <div
 						class={styles.host}
@@ -70,9 +70,8 @@ export function showNotification(content: Component<Notification>, options?: Not
 				</Card>
 			</Collapse>).move;
 
-			instances.update(instances => {
-				instances.push(instance);
-			});
+			instances.inert.push(instance);
+			instances.notify();
 			// TODO: Scroll notification into view.
 
 			if (options?.timeout !== undefined) {
@@ -83,12 +82,11 @@ export function showNotification(content: Component<Notification>, options?: Not
 			teardown(() => {
 				visible.value = false;
 				setTimeout(() => {
-					instances.update(instances => {
-						const index = instances.indexOf(instance);
-						if (index >= 0) {
-							instances.splice(index, 1);
-						}
-					});
+					const index = instances.inert.indexOf(instance);
+					if (index >= 0) {
+						instances.inert.splice(index, 1);
+					}
+					instances.notify();
 					// TODO: Use transition delay:
 				}, 1000);
 			});

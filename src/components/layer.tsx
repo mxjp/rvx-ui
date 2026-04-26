@@ -1,4 +1,4 @@
-import { $, Component, Context, Expression, get, Inject, memo, Signal, teardown, uncapture, untrack, watch } from "rvx";
+import { $, Component, Context, Expression, get, leak, memo, Provide, Signal, teardown, untrack, watch } from "rvx";
 import { Action, handleKeyActionEvent, Key } from "../common/events.js";
 import { useGlobalFocusTrap } from "../common/focus-trap.js";
 
@@ -31,7 +31,7 @@ const TOP_LAYER: LayerInstance = {
 	autoFocusFallback: undefined,
 };
 
-uncapture(() => watch(LAYERS, layers => {
+leak(() => watch(LAYERS, layers => {
 	const modal = layers.findLastIndex(l => l.modal);
 	for (let i = 0; i < layers.length; i++) {
 		layers[i].inert.value = i < modal;
@@ -44,9 +44,9 @@ function staticLayer(layer: LayerInstance, content: Component): unknown {
 		style={{ display: "contents" }}
 		inert={layer.inert}
 	>
-		<Inject context={LAYER} value={new Handle(layer)}>
+		<Provide context={LAYER} value={new Handle(layer)}>
 			{content}
-		</Inject>
+		</Provide>
 	</div> as HTMLDivElement;
 	layer.roots.push(root);
 	teardown(() => {
@@ -115,9 +115,8 @@ export function Layer(props: {
 			return;
 		}
 
-		LAYERS.update(layers => {
-			layers.push(layer);
-		});
+		LAYERS.inert.push(layer);
+		LAYERS.notify();
 
 		const previous = document.activeElement;
 		if (previous && previous !== document.body) {
@@ -147,13 +146,13 @@ export function Layer(props: {
 
 		teardown(() => {
 			let next: LayerInstance | undefined = undefined;
-			LAYERS.update(layers => {
-				const index = layers.lastIndexOf(layer);
-				if (index >= 0) {
-					layers.splice(index, 1);
-					next = layers[index - 1];
-				}
-			});
+
+			const index = LAYERS.inert.lastIndexOf(layer);
+			if (index >= 0) {
+				LAYERS.inert.splice(index, 1);
+				next = LAYERS.inert[index - 1];
+			}
+			LAYERS.notify();
 
 			queueMicrotask(() => {
 				const layers = LAYERS.value;
@@ -169,9 +168,9 @@ export function Layer(props: {
 		style={{ display: "contents" }}
 		inert={() => layer.inert.value || !enabled()}
 	>
-		<Inject context={LAYER} value={new Handle(layer)}>
+		<Provide context={LAYER} value={new Handle(layer)}>
 			{props.children}
-		</Inject>
+		</Provide>
 	</div> as HTMLElement;
 	layer.roots.push(root);
 	return root;
@@ -277,14 +276,14 @@ class Handle implements LayerHandle {
 	useEvent<K extends keyof WindowEventMap>(type: K, listener: (event: WindowEventMap[K]) => void, options?: boolean | AddEventListenerOptions): void;
 	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void;
 	useEvent(type: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): void {
-		const wrapper = Context.wrap((event: Event): void => {
+		const bound = Context.bind((event: Event): void => {
 			if (this.top) {
 				listener(event);
 			}
 		});
-		window.addEventListener(type, wrapper, options);
+		window.addEventListener(type, bound, options);
 		teardown(() => {
-			window.removeEventListener(type, wrapper, options);
+			window.removeEventListener(type, bound, options);
 		});
 	}
 

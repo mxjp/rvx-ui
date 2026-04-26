@@ -131,51 +131,52 @@ export function CollapseFor<T>(props: {
 		const iter = get(props.each);
 		return Array.isArray(iter) ? iter : Array.from(iter);
 	}, items => {
-		entries.update(entries => {
-			let itemIndex = 0;
-			let entryIndex = 0;
+		const inert = entries.inert;
+		let itemIndex = 0;
+		let entryIndex = 0;
 
-			function hasRemainingItem(value: T): boolean {
-				for (let i = itemIndex + 1; i < items.length; i++) {
-					if (Object.is(items[i].value, value)) {
-						return true;
-					}
-				}
-				return false;
-			}
-
-			function spliceRemainingEntry(value: T): Entry | undefined {
-				for (let i = entryIndex + 1; i < entries.length; i++) {
-					if (Object.is(entries[i].i.value, value)) {
-						return entries.splice(i, 1)[0];
-					}
+		function hasRemainingItem(value: T): boolean {
+			for (let i = itemIndex + 1; i < items.length; i++) {
+				if (Object.is(items[i].value, value)) {
+					return true;
 				}
 			}
+			return false;
+		}
 
-			items: while (itemIndex < items.length) {
-				const item = items[itemIndex];
-				let entry = entries[entryIndex] as Entry | undefined;
-				if (entry && Object.is(entry.i.value, item.value)) {
-					entry.v.value = true;
-				} else if (entry && !hasRemainingItem(entry.i.value)) {
-					entry.v.value = false;
-					entryIndex++;
-					continue items;
-				} else if (entry = spliceRemainingEntry(item.value)) {
-					entries.splice(entryIndex, 0, entry);
-					entry.v.value = true;
-				} else {
-					entries.splice(entryIndex, 0, { i: item, v: $(true) });
+		function spliceRemainingEntry(value: T): Entry | undefined {
+			for (let i = entryIndex + 1; i < inert.length; i++) {
+				if (Object.is(inert[i].i.value, value)) {
+					return inert.splice(i, 1)[0];
 				}
-				itemIndex++;
+			}
+		}
+
+		items: while (itemIndex < items.length) {
+			const item = items[itemIndex];
+			let entry = inert[entryIndex] as Entry | undefined;
+			if (entry && Object.is(entry.i.value, item.value)) {
+				entry.v.value = true;
+			} else if (entry && !hasRemainingItem(entry.i.value)) {
+				entry.v.value = false;
 				entryIndex++;
+				continue items;
+			} else if (entry = spliceRemainingEntry(item.value)) {
+				inert.splice(entryIndex, 0, entry);
+				entry.v.value = true;
+			} else {
+				inert.splice(entryIndex, 0, { i: item, v: $(true) });
 			}
+			itemIndex++;
+			entryIndex++;
+		}
 
-			while (entryIndex < entries.length) {
-				entries[entryIndex].v.value = false;
-				entryIndex++;
-			}
-		});
+		while (entryIndex < inert.length) {
+			inert[entryIndex].v.value = false;
+			entryIndex++;
+		}
+
+		entries.notify();
 
 		useTimeout(() => {
 			const filtered = entries.value.filter(e => e.v.value);
