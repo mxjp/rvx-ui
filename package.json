@@ -12,7 +12,7 @@
 		"rvx"
 	],
 	"license": "AGPL-3.0",
-	"version": "0.6.1",
+	"version": "0.6.2",
 	"type": "module",
 	"main": "./dist/index.js",
 	"sideEffects": false,
