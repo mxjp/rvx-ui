@@ -2,7 +2,6 @@ import styles from "@rvx/ui/theme/components/dialog.module.css";
 import { $, captureSelf, ClassValue, Context, Emitter, Event, Expression, map, render, StyleValue, teardown, uniqueId } from "rvx";
 import { TASKS, Tasks, useMicrotask } from "rvx/async";
 import { inOverlayContext } from "../common/context.js";
-import { THEME } from "../common/theme.js";
 import { Column, Group } from "./column.js";
 import { FlexSpace } from "./flex-space.js";
 import { Heading } from "./heading.js";
@@ -103,6 +102,26 @@ export function DialogBody(props: {
 		head.push(<Text id={descriptionId}>{props.description}</Text>);
 	}
 
+	let resolveFadeOut: (() => void) | undefined;
+	function fadeOutEnd(event: globalThis.Event) {
+		if (event.target === body) {
+			resolveFadeOut?.();
+		}
+	}
+
+	DIALOG_FADEOUT.current?.(tasks => {
+		if (styles.fadeout) {
+			body.classList.add(styles.fadeout);
+		}
+		const inner = resolveFadeOut;
+		tasks.push(new Promise(resolve => {
+			resolveFadeOut = () => {
+				inner?.();
+				resolve();
+			};
+		}));
+	});
+
 	const body = <div
 		class={[
 			styles.container,
@@ -118,6 +137,8 @@ export function DialogBody(props: {
 		role={map(props.role, v => v ?? "dialog")}
 		aria-labelledby={map(props["aria-labelledby"], v => v ?? titleId)}
 		aria-describedby={map(props["aria-describedby"], v => v ?? descriptionId)}
+		on:transitionend={fadeOutEnd}
+		on:transitioncancel={fadeOutEnd}
 	>
 		<Separated class={styles.body}>
 			{head.length > 0 ? <Group padded>{head}</Group> : undefined}
@@ -130,14 +151,6 @@ export function DialogBody(props: {
 			body.offsetParent;
 			body.classList.add(styles.fadein);
 		}
-	});
-
-	DIALOG_FADEOUT.current?.(tasks => {
-		if (styles.fadeout) {
-			body.classList.add(styles.fadeout);
-		}
-		const delay = THEME.current.layoutTransitionDelay;
-		tasks.push(new Promise(resolve => setTimeout(resolve, delay)));
 	});
 
 	return body;

@@ -2,7 +2,6 @@ import styles from "@rvx/ui/theme/components/collapse.module.css";
 import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, watch, watchUpdates } from "rvx";
 import { useMicrotask, useTimeout } from "rvx/async";
 import { optionalString } from "rvx/convert";
-import { THEME } from "../common/theme.js";
 import { AriaLive, AriaRelevant } from "../common/types.js";
 
 export function Collapse(props: {
@@ -66,6 +65,12 @@ export function Collapse(props: {
 		});
 	}
 
+	function clearTransition(event: globalThis.Event) {
+		if (event.target === root) {
+			transition.value = false;
+		}
+	}
+
 	const root = <div
 		inert={map(props.visible, v => !v)}
 		class={[
@@ -85,6 +90,8 @@ export function Collapse(props: {
 		aria-live={map(props["aria-live"], v => v ?? "polite")}
 		aria-relevant={props["aria-relevant"]}
 		aria-atomic={optionalString(props["aria-atomic"])}
+		on:transitionend={clearTransition}
+		on:transitioncancel={clearTransition}
 	>
 		<div class={styles.view}>
 			{content}
@@ -93,9 +100,6 @@ export function Collapse(props: {
 
 	watchUpdates(visible, () => {
 		transition.value = true;
-		useTimeout(() => {
-			transition.value = false;
-		}, THEME.current.layoutTransitionDelay);
 	});
 
 	return root;
