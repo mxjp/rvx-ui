@@ -1,8 +1,9 @@
 import styles from "@rvx/ui/theme/components/collapse.module.css";
-import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, watch, watchUpdates } from "rvx";
+import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, untrack, watch, watchUpdates } from "rvx";
 import { useMicrotask, useTimeout } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { AriaLive, AriaRelevant } from "../common/types.js";
+import { getBlockStart, getSize, WritingMode } from "../common/writing-mode.js";
 
 export function Collapse(props: {
 	visible?: Expression<boolean | undefined>;
@@ -35,6 +36,17 @@ export function Collapse(props: {
 	teardown(() => {
 		observer.disconnect();
 	});
+
+	if (untrack(props.visible)) {
+		queueMicrotask(() => {
+			const writingMode = getComputedStyle(content).writingMode as WritingMode || "horizontal-tb";
+			const rect = content.getBoundingClientRect();
+			const value = getSize(rect, getBlockStart(writingMode));
+			if (value > 0) {
+				size.value = value;
+			}
+		});
+	}
 
 	props.alert?.(() => {
 		if (get(props.visible) ?? false) {
