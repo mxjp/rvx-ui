@@ -9,7 +9,7 @@ export default function() {
 	const visible = $(true);
 	const fadein = $(true);
 
-	const inner = $(false);
+	const inner = $(true);
 	const outer = $(true);
 
 	const list = $<CollapseItem<number>[]>([]);
