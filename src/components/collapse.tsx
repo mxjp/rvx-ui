@@ -1,5 +1,5 @@
 import styles from "@rvx/ui/theme/components/collapse.module.css";
-import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, watch } from "rvx";
+import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, watch, watchUpdates } from "rvx";
 import { useMicrotask, useTimeout } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { THEME } from "../common/theme.js";
@@ -91,7 +91,7 @@ export function Collapse(props: {
 		</div>
 	</div> as HTMLDivElement;
 
-	watch(visible, () => {
+	watchUpdates(visible, () => {
 		transition.value = true;
 		useTimeout(() => {
 			transition.value = false;
