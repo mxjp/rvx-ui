@@ -110,8 +110,11 @@ export function Collapse(props: {
 		</div>
 	</div> as HTMLDivElement;
 
-	watchUpdates(visible, () => {
-		transition.value = true;
+	let wasVisible = watchUpdates(visible, visible => {
+		if (size.value !== undefined && wasVisible !== visible) {
+			wasVisible = visible;
+			transition.value = true;
+		}
 	});
 
 	return root;
