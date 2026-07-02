@@ -5,6 +5,7 @@
 
 	& > * {
 		overflow: hidden;
+		transition: border var(--transition-layout);
 	}
 	& > :not(.has_separator) + :not(.has_separator) {
 		border-block-start: calc(var(--separator-size) * var(--space-scale)) solid var(--separator-color);

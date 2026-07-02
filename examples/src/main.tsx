@@ -1,4 +1,4 @@
-import { Button, captureOverlayContext, Dropdown, DropdownItem, Heading, Link, NavBar, NavBarContent, NavBarItem, Page, PLACEHOLDER, RootLayer, ScrollView, Text, watchTheme } from "@rvx/ui";
+import { Button, captureOverlayContext, Dropdown, DropdownItem, Heading, Link, NavBar, NavBarContent, NavBarItem, Page, PLACEHOLDER, RootLayer, ScrollView, Separated, Text, watchTheme } from "@rvx/ui";
 import { $, Context, leak, mount, Show } from "rvx";
 import { Async, Tasks, TASKS } from "rvx/async";
 import { ComponentRoute, HashRouter, ROUTER, Routes } from "rvx/router";
@@ -48,7 +48,7 @@ leak(() => {
 
 				const headerButton = $(false);
 
-				return <div class={styles.app}>
+				return <Separated class={styles.app}>
 					<NavBar class={styles.bar}
 						inlineSize="50rem"
 						start={<>
@@ -78,7 +78,7 @@ leak(() => {
 							</Page> }
 						]} />
 					</ScrollView>
-				</div>;
+				</Separated>;
 			})}
 		</RootLayer>
 	);

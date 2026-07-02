@@ -87,6 +87,6 @@
 }
 
 :global(.rvx-light) {
-	--nav-bar-bg: rgb(240 240 240);
+	--nav-bar-bg: rgb(245 245 245);
 	--nav-bar-marker-hover: rgb(172 172 172);
 }

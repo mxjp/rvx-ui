@@ -6,11 +6,12 @@
 	--space-scale: 0;
 }
 
-.sized {
+.sized.sized {
 	transition:
 		margin-block-start var(--transition-layout),
 		margin-block-end var(--transition-layout),
-		opacity var(--transition-layout);
+		opacity var(--transition-layout),
+		border var(--transition-layout);
 }
 
 @keyframes alert {

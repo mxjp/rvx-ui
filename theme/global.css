@@ -95,27 +95,27 @@ body {
 	color-scheme: light;
 
 	--bg: white;
-	--bg-alt: rgb(250 250 250);
+	--bg-alt: rgb(252 252 252);
 	--bg-selection: rgb(0 127 255 / .3);
 
-	--fg: rgb(42 42 42);
+	--fg: rgb(24 24 24);
 	--accent: rgb(0 127 255);
 	--fg-danger: rgb(255 64 64);
 	--fg-secondary: rgb(42 42 42 / .6);
 
 	--secondary-filter: opacity(.65);
 
-	--overlay-shadow: 0 0 3rem rgba(0 0 0 / .2);
+	--overlay-shadow: 0 0 3rem rgba(0 0 0 / .1);
 	--overlay-backdrop: rgb(245 245 245 / .7);
 
-	--content-shadow: 0 0 1rem rgba(0 0 0 / .1);
+	--content-shadow: 0 0 1rem rgba(0 0 0 / 0.035);
 
 	--control-disabled: opacity(.5);
-	--control-shadow: 0 0 .2rem rgb(0 0 0 / .2);
+	--control-shadow: 0 0 .3rem rgb(0 0 0 / 0.02);
 
-	--default-border: rgb(215 215 215);
+	--default-border: rgb(230 230 230);
 
-	--separator-color: rgb(230 230 230);
+	--separator-color: rgb(240 240 240);
 
 	--focus-outline: var(--control-border) dashed var(--accent);
 }

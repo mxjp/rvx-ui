@@ -9,9 +9,6 @@
 	grid-template-rows: auto 1fr;
 	grid-template-columns: 1fr;
 	height: 100dvh;
-
-	gap: var(--separator-size);
-	background-color: var(--separator-color);
 }
 
 .content {
