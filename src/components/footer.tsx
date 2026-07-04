@@ -6,12 +6,13 @@ import { Row, RowAlign, RowJustify } from "./row";
 export function Footer(props: {
 	class?: ClassValue;
 	style?: StyleValue;
-	size?: Expression<SizeContext>;
-	align?: Expression<RowAlign>;
-	justify?: Expression<RowJustify>;
+	size?: Expression<SizeContext | undefined>;
+	align?: Expression<RowAlign | undefined>;
+	justify?: Expression<RowJustify | undefined>;
+	role?: Expression<string | undefined | false>;
 	children?: Content;
 }) {
-	return <Override role="contentinfo">
+	return <Override role={map(props.role, v => v ?? "contentinfo")}>
 		<Row
 			class={[props.class, styles.footer]}
 			style={props.style}
