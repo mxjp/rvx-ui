@@ -1,0 +1,7 @@
+
+.footer {
+	padding-block: var(--content-padding-block);
+	padding-inline: var(--content-padding-inline);
+	opacity: .4;
+	--accent: var(--fg);
+}

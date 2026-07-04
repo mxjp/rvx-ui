@@ -2,12 +2,14 @@ import styles from "@rvx/ui/theme/components/row.module.css";
 import { ClassValue, Expression, get, map, StyleValue } from "rvx";
 import { SizeContext } from "../common/types.js";
 
-export type RowAlignment = "top" | "center" | "bottom";
+export type RowAlign = "start" | "center" | "end";
+export type RowJustify = "start" | "center" | "end";
 
 export function Row(props: {
 	size?: Expression<SizeContext | undefined>;
 	padded?: Expression<boolean | undefined>;
-	align?: Expression<RowAlignment | undefined>;
+	align?: Expression<RowAlign | undefined>;
+	justify?: Expression<RowJustify | undefined>;
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
@@ -24,13 +26,8 @@ export function Row(props: {
 		style={[
 			props.style,
 			{
-				"align-items": () => {
-					switch (get(props.align)) {
-						case "center": return "center";
-						case "bottom": return "end";
-						default: return "start";
-					}
-				},
+				"align-items": map(props.align, v => v ?? "start"),
+				"justify-content": map(props.justify, v => v ?? "start"),
 			},
 		]}
 	>

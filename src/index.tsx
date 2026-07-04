@@ -1,4 +1,3 @@
-import "@rvx/ui/theme/global.css";
 import "@rvx/ui/theme/types.d.ts";
 
 export * from "./common/context.js";
@@ -21,6 +20,7 @@ export * from "./components/dropdown-input.js";
 export * from "./components/dropdown.js";
 export * from "./components/error.js";
 export * from "./components/flex-space.js";
+export * from "./components/footer.js";
 export * from "./components/heading.js";
 export * from "./components/label.js";
 export * from "./components/layer.js";
