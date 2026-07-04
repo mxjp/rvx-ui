@@ -10,11 +10,16 @@ export function Footer(props: {
 	align?: Expression<RowAlign | undefined>;
 	justify?: Expression<RowJustify | undefined>;
 	role?: Expression<string | undefined | false>;
+	padded?: Expression<boolean | undefined>;
 	children?: Content;
 }) {
 	return <Override role={map(props.role, v => v ?? "contentinfo")}>
 		<Row
-			class={[props.class, styles.footer]}
+			class={[
+				props.class,
+				styles.footer,
+				map(props.padded, v => (v ?? true) ? styles.padded : undefined),
+			]}
 			style={props.style}
 			size={map(props.size, v => v ?? "group")}
 			align={map(props.align, v => v ?? "center")}
