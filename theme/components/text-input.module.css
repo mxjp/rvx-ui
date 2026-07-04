@@ -28,6 +28,11 @@
 	}
 }
 
+.fillRow {
+	width: 0;
+	flex-grow: 1;
+}
+
 input.text_input {
 	block-size: calc(var(--control-padding-block) * 2 + 1em + var(--control-border) * 2);
 }

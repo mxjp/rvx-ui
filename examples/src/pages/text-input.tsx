@@ -57,7 +57,7 @@ export default function () {
 					</DialogBody>;
 				});
 			}}>
-				<TextInput value={enterAction} />
+				<TextInput value={enterAction} fillRow />
 			</WithAction>
 		</Row>
 

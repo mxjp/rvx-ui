@@ -1,5 +1,5 @@
 import styles from "@rvx/ui/theme/components/text-input.module.css";
-import { ClassValue, Expression, get, Signal, StyleValue } from "rvx";
+import { ClassValue, Expression, get, map, Signal, StyleValue } from "rvx";
 import { isPending } from "rvx/async";
 import { optionalString } from "rvx/convert";
 import { ID_PAIR } from "../common/id-pairs.js";
@@ -54,6 +54,11 @@ export function TextInput(props: ({
 	 */
 	value: Expression<string>;
 
+	/**
+	 * If true, fill flex space & disable default input width.
+	 */
+	fillRow?: Expression<boolean>;
+
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
@@ -76,6 +81,7 @@ export function TextInput(props: ({
 		class={[
 			styles.text_input,
 			props.class,
+			map(props.fillRow, v => v ? styles.fillRow : undefined),
 		]}
 		style={props.style}
 		id={id}
