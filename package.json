@@ -30,9 +30,9 @@
 	"devDependencies": {
 		"@mxjp/parallel": "^1.0.2",
 		"@rvx/ui": "file:.",
-		"typescript": "^6.0.3"
+		"typescript": "^7.0.2"
 	},
 	"peerDependencies": {
-		"rvx": "^26.0.5"
+		"rvx": "^27.0.0"
 	}
 }
