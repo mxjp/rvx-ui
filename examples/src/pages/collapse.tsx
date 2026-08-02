@@ -1,44 +1,80 @@
 import { Button, Card, Checkbox, Collapse, CollapseFor, CollapseItem, Column, Group, Heading, Row, Text } from "@rvx/ui";
-import { $, Emitter, map, Show } from "rvx";
+import { $, Emitter, Show } from "rvx";
 
 export default function() {
-	const collapse = $(false);
-	const collapseAlert = new Emitter<[]>();
+	const content = $<string | undefined>(undefined);
+	const alert = new Emitter<[]>();
 
-	const render = $(false);
-	const visible = $(true);
+	const nestedInner = $(true);
+	const nestedOuter = $(true);
+
+	const fadeinShow = $(false);
+	const fadeinVisible = $(true);
 	const fadein = $(true);
 
-	const inner = $(true);
-	const outer = $(true);
-
-	const list = $<CollapseItem<number>[]>([]);
+	const list = $<CollapseItem<{ foo: number }>[]>([]);
 
 	return <>
 		<Heading level="1">Collapses</Heading>
 		<Group>
 			<Row>
-				<Button action={() => { collapse.value = !collapse.value }}>Toggle</Button>
-				<Button action={() => collapseAlert.emit()} variant="warning">Alert</Button>
+				<Button action={() => { content.value = undefined }}>Hide</Button>
+				<Button action={() => { content.value = "A" }}>A</Button>
+				<Button action={() => { content.value = "B" }}>B</Button>
 			</Row>
-			<Collapse visible={collapse}>
-				<Text>Hello World!</Text>
-			</Collapse>
-			<Collapse visible alert={collapseAlert.event}>
-				<Text>This is always visible.</Text>
+			<Collapse visible={content} alert={alert.event}>
+				{value =>{
+					return <Card>
+						<Heading level="2">Content {value}</Heading>
+						<Row>
+							<Button action={() => alert.emit()}>Alert</Button>
+						</Row>
+					</Card>
+				}}
 			</Collapse>
 		</Group>
 
-		<Heading level="2">Initial Fade In</Heading>
+		<Heading level="2">Nesting</Heading>
 		<Group>
 			<Row>
-				<Checkbox checked={render}>Render</Checkbox>
-				<Checkbox checked={visible}>Visible</Checkbox>
-				<Checkbox checked={fadein}>Fade In</Checkbox>
+				<Checkbox checked={nestedOuter}>Outer</Checkbox>
+				<Checkbox checked={nestedInner}>Inner</Checkbox>
 			</Row>
-			<Show when={render}>
-				{() => <Collapse visible={visible} fadein={fadein}>
-					Fade in is currently {map(fadein, x => x ? "enabled" : "disabled")}.
+			<Collapse visible={nestedOuter}>
+				{() => <Group>
+					<Card>
+						<Text>Outer</Text>
+					</Card>
+					<Collapse visible={nestedInner}>
+						{() => <Card>
+							<Text>Inner</Text>
+						</Card>}
+					</Collapse>
+					<Card>
+						<Text>Outer</Text>
+					</Card>
+				</Group>}
+			</Collapse>
+		</Group>
+
+		<Heading level="2">Fadein</Heading>
+		<Group>
+			<Row size="group">
+				<Checkbox checked={fadeinShow}>
+					Render
+				</Checkbox>
+				<Checkbox checked={fadein}>
+					Enable Fadein
+				</Checkbox>
+				<Checkbox checked={fadeinVisible}>
+					Visible
+				</Checkbox>
+			</Row>
+			<Show when={fadeinShow}>
+				{() => <Collapse visible={fadeinVisible} fadein={fadein}>
+					{() => <Card>
+						<Text>Fadein</Text>
+					</Card>}
 				</Collapse>}
 			</Show>
 		</Group>
@@ -53,37 +89,19 @@ export default function() {
 					[2],
 				].map(values => {
 					return <Button action={() => {
-						list.value = values.map(v => ({ value: v }));
+						list.value = values.map(v => ({ value: { foo: v } }));
 					}}>{values.length === 0 ? <>Empty</> : values.join(", ")}</Button>
 				})}
 			</Row>
 			<Column size="control">
-				<CollapseFor each={list}>
+				<CollapseFor each={list} eq={(a, b) => a.foo === b.foo}>
 					{value => <Card raw>
 						<Column padded size="control">
-							{value}
+							{value.foo}
 						</Column>
 					</Card>}
 				</CollapseFor>
 			</Column>
-		</Group>
-
-		<Heading level="2">Nesting</Heading>
-		<Group>
-			<Row>
-				<Button action={() => { inner.value = !inner.value; }}>Toggle Inner</Button>
-				<Button action={() => { outer.value = !outer.value; }}>Toggle Outer</Button>
-			</Row>
-			<Collapse visible={outer}>
-				<Group>
-					<Card>Outer</Card>
-					<Collapse visible={inner}>
-						<Card>Inner</Card>
-					</Collapse>
-					<Card>Outer</Card>
-				</Group>
-			</Collapse>
-			<Card>Content below...</Card>
 		</Group>
 	</>;
 }
