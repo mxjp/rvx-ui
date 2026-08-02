@@ -30,19 +30,19 @@ export default function () {
 					</Text>
 				</Group>
 				<Collapse visible={visible}>
-					<Group padded>
+					{() => <Group padded>
 						<LoremIpsum />
 						<Row>
 							<Button action={() => { innerVisible.value = !innerVisible.value; }}>
 								Toggle Second Collapse
 							</Button>
 						</Row>
-					</Group>
+					</Group>}
 				</Collapse>
 				<Collapse visible={innerVisible}>
-					<Group padded>
+					{() => <Group padded>
 						<LoremIpsum limit={120} />
-					</Group>
+					</Group>}
 				</Collapse>
 			</Separated>
 		</Card>

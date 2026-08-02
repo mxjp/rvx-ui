@@ -98,8 +98,8 @@ export default function () {
 			]} />
 		</Card>
 
-		<Nest watch={() => [trigger.value]}>
-			{([trigger]) => <Provide context={VALIDATION} value={{ trigger }}>
+		<Nest watch={trigger}>
+			{trigger => <Provide context={VALIDATION} value={{ trigger }}>
 				{() => <>
 					<Heading level="2">Basic Rules</Heading>
 					<BaseExample />

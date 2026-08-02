@@ -17,24 +17,24 @@ export default function() {
 			<Column style={{ outline }}>
 				<Text>Collapse below</Text>
 				<Collapse visible={visible}>
-					<Text>Collapse</Text>
+					{() => <Text>Collapse</Text>}
 				</Collapse>
 			</Column>
 			<Column style={{ outline }}>
 				<Collapse visible={visible}>
-					<Text>Collapse</Text>
+					{() => <Text>Collapse</Text>}
 				</Collapse>
 				<Text>Collapse above</Text>
 			</Column>
 			<Column style={{ outline }}>
 				<Text>Collapse with custom space above</Text>
 				<Collapse visible={visible} style={{ "--space-above": "3rem" }}>
-					<Text>Collapse</Text>
+					{() => <Text>Collapse</Text>}
 				</Collapse>
 			</Column>
 			<Column style={{ outline }}>
 				<Collapse visible={visible} style={{ "--space-below": "3rem" }}>
-					<Text>Collapse</Text>
+					{() => <Text>Collapse</Text>}
 				</Collapse>
 				<Text>Collapse with custom space below</Text>
 			</Column>

@@ -56,9 +56,9 @@ export default function () {
 							</Row>
 						</Group>
 						<Collapse visible={visible}>
-							<Group padded>
+							{() => <Group padded>
 								<Text>Group A</Text>
-							</Group>
+							</Group>}
 						</Collapse>
 					</Separated>;
 				}}
