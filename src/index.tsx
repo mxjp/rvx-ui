@@ -12,6 +12,7 @@ export * from "./components/breadcrumbs.js";
 export * from "./components/button.js";
 export * from "./components/card.js";
 export * from "./components/checkbox.js";
+export * from "./components/collapse-for.js";
 export * from "./components/collapse.js";
 export * from "./components/collapse2.js";
 export * from "./components/column.js";

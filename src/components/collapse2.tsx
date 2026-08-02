@@ -3,21 +3,25 @@ import { $, capture, ClassValue, Component, Event, Expression, Falsy, get, map, 
 import { DOMRectSize, getBlockStart, getInlineStart, getSize, WritingMode } from "../common/writing-mode.js";
 
 export type CollapseDirection = "block" | "inline";
+export type CollapseEqualsFn<T> = (a: T, b: T) => boolean;
 
 export function Collapse2<T>(props: {
 	visible: Expression<T | Falsy>;
+	eq?: CollapseEqualsFn<NoInfer<T>>;
 	fadein?: Expression<boolean>;
 	alert?: Event<[]>;
 	direction?: Expression<CollapseDirection | undefined>;
 	children: Component<T>;
 	class?: ClassValue;
 	style?: StyleValue;
+	id?: Expression<string | undefined>;
 }) {
 	let current: T | undefined;
 	let view: View | undefined;
 	let dispose: TeardownHook | undefined;
 	teardown(() => dispose?.());
 
+	const eqFn = props.eq ?? Object.is;
 	const alert = $(false);
 	const visible = $<boolean>(undefined!);
 	const transition = $(false);
@@ -40,7 +44,7 @@ export function Collapse2<T>(props: {
 			dispose?.();
 			dispose = undefined;
 			visible.value = false;
-		} else if (!dispose || current !== next) {
+		} else if (!dispose || !eqFn(current!, next)) {
 			dispose?.();
 			view?.detach();
 			dispose = capture(() => {

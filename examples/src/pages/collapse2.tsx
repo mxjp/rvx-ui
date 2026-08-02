@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Collapse2, Group, Heading, Row, Text } from "@rvx/ui";
+import { Button, Card, Checkbox, Collapse2, CollapseFor2, CollapseItem2, Column, Group, Heading, Row, Text } from "@rvx/ui";
 import { $, Emitter, Show } from "rvx";
 
 export default function() {
@@ -11,6 +11,8 @@ export default function() {
 	const fadeinShow = $(false);
 	const fadeinVisible = $(true);
 	const fadein = $(true);
+
+	const list = $<CollapseItem2<{ foo: number }>[]>([]);
 
 	return <>
 		<Heading level="1">Collapses</Heading>
@@ -75,6 +77,31 @@ export default function() {
 					</Card>}
 				</Collapse2>}
 			</Show>
+		</Group>
+
+		<Heading level="2">Lists</Heading>
+		<Group>
+			<Row>
+				{[
+					[],
+					[1, 2, 3],
+					[1, 3],
+					[2],
+				].map(values => {
+					return <Button action={() => {
+						list.value = values.map(v => ({ value: { foo: v } }));
+					}}>{values.length === 0 ? <>Empty</> : values.join(", ")}</Button>
+				})}
+			</Row>
+			<Column size="control">
+				<CollapseFor2 each={list} eq={(a, b) => a.foo === b.foo}>
+					{value => <Card raw>
+						<Column padded size="control">
+							{value.foo}
+						</Column>
+					</Card>}
+				</CollapseFor2>
+			</Column>
 		</Group>
 	</>;
 }
