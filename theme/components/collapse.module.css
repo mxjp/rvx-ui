@@ -33,21 +33,19 @@
 }
 
 .view {
-	.block > & {
-		block-size: 0px;
-		position: relative;
-		overflow: hidden;
+	position: relative;
+	overflow: hidden;
+	block-size: 0px;
 
-		.sized > & {
-			transition:
-				block-size var(--transition-layout),
-				margin var(--transition-layout);
-		}
+	.sized > & {
+		transition:
+			block-size var(--transition-layout),
+			margin var(--transition-layout);
 	}
 
-	.block.visible > & {
-		block-size: calc(var(--collapse-size) + var(--overflow-safe-area) * 2);
+	.visible > & {
 		margin: calc(var(--overflow-safe-area) * -1);
+		block-size: calc(var(--collapse-size) + var(--overflow-safe-area) * 2);
 	}
 }
 
@@ -55,12 +53,9 @@
 	position: absolute;
 	top: 0px;
 	left: 0px;
+	inline-size: 100%;
 
-	.block > .view > & {
-		inline-size: 100%;
-	}
-
-	.block.sized > .view > & {
+	.sized > .view > & {
 		transition:
 			top var(--transition-layout),
 			left var(--transition-layout),
@@ -68,7 +63,7 @@
 			block-size var(--transition-layout);
 	}
 
-	.block.visible > .view > & {
+	.visible > .view > & {
 		top: var(--overflow-safe-area);
 		left: var(--overflow-safe-area);
 		inline-size: calc(100% - var(--overflow-safe-area) * 2);

@@ -1,8 +1,7 @@
 import styles from "@rvx/ui/theme/components/collapse.module.css";
-import { $, capture, ClassValue, Component, Event, Expression, Falsy, get, map, render, StyleValue, teardown, TeardownHook, View, watch, watchUpdates } from "rvx";
-import { DOMRectSize, getBlockStart, getInlineStart, getSize, WritingMode } from "../common/writing-mode.js";
+import { $, capture, ClassValue, Component, Event, Expression, Falsy, get, render, StyleValue, teardown, TeardownHook, View, watch, watchUpdates } from "rvx";
+import { getBlockStart, getSize, WritingMode } from "../common/writing-mode.js";
 
-export type CollapseDirection = "block" | "inline";
 export type CollapseEqualsFn<T> = (a: T, b: T) => boolean;
 
 export function Collapse<T>(props: {
@@ -10,7 +9,6 @@ export function Collapse<T>(props: {
 	eq?: CollapseEqualsFn<NoInfer<T>>;
 	fadein?: Expression<boolean>;
 	alert?: Event<[]>;
-	direction?: Expression<CollapseDirection | undefined>;
 	children: Component<T>;
 	class?: ClassValue;
 	style?: StyleValue;
@@ -26,14 +24,12 @@ export function Collapse<T>(props: {
 	const visible = $<boolean>(undefined!);
 	const transition = $(false);
 	const content = <div class={styles.content} /> as HTMLDivElement;
-	const size = $<[DOMRectSize, WritingMode] | undefined>(undefined);
+	const cssSize = $("");
 
 	const observer = new ResizeObserver(entries => {
-		const style = getComputedStyle(root);
-		size.value = [
-			entries[entries.length - 1].contentRect,
-			style.writingMode as WritingMode ?? "horizontal-tb",
-		];
+		const writingMode = getComputedStyle(root).writingMode as WritingMode || "horizontal-tb";
+		const rect = entries[entries.length - 1].contentRect;
+		cssSize.value = `${getSize(rect, getBlockStart(writingMode))}px`;
 	});
 	observer.observe(content);
 	teardown(() => observer.disconnect());
@@ -67,7 +63,7 @@ export function Collapse<T>(props: {
 	});
 
 	let wasVisible = watchUpdates(visible, visible => {
-		if (size.value !== undefined && wasVisible !== visible) {
+		if (cssSize.value && wasVisible !== visible) {
 			wasVisible = visible;
 			transition.value = true;
 		}
@@ -92,22 +88,13 @@ export function Collapse<T>(props: {
 		class={[
 			props.class,
 			styles.collapse,
-			map(props.direction, v => styles[v ?? "block"]),
 			() => alert.value ? styles.alert : undefined,
 			() => visible.value ? styles.visible : undefined,
-			() => (size.value && transition.value) ? styles.sized : undefined,
+			() => (cssSize.value && transition.value) ? styles.sized : undefined,
 		]}
 		style={[
 			props.style,
-			{
-				"--collapse-size": () => {
-					if (size.value) {
-						const [rect, writingMode] = size.value;
-						const dir = (get(props.direction) ?? "block") === "block" ? getBlockStart(writingMode) : getInlineStart(writingMode, "ltr");
-						return `${getSize(rect, dir)}px`;
-					}
-				},
-			}
+			{ "--collapse-size": () => cssSize.value },
 		]}
 		on:transitionend={clearTransition}
 		on:transitioncancel={clearTransition}
