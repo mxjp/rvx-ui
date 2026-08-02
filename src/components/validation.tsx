@@ -1,6 +1,6 @@
 import { $, Component, Context, Emitter, memo, Signal, teardown, trigger, TriggerPipe, uniqueIdFor, untrack } from "rvx";
 import { Queue } from "rvx/async";
-import { CollapseFor, CollapseItem } from "./collapse.js";
+import { CollapseFor, CollapseItem } from "./collapse-for.js";
 import { ErrorMessage } from "./error.js";
 
 const VALIDATORS = new WeakMap<Signal<unknown>, Validator>();

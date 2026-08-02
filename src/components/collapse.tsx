@@ -1,52 +1,83 @@
 import styles from "@rvx/ui/theme/components/collapse.module.css";
-import { $, ClassValue, Component, Event, Expression, For, get, map, Signal, StyleValue, teardown, untrack, watch, watchUpdates } from "rvx";
-import { useMicrotask, useTimeout } from "rvx/async";
-import { optionalString } from "rvx/convert";
-import { AriaLive, AriaRelevant } from "../common/types.js";
-import { getBlockStart, getSize, WritingMode } from "../common/writing-mode.js";
+import { $, capture, ClassValue, Component, Event, Expression, Falsy, get, map, render, StyleValue, teardown, TeardownHook, View, watch, watchUpdates } from "rvx";
+import { DOMRectSize, getBlockStart, getInlineStart, getSize, WritingMode } from "../common/writing-mode.js";
 
-export function Collapse(props: {
-	visible?: Expression<boolean | undefined>;
-	fadein?: Expression<boolean | undefined>;
+export type CollapseDirection = "block" | "inline";
+export type CollapseEqualsFn<T> = (a: T, b: T) => boolean;
+
+export function Collapse<T>(props: {
+	visible: Expression<T | Falsy>;
+	eq?: CollapseEqualsFn<NoInfer<T>>;
+	fadein?: Expression<boolean>;
 	alert?: Event<[]>;
-	children?: unknown;
+	direction?: Expression<CollapseDirection | undefined>;
+	children: Component<T>;
 	class?: ClassValue;
 	style?: StyleValue;
 	id?: Expression<string | undefined>;
-	"aria-live"?: Expression<AriaLive | undefined>;
-	"aria-relevant"?: Expression<AriaRelevant | undefined>;
-	"aria-atomic"?: Expression<boolean | undefined>;
-}): unknown {
-	const alert = $(false);
-	const size = $<number | undefined>(undefined);
+}) {
+	let current: T | undefined;
+	let view: View | undefined;
+	let dispose: TeardownHook | undefined;
+	teardown(() => dispose?.());
 
-	const content = <div class={styles.content}>
-		{props.children}
-	</div> as HTMLDivElement;
+	const eqFn = props.eq ?? Object.is;
+	const alert = $(false);
+	const visible = $<boolean>(undefined!);
+	const transition = $(false);
+	const content = <div class={styles.content} /> as HTMLDivElement;
+	const size = $<[DOMRectSize, WritingMode] | undefined>(undefined);
 
 	const observer = new ResizeObserver(entries => {
-		const entry = entries[entries.length - 1];
-		const boxSize = entry?.borderBoxSize[entry.borderBoxSize.length - 1];
-		if (boxSize) {
-			size.value = boxSize.blockSize;
+		const style = getComputedStyle(root);
+		size.value = [
+			entries[entries.length - 1].contentRect,
+			style.writingMode as WritingMode ?? "horizontal-tb",
+		];
+	});
+	observer.observe(content);
+	teardown(() => observer.disconnect());
+
+	watch(props.visible, next => {
+		if (!next) {
+			current = undefined;
+			dispose?.();
+			dispose = undefined;
+			visible.value = false;
+		} else if (!dispose || !eqFn(current!, next)) {
+			dispose?.();
+			view?.detach();
+			dispose = capture(() => {
+				view = render(props.children(next));
+				view.appendTo(content);
+			});
+			current = next;
+			if (get(props.fadein) && !visible.value) {
+				visible.value = false;
+				let handle = requestAnimationFrame(() => {
+					handle = requestAnimationFrame(() => {
+						visible.value = true;
+					});
+				});
+				teardown(() => cancelAnimationFrame(handle));
+			} else {
+				visible.value = true;
+			}
 		}
 	});
 
-	observer.observe(content);
-	teardown(() => {
-		observer.disconnect();
+	let wasVisible = watchUpdates(visible, visible => {
+		if (size.value !== undefined && wasVisible !== visible) {
+			wasVisible = visible;
+			transition.value = true;
+		}
 	});
 
-	if (untrack(props.visible)) {
-		queueMicrotask(() => {
-			const writingMode = getComputedStyle(content).writingMode as WritingMode || "horizontal-tb";
-			const rect = content.getBoundingClientRect();
-			const value = getSize(rect, getBlockStart(writingMode));
-			if (value > 0) {
-				size.value = value;
-			}
-		});
-	}
+	const clearTransition = (event: globalThis.Event) => {
+		if (event.target === root) {
+			transition.value = false;
+		}
+	};
 
 	props.alert?.(() => {
 		if (get(props.visible) ?? false) {
@@ -57,51 +88,27 @@ export function Collapse(props: {
 		}
 	});
 
-	const transition = $(false);
-	let visible = props.visible;
-	if (props.fadein !== undefined) {
-		const visibleSig = visible = $(false);
-		watch(props.visible, visible => {
-			const fadein = get(props.fadein);
-			if (fadein) {
-				visibleSig.value = false;
-				let handle = requestAnimationFrame(() => {
-					handle = requestAnimationFrame(() => {
-						visibleSig.value = visible ?? false;
-					});
-				});
-				teardown(() => cancelAnimationFrame(handle));
-			} else {
-				visibleSig.value = visible ?? false;
-			}
-		});
-	}
-
-	function clearTransition(event: globalThis.Event) {
-		if (event.target === root) {
-			transition.value = false;
-		}
-	}
-
 	const root = <div
-		inert={map(props.visible, v => !v)}
 		class={[
-			styles.collapse,
-			() => size.value === undefined || !transition.value ? undefined : styles.sized,
-			() => alert.value ? styles.alert : undefined,
-			map(visible, v => v ? styles.visible : undefined),
 			props.class,
+			styles.collapse,
+			map(props.direction, v => styles[v ?? "block"]),
+			() => alert.value ? styles.alert : undefined,
+			() => visible.value ? styles.visible : undefined,
+			() => (size.value && transition.value) ? styles.sized : undefined,
 		]}
 		style={[
-			{
-				"--collapse-size": () => size.value === undefined ? null : `${size.value}px`,
-			},
 			props.style,
+			{
+				"--collapse-size": () => {
+					if (size.value) {
+						const [rect, writingMode] = size.value;
+						const dir = (get(props.direction) ?? "block") === "block" ? getBlockStart(writingMode) : getInlineStart(writingMode, "ltr");
+						return `${getSize(rect, dir)}px`;
+					}
+				},
+			}
 		]}
-		id={props.id}
-		aria-live={map(props["aria-live"], v => v ?? "polite")}
-		aria-relevant={props["aria-relevant"]}
-		aria-atomic={optionalString(props["aria-atomic"])}
 		on:transitionend={clearTransition}
 		on:transitioncancel={clearTransition}
 	>
@@ -110,114 +117,5 @@ export function Collapse(props: {
 		</div>
 	</div> as HTMLDivElement;
 
-	let wasVisible = watchUpdates(visible, visible => {
-		if (size.value !== undefined && wasVisible !== visible) {
-			wasVisible = visible;
-			transition.value = true;
-		}
-	});
-
 	return root;
-}
-
-export interface CollapseItem<T> {
-	value: T;
-	alert?: Event<[]>;
-	class?: ClassValue;
-	style?: StyleValue;
-	id?: Expression<string | undefined>;
-	"aria-live"?: Expression<AriaLive | undefined>;
-	"aria-relevant"?: Expression<AriaRelevant | undefined>;
-	"aria-atomic"?: Expression<boolean | undefined>;
-}
-
-export function CollapseFor<T>(props: {
-	each: Expression<Iterable<CollapseItem<T>>>;
-	children: Component<T>;
-}): unknown {
-	interface Entry {
-		/** item */
-		i: CollapseItem<T>;
-		/** visible */
-		v: Signal<boolean>;
-	}
-
-	const entries = $<Entry[]>([]);
-	const fadein = $(false);
-	useMicrotask(() => fadein.value = true);
-
-	watch(() => {
-		const iter = get(props.each);
-		return Array.isArray(iter) ? iter : Array.from(iter);
-	}, items => {
-		const inert = entries.inert;
-		let itemIndex = 0;
-		let entryIndex = 0;
-
-		function hasRemainingItem(value: T): boolean {
-			for (let i = itemIndex + 1; i < items.length; i++) {
-				if (Object.is(items[i].value, value)) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		function spliceRemainingEntry(value: T): Entry | undefined {
-			for (let i = entryIndex + 1; i < inert.length; i++) {
-				if (Object.is(inert[i].i.value, value)) {
-					return inert.splice(i, 1)[0];
-				}
-			}
-		}
-
-		items: while (itemIndex < items.length) {
-			const item = items[itemIndex];
-			let entry = inert[entryIndex] as Entry | undefined;
-			if (entry && Object.is(entry.i.value, item.value)) {
-				entry.v.value = true;
-			} else if (entry && !hasRemainingItem(entry.i.value)) {
-				entry.v.value = false;
-				entryIndex++;
-				continue items;
-			} else if (entry = spliceRemainingEntry(item.value)) {
-				inert.splice(entryIndex, 0, entry);
-				entry.v.value = true;
-			} else {
-				inert.splice(entryIndex, 0, { i: item, v: $(true) });
-			}
-			itemIndex++;
-			entryIndex++;
-		}
-
-		while (entryIndex < inert.length) {
-			inert[entryIndex].v.value = false;
-			entryIndex++;
-		}
-
-		entries.notify();
-
-		useTimeout(() => {
-			const filtered = entries.value.filter(e => e.v.value);
-			if (filtered.length < entries.value.length) {
-				entries.value = filtered;
-			}
-		}, 1000);
-	});
-
-	return <For each={entries}>
-		{instance => <Collapse
-			visible={instance.v}
-			fadein={fadein}
-			alert={instance.i.alert}
-			class={instance.i.class}
-			style={instance.i.style}
-			id={instance.i.id}
-			aria-live={instance.i["aria-live"]}
-			aria-relevant={instance.i["aria-relevant"]}
-			aria-atomic={instance.i["aria-atomic"]}
-		>
-			{props.children(instance.i.value)}
-		</Collapse>}
-	</For>;
 }

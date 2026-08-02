@@ -60,14 +60,14 @@ export function showNotification(content: Component<Notification>, options?: Not
 			const visible = $(true);
 
 			const instance = movable(<Collapse fadein visible={visible}>
-				<Card
+				{() => <Card
 					class={styles.notification}
 					variant={options?.variant}
 					raw={options?.raw}
 					size={options?.size}
 				>
 					{content(handle)}
-				</Card>
+				</Card>}
 			</Collapse>).move;
 
 			instances.inert.push(instance);

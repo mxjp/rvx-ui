@@ -1,9 +1,9 @@
 import { $, ClassValue, Component, Event, Expression, For, get, Signal, StyleValue, watch } from "rvx";
 import { useMicrotask, useTimeout } from "rvx/async";
 import { AriaLive, AriaRelevant } from "../common/types.js";
-import { Collapse2, CollapseEqualsFn } from "./collapse2.js";
+import { Collapse, CollapseEqualsFn } from "./collapse.js";
 
-export interface CollapseItem2<T> {
+export interface CollapseItem<T> {
 	value: T;
 	alert?: Event<[]>;
 	class?: ClassValue;
@@ -14,14 +14,14 @@ export interface CollapseItem2<T> {
 	"aria-atomic"?: Expression<boolean | undefined>;
 }
 
-export function CollapseFor2<T>(props: {
-	each: Expression<Iterable<CollapseItem2<T>>>;
+export function CollapseFor<T>(props: {
+	each: Expression<Iterable<CollapseItem<T>>>;
 	children: Component<T>;
 	eq?: CollapseEqualsFn<T>;
 }) {
 	interface Entry {
 		/** item */
-		i: CollapseItem2<T>;
+		i: CollapseItem<T>;
 		/** visible */
 		v: Signal<boolean>;
 	}
@@ -88,7 +88,7 @@ export function CollapseFor2<T>(props: {
 	});
 
 	return <For each={entries}>
-		{entry => <Collapse2
+		{entry => <Collapse
 			visible={entry.v}
 			fadein={fadein}
 			alert={entry.i.alert}
@@ -100,6 +100,6 @@ export function CollapseFor2<T>(props: {
 			aria-atomic={entry.i["aria-atomic"]}
 		>
 			{() => props.children(entry.i.value)}
-		</Collapse2>}
+		</Collapse>}
 	</For>;
 }
