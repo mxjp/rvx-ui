@@ -35,9 +35,13 @@ export type ValidationMessageEqualsFn<T> = (a: T, b: T) => boolean;
  * See {@link validationMessage}.
  */
 export interface ValidationMessage<T> {
+	/** component */
 	c: Component<T>;
+	/** props */
 	p: T;
+	/** eq */
 	e: ValidationMessageEqualsFn<T> | undefined;
+	/** alert emitter */
 	a: Emitter<[]> | undefined;
 }
 
