@@ -1,10 +1,9 @@
 import { $, Component, Context, Emitter, memo, Signal, teardown, trigger, TriggerPipe, uniqueIdFor, untrack } from "rvx";
 import { Queue } from "rvx/async";
-import { CollapseFor, CollapseItem } from "./collapse-for.js";
+import { CollapseFor } from "./collapse-for.js";
 import { ErrorMessage } from "./error.js";
 
 const VALIDATORS = new WeakMap<Signal<unknown>, Validator>();
-const ALERTS = new WeakMap<Component, Emitter<[]>>();
 
 export const VALIDATION = new Context<ValidationOptions | undefined>();
 
@@ -23,30 +22,63 @@ export interface ValidationRule {
 	 * @param abortSignal An optional abort signal to abort validaiton if supported.
 	 * @returns An array of validation message components. If empty, this rule is considered valid.
 	 */
-	(abortSignal?: AbortSignal): Component[] | undefined | Promise<Component[] | undefined>;
+	(abortSignal?: AbortSignal): ValidationMessage<any>[] | undefined | Promise<ValidationMessage<any>[] | undefined>;
+}
+
+export type ValidationMessageEqualsFn<T> = (a: T, b: T) => boolean;
+
+/**
+ * Represents a validation message with optional properties.
+ *
+ * Fields are considered internal and not subject to semantic versioning.
+ *
+ * See {@link validationMessage}.
+ */
+export interface ValidationMessage<T> {
+	c: Component<T>;
+	p: T;
+	e: ValidationMessageEqualsFn<T> | undefined;
+	a: Emitter<[]> | undefined;
+}
+
+/**
+ * Create a new validation message.
+ *
+ * @param component The message to render.
+ * @param props Props passed to the message component.
+ * @param eq A function to determine if two props for the same component should be treated as the same message. By default, changed props are ignored.
+ */
+export function validationMessage<T>(component: Component<T>, props: T, eq?: ValidationMessageEqualsFn<T>): ValidationMessage<T>;
+export function validationMessage<T>(component: Component<T | undefined>, props?: T, eq?: ValidationMessageEqualsFn<T>): ValidationMessage<T>;
+export function validationMessage<T>(component: Component<T>, props?: T, eq?: ValidationMessageEqualsFn<T>): ValidationMessage<T> {
+	return { c: component, p: props!, e: eq, a: undefined };
+}
+
+function validationMessageEquals<T>(a: ValidationMessage<T>, b: ValidationMessage<T>) {
+	return a.c === b.c && (b.e ? b.e(a.p, b.p) : true);
 }
 
 export class ValidationRuleEntry {
 	#rule: ValidationRule;
 	#pipe: TriggerPipe;
-	#result = $<Component[]>([]);
+	#result = $<ValidationMessage<any>[]>([]);
 
 	constructor(rule: ValidationRule, notify: () => void) {
 		this.#rule = rule;
 		this.#pipe = trigger(notify);
 	}
 
-	get messages(): Component[] {
+	get messages(): ValidationMessage<any>[] {
 		return this.#result.value;
 	}
 
 	async validate(abortSignal: AbortSignal | undefined, sideEffect: boolean): Promise<boolean> {
 		const messages = (await this.#pipe(() => this.#rule(abortSignal))) ?? [];
-		if (!sideEffect) {
-			for (const message of messages) {
-				if (this.#result.value.includes(message)) {
-					ALERTS.get(message)?.emit();
-				}
+		for (const message of messages) {
+			const last = this.#result.inert.find(last => validationMessageEquals(last, message));
+			message.a ??= last?.a ?? new Emitter();
+			if (last && !sideEffect) {
+				message.a.emit();
 			}
 		}
 		this.#result.value = messages;
@@ -229,32 +261,27 @@ export async function validate(targets: ValidationTarget[], abortSignal?: AbortS
 export function ValidationMessages(props: {
 	for: Signal<unknown> | Validator;
 }) {
-	const validator = props.for instanceof Validator
-		? props.for
-		: closestValidator(props.for);
-
+	const validator = props.for instanceof Validator ? props.for : closestValidator(props.for);
 	if (!validator) {
 		throw new Error("props.for is or has no attached validator.");
 	}
 
-	return <CollapseFor each={function * (): IterableIterator<CollapseItem<Component>> {
-		for (const rule of validator.rules) {
-			for (const message of rule.messages) {
-				let alert = ALERTS.get(message);
-				if (!alert) {
-					alert = new Emitter<[]>();
-					ALERTS.set(message, alert);
+	return <CollapseFor
+		each={function * () {
+			for (const rule of validator.rules) {
+				for (const message of rule.messages) {
+					yield {
+						value: message,
+						id: uniqueIdFor(message),
+						alert: message.a!.event,
+					};
 				}
-				yield {
-					value: message,
-					id: uniqueIdFor(message),
-					alert: alert.event,
-				};
 			}
-		}
-	}}>
+		}}
+		eq={validationMessageEquals}
+	>
 		{message => <ErrorMessage>
-			{message()}
+			{message.c(message.p)}
 		</ErrorMessage>}
 	</CollapseFor>;
 }

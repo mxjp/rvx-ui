@@ -1,10 +1,10 @@
 import { $, Component, Expression, get, Signal, watchUpdates } from "rvx";
-import { Validator } from "./validation.js";
+import { validationMessage, ValidationMessage, ValidationMessageEqualsFn, Validator } from "./validation.js";
 
-export function rule<T>(source: Signal<T>, condition: (value: T) => boolean, message: Component): Signal<T> {
+export function rule<T>(source: Signal<T>, condition: (value: T) => boolean, component: Component<T>, eq?: ValidationMessageEqualsFn<T>): Signal<T> {
 	Validator.get(source).prependRule(() => {
 		if (!condition(source.value)) {
-			return [message];
+			return [validationMessage(component, source.value, eq)];
 		}
 	});
 	return source;
@@ -12,9 +12,9 @@ export function rule<T>(source: Signal<T>, condition: (value: T) => boolean, mes
 
 export interface IntParserOptions {
 	/** The validation message for invalid formats. */
-	format: Component;
+	format: Component<string>;
 	/** The validation message for an out of range value. Defaults to the format message. */
-	range?: Component;
+	range?: Component<string>;
 	min?: Expression<number>;
 	max?: Expression<number>;
 }
@@ -22,7 +22,7 @@ export interface IntParserOptions {
 export function intParser(source: Signal<number>, options: IntParserOptions): Signal<string> {
 	const input = $(String(source.value), source);
 
-	const messages = $<Component[]>([]);
+	const messages = $<ValidationMessage<string>[]>([]);
 	Validator.get(source).prependRule(() => messages.value);
 
 	const min = options.min ?? Number.MIN_SAFE_INTEGER;
@@ -39,10 +39,10 @@ export function intParser(source: Signal<number>, options: IntParserOptions): Si
 				messages.value = [];
 				source.value = num;
 			} else {
-				messages.value = [options.range ?? options.format];
+				messages.value = [validationMessage(options.range ?? options.format, value)];
 			}
 		} else {
-			messages.value = [options.format];
+			messages.value = [validationMessage(options.format, value)];
 		}
 	});
 

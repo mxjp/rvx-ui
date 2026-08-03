@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Column, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, VALIDATION, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
+import { Button, Card, Checkbox, Column, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, VALIDATION, validationMessage, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
 import { $, Nest, Provide } from "rvx";
 import { trim } from "rvx/convert";
 
@@ -58,7 +58,7 @@ function CustomRulesExample() {
 
 	validator.appendRule(() => {
 		if (!foo.value && !bar.value && !baz.value) {
-			return [MissingSelectionMessage];
+			return [validationMessage(MissingSelectionMessage)];
 		}
 	});
 
