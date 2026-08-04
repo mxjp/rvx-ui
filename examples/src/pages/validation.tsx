@@ -1,14 +1,21 @@
-import { Button, Card, Checkbox, Column, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, VALIDATION, validationMessage, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
-import { $, Nest, Provide } from "rvx";
+import { Button, Card, Checkbox, Column, DEFAULT_ERROR_CASES, errorCase, ErrorMessages, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, validateSideEffect, VALIDATION, validationMessage, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
+import { $, Expression, Nest, Provide, watch } from "rvx";
+import { useMicrotask } from "rvx/async";
 import { trim } from "rvx/convert";
 
-function BaseExample() {
+function BaseExample(props: { microtask: Expression<boolean> }) {
 	const name = $("");
 	const port = $(443);
 
 	async function ok() {
 		await validate([name, port]);
 	}
+
+	watch(props.microtask, microtask => {
+		if (microtask) {
+			useMicrotask(() => validateSideEffect([name, port]));
+		}
+	});
 
 	return <>
 		<Group>
@@ -45,7 +52,7 @@ function BaseExample() {
 	</>;
 }
 
-function CustomRulesExample() {
+function CustomRulesExample(props: { microtask: Expression<boolean> }) {
 	const foo = $(false);
 	const bar = $(false);
 	const baz = $(false);
@@ -59,6 +66,12 @@ function CustomRulesExample() {
 	validator.appendRule(() => {
 		if (!foo.value && !bar.value && !baz.value) {
 			return [validationMessage(MissingSelectionMessage)];
+		}
+	});
+
+	watch(props.microtask, microtask => {
+		if (microtask) {
+			useMicrotask(() => validator.validateSideEffect());
 		}
 	});
 
@@ -84,30 +97,75 @@ function CustomRulesExample() {
 	</>;
 }
 
+function ErrorExample() {
+	const error = $<unknown>(undefined);
+
+	class ExampleError extends Error {
+		status: number;
+
+		constructor(status: number) {
+			super();
+			this.status = status;
+		}
+	}
+
+	return <Provide context={DEFAULT_ERROR_CASES} value={[
+		errorCase(e => e !== undefined, () => "An unknown error occurred.", () => true),
+	]}>
+		{() => <>
+			<Heading level="2">Error Messages</Heading>
+			<Group>
+				<Row>
+					<Button action={() => { error.value = undefined }}>Clear</Button>
+					<Button action={() => { error.value = new TypeError() }}>Fallback</Button>
+					<Button action={() => { error.value = new ExampleError(0) }}>Example 0</Button>
+					<Button action={() => { error.value = new ExampleError(1) }}>Example 1</Button>
+					<Button action={() => { error.value = new ExampleError(2) }}>Example 2</Button>
+				</Row>
+				<ErrorMessages error={error} cases={[
+					errorCase<ExampleError>(e => e instanceof ExampleError && e.status === 0, () => "Example error.", (a, b) => a.status === b.status),
+					errorCase(e => e instanceof ExampleError, e => <>Example error {e.status}</>, (a, b) => a.status === b.status),
+				]} />
+			</Group>
+		</>}
+	</Provide>;
+}
+
 export default function () {
 	const trigger = $<ValidationTrigger | undefined>(undefined);
+	const microtask = $(false);
 
 	return <>
 		<Heading level="1">Validation</Heading>
 		<Card>
-			<Label>Trigger</Label>
-			<RadioButtons value={trigger} options={[
-				{ value: "if-validated", label: "if-validated" },
-				{ value: undefined, label: "if-invalid (default)" },
-				{ value: "never", label: "never" },
-			]} />
+			<Row size="content">
+				<Group>
+					<Label>Trigger</Label>
+					<RadioButtons value={trigger} options={[
+						{ value: "if-validated", label: "if-validated" },
+						{ value: undefined, label: "if-invalid (default)" },
+						{ value: "never", label: "never" },
+					]} />
+				</Group>
+				<Group>
+					<Label>Custom Behavior</Label>
+					<Checkbox checked={microtask}>Queue side effect</Checkbox>
+				</Group>
+			</Row>
 		</Card>
 
 		<Nest watch={trigger}>
 			{trigger => <Provide context={VALIDATION} value={{ trigger }}>
 				{() => <>
 					<Heading level="2">Basic Rules</Heading>
-					<BaseExample />
+					<BaseExample microtask={microtask} />
 
 					<Heading level="2">Custom & Composite Rules</Heading>
-					<CustomRulesExample />
+					<CustomRulesExample microtask={microtask} />
 				</>}
 			</Provide>}
 		</Nest>
+
+		<ErrorExample />
 	</>;
 }

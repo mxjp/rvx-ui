@@ -31,7 +31,7 @@ export function CollapseFor<T>(props: {
 	const fadein = $(false);
 	useMicrotask(() => fadein.value = true);
 
-	watch(() => Array.from(get(props.each)), (items) => {
+	watch(() => Array.from(get(props.each)), items => {
 		const inert = entries.inert;
 		let itemIndex = 0;
 		let entryIndex = 0;
@@ -56,8 +56,8 @@ export function CollapseFor<T>(props: {
 		items: while (itemIndex < items.length) {
 			const item = items[itemIndex];
 			let entry = inert[entryIndex] as Entry | undefined;
-			if (entry && eqFn(entry.i.value, item.value)) {
-				entry.v.value = true;
+			if (entry && entry.v.inert && eqFn(entry.i.value, item.value)) {
+				// noop.
 			} else if (entry && !hasRemaining(entry.i.value)) {
 				entry.v.value = false;
 				entryIndex++;

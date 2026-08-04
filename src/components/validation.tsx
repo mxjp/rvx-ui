@@ -1,7 +1,7 @@
 import { $, Component, Context, Emitter, memo, Signal, teardown, trigger, TriggerPipe, uniqueIdFor, untrack } from "rvx";
 import { Queue } from "rvx/async";
 import { CollapseFor } from "./collapse-for.js";
-import { ErrorMessage } from "./error.js";
+import { ErrorMessage } from "./error-message.js";
 
 const VALIDATORS = new WeakMap<Signal<unknown>, Validator>();
 
@@ -81,6 +81,7 @@ export class ValidationRuleEntry {
 		for (const message of messages) {
 			const last = this.#result.inert.find(last => validationMessageEquals(last, message));
 			message.a ??= last?.a ?? new Emitter();
+			(message.a.event as any).x ??= Date.now();
 			if (last && !sideEffect) {
 				message.a.emit();
 			}
@@ -145,6 +146,10 @@ export class Validator {
 		}
 		return valid;
 	};
+
+	validateSideEffect(): void {
+		this.#queue.sideEffect(abortSignal => this.#validate(abortSignal, true));
+	}
 
 	validate(abortSignal?: AbortSignal): Promise<boolean> {
 		return this.#queue.block(() => this.#validate(abortSignal, false));
@@ -260,6 +265,19 @@ export async function validate(targets: ValidationTarget[], abortSignal?: AbortS
 		tasks.push(validator.validate(abortSignal));
 	}
 	return !(await Promise.all(tasks)).includes(false);
+}
+
+/**
+ * Validate the specified targets as a side effect.
+ */
+export function validateSideEffect(targets: ValidationTarget[]): void {
+	for (let i = 0; i < targets.length; i++) {
+		const validator = validatorFor(targets[i]);
+		if (validator === undefined) {
+			throw new Error(`targets[${i}] has no attached validator.`);
+		}
+		validator.validateSideEffect();
+	}
 }
 
 export function ValidationMessages(props: {
