@@ -9,8 +9,11 @@ export const VALIDATION = new Context<ValidationOptions | undefined>();
 
 export type ValidationTrigger = "if-validated" | "if-invalid" | "never";
 
+export type ValidateBehavior = (rules: ValidationRuleEntry[], abortSignal: AbortSignal | undefined, sideEffect: boolean) => Promise<boolean>;
+
 export interface ValidationOptions {
 	trigger?: ValidationTrigger;
+	behavior?: ValidateBehavior;
 }
 
 export interface ValidationRule {
@@ -62,6 +65,24 @@ function validationMessageEquals<T>(a: ValidationMessage<T>, b: ValidationMessag
 	return a.c === b.c && (b.e ? b.e(a.p, b.p) : true);
 }
 
+/**
+ * The default validation behavior.
+ *
+ * + Rules are validated sequentially.
+ * + Validation is aborted on the first invalid rule & subsequent rules are reset.
+ */
+export const VALIDATE_SEQ: ValidateBehavior = async (rules, abortSignal, sideEffect) => {
+	let valid = true;
+	for (const rule of rules) {
+		if (valid) {
+			valid = await rule.validate(abortSignal, sideEffect);
+		} else {
+			rule.reset();
+		}
+	}
+	return valid;
+};
+
 export class ValidationRuleEntry {
 	#rule: ValidationRule;
 	#pipe: TriggerPipe;
@@ -99,12 +120,14 @@ export class ValidationRuleEntry {
 export class Validator {
 	#queue = new Queue();
 	#trigger: ValidationTrigger;
+	#behavior: ValidateBehavior;
 	#rules = $<ValidationRuleEntry[]>([]);
 	#notified = false;
 
 	constructor() {
 		const options = VALIDATION.current;
 		this.#trigger = options?.trigger ?? "if-invalid";
+		this.#behavior = options?.behavior ?? VALIDATE_SEQ;
 	}
 
 	#notify = (): void => {
@@ -135,16 +158,7 @@ export class Validator {
 
 	#validate = async (abortSignal: AbortSignal | undefined, sideEffect: boolean): Promise<boolean> => {
 		this.#notified = false;
-		let valid = true;
-		// TODO: Support custom validation behavior.
-		for (const rule of untrack(() => this.#rules.value)) {
-			if (valid) {
-				valid = await rule.validate(abortSignal, sideEffect);
-			} else {
-				rule.reset();
-			}
-		}
-		return valid;
+		return this.#behavior(untrack(this.#rules), abortSignal, sideEffect);
 	};
 
 	validateSideEffect(): void {
