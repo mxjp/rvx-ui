@@ -161,7 +161,13 @@ export class Validator {
 		return this.#behavior(untrack(this.#rules), abortSignal, sideEffect);
 	};
 
-	validateSideEffect(): void {
+	reset(): void {
+		for (const rule of untrack(this.#rules)) {
+			rule.reset();
+		}
+	}
+
+	sideEffect(): void {
 		this.#queue.sideEffect(abortSignal => this.#validate(abortSignal, true));
 	}
 
@@ -290,7 +296,7 @@ export function validateSideEffect(targets: ValidationTarget[]): void {
 		if (validator === undefined) {
 			throw new Error(`targets[${i}] has no attached validator.`);
 		}
-		validator.validateSideEffect();
+		validator.sideEffect();
 	}
 }
 
