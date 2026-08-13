@@ -71,7 +71,8 @@ body {
 	--bg-glass: rgb(32 32 32 / .7);
 	--bg-glass-filter: blur(16px);
 
-	--fg: white;
+	--fg: rgb(237 237 237);
+	--fg-heading: white;
 	--accent: rgb(64 160 255);
 	--fg-danger: rgb(255 64 64);
 	--fg-secondary: rgb(255 255 255 / .6);
@@ -109,7 +110,8 @@ body {
 	--bg-glass: rgb(252 252 252 / .6);
 	--bg-glass-filter: blur(16px);
 
-	--fg: rgb(24 24 24);
+	--fg: rgb(48 48 48);
+	--fg-heading: rgb(16 16 16);
 	--accent: rgb(0 127 255);
 	--fg-danger: rgb(255 64 64);
 	--fg-secondary: rgb(42 42 42 / .6);

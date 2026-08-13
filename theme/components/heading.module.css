@@ -1,5 +1,6 @@
 
 .heading {
+	color: var(--fg-heading);
 	line-height: calc(1em + var(--line-gap));
 	margin-block: 0;
 
