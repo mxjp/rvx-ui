@@ -71,7 +71,7 @@ function CustomRulesExample(props: { microtask: Expression<boolean> }) {
 
 	watch(props.microtask, microtask => {
 		if (microtask) {
-			useMicrotask(() => validator.validateSideEffect());
+			useMicrotask(() => validator.sideEffect());
 		}
 	});
 
