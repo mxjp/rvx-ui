@@ -30,8 +30,8 @@
 }
 
 .scroll_area {
-	background-color: var(--bg-alt);
-	--parent-bg: var(--bg);
+	background-color: var(--bg-glass);
+	backdrop-filter: var(--bg-glass-filter);
 
 	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);

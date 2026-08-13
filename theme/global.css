@@ -33,7 +33,7 @@ body {
 
 	--content-row-gap: 2rem;
 	--content-column-gap: 2rem;
-	--content-radius: calc(10rem / 14);
+	--content-radius: calc(12rem / 14);
 	--content-border: calc(2rem / 14);
 	--content-padding-block: calc(16rem / 14);
 	--content-padding-inline: calc(16rem / 14);
@@ -45,7 +45,7 @@ body {
 
 	--control-row-gap: calc(10rem / 14);
 	--control-column-gap: calc(10rem / 14);
-	--control-radius: calc(5rem / 14);
+	--control-radius: calc(6rem / 14);
 	--control-border: calc(2rem / 14);
 	--control-padding-block: calc(8rem / 14);
 	--control-padding-inline: calc(8rem / 14);
@@ -66,8 +66,10 @@ body {
 	color-scheme: dark;
 
 	--bg: rgb(24 24 24);
-	--bg-alt: rgb(32 32 32);
 	--bg-selection: rgb(64 150 255 / .5);
+
+	--bg-glass: rgb(32 32 32 / .7);
+	--bg-glass-filter: blur(16px);
 
 	--fg: white;
 	--accent: rgb(64 160 255);
@@ -77,7 +79,7 @@ body {
 	--secondary-filter: opacity(.6);
 
 	--overlay-shadow: 0 0 1.5rem rgba(0 0 0 / .3);
-	--overlay-backdrop: rgb(24 24 24 / .8);
+	--overlay-backdrop: rgb(24 24 24 / .5);
 
 	--content-shadow: 0 0 .75rem rgba(0 0 0 / .3);
 
@@ -89,14 +91,23 @@ body {
 	--separator-color: rgb(40 40 40);
 
 	--focus-outline: var(--control-border) dashed var(--accent);
+
+	@media (prefers-reduced-transparency: reduce) {
+		--bg-glass: rgb(32 32 32);
+		--bg-glass-filter: none;
+
+		--overlay-backdrop: rgb(24 24 24 / .8);
+	}
 }
 
 .rvx-light {
 	color-scheme: light;
 
 	--bg: white;
-	--bg-alt: rgb(252 252 252);
 	--bg-selection: rgb(0 127 255 / .3);
+
+	--bg-glass: rgb(252 252 252 / .6);
+	--bg-glass-filter: blur(16px);
 
 	--fg: rgb(24 24 24);
 	--accent: rgb(0 127 255);
@@ -106,7 +117,7 @@ body {
 	--secondary-filter: opacity(.65);
 
 	--overlay-shadow: 0 0 3rem rgba(0 0 0 / .1);
-	--overlay-backdrop: rgb(245 245 245 / .7);
+	--overlay-backdrop: rgb(245 245 245 / .5);
 
 	--content-shadow: 0 0 1rem rgba(0 0 0 / 0.035);
 
@@ -118,4 +129,11 @@ body {
 	--separator-color: rgb(240 240 240);
 
 	--focus-outline: var(--control-border) dashed var(--accent);
+
+	@media (prefers-reduced-transparency: reduce) {
+		--bg-glass: rgb(252 252 252);
+		--bg-glass-filter: none;
+
+		--overlay-backdrop: rgb(245 245 245 / .8);
+	}
 }

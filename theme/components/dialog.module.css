@@ -43,8 +43,8 @@
 	transform: scale(.9);
 	transition: transform var(--transition-layout);
 
-	background-color: var(--bg-alt);
-	--parent-bg: var(--bg-alt);
+	background-color: var(--bg-glass);
+	backdrop-filter: var(--bg-glass-filter);
 
 	box-shadow: var(--overlay-shadow);
 	border-radius: var(--content-radius);

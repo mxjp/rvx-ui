@@ -2,8 +2,8 @@
 .card {
 	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
-	background-color: var(--bg-alt);
-	--parent-bg: var(--bg-alt);
+	background-color: var(--bg-glass);
+	backdrop-filter: var(--bg-glass-filter);
 
 	border: var(--content-border) solid transparent;
 

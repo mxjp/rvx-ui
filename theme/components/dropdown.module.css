@@ -9,8 +9,11 @@
 }
 
 .scroll_area {
-	border-radius: var(--control-radius);
-	background-color: var(--button-item-bg);
+	border-radius: var(--content-radius);
+
+	background-color: var(--bg-glass);
+	backdrop-filter: var(--bg-glass-filter);
+
 	box-shadow: var(--overlay-shadow);
 	max-block-size: var(--popout-max-block-size);
 	max-inline-size: var(--popout-max-inline-size);
@@ -20,9 +23,10 @@
 .content {
 	display: flex;
 	flex-direction: column;
-	border-radius: var(--control-radius);
+	border-radius: var(--content-radius);
 	border: var(--content-border) solid var(--default-border);
 	overflow: hidden;
+	padding: calc(var(--content-radius) - var(--control-radius));
 }
 
 .item {
@@ -30,7 +34,7 @@
 	padding-block: var(--control-padding-block);
 	padding-inline: var(--control-padding-inline);
 	border: transparent solid var(--control-border);
-	border-radius: calc(var(--control-radius) - var(--control-border));
+	border-radius: var(--control-radius);
 
 	&.item_active {
 		background-color: var(--button-item-active);

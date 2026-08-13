@@ -21,8 +21,6 @@
 	pointer-events: all;
 	box-shadow: var(--content-shadow);
 	border-radius: var(--content-radius);
-	background-color: var(--bg);
-	--parent-bg: var(--bg);
 
 	&:not(.raw) {
 		padding-block: var(--content-padding-block);

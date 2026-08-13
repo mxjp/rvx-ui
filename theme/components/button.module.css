@@ -93,7 +93,7 @@
 }
 
 :global(.rvx-dark) {
-	--button-default-bg: rgb(72 72 72);
+	--button-default-bg: rgb(64 64 64);
 	--button-default-fg: var(--fg);
 	--button-default-active: rgb(100 100 100);
 	--button-default-focus: var(--accent);

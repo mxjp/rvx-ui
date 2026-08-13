@@ -1,6 +1,6 @@
+import styles from "@rvx/ui/theme/components/placeholder.module.css";
 import { Attach, ClassValue, Component, Context, Expression, map, StyleValue } from "rvx";
 import { trackLoading } from "../common/tasks.js";
-import styles from "@rvx/ui/theme/components/placeholder.module.css";
 
 export const PLACEHOLDER = new Context<Component | undefined>();
 
@@ -18,7 +18,8 @@ export function Placeholder(props: {
 	return <div
 		class={[
 			props.class,
-			styles.area
+			styles.area,
+			{ [styles.active]: active },
 		]}
 		style={props.style}
 	>

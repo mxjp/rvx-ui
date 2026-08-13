@@ -6,6 +6,10 @@
 	position: relative;
 }
 
+.active > .content {
+	opacity: 0;
+}
+
 .content {
 	flex-grow: 1;
 	display: flex;
@@ -16,7 +20,6 @@
 	position: absolute;
 	inset: 0;
 	z-index: 1;
-	background-color: var(--parent-bg, var(--bg));
 	display: grid;
 	grid-template-columns: 1fr auto 1fr;
 	grid-template-rows: 5fr auto 7fr;
