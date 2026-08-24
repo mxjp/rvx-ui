@@ -11,6 +11,7 @@
 	padding-block: var(--control-padding-block);
 	padding-inline: var(--control-padding-inline);
 
+	box-shadow: var(--control-shadow);
 	border-radius: var(--control-radius);
 	border-width: var(--control-border);
 
