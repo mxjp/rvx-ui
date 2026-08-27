@@ -28,7 +28,7 @@ export interface ValidationRule {
 	(abortSignal?: AbortSignal): ValidationMessage<any>[] | undefined | Promise<ValidationMessage<any>[] | undefined>;
 }
 
-export type ValidationMessageEqualsFn<T> = (a: T, b: T) => boolean;
+export type ValidationMessageEqualsFn<T> = (prev: T, next: T) => boolean;
 
 /**
  * Represents a validation message with optional properties.
@@ -61,8 +61,8 @@ export function validationMessage<T>(component: Component<T>, props?: T, eq?: Va
 	return { c: component, p: props!, e: eq, a: undefined };
 }
 
-function validationMessageEquals<T>(a: ValidationMessage<T>, b: ValidationMessage<T>) {
-	return a.c === b.c && (b.e ? b.e(a.p, b.p) : true);
+function validationMessageEquals<T>(prev: ValidationMessage<T>, next: ValidationMessage<T>) {
+	return prev.c === next.c && (next.e ? next.e(prev.p, next.p) : true);
 }
 
 /**
