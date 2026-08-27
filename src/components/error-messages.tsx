@@ -69,9 +69,9 @@ export const DEFAULT_IGNORED_ERRORS = new Context<((error: unknown) => boolean)[
 	isAbortError,
 ]);
 
-export function handleError<T>(output: Signal<unknown> | ((error: unknown) => void), action: () => T): (T extends Promise<infer P> ? Promise<P | undefined> : T) | undefined {
+export function handleError<T>(output: Signal<unknown | undefined> | ((error: unknown | undefined) => void), action: () => T): (T extends Promise<infer P> ? Promise<P | undefined> : T) | undefined {
 	const ignored = DEFAULT_IGNORED_ERRORS.current;
-	const onError = (error: unknown) => {
+	const setError = (error: unknown) => {
 		if (ignored.some(f => f(error))) {
 			return;
 		}
@@ -84,10 +84,14 @@ export function handleError<T>(output: Signal<unknown> | ((error: unknown) => vo
 	try {
 		const result = action();
 		if (result instanceof Promise) {
-			return result.catch(onError) as any;
+			return result.then(value => {
+				setError(undefined);
+				return value;
+			}, setError) as any;
 		}
+		setError(undefined);
 		return result as any;
 	} catch (error) {
-		onError(error);
+		setError(error);
 	}
 }
