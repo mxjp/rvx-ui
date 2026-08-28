@@ -8,8 +8,8 @@
 * {
 	box-sizing: border-box;
 	--space-scale: 1;
-	--space-above: unset;
-	--space-below: unset;
+	--space-above: initial;
+	--space-below: initial;
 }
 
 ::selection {
