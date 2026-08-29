@@ -3,8 +3,8 @@ import { $ } from "rvx";
 import { LoremIpsum } from "../common";
 
 export default function () {
-	const visible = $(false);
-	const innerVisible = $(false);
+	const visible = $(true);
+	const outerVisible = $(false);
 
 	return <>
 		<Heading level="1">Cards</Heading>
@@ -22,6 +22,11 @@ export default function () {
 		<Heading level="2">Collapses</Heading>
 		<Card raw>
 			<Separated>
+				<Collapse visible={outerVisible}>
+					{() => <Group padded>
+						<LoremIpsum limit={120} />
+					</Group>}
+				</Collapse>
 				<Group padded>
 					<Text>
 						<Link action={() => { visible.value = !visible.value; }}>
@@ -29,17 +34,22 @@ export default function () {
 						</Link>
 					</Text>
 				</Group>
+				<Collapse visible={outerVisible}>
+					{() => <Group padded>
+						<LoremIpsum limit={120} />
+					</Group>}
+				</Collapse>
 				<Collapse visible={visible}>
 					{() => <Group padded>
 						<LoremIpsum />
 						<Row>
-							<Button action={() => { innerVisible.value = !innerVisible.value; }}>
-								Toggle Second Collapse
+							<Button action={() => { outerVisible.value = !outerVisible.value; }}>
+								Toggle Outer Collapse
 							</Button>
 						</Row>
 					</Group>}
 				</Collapse>
-				<Collapse visible={innerVisible}>
+				<Collapse visible={outerVisible}>
 					{() => <Group padded>
 						<LoremIpsum limit={120} />
 					</Group>}

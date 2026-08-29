@@ -89,7 +89,7 @@ export function Collapse<T>(props: {
 			props.class,
 			styles.collapse,
 			() => alert.value ? styles.alert : undefined,
-			() => visible.value ? styles.visible : undefined,
+			() => visible.value ? styles.visible : "hidden",
 			() => (cssSize.value && transition.value) ? styles.sized : undefined,
 		]}
 		style={[

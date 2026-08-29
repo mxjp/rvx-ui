@@ -7,8 +7,17 @@
 		overflow: hidden;
 		transition: border var(--transition-layout);
 	}
+
 	& > :not(.has_separator) + :not(.has_separator) {
 		border-block-start: calc(var(--separator-size) * var(--space-scale)) solid var(--separator-color);
+	}
+
+	& > :is(:global(.hidden)) + :not(.has_separator) {
+		border-block-start-width: 0;
+	}
+
+	& > :not(.hidden) ~ :is(:global(.hidden)) ~ :not(.has_separator) {
+		border-block-start-width: calc(var(--separator-size) * var(--space-scale));
 	}
 }
 
