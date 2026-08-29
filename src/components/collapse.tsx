@@ -96,6 +96,7 @@ export function Collapse<T>(props: {
 			props.style,
 			{ "--collapse-size": () => cssSize.value },
 		]}
+		inert={() => !visible.value}
 		on:transitionend={clearTransition}
 		on:transitioncancel={clearTransition}
 	>
