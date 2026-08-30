@@ -1,8 +1,13 @@
-
 :root {
 	font-family: -apple-system, BlinkMacSystemFont, "Ubuntu", "Segoe UI", system-ui, sans-serif;
 	font-size: .875rem;
 	line-height: 1;
+}
+
+@media (any-pointer: coarse) and (any-hover: none) {
+	:root {
+		font-size: 1rem;
+	}
 }
 
 * {
@@ -22,6 +27,7 @@ body {
 	accent-color: var(--accent);
 
 	text-wrap: balance;
+
 	@supports (text-wrap: pretty) {
 		text-wrap: pretty;
 	}
