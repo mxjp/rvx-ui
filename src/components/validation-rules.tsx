@@ -1,11 +1,14 @@
 import { $, Component, Expression, get, Signal, watchUpdates } from "rvx";
 import { validationMessage, ValidationMessage, ValidationMessageEqualsFn, Validator } from "./validation.js";
 
-export function rule<T>(source: Signal<T>, condition: (value: T) => boolean, component: Component<T>, eq?: ValidationMessageEqualsFn<T>): Signal<T> {
+export function rule<T>(source: Signal<T>, condition: (value: T) => (boolean | Promise<boolean>), component: Component<T>, eq?: ValidationMessageEqualsFn<T>): Signal<T> {
+	const map = (valid: boolean) => valid ? undefined : [validationMessage(component, source.value, eq)];
 	Validator.get(source).prependRule(() => {
-		if (!condition(source.value)) {
-			return [validationMessage(component, source.value, eq)];
+		const result = condition(source.value);
+		if (result instanceof Promise) {
+			return result.then(map);
 		}
+		return map(result);
 	});
 	return source;
 }

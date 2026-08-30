@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Column, DEFAULT_ERROR_CASES, errorCase, ErrorMessages, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, validateSideEffect, VALIDATION, validationMessage, ValidationMessages, ValidationTrigger, Validator } from "@rvx/ui";
+import { Button, Card, Checkbox, Column, DEFAULT_ERROR_CASES, errorCase, ErrorMessages, Group, Heading, intParser, Label, RadioButtons, Row, rule, TextInput, validate, validateSideEffect, VALIDATION, validationMessage, ValidationMessages, ValidationTrigger, Validator, WithAction } from "@rvx/ui";
 import { $, Expression, Nest, Provide, watch } from "rvx";
 import { useMicrotask } from "rvx/async";
 import { trim } from "rvx/convert";
@@ -20,29 +20,33 @@ function BaseExample(props: { microtask: Expression<boolean> }) {
 	return <>
 		<Group>
 			<Label>Username</Label>
-			<TextInput
-				value={name
-					.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
-					.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
-					.pipe(trim)
-				}
-			/>
+			<WithAction action={ok}>
+				<TextInput
+					value={name
+						.pipe(rule, name => /^[a-z0-9]*$/i.test(name), () => <>The name must contain only letters and numbers.</>)
+						.pipe(rule, name => name.length > 0, () => <>Enter a name.</>)
+						.pipe(trim)
+					}
+				/>
+			</WithAction>
 			<ValidationMessages for={name} />
 		</Group>
 
 		<Group>
 			<Label>Network Port</Label>
-			<TextInput
-				value={port
-					.pipe(intParser, {
-						format: () => <>Enter a valid port.</>,
-						range: () => <>The port must range from 1 to {0xFFFF}.</>,
-						min: 1,
-						max: 0xFFFF,
-					})
-					.pipe(trim)
-				}
-			/>
+			<WithAction action={ok}>
+				<TextInput
+					value={port
+						.pipe(intParser, {
+							format: () => <>Enter a valid port.</>,
+							range: () => <>The port must range from 1 to {0xFFFF}.</>,
+							min: 1,
+							max: 0xFFFF,
+						})
+						.pipe(trim)
+					}
+				/>
+			</WithAction>
 			<ValidationMessages for={port} />
 		</Group>
 
