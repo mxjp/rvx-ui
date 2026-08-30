@@ -1,4 +1,5 @@
 
 .message {
 	color: var(--fg-danger);
+	--accent: var(--fg-danger);
 }
