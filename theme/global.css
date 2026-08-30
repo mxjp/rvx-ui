@@ -4,12 +4,6 @@
 	line-height: 1;
 }
 
-@media (any-pointer: coarse) and (any-hover: none) {
-	:root {
-		font-size: 1rem;
-	}
-}
-
 * {
 	box-sizing: border-box;
 	--space-scale: 1;
@@ -143,5 +137,22 @@ body {
 		--bg-glass-filter: none;
 
 		--overlay-backdrop: rgb(245 245 245 / .8);
+	}
+}
+
+@media (any-pointer: coarse) and (any-hover: none) {
+	:root {
+		font-size: 1rem;
+	}
+
+	body {
+		--page-padding-block: 2rem;
+		--page-padding-inline: 1rem;
+
+		--content-padding-block: 1rem;
+		--content-padding-inline: 1rem;
+
+		--group-padding-block: 1rem;
+		--group-padding-inline: 1rem;
 	}
 }
