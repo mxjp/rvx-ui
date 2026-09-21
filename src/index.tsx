@@ -1,4 +1,4 @@
-import "@rvx/ui/theme/types.d.ts";
+/// <reference types="@rvx/ui/theme/types.d.ts" />
 
 export * from "./common/context.js";
 export * from "./common/coupling.js";
