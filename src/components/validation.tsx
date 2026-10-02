@@ -102,7 +102,6 @@ export class ValidationRuleEntry {
 		for (const message of messages) {
 			const last = this.#result.inert.find(last => validationMessageEquals(last, message));
 			message.a ??= last?.a ?? new Emitter();
-			(message.a.event as any).x ??= Date.now();
 			if (last && !sideEffect) {
 				message.a.emit();
 			}
